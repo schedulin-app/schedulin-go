@@ -6,10 +6,10 @@ import (
 	context "context"
 	http "net/http"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	core "github.com/schedulin/schedulin-go/core"
-	internal "github.com/schedulin/schedulin-go/internal"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	core "github.com/schedulin-app/schedulin-go/core"
+	internal "github.com/schedulin-app/schedulin-go/internal"
+	option "github.com/schedulin-app/schedulin-go/option"
 )
 
 type RawClient struct {
@@ -35,19 +35,19 @@ func NewRawClient(options *core.RequestOptions) *RawClient {
 func (r *RawClient) List(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (*core.Response[[]*schedulingo.ListSocialAccountsResponseItem], error) {
+) (*core.Response[*schedulingo.ListSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := baseURL + "/v0/social-accounts"
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response []*schedulingo.ListSocialAccountsResponseItem
+	var response *schedulingo.ListSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -66,7 +66,7 @@ func (r *RawClient) List(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[[]*schedulingo.ListSocialAccountsResponseItem]{
+	return &core.Response[*schedulingo.ListSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -82,7 +82,7 @@ func (r *RawClient) Update(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/social-accounts/%v",
@@ -129,7 +129,7 @@ func (r *RawClient) Delete(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/social-accounts/%v",
@@ -176,7 +176,7 @@ func (r *RawClient) UpdateTimezone(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/social-accounts/%v/timezone",
@@ -214,39 +214,37 @@ func (r *RawClient) UpdateTimezone(
 	}, nil
 }
 
-func (r *RawClient) RefreshProfile(
+func (r *RawClient) PinterestBoards(
 	ctx context.Context,
-	request *schedulingo.RefreshProfileSocialAccountsRequest,
+	request *schedulingo.PinterestBoardsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.RefreshProfileSocialAccountsResponse], error) {
+) (*core.Response[*schedulingo.PinterestBoardsSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
-		baseURL+"/v0/social-accounts/%v/refresh",
+		baseURL+"/v0/social-accounts/%v/pinterest-boards",
 		request.ID,
 	)
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.RefreshProfileSocialAccountsResponse
+	var response *schedulingo.PinterestBoardsSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
 			URL:             endpointURL,
-			Method:          http.MethodPut,
+			Method:          http.MethodGet,
 			Headers:         headers,
 			MaxAttempts:     options.MaxAttempts,
 			DisableRetries:  options.DisableRetries,
 			BodyProperties:  options.BodyProperties,
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
-			Request:         request,
 			Response:        &response,
 			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
 		},
@@ -254,7 +252,52 @@ func (r *RawClient) RefreshProfile(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.RefreshProfileSocialAccountsResponse]{
+	return &core.Response[*schedulingo.PinterestBoardsSocialAccountsResponse]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
+func (r *RawClient) TiktokCreatorInfo(
+	ctx context.Context,
+	request *schedulingo.TiktokCreatorInfoSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[*schedulingo.TiktokCreatorInfoSocialAccountsResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.schedulin.app",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v0/social-accounts/%v/tiktok-creator-info",
+		request.ID,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *schedulingo.TiktokCreatorInfoSocialAccountsResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*schedulingo.TiktokCreatorInfoSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

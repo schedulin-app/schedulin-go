@@ -32,9 +32,9 @@ package example
 import (
     context "context"
 
-    schedulingo "github.com/schedulin/schedulin-go"
-    client "github.com/schedulin/schedulin-go/client"
-    option "github.com/schedulin/schedulin-go/option"
+    schedulingo "github.com/schedulin-app/schedulin-go"
+    client "github.com/schedulin-app/schedulin-go/client"
+    option "github.com/schedulin-app/schedulin-go/option"
 )
 
 func do() {
@@ -46,11 +46,6 @@ func do() {
     request := &schedulingo.PostCreate{
         Caption: "caption",
         SocialAccountID: "socialAccountId",
-        Media: []*schedulingo.PostCreateMediaItem{
-            &schedulingo.PostCreateMediaItem{
-                URL: "url",
-            },
-        },
     }
     client.Posts.Create(
         context.TODO(),

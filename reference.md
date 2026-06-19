@@ -47,14 +47,6 @@ client.Posts.List(
 <dl>
 <dd>
 
-**cursor:** `*schedulingo.ListPostsRequestCursor` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **page:** `*int` 
     
 </dd>
@@ -64,6 +56,14 @@ client.Posts.List(
 <dd>
 
 **status:** `*schedulingo.ListPostsRequestStatus` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**approvalStatus:** `*schedulingo.ListPostsRequestApprovalStatus` 
     
 </dd>
 </dl>
@@ -145,11 +145,6 @@ Create a new post with media, tags, and scheduling options
 request := &schedulingo.PostCreate{
         Caption: "caption",
         SocialAccountID: "socialAccountId",
-        Media: []*schedulingo.PostCreateMediaItem{
-            &schedulingo.PostCreateMediaItem{
-                URL: "url",
-            },
-        },
     }
 client.Posts.Create(
         context.TODO(),
@@ -235,6 +230,65 @@ client.Posts.Create(
 <dd>
 
 **parts:** `[]*schedulingo.PostCreatePartsItem` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Posts.V0PostCountByTab() -> any</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns counts of posts for the Queue, Drafts, Approvals, and Sent tabs
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulingo.V0PostCountByTabRequest{}
+client.Posts.V0PostCountByTab(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**socialAccountIDs:** `*string` 
     
 </dd>
 </dl>
@@ -538,7 +592,7 @@ client.Posts.AnalyticsSummary(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.AnalyticsSeries(ID) -> []*schedulingo.AnalyticsSeriesPostsResponseItem</code></summary>
+<details><summary><code>client.Posts.AnalyticsSeries(ID) -> *schedulingo.AnalyticsSeriesPostsResponse</code></summary>
 <dl>
 <dd>
 
@@ -810,7 +864,7 @@ client.Posts.GetJobStatus(
 </details>
 
 ## SocialAccounts
-<details><summary><code>client.SocialAccounts.List() -> []*schedulingo.ListSocialAccountsResponseItem</code></summary>
+<details><summary><code>client.SocialAccounts.List() -> *schedulingo.ListSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -902,86 +956,6 @@ client.SocialAccounts.Update(
 <dd>
 
 **id:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**platform:** `*schedulingo.UpdateSocialAccountsRequestPlatform` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**accessToken:** `*string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**secretAccessToken:** `*string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**refreshToken:** `*string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**refreshTokenValid:** `*bool` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**tokenExpiresAt:** `*time.Time` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**imageURL:** `*string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**imageProcessingStatus:** `*schedulingo.UpdateSocialAccountsRequestImageProcessingStatus` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**platformData:** `map[string]any` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**lastRefreshAt:** `*time.Time` 
     
 </dd>
 </dl>
@@ -1132,7 +1106,7 @@ client.SocialAccounts.UpdateTimezone(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.RefreshProfile(ID, request) -> *schedulingo.RefreshProfileSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.PinterestBoards(ID) -> *schedulingo.PinterestBoardsSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1144,7 +1118,7 @@ client.SocialAccounts.UpdateTimezone(
 <dl>
 <dd>
 
-Fetch the latest profile information from the connected platform and update the social account
+List the boards for a connected Pinterest account. Use a board id in `platformConfiguration.board_ids` when creating a Pinterest post.
 </dd>
 </dl>
 </dd>
@@ -1159,10 +1133,71 @@ Fetch the latest profile information from the connected platform and update the 
 <dd>
 
 ```go
-request := &schedulingo.RefreshProfileSocialAccountsRequest{
+request := &schedulingo.PinterestBoardsSocialAccountsRequest{
         ID: "id",
     }
-client.SocialAccounts.RefreshProfile(
+client.SocialAccounts.PinterestBoards(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.SocialAccounts.TiktokCreatorInfo(ID) -> *schedulingo.TiktokCreatorInfoSocialAccountsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetch the privacy-level options, duration limits, and interaction settings for a connected TikTok account — required to build a valid `platformConfiguration` when creating a TikTok post.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulingo.TiktokCreatorInfoSocialAccountsRequest{
+        ID: "id",
+    }
+client.SocialAccounts.TiktokCreatorInfo(
         context.TODO(),
         request,
     )
@@ -1194,7 +1229,7 @@ client.SocialAccounts.RefreshProfile(
 </details>
 
 ## Tags
-<details><summary><code>client.Tags.List() -> []*schedulingo.Tag</code></summary>
+<details><summary><code>client.Tags.List() -> *schedulingo.ListTagsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1814,7 +1849,7 @@ client.Media.SetTags(
 </dl>
 </details>
 
-<details><summary><code>client.Media.CountByTag() -> any</code></summary>
+<details><summary><code>client.Media.CountByTag() -> *schedulingo.CountByTagMediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -1868,7 +1903,7 @@ client.Media.CountByTag(
 <dl>
 <dd>
 
-Generate AWS S3 presigned post for secure file uploads
+Returns a presigned PUT URL. Upload by issuing an HTTP PUT of the raw file bytes to `url` with a `Content-Type` header matching `contentType`, then reference the returned `key` when creating a post.
 </dd>
 </dl>
 </dd>
@@ -1923,6 +1958,14 @@ client.Media.CreatePresignedPost(
 <dd>
 
 **size:** `*int` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**intent:** `*schedulingo.CreatePresignedPostIntent` 
     
 </dd>
 </dl>

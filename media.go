@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	internal "github.com/schedulin/schedulin-go/internal"
+	internal "github.com/schedulin-app/schedulin-go/internal"
 	big "math/big"
 	time "time"
 )
@@ -14,12 +14,14 @@ var (
 	createPresignedPostFieldContentType = big.NewInt(1 << 0)
 	createPresignedPostFieldKey         = big.NewInt(1 << 1)
 	createPresignedPostFieldSize        = big.NewInt(1 << 2)
+	createPresignedPostFieldIntent      = big.NewInt(1 << 3)
 )
 
 type CreatePresignedPost struct {
-	ContentType string `json:"contentType" url:"-"`
-	Key         string `json:"key" url:"-"`
-	Size        *int   `json:"size,omitempty" url:"-"`
+	ContentType string                     `json:"contentType" url:"-"`
+	Key         string                     `json:"key" url:"-"`
+	Size        *int                       `json:"size,omitempty" url:"-"`
+	Intent      *CreatePresignedPostIntent `json:"intent,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -51,6 +53,13 @@ func (c *CreatePresignedPost) SetKey(key string) {
 func (c *CreatePresignedPost) SetSize(size *int) {
 	c.Size = size
 	c.require(createPresignedPostFieldSize)
+}
+
+// SetIntent sets the Intent field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreatePresignedPost) SetIntent(intent *CreatePresignedPostIntent) {
+	c.Intent = intent
+	c.require(createPresignedPostFieldIntent)
 }
 
 func (c *CreatePresignedPost) UnmarshalJSON(data []byte) error {
@@ -234,10 +243,9 @@ var (
 	mediaFieldDuration  = big.NewInt(1 << 6)
 	mediaFieldCreatedAt = big.NewInt(1 << 7)
 	mediaFieldUpdatedAt = big.NewInt(1 << 8)
-	mediaFieldUserID    = big.NewInt(1 << 9)
-	mediaFieldBucket    = big.NewInt(1 << 10)
-	mediaFieldKey       = big.NewInt(1 << 11)
-	mediaFieldSize      = big.NewInt(1 << 12)
+	mediaFieldBucket    = big.NewInt(1 << 9)
+	mediaFieldKey       = big.NewInt(1 << 10)
+	mediaFieldSize      = big.NewInt(1 << 11)
 )
 
 type Media struct {
@@ -250,7 +258,6 @@ type Media struct {
 	Duration  *float64  `json:"duration,omitempty" url:"duration,omitempty"`
 	CreatedAt time.Time `json:"createdAt" url:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt" url:"updatedAt"`
-	UserID    string    `json:"userId" url:"userId"`
 	Bucket    string    `json:"bucket" url:"bucket"`
 	Key       string    `json:"key" url:"key"`
 	Size      *float64  `json:"size,omitempty" url:"size,omitempty"`
@@ -323,13 +330,6 @@ func (m *Media) GetUpdatedAt() time.Time {
 		return time.Time{}
 	}
 	return m.UpdatedAt
-}
-
-func (m *Media) GetUserID() string {
-	if m == nil {
-		return ""
-	}
-	return m.UserID
 }
 
 func (m *Media) GetBucket() string {
@@ -430,13 +430,6 @@ func (m *Media) SetUpdatedAt(updatedAt time.Time) {
 	m.require(mediaFieldUpdatedAt)
 }
 
-// SetUserID sets the UserID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (m *Media) SetUserID(userID string) {
-	m.UserID = userID
-	m.require(mediaFieldUserID)
-}
-
 // SetBucket sets the Bucket field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (m *Media) SetBucket(bucket string) {
@@ -514,12 +507,14 @@ func (m *Media) String() string {
 
 var (
 	presignedPostFieldURL    = big.NewInt(1 << 0)
-	presignedPostFieldFields = big.NewInt(1 << 1)
+	presignedPostFieldKey    = big.NewInt(1 << 1)
+	presignedPostFieldMethod = big.NewInt(1 << 2)
 )
 
 type PresignedPost struct {
-	URL    string            `json:"url" url:"url"`
-	Fields map[string]string `json:"fields" url:"fields"`
+	URL    string              `json:"url" url:"url"`
+	Key    string              `json:"key" url:"key"`
+	Method PresignedPostMethod `json:"method" url:"method"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -535,11 +530,18 @@ func (p *PresignedPost) GetURL() string {
 	return p.URL
 }
 
-func (p *PresignedPost) GetFields() map[string]string {
+func (p *PresignedPost) GetKey() string {
 	if p == nil {
-		return nil
+		return ""
 	}
-	return p.Fields
+	return p.Key
+}
+
+func (p *PresignedPost) GetMethod() PresignedPostMethod {
+	if p == nil {
+		return ""
+	}
+	return p.Method
 }
 
 func (p *PresignedPost) GetExtraProperties() map[string]interface{} {
@@ -563,11 +565,18 @@ func (p *PresignedPost) SetURL(url string) {
 	p.require(presignedPostFieldURL)
 }
 
-// SetFields sets the Fields field and marks it as non-optional;
+// SetKey sets the Key field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PresignedPost) SetFields(fields map[string]string) {
-	p.Fields = fields
-	p.require(presignedPostFieldFields)
+func (p *PresignedPost) SetKey(key string) {
+	p.Key = key
+	p.require(presignedPostFieldKey)
+}
+
+// SetMethod sets the Method field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PresignedPost) SetMethod(method PresignedPostMethod) {
+	p.Method = method
+	p.require(presignedPostFieldMethod)
 }
 
 func (p *PresignedPost) UnmarshalJSON(data []byte) error {
@@ -612,14 +621,242 @@ func (p *PresignedPost) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
+type PresignedPostMethod string
+
+const (
+	PresignedPostMethodPut PresignedPostMethod = "PUT"
+)
+
+func NewPresignedPostMethodFromString(s string) (PresignedPostMethod, error) {
+	switch s {
+	case "PUT":
+		return PresignedPostMethodPut, nil
+	}
+	var t PresignedPostMethod
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PresignedPostMethod) Ptr() *PresignedPostMethod {
+	return &p
+}
+
+var (
+	countByTagMediaResponseFieldData = big.NewInt(1 << 0)
+)
+
+type CountByTagMediaResponse struct {
+	Data []*CountByTagMediaResponseDataItem `json:"data" url:"data"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CountByTagMediaResponse) GetData() []*CountByTagMediaResponseDataItem {
+	if c == nil {
+		return nil
+	}
+	return c.Data
+}
+
+func (c *CountByTagMediaResponse) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CountByTagMediaResponse) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CountByTagMediaResponse) SetData(data []*CountByTagMediaResponseDataItem) {
+	c.Data = data
+	c.require(countByTagMediaResponseFieldData)
+}
+
+func (c *CountByTagMediaResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler CountByTagMediaResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CountByTagMediaResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CountByTagMediaResponse) MarshalJSON() ([]byte, error) {
+	type embed CountByTagMediaResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CountByTagMediaResponse) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
+	countByTagMediaResponseDataItemFieldTagID = big.NewInt(1 << 0)
+	countByTagMediaResponseDataItemFieldCount = big.NewInt(1 << 1)
+)
+
+type CountByTagMediaResponseDataItem struct {
+	TagID string  `json:"tagId" url:"tagId"`
+	Count float64 `json:"count" url:"count"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CountByTagMediaResponseDataItem) GetTagID() string {
+	if c == nil {
+		return ""
+	}
+	return c.TagID
+}
+
+func (c *CountByTagMediaResponseDataItem) GetCount() float64 {
+	if c == nil {
+		return 0
+	}
+	return c.Count
+}
+
+func (c *CountByTagMediaResponseDataItem) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CountByTagMediaResponseDataItem) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetTagID sets the TagID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CountByTagMediaResponseDataItem) SetTagID(tagID string) {
+	c.TagID = tagID
+	c.require(countByTagMediaResponseDataItemFieldTagID)
+}
+
+// SetCount sets the Count field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CountByTagMediaResponseDataItem) SetCount(count float64) {
+	c.Count = count
+	c.require(countByTagMediaResponseDataItemFieldCount)
+}
+
+func (c *CountByTagMediaResponseDataItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler CountByTagMediaResponseDataItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CountByTagMediaResponseDataItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CountByTagMediaResponseDataItem) MarshalJSON() ([]byte, error) {
+	type embed CountByTagMediaResponseDataItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CountByTagMediaResponseDataItem) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+type CreatePresignedPostIntent string
+
+const (
+	CreatePresignedPostIntentPost        CreatePresignedPostIntent = "post"
+	CreatePresignedPostIntentClipSource  CreatePresignedPostIntent = "clip-source"
+	CreatePresignedPostIntentPublicAsset CreatePresignedPostIntent = "public-asset"
+)
+
+func NewCreatePresignedPostIntentFromString(s string) (CreatePresignedPostIntent, error) {
+	switch s {
+	case "post":
+		return CreatePresignedPostIntentPost, nil
+	case "clip-source":
+		return CreatePresignedPostIntentClipSource, nil
+	case "public-asset":
+		return CreatePresignedPostIntentPublicAsset, nil
+	}
+	var t CreatePresignedPostIntent
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreatePresignedPostIntent) Ptr() *CreatePresignedPostIntent {
+	return &c
+}
+
 var (
 	listMediaRequestCursorFieldID        = big.NewInt(1 << 0)
 	listMediaRequestCursorFieldUpdatedAt = big.NewInt(1 << 1)
 )
 
 type ListMediaRequestCursor struct {
-	ID        string                           `json:"id" url:"id"`
-	UpdatedAt *ListMediaRequestCursorUpdatedAt `json:"updatedAt" url:"updatedAt"`
+	ID        string    `json:"id" url:"id"`
+	UpdatedAt time.Time `json:"updatedAt" url:"updatedAt"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -635,9 +872,9 @@ func (l *ListMediaRequestCursor) GetID() string {
 	return l.ID
 }
 
-func (l *ListMediaRequestCursor) GetUpdatedAt() *ListMediaRequestCursorUpdatedAt {
+func (l *ListMediaRequestCursor) GetUpdatedAt() time.Time {
 	if l == nil {
-		return nil
+		return time.Time{}
 	}
 	return l.UpdatedAt
 }
@@ -665,18 +902,24 @@ func (l *ListMediaRequestCursor) SetID(id string) {
 
 // SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListMediaRequestCursor) SetUpdatedAt(updatedAt *ListMediaRequestCursorUpdatedAt) {
+func (l *ListMediaRequestCursor) SetUpdatedAt(updatedAt time.Time) {
 	l.UpdatedAt = updatedAt
 	l.require(listMediaRequestCursorFieldUpdatedAt)
 }
 
 func (l *ListMediaRequestCursor) UnmarshalJSON(data []byte) error {
-	type unmarshaler ListMediaRequestCursor
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
+	type embed ListMediaRequestCursor
+	var unmarshaler = struct {
+		embed
+		UpdatedAt *internal.DateTime `json:"updatedAt"`
+	}{
+		embed: embed(*l),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
 		return err
 	}
-	*l = ListMediaRequestCursor(value)
+	*l = ListMediaRequestCursor(unmarshaler.embed)
+	l.UpdatedAt = unmarshaler.UpdatedAt.Time()
 	extraProperties, err := internal.ExtractExtraProperties(data, *l)
 	if err != nil {
 		return err
@@ -690,8 +933,10 @@ func (l *ListMediaRequestCursor) MarshalJSON() ([]byte, error) {
 	type embed ListMediaRequestCursor
 	var marshaler = struct {
 		embed
+		UpdatedAt *internal.DateTime `json:"updatedAt"`
 	}{
-		embed: embed(*l),
+		embed:     embed(*l),
+		UpdatedAt: internal.NewDateTime(l.UpdatedAt),
 	}
 	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
 	return json.Marshal(explicitMarshaler)
@@ -710,68 +955,6 @@ func (l *ListMediaRequestCursor) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", l)
-}
-
-type ListMediaRequestCursorUpdatedAt struct {
-	DateTime time.Time
-	String   string
-
-	typ string
-}
-
-func (l *ListMediaRequestCursorUpdatedAt) GetDateTime() time.Time {
-	if l == nil {
-		return time.Time{}
-	}
-	return l.DateTime
-}
-
-func (l *ListMediaRequestCursorUpdatedAt) GetString() string {
-	if l == nil {
-		return ""
-	}
-	return l.String
-}
-
-func (l *ListMediaRequestCursorUpdatedAt) UnmarshalJSON(data []byte) error {
-	var valueDateTime *internal.DateTime
-	if err := json.Unmarshal(data, &valueDateTime); err == nil {
-		l.typ = "DateTime"
-		l.DateTime = valueDateTime.Time()
-		return nil
-	}
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		l.typ = "String"
-		l.String = valueString
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, l)
-}
-
-func (l ListMediaRequestCursorUpdatedAt) MarshalJSON() ([]byte, error) {
-	if l.typ == "DateTime" || !l.DateTime.IsZero() {
-		return json.Marshal(internal.NewDateTime(l.DateTime))
-	}
-	if l.typ == "String" || l.String != "" {
-		return json.Marshal(l.String)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", l)
-}
-
-type ListMediaRequestCursorUpdatedAtVisitor interface {
-	VisitDateTime(time.Time) error
-	VisitString(string) error
-}
-
-func (l *ListMediaRequestCursorUpdatedAt) Accept(visitor ListMediaRequestCursorUpdatedAtVisitor) error {
-	if l.typ == "DateTime" || !l.DateTime.IsZero() {
-		return visitor.VisitDateTime(l.DateTime)
-	}
-	if l.typ == "String" || l.String != "" {
-		return visitor.VisitString(l.String)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", l)
 }
 
 type ListMediaRequestTagMode string

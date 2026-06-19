@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/schedulin/schedulin-go/core"
+	"github.com/schedulin-app/schedulin-go/core"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

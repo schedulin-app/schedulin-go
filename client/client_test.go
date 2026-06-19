@@ -3,7 +3,7 @@
 package client
 
 import (
-	option "github.com/schedulin/schedulin-go/option"
+	option "github.com/schedulin-app/schedulin-go/option"
 	assert "github.com/stretchr/testify/assert"
 	http "net/http"
 	testing "testing"

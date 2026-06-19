@@ -9,5 +9,5 @@ package api
 var Environments = struct {
 	Default string
 }{
-	Default: "",
+	Default: "https://api.schedulin.app",
 }

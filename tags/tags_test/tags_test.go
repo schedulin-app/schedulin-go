@@ -10,9 +10,9 @@ import (
 	os "os"
 	testing "testing"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	client "github.com/schedulin/schedulin-go/client"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	client "github.com/schedulin-app/schedulin-go/client"
+	option "github.com/schedulin-app/schedulin-go/option"
 	require "github.com/stretchr/testify/require"
 )
 

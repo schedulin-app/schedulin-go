@@ -3,8 +3,8 @@
 package api
 
 import (
-	core "github.com/schedulin/schedulin-go/core"
-	internal "github.com/schedulin/schedulin-go/internal"
+	core "github.com/schedulin-app/schedulin-go/core"
+	internal "github.com/schedulin-app/schedulin-go/internal"
 )
 
 var ErrorCodes internal.ErrorCodes = internal.ErrorCodes{

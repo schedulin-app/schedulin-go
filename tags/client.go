@@ -5,10 +5,10 @@ package tags
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	core "github.com/schedulin/schedulin-go/core"
-	internal "github.com/schedulin/schedulin-go/internal"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	core "github.com/schedulin-app/schedulin-go/core"
+	internal "github.com/schedulin-app/schedulin-go/internal"
+	option "github.com/schedulin-app/schedulin-go/option"
 )
 
 type Client struct {
@@ -39,7 +39,7 @@ func (c *Client) List(
 	ctx context.Context,
 	request *schedulingo.ListTagsRequest,
 	opts ...option.RequestOption,
-) ([]*schedulingo.Tag, error) {
+) (*schedulingo.ListTagsResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
 		request,

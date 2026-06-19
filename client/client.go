@@ -3,13 +3,13 @@
 package client
 
 import (
-	core "github.com/schedulin/schedulin-go/core"
-	internal "github.com/schedulin/schedulin-go/internal"
-	media "github.com/schedulin/schedulin-go/media"
-	option "github.com/schedulin/schedulin-go/option"
-	posts "github.com/schedulin/schedulin-go/posts"
-	socialaccounts "github.com/schedulin/schedulin-go/socialaccounts"
-	tags "github.com/schedulin/schedulin-go/tags"
+	core "github.com/schedulin-app/schedulin-go/core"
+	internal "github.com/schedulin-app/schedulin-go/internal"
+	media "github.com/schedulin-app/schedulin-go/media"
+	option "github.com/schedulin-app/schedulin-go/option"
+	posts "github.com/schedulin-app/schedulin-go/posts"
+	socialaccounts "github.com/schedulin-app/schedulin-go/socialaccounts"
+	tags "github.com/schedulin-app/schedulin-go/tags"
 )
 
 type Client struct {

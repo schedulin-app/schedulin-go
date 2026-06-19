@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	internal "github.com/schedulin/schedulin-go/internal"
+	internal "github.com/schedulin-app/schedulin-go/internal"
 	big "math/big"
 	time "time"
 )
@@ -57,49 +57,53 @@ func (d *DeleteSocialAccountsRequest) MarshalJSON() ([]byte, error) {
 }
 
 var (
-	refreshProfileSocialAccountsRequestFieldID = big.NewInt(1 << 0)
+	pinterestBoardsSocialAccountsRequestFieldID = big.NewInt(1 << 0)
 )
 
-type RefreshProfileSocialAccountsRequest struct {
+type PinterestBoardsSocialAccountsRequest struct {
 	ID string `json:"-" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
 }
 
-func (r *RefreshProfileSocialAccountsRequest) require(field *big.Int) {
-	if r.explicitFields == nil {
-		r.explicitFields = big.NewInt(0)
+func (p *PinterestBoardsSocialAccountsRequest) require(field *big.Int) {
+	if p.explicitFields == nil {
+		p.explicitFields = big.NewInt(0)
 	}
-	r.explicitFields.Or(r.explicitFields, field)
+	p.explicitFields.Or(p.explicitFields, field)
 }
 
 // SetID sets the ID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (r *RefreshProfileSocialAccountsRequest) SetID(id string) {
-	r.ID = id
-	r.require(refreshProfileSocialAccountsRequestFieldID)
+func (p *PinterestBoardsSocialAccountsRequest) SetID(id string) {
+	p.ID = id
+	p.require(pinterestBoardsSocialAccountsRequestFieldID)
 }
 
-func (r *RefreshProfileSocialAccountsRequest) UnmarshalJSON(data []byte) error {
-	type unmarshaler RefreshProfileSocialAccountsRequest
-	var body unmarshaler
-	if err := json.Unmarshal(data, &body); err != nil {
-		return err
-	}
-	*r = RefreshProfileSocialAccountsRequest(body)
-	return nil
+var (
+	tiktokCreatorInfoSocialAccountsRequestFieldID = big.NewInt(1 << 0)
+)
+
+type TiktokCreatorInfoSocialAccountsRequest struct {
+	ID string `json:"-" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
 }
 
-func (r *RefreshProfileSocialAccountsRequest) MarshalJSON() ([]byte, error) {
-	type embed RefreshProfileSocialAccountsRequest
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*r),
+func (t *TiktokCreatorInfoSocialAccountsRequest) require(field *big.Int) {
+	if t.explicitFields == nil {
+		t.explicitFields = big.NewInt(0)
 	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
-	return json.Marshal(explicitMarshaler)
+	t.explicitFields.Or(t.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsRequest) SetID(id string) {
+	t.ID = id
+	t.require(tiktokCreatorInfoSocialAccountsRequestFieldID)
 }
 
 var (
@@ -187,29 +191,11 @@ func (d *DeleteSocialAccountsResponse) String() string {
 }
 
 var (
-	listSocialAccountsResponseItemFieldID                  = big.NewInt(1 << 0)
-	listSocialAccountsResponseItemFieldPlatform            = big.NewInt(1 << 1)
-	listSocialAccountsResponseItemFieldStatus              = big.NewInt(1 << 2)
-	listSocialAccountsResponseItemFieldUsername            = big.NewInt(1 << 3)
-	listSocialAccountsResponseItemFieldDisplayName         = big.NewInt(1 << 4)
-	listSocialAccountsResponseItemFieldProfileImageURL     = big.NewInt(1 << 5)
-	listSocialAccountsResponseItemFieldRefreshTokenValid   = big.NewInt(1 << 6)
-	listSocialAccountsResponseItemFieldAnalyticsDisabledAt = big.NewInt(1 << 7)
-	listSocialAccountsResponseItemFieldCreatedAt           = big.NewInt(1 << 8)
-	listSocialAccountsResponseItemFieldUpdatedAt           = big.NewInt(1 << 9)
+	listSocialAccountsResponseFieldData = big.NewInt(1 << 0)
 )
 
-type ListSocialAccountsResponseItem struct {
-	ID                  string                                 `json:"id" url:"id"`
-	Platform            ListSocialAccountsResponseItemPlatform `json:"platform" url:"platform"`
-	Status              ListSocialAccountsResponseItemStatus   `json:"status" url:"status"`
-	Username            *string                                `json:"username,omitempty" url:"username,omitempty"`
-	DisplayName         *string                                `json:"displayName,omitempty" url:"displayName,omitempty"`
-	ProfileImageURL     *string                                `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
-	RefreshTokenValid   bool                                   `json:"refreshTokenValid" url:"refreshTokenValid"`
-	AnalyticsDisabledAt *time.Time                             `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
-	CreatedAt           time.Time                              `json:"createdAt" url:"createdAt"`
-	UpdatedAt           time.Time                              `json:"updatedAt" url:"updatedAt"`
+type ListSocialAccountsResponse struct {
+	Data []*ListSocialAccountsResponseDataItem `json:"data" url:"data"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -218,84 +204,186 @@ type ListSocialAccountsResponseItem struct {
 	rawJSON         json.RawMessage
 }
 
-func (l *ListSocialAccountsResponseItem) GetID() string {
-	if l == nil {
-		return ""
-	}
-	return l.ID
-}
-
-func (l *ListSocialAccountsResponseItem) GetPlatform() ListSocialAccountsResponseItemPlatform {
-	if l == nil {
-		return ""
-	}
-	return l.Platform
-}
-
-func (l *ListSocialAccountsResponseItem) GetStatus() ListSocialAccountsResponseItemStatus {
-	if l == nil {
-		return ""
-	}
-	return l.Status
-}
-
-func (l *ListSocialAccountsResponseItem) GetUsername() *string {
+func (l *ListSocialAccountsResponse) GetData() []*ListSocialAccountsResponseDataItem {
 	if l == nil {
 		return nil
 	}
-	return l.Username
+	return l.Data
 }
 
-func (l *ListSocialAccountsResponseItem) GetDisplayName() *string {
-	if l == nil {
-		return nil
-	}
-	return l.DisplayName
-}
-
-func (l *ListSocialAccountsResponseItem) GetProfileImageURL() *string {
-	if l == nil {
-		return nil
-	}
-	return l.ProfileImageURL
-}
-
-func (l *ListSocialAccountsResponseItem) GetRefreshTokenValid() bool {
-	if l == nil {
-		return false
-	}
-	return l.RefreshTokenValid
-}
-
-func (l *ListSocialAccountsResponseItem) GetAnalyticsDisabledAt() *time.Time {
-	if l == nil {
-		return nil
-	}
-	return l.AnalyticsDisabledAt
-}
-
-func (l *ListSocialAccountsResponseItem) GetCreatedAt() time.Time {
-	if l == nil {
-		return time.Time{}
-	}
-	return l.CreatedAt
-}
-
-func (l *ListSocialAccountsResponseItem) GetUpdatedAt() time.Time {
-	if l == nil {
-		return time.Time{}
-	}
-	return l.UpdatedAt
-}
-
-func (l *ListSocialAccountsResponseItem) GetExtraProperties() map[string]interface{} {
+func (l *ListSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
 	if l == nil {
 		return nil
 	}
 	return l.extraProperties
 }
 
-func (l *ListSocialAccountsResponseItem) require(field *big.Int) {
+func (l *ListSocialAccountsResponse) require(field *big.Int) {
+	if l.explicitFields == nil {
+		l.explicitFields = big.NewInt(0)
+	}
+	l.explicitFields.Or(l.explicitFields, field)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSocialAccountsResponse) SetData(data []*ListSocialAccountsResponseDataItem) {
+	l.Data = data
+	l.require(listSocialAccountsResponseFieldData)
+}
+
+func (l *ListSocialAccountsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListSocialAccountsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListSocialAccountsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListSocialAccountsResponse) MarshalJSON() ([]byte, error) {
+	type embed ListSocialAccountsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListSocialAccountsResponse) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	listSocialAccountsResponseDataItemFieldID                  = big.NewInt(1 << 0)
+	listSocialAccountsResponseDataItemFieldPlatform            = big.NewInt(1 << 1)
+	listSocialAccountsResponseDataItemFieldStatus              = big.NewInt(1 << 2)
+	listSocialAccountsResponseDataItemFieldUsername            = big.NewInt(1 << 3)
+	listSocialAccountsResponseDataItemFieldDisplayName         = big.NewInt(1 << 4)
+	listSocialAccountsResponseDataItemFieldProfileImageURL     = big.NewInt(1 << 5)
+	listSocialAccountsResponseDataItemFieldRefreshTokenValid   = big.NewInt(1 << 6)
+	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt = big.NewInt(1 << 7)
+	listSocialAccountsResponseDataItemFieldCreatedAt           = big.NewInt(1 << 8)
+	listSocialAccountsResponseDataItemFieldUpdatedAt           = big.NewInt(1 << 9)
+)
+
+type ListSocialAccountsResponseDataItem struct {
+	ID                  string                                     `json:"id" url:"id"`
+	Platform            ListSocialAccountsResponseDataItemPlatform `json:"platform" url:"platform"`
+	Status              ListSocialAccountsResponseDataItemStatus   `json:"status" url:"status"`
+	Username            *string                                    `json:"username,omitempty" url:"username,omitempty"`
+	DisplayName         *string                                    `json:"displayName,omitempty" url:"displayName,omitempty"`
+	ProfileImageURL     *string                                    `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
+	RefreshTokenValid   bool                                       `json:"refreshTokenValid" url:"refreshTokenValid"`
+	AnalyticsDisabledAt *time.Time                                 `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
+	CreatedAt           time.Time                                  `json:"createdAt" url:"createdAt"`
+	UpdatedAt           time.Time                                  `json:"updatedAt" url:"updatedAt"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetID() string {
+	if l == nil {
+		return ""
+	}
+	return l.ID
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetPlatform() ListSocialAccountsResponseDataItemPlatform {
+	if l == nil {
+		return ""
+	}
+	return l.Platform
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetStatus() ListSocialAccountsResponseDataItemStatus {
+	if l == nil {
+		return ""
+	}
+	return l.Status
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetUsername() *string {
+	if l == nil {
+		return nil
+	}
+	return l.Username
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetDisplayName() *string {
+	if l == nil {
+		return nil
+	}
+	return l.DisplayName
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetProfileImageURL() *string {
+	if l == nil {
+		return nil
+	}
+	return l.ProfileImageURL
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetRefreshTokenValid() bool {
+	if l == nil {
+		return false
+	}
+	return l.RefreshTokenValid
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetAnalyticsDisabledAt() *time.Time {
+	if l == nil {
+		return nil
+	}
+	return l.AnalyticsDisabledAt
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetCreatedAt() time.Time {
+	if l == nil {
+		return time.Time{}
+	}
+	return l.CreatedAt
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetUpdatedAt() time.Time {
+	if l == nil {
+		return time.Time{}
+	}
+	return l.UpdatedAt
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListSocialAccountsResponseDataItem) require(field *big.Int) {
 	if l.explicitFields == nil {
 		l.explicitFields = big.NewInt(0)
 	}
@@ -304,76 +392,76 @@ func (l *ListSocialAccountsResponseItem) require(field *big.Int) {
 
 // SetID sets the ID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListSocialAccountsResponseItem) SetID(id string) {
+func (l *ListSocialAccountsResponseDataItem) SetID(id string) {
 	l.ID = id
-	l.require(listSocialAccountsResponseItemFieldID)
+	l.require(listSocialAccountsResponseDataItemFieldID)
 }
 
 // SetPlatform sets the Platform field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListSocialAccountsResponseItem) SetPlatform(platform ListSocialAccountsResponseItemPlatform) {
+func (l *ListSocialAccountsResponseDataItem) SetPlatform(platform ListSocialAccountsResponseDataItemPlatform) {
 	l.Platform = platform
-	l.require(listSocialAccountsResponseItemFieldPlatform)
+	l.require(listSocialAccountsResponseDataItemFieldPlatform)
 }
 
 // SetStatus sets the Status field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListSocialAccountsResponseItem) SetStatus(status ListSocialAccountsResponseItemStatus) {
+func (l *ListSocialAccountsResponseDataItem) SetStatus(status ListSocialAccountsResponseDataItemStatus) {
 	l.Status = status
-	l.require(listSocialAccountsResponseItemFieldStatus)
+	l.require(listSocialAccountsResponseDataItemFieldStatus)
 }
 
 // SetUsername sets the Username field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListSocialAccountsResponseItem) SetUsername(username *string) {
+func (l *ListSocialAccountsResponseDataItem) SetUsername(username *string) {
 	l.Username = username
-	l.require(listSocialAccountsResponseItemFieldUsername)
+	l.require(listSocialAccountsResponseDataItemFieldUsername)
 }
 
 // SetDisplayName sets the DisplayName field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListSocialAccountsResponseItem) SetDisplayName(displayName *string) {
+func (l *ListSocialAccountsResponseDataItem) SetDisplayName(displayName *string) {
 	l.DisplayName = displayName
-	l.require(listSocialAccountsResponseItemFieldDisplayName)
+	l.require(listSocialAccountsResponseDataItemFieldDisplayName)
 }
 
 // SetProfileImageURL sets the ProfileImageURL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListSocialAccountsResponseItem) SetProfileImageURL(profileImageURL *string) {
+func (l *ListSocialAccountsResponseDataItem) SetProfileImageURL(profileImageURL *string) {
 	l.ProfileImageURL = profileImageURL
-	l.require(listSocialAccountsResponseItemFieldProfileImageURL)
+	l.require(listSocialAccountsResponseDataItemFieldProfileImageURL)
 }
 
 // SetRefreshTokenValid sets the RefreshTokenValid field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListSocialAccountsResponseItem) SetRefreshTokenValid(refreshTokenValid bool) {
+func (l *ListSocialAccountsResponseDataItem) SetRefreshTokenValid(refreshTokenValid bool) {
 	l.RefreshTokenValid = refreshTokenValid
-	l.require(listSocialAccountsResponseItemFieldRefreshTokenValid)
+	l.require(listSocialAccountsResponseDataItemFieldRefreshTokenValid)
 }
 
 // SetAnalyticsDisabledAt sets the AnalyticsDisabledAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListSocialAccountsResponseItem) SetAnalyticsDisabledAt(analyticsDisabledAt *time.Time) {
+func (l *ListSocialAccountsResponseDataItem) SetAnalyticsDisabledAt(analyticsDisabledAt *time.Time) {
 	l.AnalyticsDisabledAt = analyticsDisabledAt
-	l.require(listSocialAccountsResponseItemFieldAnalyticsDisabledAt)
+	l.require(listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt)
 }
 
 // SetCreatedAt sets the CreatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListSocialAccountsResponseItem) SetCreatedAt(createdAt time.Time) {
+func (l *ListSocialAccountsResponseDataItem) SetCreatedAt(createdAt time.Time) {
 	l.CreatedAt = createdAt
-	l.require(listSocialAccountsResponseItemFieldCreatedAt)
+	l.require(listSocialAccountsResponseDataItemFieldCreatedAt)
 }
 
 // SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListSocialAccountsResponseItem) SetUpdatedAt(updatedAt time.Time) {
+func (l *ListSocialAccountsResponseDataItem) SetUpdatedAt(updatedAt time.Time) {
 	l.UpdatedAt = updatedAt
-	l.require(listSocialAccountsResponseItemFieldUpdatedAt)
+	l.require(listSocialAccountsResponseDataItemFieldUpdatedAt)
 }
 
-func (l *ListSocialAccountsResponseItem) UnmarshalJSON(data []byte) error {
-	type embed ListSocialAccountsResponseItem
+func (l *ListSocialAccountsResponseDataItem) UnmarshalJSON(data []byte) error {
+	type embed ListSocialAccountsResponseDataItem
 	var unmarshaler = struct {
 		embed
 		AnalyticsDisabledAt *internal.DateTime `json:"analyticsDisabledAt,omitempty"`
@@ -385,7 +473,7 @@ func (l *ListSocialAccountsResponseItem) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &unmarshaler); err != nil {
 		return err
 	}
-	*l = ListSocialAccountsResponseItem(unmarshaler.embed)
+	*l = ListSocialAccountsResponseDataItem(unmarshaler.embed)
 	l.AnalyticsDisabledAt = unmarshaler.AnalyticsDisabledAt.TimePtr()
 	l.CreatedAt = unmarshaler.CreatedAt.Time()
 	l.UpdatedAt = unmarshaler.UpdatedAt.Time()
@@ -398,8 +486,8 @@ func (l *ListSocialAccountsResponseItem) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (l *ListSocialAccountsResponseItem) MarshalJSON() ([]byte, error) {
-	type embed ListSocialAccountsResponseItem
+func (l *ListSocialAccountsResponseDataItem) MarshalJSON() ([]byte, error) {
+	type embed ListSocialAccountsResponseDataItem
 	var marshaler = struct {
 		embed
 		AnalyticsDisabledAt *internal.DateTime `json:"analyticsDisabledAt,omitempty"`
@@ -415,7 +503,7 @@ func (l *ListSocialAccountsResponseItem) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-func (l *ListSocialAccountsResponseItem) String() string {
+func (l *ListSocialAccountsResponseDataItem) String() string {
 	if l == nil {
 		return "<nil>"
 	}
@@ -430,83 +518,83 @@ func (l *ListSocialAccountsResponseItem) String() string {
 	return fmt.Sprintf("%#v", l)
 }
 
-type ListSocialAccountsResponseItemPlatform string
+type ListSocialAccountsResponseDataItemPlatform string
 
 const (
-	ListSocialAccountsResponseItemPlatformBluesky   ListSocialAccountsResponseItemPlatform = "bluesky"
-	ListSocialAccountsResponseItemPlatformFacebook  ListSocialAccountsResponseItemPlatform = "facebook"
-	ListSocialAccountsResponseItemPlatformInstagram ListSocialAccountsResponseItemPlatform = "instagram"
-	ListSocialAccountsResponseItemPlatformLinkedin  ListSocialAccountsResponseItemPlatform = "linkedin"
-	ListSocialAccountsResponseItemPlatformPinterest ListSocialAccountsResponseItemPlatform = "pinterest"
-	ListSocialAccountsResponseItemPlatformThreads   ListSocialAccountsResponseItemPlatform = "threads"
-	ListSocialAccountsResponseItemPlatformTiktok    ListSocialAccountsResponseItemPlatform = "tiktok"
-	ListSocialAccountsResponseItemPlatformTwitter   ListSocialAccountsResponseItemPlatform = "twitter"
-	ListSocialAccountsResponseItemPlatformYoutube   ListSocialAccountsResponseItemPlatform = "youtube"
+	ListSocialAccountsResponseDataItemPlatformBluesky               ListSocialAccountsResponseDataItemPlatform = "bluesky"
+	ListSocialAccountsResponseDataItemPlatformFacebook              ListSocialAccountsResponseDataItemPlatform = "facebook"
+	ListSocialAccountsResponseDataItemPlatformGoogleBusinessProfile ListSocialAccountsResponseDataItemPlatform = "google_business_profile"
+	ListSocialAccountsResponseDataItemPlatformInstagram             ListSocialAccountsResponseDataItemPlatform = "instagram"
+	ListSocialAccountsResponseDataItemPlatformLinkedin              ListSocialAccountsResponseDataItemPlatform = "linkedin"
+	ListSocialAccountsResponseDataItemPlatformPinterest             ListSocialAccountsResponseDataItemPlatform = "pinterest"
+	ListSocialAccountsResponseDataItemPlatformReddit                ListSocialAccountsResponseDataItemPlatform = "reddit"
+	ListSocialAccountsResponseDataItemPlatformThreads               ListSocialAccountsResponseDataItemPlatform = "threads"
+	ListSocialAccountsResponseDataItemPlatformTiktok                ListSocialAccountsResponseDataItemPlatform = "tiktok"
+	ListSocialAccountsResponseDataItemPlatformTwitter               ListSocialAccountsResponseDataItemPlatform = "twitter"
+	ListSocialAccountsResponseDataItemPlatformYoutube               ListSocialAccountsResponseDataItemPlatform = "youtube"
 )
 
-func NewListSocialAccountsResponseItemPlatformFromString(s string) (ListSocialAccountsResponseItemPlatform, error) {
+func NewListSocialAccountsResponseDataItemPlatformFromString(s string) (ListSocialAccountsResponseDataItemPlatform, error) {
 	switch s {
 	case "bluesky":
-		return ListSocialAccountsResponseItemPlatformBluesky, nil
+		return ListSocialAccountsResponseDataItemPlatformBluesky, nil
 	case "facebook":
-		return ListSocialAccountsResponseItemPlatformFacebook, nil
+		return ListSocialAccountsResponseDataItemPlatformFacebook, nil
+	case "google_business_profile":
+		return ListSocialAccountsResponseDataItemPlatformGoogleBusinessProfile, nil
 	case "instagram":
-		return ListSocialAccountsResponseItemPlatformInstagram, nil
+		return ListSocialAccountsResponseDataItemPlatformInstagram, nil
 	case "linkedin":
-		return ListSocialAccountsResponseItemPlatformLinkedin, nil
+		return ListSocialAccountsResponseDataItemPlatformLinkedin, nil
 	case "pinterest":
-		return ListSocialAccountsResponseItemPlatformPinterest, nil
+		return ListSocialAccountsResponseDataItemPlatformPinterest, nil
+	case "reddit":
+		return ListSocialAccountsResponseDataItemPlatformReddit, nil
 	case "threads":
-		return ListSocialAccountsResponseItemPlatformThreads, nil
+		return ListSocialAccountsResponseDataItemPlatformThreads, nil
 	case "tiktok":
-		return ListSocialAccountsResponseItemPlatformTiktok, nil
+		return ListSocialAccountsResponseDataItemPlatformTiktok, nil
 	case "twitter":
-		return ListSocialAccountsResponseItemPlatformTwitter, nil
+		return ListSocialAccountsResponseDataItemPlatformTwitter, nil
 	case "youtube":
-		return ListSocialAccountsResponseItemPlatformYoutube, nil
+		return ListSocialAccountsResponseDataItemPlatformYoutube, nil
 	}
-	var t ListSocialAccountsResponseItemPlatform
+	var t ListSocialAccountsResponseDataItemPlatform
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (l ListSocialAccountsResponseItemPlatform) Ptr() *ListSocialAccountsResponseItemPlatform {
+func (l ListSocialAccountsResponseDataItemPlatform) Ptr() *ListSocialAccountsResponseDataItemPlatform {
 	return &l
 }
 
-type ListSocialAccountsResponseItemStatus string
+type ListSocialAccountsResponseDataItemStatus string
 
 const (
-	ListSocialAccountsResponseItemStatusConnected    ListSocialAccountsResponseItemStatus = "connected"
-	ListSocialAccountsResponseItemStatusDisconnected ListSocialAccountsResponseItemStatus = "disconnected"
+	ListSocialAccountsResponseDataItemStatusConnected    ListSocialAccountsResponseDataItemStatus = "connected"
+	ListSocialAccountsResponseDataItemStatusDisconnected ListSocialAccountsResponseDataItemStatus = "disconnected"
 )
 
-func NewListSocialAccountsResponseItemStatusFromString(s string) (ListSocialAccountsResponseItemStatus, error) {
+func NewListSocialAccountsResponseDataItemStatusFromString(s string) (ListSocialAccountsResponseDataItemStatus, error) {
 	switch s {
 	case "connected":
-		return ListSocialAccountsResponseItemStatusConnected, nil
+		return ListSocialAccountsResponseDataItemStatusConnected, nil
 	case "disconnected":
-		return ListSocialAccountsResponseItemStatusDisconnected, nil
+		return ListSocialAccountsResponseDataItemStatusDisconnected, nil
 	}
-	var t ListSocialAccountsResponseItemStatus
+	var t ListSocialAccountsResponseDataItemStatus
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (l ListSocialAccountsResponseItemStatus) Ptr() *ListSocialAccountsResponseItemStatus {
+func (l ListSocialAccountsResponseDataItemStatus) Ptr() *ListSocialAccountsResponseDataItemStatus {
 	return &l
 }
 
 var (
-	refreshProfileSocialAccountsResponseFieldSuccess  = big.NewInt(1 << 0)
-	refreshProfileSocialAccountsResponseFieldUsername = big.NewInt(1 << 1)
-	refreshProfileSocialAccountsResponseFieldImageURL = big.NewInt(1 << 2)
-	refreshProfileSocialAccountsResponseFieldName     = big.NewInt(1 << 3)
+	pinterestBoardsSocialAccountsResponseFieldData = big.NewInt(1 << 0)
 )
 
-type RefreshProfileSocialAccountsResponse struct {
-	Success  bool    `json:"success" url:"success"`
-	Username *string `json:"username,omitempty" url:"username,omitempty"`
-	ImageURL *string `json:"imageUrl,omitempty" url:"imageUrl,omitempty"`
-	Name     *string `json:"name,omitempty" url:"name,omitempty"`
+type PinterestBoardsSocialAccountsResponse struct {
+	Data []*PinterestBoardsSocialAccountsResponseDataItem `json:"data" url:"data"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -515,187 +603,627 @@ type RefreshProfileSocialAccountsResponse struct {
 	rawJSON         json.RawMessage
 }
 
-func (r *RefreshProfileSocialAccountsResponse) GetSuccess() bool {
-	if r == nil {
-		return false
-	}
-	return r.Success
-}
-
-func (r *RefreshProfileSocialAccountsResponse) GetUsername() *string {
-	if r == nil {
+func (p *PinterestBoardsSocialAccountsResponse) GetData() []*PinterestBoardsSocialAccountsResponseDataItem {
+	if p == nil {
 		return nil
 	}
-	return r.Username
+	return p.Data
 }
 
-func (r *RefreshProfileSocialAccountsResponse) GetImageURL() *string {
-	if r == nil {
+func (p *PinterestBoardsSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
+	if p == nil {
 		return nil
 	}
-	return r.ImageURL
+	return p.extraProperties
 }
 
-func (r *RefreshProfileSocialAccountsResponse) GetName() *string {
-	if r == nil {
-		return nil
+func (p *PinterestBoardsSocialAccountsResponse) require(field *big.Int) {
+	if p.explicitFields == nil {
+		p.explicitFields = big.NewInt(0)
 	}
-	return r.Name
+	p.explicitFields.Or(p.explicitFields, field)
 }
 
-func (r *RefreshProfileSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
-	if r == nil {
-		return nil
-	}
-	return r.extraProperties
-}
-
-func (r *RefreshProfileSocialAccountsResponse) require(field *big.Int) {
-	if r.explicitFields == nil {
-		r.explicitFields = big.NewInt(0)
-	}
-	r.explicitFields.Or(r.explicitFields, field)
-}
-
-// SetSuccess sets the Success field and marks it as non-optional;
+// SetData sets the Data field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (r *RefreshProfileSocialAccountsResponse) SetSuccess(success bool) {
-	r.Success = success
-	r.require(refreshProfileSocialAccountsResponseFieldSuccess)
+func (p *PinterestBoardsSocialAccountsResponse) SetData(data []*PinterestBoardsSocialAccountsResponseDataItem) {
+	p.Data = data
+	p.require(pinterestBoardsSocialAccountsResponseFieldData)
 }
 
-// SetUsername sets the Username field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (r *RefreshProfileSocialAccountsResponse) SetUsername(username *string) {
-	r.Username = username
-	r.require(refreshProfileSocialAccountsResponseFieldUsername)
-}
-
-// SetImageURL sets the ImageURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (r *RefreshProfileSocialAccountsResponse) SetImageURL(imageURL *string) {
-	r.ImageURL = imageURL
-	r.require(refreshProfileSocialAccountsResponseFieldImageURL)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (r *RefreshProfileSocialAccountsResponse) SetName(name *string) {
-	r.Name = name
-	r.require(refreshProfileSocialAccountsResponseFieldName)
-}
-
-func (r *RefreshProfileSocialAccountsResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler RefreshProfileSocialAccountsResponse
+func (p *PinterestBoardsSocialAccountsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler PinterestBoardsSocialAccountsResponse
 	var value unmarshaler
 	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*r = RefreshProfileSocialAccountsResponse(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	*p = PinterestBoardsSocialAccountsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
 	if err != nil {
 		return err
 	}
-	r.extraProperties = extraProperties
-	r.rawJSON = json.RawMessage(data)
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
 	return nil
 }
 
-func (r *RefreshProfileSocialAccountsResponse) MarshalJSON() ([]byte, error) {
-	type embed RefreshProfileSocialAccountsResponse
+func (p *PinterestBoardsSocialAccountsResponse) MarshalJSON() ([]byte, error) {
+	type embed PinterestBoardsSocialAccountsResponse
 	var marshaler = struct {
 		embed
 	}{
-		embed: embed(*r),
+		embed: embed(*p),
 	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
 	return json.Marshal(explicitMarshaler)
 }
 
-func (r *RefreshProfileSocialAccountsResponse) String() string {
-	if r == nil {
+func (p *PinterestBoardsSocialAccountsResponse) String() string {
+	if p == nil {
 		return "<nil>"
 	}
-	if len(r.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
 			return value
 		}
 	}
-	if value, err := internal.StringifyJSON(r); err == nil {
+	if value, err := internal.StringifyJSON(p); err == nil {
 		return value
 	}
-	return fmt.Sprintf("%#v", r)
+	return fmt.Sprintf("%#v", p)
 }
 
-type UpdateSocialAccountsRequestImageProcessingStatus string
-
-const (
-	UpdateSocialAccountsRequestImageProcessingStatusPending    UpdateSocialAccountsRequestImageProcessingStatus = "PENDING"
-	UpdateSocialAccountsRequestImageProcessingStatusProcessing UpdateSocialAccountsRequestImageProcessingStatus = "PROCESSING"
-	UpdateSocialAccountsRequestImageProcessingStatusProcessed  UpdateSocialAccountsRequestImageProcessingStatus = "PROCESSED"
-	UpdateSocialAccountsRequestImageProcessingStatusFailed     UpdateSocialAccountsRequestImageProcessingStatus = "FAILED"
+var (
+	pinterestBoardsSocialAccountsResponseDataItemFieldID      = big.NewInt(1 << 0)
+	pinterestBoardsSocialAccountsResponseDataItemFieldName    = big.NewInt(1 << 1)
+	pinterestBoardsSocialAccountsResponseDataItemFieldPrivacy = big.NewInt(1 << 2)
 )
 
-func NewUpdateSocialAccountsRequestImageProcessingStatusFromString(s string) (UpdateSocialAccountsRequestImageProcessingStatus, error) {
-	switch s {
-	case "PENDING":
-		return UpdateSocialAccountsRequestImageProcessingStatusPending, nil
-	case "PROCESSING":
-		return UpdateSocialAccountsRequestImageProcessingStatusProcessing, nil
-	case "PROCESSED":
-		return UpdateSocialAccountsRequestImageProcessingStatusProcessed, nil
-	case "FAILED":
-		return UpdateSocialAccountsRequestImageProcessingStatusFailed, nil
+type PinterestBoardsSocialAccountsResponseDataItem struct {
+	ID      string                                                `json:"id" url:"id"`
+	Name    string                                                `json:"name" url:"name"`
+	Privacy *PinterestBoardsSocialAccountsResponseDataItemPrivacy `json:"privacy,omitempty" url:"privacy,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PinterestBoardsSocialAccountsResponseDataItem) GetID() string {
+	if p == nil {
+		return ""
 	}
-	var t UpdateSocialAccountsRequestImageProcessingStatus
+	return p.ID
+}
+
+func (p *PinterestBoardsSocialAccountsResponseDataItem) GetName() string {
+	if p == nil {
+		return ""
+	}
+	return p.Name
+}
+
+func (p *PinterestBoardsSocialAccountsResponseDataItem) GetPrivacy() *PinterestBoardsSocialAccountsResponseDataItemPrivacy {
+	if p == nil {
+		return nil
+	}
+	return p.Privacy
+}
+
+func (p *PinterestBoardsSocialAccountsResponseDataItem) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PinterestBoardsSocialAccountsResponseDataItem) require(field *big.Int) {
+	if p.explicitFields == nil {
+		p.explicitFields = big.NewInt(0)
+	}
+	p.explicitFields.Or(p.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PinterestBoardsSocialAccountsResponseDataItem) SetID(id string) {
+	p.ID = id
+	p.require(pinterestBoardsSocialAccountsResponseDataItemFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PinterestBoardsSocialAccountsResponseDataItem) SetName(name string) {
+	p.Name = name
+	p.require(pinterestBoardsSocialAccountsResponseDataItemFieldName)
+}
+
+// SetPrivacy sets the Privacy field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PinterestBoardsSocialAccountsResponseDataItem) SetPrivacy(privacy *PinterestBoardsSocialAccountsResponseDataItemPrivacy) {
+	p.Privacy = privacy
+	p.require(pinterestBoardsSocialAccountsResponseDataItemFieldPrivacy)
+}
+
+func (p *PinterestBoardsSocialAccountsResponseDataItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler PinterestBoardsSocialAccountsResponseDataItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PinterestBoardsSocialAccountsResponseDataItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PinterestBoardsSocialAccountsResponseDataItem) MarshalJSON() ([]byte, error) {
+	type embed PinterestBoardsSocialAccountsResponseDataItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PinterestBoardsSocialAccountsResponseDataItem) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type PinterestBoardsSocialAccountsResponseDataItemPrivacy string
+
+const (
+	PinterestBoardsSocialAccountsResponseDataItemPrivacyPublic    PinterestBoardsSocialAccountsResponseDataItemPrivacy = "PUBLIC"
+	PinterestBoardsSocialAccountsResponseDataItemPrivacyProtected PinterestBoardsSocialAccountsResponseDataItemPrivacy = "PROTECTED"
+	PinterestBoardsSocialAccountsResponseDataItemPrivacySecret    PinterestBoardsSocialAccountsResponseDataItemPrivacy = "SECRET"
+)
+
+func NewPinterestBoardsSocialAccountsResponseDataItemPrivacyFromString(s string) (PinterestBoardsSocialAccountsResponseDataItemPrivacy, error) {
+	switch s {
+	case "PUBLIC":
+		return PinterestBoardsSocialAccountsResponseDataItemPrivacyPublic, nil
+	case "PROTECTED":
+		return PinterestBoardsSocialAccountsResponseDataItemPrivacyProtected, nil
+	case "SECRET":
+		return PinterestBoardsSocialAccountsResponseDataItemPrivacySecret, nil
+	}
+	var t PinterestBoardsSocialAccountsResponseDataItemPrivacy
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (u UpdateSocialAccountsRequestImageProcessingStatus) Ptr() *UpdateSocialAccountsRequestImageProcessingStatus {
-	return &u
+func (p PinterestBoardsSocialAccountsResponseDataItemPrivacy) Ptr() *PinterestBoardsSocialAccountsResponseDataItemPrivacy {
+	return &p
 }
 
-type UpdateSocialAccountsRequestPlatform string
-
-const (
-	UpdateSocialAccountsRequestPlatformBluesky   UpdateSocialAccountsRequestPlatform = "bluesky"
-	UpdateSocialAccountsRequestPlatformFacebook  UpdateSocialAccountsRequestPlatform = "facebook"
-	UpdateSocialAccountsRequestPlatformInstagram UpdateSocialAccountsRequestPlatform = "instagram"
-	UpdateSocialAccountsRequestPlatformLinkedin  UpdateSocialAccountsRequestPlatform = "linkedin"
-	UpdateSocialAccountsRequestPlatformPinterest UpdateSocialAccountsRequestPlatform = "pinterest"
-	UpdateSocialAccountsRequestPlatformThreads   UpdateSocialAccountsRequestPlatform = "threads"
-	UpdateSocialAccountsRequestPlatformTiktok    UpdateSocialAccountsRequestPlatform = "tiktok"
-	UpdateSocialAccountsRequestPlatformTwitter   UpdateSocialAccountsRequestPlatform = "twitter"
-	UpdateSocialAccountsRequestPlatformYoutube   UpdateSocialAccountsRequestPlatform = "youtube"
+var (
+	tiktokCreatorInfoSocialAccountsResponseFieldError = big.NewInt(1 << 0)
+	tiktokCreatorInfoSocialAccountsResponseFieldData  = big.NewInt(1 << 1)
 )
 
-func NewUpdateSocialAccountsRequestPlatformFromString(s string) (UpdateSocialAccountsRequestPlatform, error) {
-	switch s {
-	case "bluesky":
-		return UpdateSocialAccountsRequestPlatformBluesky, nil
-	case "facebook":
-		return UpdateSocialAccountsRequestPlatformFacebook, nil
-	case "instagram":
-		return UpdateSocialAccountsRequestPlatformInstagram, nil
-	case "linkedin":
-		return UpdateSocialAccountsRequestPlatformLinkedin, nil
-	case "pinterest":
-		return UpdateSocialAccountsRequestPlatformPinterest, nil
-	case "threads":
-		return UpdateSocialAccountsRequestPlatformThreads, nil
-	case "tiktok":
-		return UpdateSocialAccountsRequestPlatformTiktok, nil
-	case "twitter":
-		return UpdateSocialAccountsRequestPlatformTwitter, nil
-	case "youtube":
-		return UpdateSocialAccountsRequestPlatformYoutube, nil
-	}
-	var t UpdateSocialAccountsRequestPlatform
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
+type TiktokCreatorInfoSocialAccountsResponse struct {
+	Error *TiktokCreatorInfoSocialAccountsResponseError `json:"error" url:"error"`
+	Data  *TiktokCreatorInfoSocialAccountsResponseData  `json:"data" url:"data"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
 }
 
-func (u UpdateSocialAccountsRequestPlatform) Ptr() *UpdateSocialAccountsRequestPlatform {
-	return &u
+func (t *TiktokCreatorInfoSocialAccountsResponse) GetError() *TiktokCreatorInfoSocialAccountsResponseError {
+	if t == nil {
+		return nil
+	}
+	return t.Error
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponse) GetData() *TiktokCreatorInfoSocialAccountsResponseData {
+	if t == nil {
+		return nil
+	}
+	return t.Data
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
+	if t == nil {
+		return nil
+	}
+	return t.extraProperties
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponse) require(field *big.Int) {
+	if t.explicitFields == nil {
+		t.explicitFields = big.NewInt(0)
+	}
+	t.explicitFields.Or(t.explicitFields, field)
+}
+
+// SetError sets the Error field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponse) SetError(error_ *TiktokCreatorInfoSocialAccountsResponseError) {
+	t.Error = error_
+	t.require(tiktokCreatorInfoSocialAccountsResponseFieldError)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponse) SetData(data *TiktokCreatorInfoSocialAccountsResponseData) {
+	t.Data = data
+	t.require(tiktokCreatorInfoSocialAccountsResponseFieldData)
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler TiktokCreatorInfoSocialAccountsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TiktokCreatorInfoSocialAccountsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponse) MarshalJSON() ([]byte, error) {
+	type embed TiktokCreatorInfoSocialAccountsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*t),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponse) String() string {
+	if t == nil {
+		return "<nil>"
+	}
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+var (
+	tiktokCreatorInfoSocialAccountsResponseDataFieldCreatorAvatarURL        = big.NewInt(1 << 0)
+	tiktokCreatorInfoSocialAccountsResponseDataFieldCreatorUsername         = big.NewInt(1 << 1)
+	tiktokCreatorInfoSocialAccountsResponseDataFieldCreatorNickname         = big.NewInt(1 << 2)
+	tiktokCreatorInfoSocialAccountsResponseDataFieldPrivacyLevelOptions     = big.NewInt(1 << 3)
+	tiktokCreatorInfoSocialAccountsResponseDataFieldCommentDisabled         = big.NewInt(1 << 4)
+	tiktokCreatorInfoSocialAccountsResponseDataFieldDuetDisabled            = big.NewInt(1 << 5)
+	tiktokCreatorInfoSocialAccountsResponseDataFieldStitchDisabled          = big.NewInt(1 << 6)
+	tiktokCreatorInfoSocialAccountsResponseDataFieldMaxVideoPostDurationSec = big.NewInt(1 << 7)
+)
+
+type TiktokCreatorInfoSocialAccountsResponseData struct {
+	CreatorAvatarURL        string   `json:"creator_avatar_url" url:"creator_avatar_url"`
+	CreatorUsername         string   `json:"creator_username" url:"creator_username"`
+	CreatorNickname         string   `json:"creator_nickname" url:"creator_nickname"`
+	PrivacyLevelOptions     []string `json:"privacy_level_options" url:"privacy_level_options"`
+	CommentDisabled         bool     `json:"comment_disabled" url:"comment_disabled"`
+	DuetDisabled            bool     `json:"duet_disabled" url:"duet_disabled"`
+	StitchDisabled          bool     `json:"stitch_disabled" url:"stitch_disabled"`
+	MaxVideoPostDurationSec float64  `json:"max_video_post_duration_sec" url:"max_video_post_duration_sec"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) GetCreatorAvatarURL() string {
+	if t == nil {
+		return ""
+	}
+	return t.CreatorAvatarURL
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) GetCreatorUsername() string {
+	if t == nil {
+		return ""
+	}
+	return t.CreatorUsername
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) GetCreatorNickname() string {
+	if t == nil {
+		return ""
+	}
+	return t.CreatorNickname
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) GetPrivacyLevelOptions() []string {
+	if t == nil {
+		return nil
+	}
+	return t.PrivacyLevelOptions
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) GetCommentDisabled() bool {
+	if t == nil {
+		return false
+	}
+	return t.CommentDisabled
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) GetDuetDisabled() bool {
+	if t == nil {
+		return false
+	}
+	return t.DuetDisabled
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) GetStitchDisabled() bool {
+	if t == nil {
+		return false
+	}
+	return t.StitchDisabled
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) GetMaxVideoPostDurationSec() float64 {
+	if t == nil {
+		return 0
+	}
+	return t.MaxVideoPostDurationSec
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) GetExtraProperties() map[string]interface{} {
+	if t == nil {
+		return nil
+	}
+	return t.extraProperties
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) require(field *big.Int) {
+	if t.explicitFields == nil {
+		t.explicitFields = big.NewInt(0)
+	}
+	t.explicitFields.Or(t.explicitFields, field)
+}
+
+// SetCreatorAvatarURL sets the CreatorAvatarURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseData) SetCreatorAvatarURL(creatorAvatarURL string) {
+	t.CreatorAvatarURL = creatorAvatarURL
+	t.require(tiktokCreatorInfoSocialAccountsResponseDataFieldCreatorAvatarURL)
+}
+
+// SetCreatorUsername sets the CreatorUsername field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseData) SetCreatorUsername(creatorUsername string) {
+	t.CreatorUsername = creatorUsername
+	t.require(tiktokCreatorInfoSocialAccountsResponseDataFieldCreatorUsername)
+}
+
+// SetCreatorNickname sets the CreatorNickname field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseData) SetCreatorNickname(creatorNickname string) {
+	t.CreatorNickname = creatorNickname
+	t.require(tiktokCreatorInfoSocialAccountsResponseDataFieldCreatorNickname)
+}
+
+// SetPrivacyLevelOptions sets the PrivacyLevelOptions field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseData) SetPrivacyLevelOptions(privacyLevelOptions []string) {
+	t.PrivacyLevelOptions = privacyLevelOptions
+	t.require(tiktokCreatorInfoSocialAccountsResponseDataFieldPrivacyLevelOptions)
+}
+
+// SetCommentDisabled sets the CommentDisabled field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseData) SetCommentDisabled(commentDisabled bool) {
+	t.CommentDisabled = commentDisabled
+	t.require(tiktokCreatorInfoSocialAccountsResponseDataFieldCommentDisabled)
+}
+
+// SetDuetDisabled sets the DuetDisabled field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseData) SetDuetDisabled(duetDisabled bool) {
+	t.DuetDisabled = duetDisabled
+	t.require(tiktokCreatorInfoSocialAccountsResponseDataFieldDuetDisabled)
+}
+
+// SetStitchDisabled sets the StitchDisabled field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseData) SetStitchDisabled(stitchDisabled bool) {
+	t.StitchDisabled = stitchDisabled
+	t.require(tiktokCreatorInfoSocialAccountsResponseDataFieldStitchDisabled)
+}
+
+// SetMaxVideoPostDurationSec sets the MaxVideoPostDurationSec field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseData) SetMaxVideoPostDurationSec(maxVideoPostDurationSec float64) {
+	t.MaxVideoPostDurationSec = maxVideoPostDurationSec
+	t.require(tiktokCreatorInfoSocialAccountsResponseDataFieldMaxVideoPostDurationSec)
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler TiktokCreatorInfoSocialAccountsResponseData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TiktokCreatorInfoSocialAccountsResponseData(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) MarshalJSON() ([]byte, error) {
+	type embed TiktokCreatorInfoSocialAccountsResponseData
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*t),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseData) String() string {
+	if t == nil {
+		return "<nil>"
+	}
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
+}
+
+var (
+	tiktokCreatorInfoSocialAccountsResponseErrorFieldCode    = big.NewInt(1 << 0)
+	tiktokCreatorInfoSocialAccountsResponseErrorFieldMessage = big.NewInt(1 << 1)
+	tiktokCreatorInfoSocialAccountsResponseErrorFieldLogID   = big.NewInt(1 << 2)
+)
+
+type TiktokCreatorInfoSocialAccountsResponseError struct {
+	Code    string `json:"code" url:"code"`
+	Message string `json:"message" url:"message"`
+	LogID   string `json:"log_id" url:"log_id"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseError) GetCode() string {
+	if t == nil {
+		return ""
+	}
+	return t.Code
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseError) GetMessage() string {
+	if t == nil {
+		return ""
+	}
+	return t.Message
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseError) GetLogID() string {
+	if t == nil {
+		return ""
+	}
+	return t.LogID
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseError) GetExtraProperties() map[string]interface{} {
+	if t == nil {
+		return nil
+	}
+	return t.extraProperties
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseError) require(field *big.Int) {
+	if t.explicitFields == nil {
+		t.explicitFields = big.NewInt(0)
+	}
+	t.explicitFields.Or(t.explicitFields, field)
+}
+
+// SetCode sets the Code field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseError) SetCode(code string) {
+	t.Code = code
+	t.require(tiktokCreatorInfoSocialAccountsResponseErrorFieldCode)
+}
+
+// SetMessage sets the Message field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseError) SetMessage(message string) {
+	t.Message = message
+	t.require(tiktokCreatorInfoSocialAccountsResponseErrorFieldMessage)
+}
+
+// SetLogID sets the LogID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TiktokCreatorInfoSocialAccountsResponseError) SetLogID(logID string) {
+	t.LogID = logID
+	t.require(tiktokCreatorInfoSocialAccountsResponseErrorFieldLogID)
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseError) UnmarshalJSON(data []byte) error {
+	type unmarshaler TiktokCreatorInfoSocialAccountsResponseError
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TiktokCreatorInfoSocialAccountsResponseError(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseError) MarshalJSON() ([]byte, error) {
+	type embed TiktokCreatorInfoSocialAccountsResponseError
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*t),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (t *TiktokCreatorInfoSocialAccountsResponseError) String() string {
+	if t == nil {
+		return "<nil>"
+	}
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }
 
 type UpdateSocialAccountsRequestStatus string
@@ -889,33 +1417,13 @@ func (u *UpdateTimezoneSocialAccountsResponse) String() string {
 }
 
 var (
-	updateSocialAccountsRequestFieldID                    = big.NewInt(1 << 0)
-	updateSocialAccountsRequestFieldPlatform              = big.NewInt(1 << 1)
-	updateSocialAccountsRequestFieldAccessToken           = big.NewInt(1 << 2)
-	updateSocialAccountsRequestFieldSecretAccessToken     = big.NewInt(1 << 3)
-	updateSocialAccountsRequestFieldRefreshToken          = big.NewInt(1 << 4)
-	updateSocialAccountsRequestFieldRefreshTokenValid     = big.NewInt(1 << 5)
-	updateSocialAccountsRequestFieldTokenExpiresAt        = big.NewInt(1 << 6)
-	updateSocialAccountsRequestFieldImageURL              = big.NewInt(1 << 7)
-	updateSocialAccountsRequestFieldImageProcessingStatus = big.NewInt(1 << 8)
-	updateSocialAccountsRequestFieldPlatformData          = big.NewInt(1 << 9)
-	updateSocialAccountsRequestFieldLastRefreshAt         = big.NewInt(1 << 10)
-	updateSocialAccountsRequestFieldStatus                = big.NewInt(1 << 11)
+	updateSocialAccountsRequestFieldID     = big.NewInt(1 << 0)
+	updateSocialAccountsRequestFieldStatus = big.NewInt(1 << 1)
 )
 
 type UpdateSocialAccountsRequest struct {
-	ID                    string                                            `json:"-" url:"-"`
-	Platform              *UpdateSocialAccountsRequestPlatform              `json:"platform,omitempty" url:"-"`
-	AccessToken           *string                                           `json:"accessToken,omitempty" url:"-"`
-	SecretAccessToken     *string                                           `json:"secretAccessToken,omitempty" url:"-"`
-	RefreshToken          *string                                           `json:"refreshToken,omitempty" url:"-"`
-	RefreshTokenValid     *bool                                             `json:"refreshTokenValid,omitempty" url:"-"`
-	TokenExpiresAt        *time.Time                                        `json:"tokenExpiresAt,omitempty" url:"-"`
-	ImageURL              *string                                           `json:"imageUrl,omitempty" url:"-"`
-	ImageProcessingStatus *UpdateSocialAccountsRequestImageProcessingStatus `json:"imageProcessingStatus,omitempty" url:"-"`
-	PlatformData          map[string]any                                    `json:"platformData,omitempty" url:"-"`
-	LastRefreshAt         *time.Time                                        `json:"lastRefreshAt,omitempty" url:"-"`
-	Status                *UpdateSocialAccountsRequestStatus                `json:"status,omitempty" url:"-"`
+	ID     string                             `json:"-" url:"-"`
+	Status *UpdateSocialAccountsRequestStatus `json:"status,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -933,76 +1441,6 @@ func (u *UpdateSocialAccountsRequest) require(field *big.Int) {
 func (u *UpdateSocialAccountsRequest) SetID(id string) {
 	u.ID = id
 	u.require(updateSocialAccountsRequestFieldID)
-}
-
-// SetPlatform sets the Platform field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSocialAccountsRequest) SetPlatform(platform *UpdateSocialAccountsRequestPlatform) {
-	u.Platform = platform
-	u.require(updateSocialAccountsRequestFieldPlatform)
-}
-
-// SetAccessToken sets the AccessToken field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSocialAccountsRequest) SetAccessToken(accessToken *string) {
-	u.AccessToken = accessToken
-	u.require(updateSocialAccountsRequestFieldAccessToken)
-}
-
-// SetSecretAccessToken sets the SecretAccessToken field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSocialAccountsRequest) SetSecretAccessToken(secretAccessToken *string) {
-	u.SecretAccessToken = secretAccessToken
-	u.require(updateSocialAccountsRequestFieldSecretAccessToken)
-}
-
-// SetRefreshToken sets the RefreshToken field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSocialAccountsRequest) SetRefreshToken(refreshToken *string) {
-	u.RefreshToken = refreshToken
-	u.require(updateSocialAccountsRequestFieldRefreshToken)
-}
-
-// SetRefreshTokenValid sets the RefreshTokenValid field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSocialAccountsRequest) SetRefreshTokenValid(refreshTokenValid *bool) {
-	u.RefreshTokenValid = refreshTokenValid
-	u.require(updateSocialAccountsRequestFieldRefreshTokenValid)
-}
-
-// SetTokenExpiresAt sets the TokenExpiresAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSocialAccountsRequest) SetTokenExpiresAt(tokenExpiresAt *time.Time) {
-	u.TokenExpiresAt = tokenExpiresAt
-	u.require(updateSocialAccountsRequestFieldTokenExpiresAt)
-}
-
-// SetImageURL sets the ImageURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSocialAccountsRequest) SetImageURL(imageURL *string) {
-	u.ImageURL = imageURL
-	u.require(updateSocialAccountsRequestFieldImageURL)
-}
-
-// SetImageProcessingStatus sets the ImageProcessingStatus field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSocialAccountsRequest) SetImageProcessingStatus(imageProcessingStatus *UpdateSocialAccountsRequestImageProcessingStatus) {
-	u.ImageProcessingStatus = imageProcessingStatus
-	u.require(updateSocialAccountsRequestFieldImageProcessingStatus)
-}
-
-// SetPlatformData sets the PlatformData field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSocialAccountsRequest) SetPlatformData(platformData map[string]any) {
-	u.PlatformData = platformData
-	u.require(updateSocialAccountsRequestFieldPlatformData)
-}
-
-// SetLastRefreshAt sets the LastRefreshAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateSocialAccountsRequest) SetLastRefreshAt(lastRefreshAt *time.Time) {
-	u.LastRefreshAt = lastRefreshAt
-	u.require(updateSocialAccountsRequestFieldLastRefreshAt)
 }
 
 // SetStatus sets the Status field and marks it as non-optional;
@@ -1026,12 +1464,8 @@ func (u *UpdateSocialAccountsRequest) MarshalJSON() ([]byte, error) {
 	type embed UpdateSocialAccountsRequest
 	var marshaler = struct {
 		embed
-		TokenExpiresAt *internal.DateTime `json:"tokenExpiresAt,omitempty"`
-		LastRefreshAt  *internal.DateTime `json:"lastRefreshAt,omitempty"`
 	}{
-		embed:          embed(*u),
-		TokenExpiresAt: internal.NewOptionalDateTime(u.TokenExpiresAt),
-		LastRefreshAt:  internal.NewOptionalDateTime(u.LastRefreshAt),
+		embed: embed(*u),
 	}
 	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
 	return json.Marshal(explicitMarshaler)

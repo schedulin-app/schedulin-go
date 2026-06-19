@@ -14,7 +14,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"posts\": [\n    {\n      \"id\": \"id\",\n      \"externalId\": \"externalId\",\n      \"caption\": \"caption\",\n      \"status\": \"SCHEDULED\",\n      \"approvalStatus\": \"DRAFT\",\n      \"approvalRequestedAt\": \"2024-01-15T09:30:00Z\",\n      \"approvalRequestedBy\": \"approvalRequestedBy\",\n      \"approvedAt\": \"2024-01-15T09:30:00Z\",\n      \"approvedBy\": \"approvedBy\",\n      \"rejectionReason\": \"rejectionReason\",\n      \"scheduledAt\": \"2024-01-15T09:30:00Z\",\n      \"platformConfiguration\": {\n        \"key\": \"value\"\n      },\n      \"socialAccountId\": \"socialAccountId\",\n      \"url\": \"url\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\",\n      \"socialAccount\": {\n        \"id\": \"id\",\n        \"platform\": \"bluesky\",\n        \"username\": null,\n        \"imageUrl\": null\n      },\n      \"media\": [\n        {\n          \"url\": \"url\"\n        }\n      ],\n      \"tags\": [\n        {\n          \"id\": \"id\",\n          \"userId\": \"userId\",\n          \"name\": \"name\",\n          \"color\": \"color\",\n          \"createdAt\": \"2024-01-15T09:30:00Z\",\n          \"updatedAt\": \"2024-01-15T09:30:00Z\"\n        }\n      ]\n    }\n  ],\n  \"page\": 1.1,\n  \"totalPages\": 1.1,\n  \"total\": 1.1\n}",
+        "body": "{\n  \"posts\": [\n    {\n      \"id\": \"id\",\n      \"externalId\": \"externalId\",\n      \"caption\": \"caption\",\n      \"status\": \"SCHEDULED\",\n      \"approvalStatus\": \"DRAFT\",\n      \"approvalRequestedAt\": \"2024-01-15T09:30:00Z\",\n      \"approvalRequestedBy\": \"approvalRequestedBy\",\n      \"approvedAt\": \"2024-01-15T09:30:00Z\",\n      \"approvedBy\": \"approvedBy\",\n      \"rejectionReason\": \"rejectionReason\",\n      \"scheduledAt\": \"2024-01-15T09:30:00Z\",\n      \"platformConfiguration\": {\n        \"key\": \"value\"\n      },\n      \"socialAccountId\": \"socialAccountId\",\n      \"url\": \"url\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\",\n      \"socialAccount\": {\n        \"id\": \"id\",\n        \"platform\": \"bluesky\",\n        \"imageUrl\": null,\n        \"imageProcessingStatus\": \"PENDING\",\n        \"username\": null,\n        \"status\": \"connected\",\n        \"disconnectedReason\": null,\n        \"createdAt\": \"2024-01-15T09:30:00Z\",\n        \"updatedAt\": \"2024-01-15T09:30:00Z\",\n        \"refreshTokenValid\": true\n      },\n      \"media\": [\n        {\n          \"url\": \"url\"\n        }\n      ],\n      \"tags\": [\n        {\n          \"id\": \"id\",\n          \"name\": \"name\",\n          \"color\": \"color\",\n          \"createdAt\": \"2024-01-15T09:30:00Z\",\n          \"updatedAt\": \"2024-01-15T09:30:00Z\"\n        }\n      ]\n    }\n  ],\n  \"page\": 1.1,\n  \"totalPages\": 1.1,\n  \"total\": 1.1\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -46,7 +46,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"external_id\": \"external_id\",\n  \"caption\": \"caption\",\n  \"status\": \"SCHEDULED\",\n  \"scheduled_at\": \"2024-01-15T09:30:00Z\",\n  \"platform_configuration\": {\n    \"key\": \"value\"\n  },\n  \"media\": [\n    {\n      \"url\": \"url\",\n      \"thumbnail_url\": \"thumbnail_url\",\n      \"thumbnail_timestamp_ms\": 1.1,\n      \"tags\": [\n        {\n          \"id\": \"id\",\n          \"type\": \"user\",\n          \"platform\": \"bluesky\"\n        }\n      ],\n      \"alt\": \"alt\",\n      \"skip_processing\": true\n    }\n  ],\n  \"social_accounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"username\": \"username\",\n      \"user_id\": \"user_id\",\n      \"profile_photo_url\": \"profile_photo_url\",\n      \"status\": \"connected\",\n      \"external_id\": \"external_id\"\n    }\n  ],\n  \"created_at\": \"2024-01-15T09:30:00Z\",\n  \"updated_at\": \"2024-01-15T09:30:00Z\"\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"caption\": \"caption\",\n  \"status\": \"SCHEDULED\",\n  \"scheduledAt\": \"2024-01-15T09:30:00Z\",\n  \"platformConfiguration\": {\n    \"key\": \"value\"\n  },\n  \"media\": [\n    {\n      \"url\": \"url\",\n      \"thumbnail_url\": \"thumbnail_url\",\n      \"thumbnail_timestamp_ms\": 1.1,\n      \"tags\": [\n        {\n          \"id\": \"id\",\n          \"type\": \"user\",\n          \"platform\": \"bluesky\"\n        }\n      ],\n      \"alt\": \"alt\",\n      \"skip_processing\": true\n    }\n  ],\n  \"socialAccounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"username\": \"username\",\n      \"userId\": \"userId\",\n      \"profilePhotoUrl\": \"profilePhotoUrl\",\n      \"status\": \"connected\",\n      \"externalId\": \"externalId\"\n    }\n  ],\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -62,6 +62,38 @@
           }
         }
       }
+    },
+    {
+      "id": "f520317d-74ba-4e93-8254-816c1644c119",
+      "name": "Get post counts grouped by UI tab - default",
+      "request": {
+        "urlPathTemplate": "/v0/posts/counts/by-tab",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"key\": \"value\"\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "f520317d-74ba-4e93-8254-816c1644c119",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      },
+      "postServeActions": []
     },
     {
       "id": "97c9a57b-af96-401a-8fa9-7ca98439a762",
@@ -82,7 +114,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"caption\": \"caption\",\n  \"status\": \"SCHEDULED\",\n  \"approvalStatus\": \"DRAFT\",\n  \"approvalRequestedAt\": \"2024-01-15T09:30:00Z\",\n  \"approvalRequestedBy\": \"approvalRequestedBy\",\n  \"approvedAt\": \"2024-01-15T09:30:00Z\",\n  \"approvedBy\": \"approvedBy\",\n  \"rejectionReason\": \"rejectionReason\",\n  \"scheduledAt\": \"2024-01-15T09:30:00Z\",\n  \"platformConfiguration\": {\n    \"key\": \"value\"\n  },\n  \"socialAccountId\": \"socialAccountId\",\n  \"url\": \"url\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\",\n  \"socialAccount\": {\n    \"id\": \"id\",\n    \"platform\": \"bluesky\",\n    \"username\": \"username\",\n    \"imageUrl\": \"imageUrl\"\n  },\n  \"media\": [\n    {\n      \"url\": \"url\",\n      \"thumbnail_url\": \"thumbnail_url\",\n      \"thumbnail_timestamp_ms\": 1.1,\n      \"tags\": [\n        {\n          \"id\": \"id\",\n          \"type\": \"user\",\n          \"platform\": \"bluesky\"\n        }\n      ],\n      \"alt\": \"alt\",\n      \"skip_processing\": true\n    }\n  ],\n  \"tags\": [\n    {\n      \"id\": \"id\",\n      \"userId\": \"userId\",\n      \"name\": \"name\",\n      \"color\": \"color\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"caption\": \"caption\",\n  \"status\": \"SCHEDULED\",\n  \"approvalStatus\": \"DRAFT\",\n  \"approvalRequestedAt\": \"2024-01-15T09:30:00Z\",\n  \"approvalRequestedBy\": \"approvalRequestedBy\",\n  \"approvedAt\": \"2024-01-15T09:30:00Z\",\n  \"approvedBy\": \"approvedBy\",\n  \"rejectionReason\": \"rejectionReason\",\n  \"scheduledAt\": \"2024-01-15T09:30:00Z\",\n  \"platformConfiguration\": {\n    \"key\": \"value\"\n  },\n  \"socialAccountId\": \"socialAccountId\",\n  \"url\": \"url\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\",\n  \"socialAccount\": {\n    \"id\": \"id\",\n    \"platform\": \"bluesky\",\n    \"imageUrl\": \"imageUrl\",\n    \"imageProcessingStatus\": \"PENDING\",\n    \"username\": \"username\",\n    \"status\": \"connected\",\n    \"disconnectedReason\": \"TOKEN_EXPIRED\",\n    \"createdAt\": \"2024-01-15T09:30:00Z\",\n    \"updatedAt\": \"2024-01-15T09:30:00Z\",\n    \"refreshTokenValid\": true\n  },\n  \"media\": [\n    {\n      \"url\": \"url\",\n      \"thumbnail_url\": \"thumbnail_url\",\n      \"thumbnail_timestamp_ms\": 1.1,\n      \"tags\": [\n        {\n          \"id\": \"id\",\n          \"type\": \"user\",\n          \"platform\": \"bluesky\"\n        }\n      ],\n      \"alt\": \"alt\",\n      \"skip_processing\": true\n    }\n  ],\n  \"tags\": [\n    {\n      \"id\": \"id\",\n      \"name\": \"name\",\n      \"color\": \"color\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -226,7 +258,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"id\": \"id\",\n    \"collectedAt\": \"2024-01-15T09:30:00Z\",\n    \"platform\": \"bluesky\",\n    \"metrics\": {\n      \"key\": \"value\"\n    }\n  }\n]",
+        "body": "{\n  \"data\": [\n    {\n      \"id\": \"id\",\n      \"collectedAt\": \"2024-01-15T09:30:00Z\",\n      \"platform\": \"bluesky\",\n      \"metrics\": {\n        \"key\": \"value\"\n      }\n    }\n  ]\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -365,7 +397,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"id\": \"id\",\n    \"platform\": \"bluesky\",\n    \"status\": \"connected\",\n    \"username\": \"username\",\n    \"displayName\": \"displayName\",\n    \"profileImageUrl\": \"profileImageUrl\",\n    \"refreshTokenValid\": true,\n    \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n    \"createdAt\": \"2024-01-15T09:30:00Z\",\n    \"updatedAt\": \"2024-01-15T09:30:00Z\"\n  }\n]",
+        "body": "{\n  \"data\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -492,11 +524,11 @@
       }
     },
     {
-      "id": "9f553843-f71a-4aed-8b38-5e2ac07f93ab",
-      "name": "Refresh social account profile - default",
+      "id": "97ec5e07-504b-4859-a62f-f6831cf8ce49",
+      "name": "List Pinterest boards - default",
       "request": {
-        "urlPathTemplate": "/v0/social-accounts/{id}/refresh",
-        "method": "PUT",
+        "urlPathTemplate": "/v0/social-accounts/{id}/pinterest-boards",
+        "method": "GET",
         "headers": {
           "x-api-key": {
             "matches": ".+"
@@ -510,12 +542,48 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"success\": true,\n  \"username\": \"username\",\n  \"imageUrl\": \"imageUrl\",\n  \"name\": \"name\"\n}",
+        "body": "{\n  \"data\": [\n    {\n      \"id\": \"id\",\n      \"name\": \"name\",\n      \"privacy\": \"PUBLIC\"\n    }\n  ]\n}",
         "headers": {
           "Content-Type": "application/json"
         }
       },
-      "uuid": "9f553843-f71a-4aed-8b38-5e2ac07f93ab",
+      "uuid": "97ec5e07-504b-4859-a62f-f6831cf8ce49",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "6b12da39-39d9-4c2a-8f92-c75c04ede692",
+      "name": "Get TikTok creator info - default",
+      "request": {
+        "urlPathTemplate": "/v0/social-accounts/{id}/tiktok-creator-info",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"error\": {\n    \"code\": \"code\",\n    \"message\": \"message\",\n    \"log_id\": \"log_id\"\n  },\n  \"data\": {\n    \"creator_avatar_url\": \"creator_avatar_url\",\n    \"creator_username\": \"creator_username\",\n    \"creator_nickname\": \"creator_nickname\",\n    \"privacy_level_options\": [\n      \"privacy_level_options\"\n    ],\n    \"comment_disabled\": true,\n    \"duet_disabled\": true,\n    \"stitch_disabled\": true,\n    \"max_video_post_duration_sec\": 1.1\n  }\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "6b12da39-39d9-4c2a-8f92-c75c04ede692",
       "persistent": true,
       "priority": 3,
       "metadata": {
@@ -541,7 +609,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"id\": \"id\",\n    \"userId\": \"userId\",\n    \"name\": \"name\",\n    \"color\": \"color\",\n    \"createdAt\": \"2024-01-15T09:30:00Z\",\n    \"updatedAt\": \"2024-01-15T09:30:00Z\"\n  }\n]",
+        "body": "{\n  \"data\": [\n    {\n      \"id\": \"id\",\n      \"name\": \"name\",\n      \"color\": \"color\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -573,7 +641,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"userId\": \"userId\",\n  \"name\": \"name\",\n  \"color\": \"color\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"name\": \"name\",\n  \"color\": \"color\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -609,7 +677,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"userId\": \"userId\",\n  \"name\": \"name\",\n  \"color\": \"color\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"name\": \"name\",\n  \"color\": \"color\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -645,7 +713,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"userId\": \"userId\",\n  \"name\": \"name\",\n  \"color\": \"color\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"name\": \"name\",\n  \"color\": \"color\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -681,7 +749,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"url\": \"url\",\n  \"name\": \"name\",\n  \"mimeType\": \"mimeType\",\n  \"width\": 1.1,\n  \"height\": 1.1,\n  \"duration\": 1.1,\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\",\n  \"userId\": \"userId\",\n  \"bucket\": \"bucket\",\n  \"key\": \"key\",\n  \"size\": 1.1\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"url\": \"url\",\n  \"name\": \"name\",\n  \"mimeType\": \"mimeType\",\n  \"width\": 1.1,\n  \"height\": 1.1,\n  \"duration\": 1.1,\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\",\n  \"bucket\": \"bucket\",\n  \"key\": \"key\",\n  \"size\": 1.1\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -717,7 +785,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"url\": \"url\",\n  \"name\": \"name\",\n  \"mimeType\": \"mimeType\",\n  \"width\": 1.1,\n  \"height\": 1.1,\n  \"duration\": 1.1,\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\",\n  \"userId\": \"userId\",\n  \"bucket\": \"bucket\",\n  \"key\": \"key\",\n  \"size\": 1.1\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"url\": \"url\",\n  \"name\": \"name\",\n  \"mimeType\": \"mimeType\",\n  \"width\": 1.1,\n  \"height\": 1.1,\n  \"duration\": 1.1,\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\",\n  \"bucket\": \"bucket\",\n  \"key\": \"key\",\n  \"size\": 1.1\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -816,7 +884,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"key\": \"value\"\n}",
+        "body": "{\n  \"data\": [\n    {\n      \"tagId\": \"tagId\",\n      \"count\": 1.1\n    }\n  ]\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -835,8 +903,8 @@
       "postServeActions": []
     },
     {
-      "id": "bb5988b5-738e-4272-a637-993938e80f05",
-      "name": "Create presigned post for file upload - default",
+      "id": "43c99528-22c0-4607-810d-8c0218fb9533",
+      "name": "Create a presigned upload URL - default",
       "request": {
         "urlPathTemplate": "/v0/media/presign",
         "method": "POST",
@@ -848,12 +916,12 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"url\": \"url\",\n  \"fields\": {\n    \"key\": \"value\"\n  }\n}",
+        "body": "{\n  \"url\": \"url\",\n  \"key\": \"key\",\n  \"method\": \"PUT\"\n}",
         "headers": {
           "Content-Type": "application/json"
         }
       },
-      "uuid": "bb5988b5-738e-4272-a637-993938e80f05",
+      "uuid": "43c99528-22c0-4607-810d-8c0218fb9533",
       "persistent": true,
       "priority": 3,
       "metadata": {
@@ -867,6 +935,6 @@
     }
   ],
   "meta": {
-    "total": 25
+    "total": 27
   }
 }

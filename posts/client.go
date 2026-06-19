@@ -5,10 +5,10 @@ package posts
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	core "github.com/schedulin/schedulin-go/core"
-	internal "github.com/schedulin/schedulin-go/internal"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	core "github.com/schedulin-app/schedulin-go/core"
+	internal "github.com/schedulin-app/schedulin-go/internal"
+	option "github.com/schedulin-app/schedulin-go/option"
 )
 
 type Client struct {
@@ -58,6 +58,23 @@ func (c *Client) Create(
 	opts ...option.RequestOption,
 ) (*schedulingo.CreatePostsResponse, error) {
 	response, err := c.WithRawResponse.Create(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+// Returns counts of posts for the Queue, Drafts, Approvals, and Sent tabs
+func (c *Client) V0PostCountByTab(
+	ctx context.Context,
+	request *schedulingo.V0PostCountByTabRequest,
+	opts ...option.RequestOption,
+) (any, error) {
+	response, err := c.WithRawResponse.V0PostCountByTab(
 		ctx,
 		request,
 		opts...,
@@ -141,7 +158,7 @@ func (c *Client) AnalyticsSeries(
 	ctx context.Context,
 	request *schedulingo.AnalyticsSeriesPostsRequest,
 	opts ...option.RequestOption,
-) ([]*schedulingo.AnalyticsSeriesPostsResponseItem, error) {
+) (*schedulingo.AnalyticsSeriesPostsResponse, error) {
 	response, err := c.WithRawResponse.AnalyticsSeries(
 		ctx,
 		request,

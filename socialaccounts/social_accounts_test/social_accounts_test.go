@@ -10,9 +10,9 @@ import (
 	os "os"
 	testing "testing"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	client "github.com/schedulin/schedulin-go/client"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	client "github.com/schedulin-app/schedulin-go/client"
+	option "github.com/schedulin-app/schedulin-go/option"
 	require "github.com/stretchr/testify/require"
 )
 
@@ -178,7 +178,7 @@ func TestSocialAccountsUpdateTimezoneWithWireMock(
 	VerifyRequestCount(t, "TestSocialAccountsUpdateTimezoneWithWireMock", "PUT", "/v0/social-accounts/id/timezone", nil, 1)
 }
 
-func TestSocialAccountsRefreshProfileWithWireMock(
+func TestSocialAccountsPinterestBoardsWithWireMock(
 	t *testing.T,
 ) {
 	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
@@ -189,17 +189,43 @@ func TestSocialAccountsRefreshProfileWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.RefreshProfileSocialAccountsRequest{
+	request := &schedulingo.PinterestBoardsSocialAccountsRequest{
 		ID: "id",
 	}
-	_, invocationErr := client.SocialAccounts.RefreshProfile(
+	_, invocationErr := client.SocialAccounts.PinterestBoards(
 		context.TODO(),
 		request,
 		option.WithHTTPHeader(
-			http.Header{"X-Test-Id": []string{"TestSocialAccountsRefreshProfileWithWireMock"}},
+			http.Header{"X-Test-Id": []string{"TestSocialAccountsPinterestBoardsWithWireMock"}},
 		),
 	)
 
 	require.NoError(t, invocationErr, "Client method call should succeed")
-	VerifyRequestCount(t, "TestSocialAccountsRefreshProfileWithWireMock", "PUT", "/v0/social-accounts/id/refresh", nil, 1)
+	VerifyRequestCount(t, "TestSocialAccountsPinterestBoardsWithWireMock", "GET", "/v0/social-accounts/id/pinterest-boards", nil, 1)
+}
+
+func TestSocialAccountsTiktokCreatorInfoWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulingo.TiktokCreatorInfoSocialAccountsRequest{
+		ID: "id",
+	}
+	_, invocationErr := client.SocialAccounts.TiktokCreatorInfo(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestSocialAccountsTiktokCreatorInfoWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestSocialAccountsTiktokCreatorInfoWithWireMock", "GET", "/v0/social-accounts/id/tiktok-creator-info", nil, 1)
 }

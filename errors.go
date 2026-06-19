@@ -4,7 +4,7 @@ package api
 
 import (
 	json "encoding/json"
-	core "github.com/schedulin/schedulin-go/core"
+	core "github.com/schedulin-app/schedulin-go/core"
 )
 
 // Internal Server Error

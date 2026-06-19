@@ -12,7 +12,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/schedulin/schedulin-go/core"
+	"github.com/schedulin-app/schedulin-go/core"
 )
 
 const (

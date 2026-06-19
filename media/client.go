@@ -5,10 +5,10 @@ package media
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	core "github.com/schedulin/schedulin-go/core"
-	internal "github.com/schedulin/schedulin-go/internal"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	core "github.com/schedulin-app/schedulin-go/core"
+	internal "github.com/schedulin-app/schedulin-go/internal"
+	option "github.com/schedulin-app/schedulin-go/option"
 )
 
 type Client struct {
@@ -106,7 +106,7 @@ func (c *Client) SetTags(
 func (c *Client) CountByTag(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.CountByTagMediaResponse, error) {
 	response, err := c.WithRawResponse.CountByTag(
 		ctx,
 		opts...,
@@ -117,7 +117,7 @@ func (c *Client) CountByTag(
 	return response.Body, nil
 }
 
-// Generate AWS S3 presigned post for secure file uploads
+// Returns a presigned PUT URL. Upload by issuing an HTTP PUT of the raw file bytes to `url` with a `Content-Type` header matching `contentType`, then reference the returned `key` when creating a post.
 func (c *Client) CreatePresignedPost(
 	ctx context.Context,
 	request *schedulingo.CreatePresignedPost,

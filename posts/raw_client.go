@@ -6,10 +6,10 @@ import (
 	context "context"
 	http "net/http"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	core "github.com/schedulin/schedulin-go/core"
-	internal "github.com/schedulin/schedulin-go/internal"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	core "github.com/schedulin-app/schedulin-go/core"
+	internal "github.com/schedulin-app/schedulin-go/internal"
+	option "github.com/schedulin-app/schedulin-go/option"
 )
 
 type RawClient struct {
@@ -41,7 +41,7 @@ func (r *RawClient) List(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := baseURL + "/v0/posts"
 	queryParams, err := internal.QueryValues(request)
@@ -90,7 +90,7 @@ func (r *RawClient) Create(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := baseURL + "/v0/posts"
 	headers := internal.MergeHeaders(
@@ -125,6 +125,55 @@ func (r *RawClient) Create(
 	}, nil
 }
 
+func (r *RawClient) V0PostCountByTab(
+	ctx context.Context,
+	request *schedulingo.V0PostCountByTabRequest,
+	opts ...option.RequestOption,
+) (*core.Response[any], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.schedulin.app",
+	)
+	endpointURL := baseURL + "/v0/posts/counts/by-tab"
+	queryParams, err := internal.QueryValues(request)
+	if err != nil {
+		return nil, err
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response any
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[any]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
 func (r *RawClient) Retrieve(
 	ctx context.Context,
 	request *schedulingo.RetrievePostsRequest,
@@ -134,7 +183,7 @@ func (r *RawClient) Retrieve(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/posts/%v",
@@ -179,7 +228,7 @@ func (r *RawClient) Update(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/posts/%v",
@@ -226,7 +275,7 @@ func (r *RawClient) Delete(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/posts/%v",
@@ -273,7 +322,7 @@ func (r *RawClient) AnalyticsSummary(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/posts/%v/analytics/summary",
@@ -313,12 +362,12 @@ func (r *RawClient) AnalyticsSeries(
 	ctx context.Context,
 	request *schedulingo.AnalyticsSeriesPostsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[[]*schedulingo.AnalyticsSeriesPostsResponseItem], error) {
+) (*core.Response[*schedulingo.AnalyticsSeriesPostsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/posts/%v/analytics/series",
@@ -335,7 +384,7 @@ func (r *RawClient) AnalyticsSeries(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response []*schedulingo.AnalyticsSeriesPostsResponseItem
+	var response *schedulingo.AnalyticsSeriesPostsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -354,7 +403,7 @@ func (r *RawClient) AnalyticsSeries(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[[]*schedulingo.AnalyticsSeriesPostsResponseItem]{
+	return &core.Response[*schedulingo.AnalyticsSeriesPostsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -370,7 +419,7 @@ func (r *RawClient) PublishDraft(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/posts/%v/publish",
@@ -417,7 +466,7 @@ func (r *RawClient) UpdateTags(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/posts/%v/tags",
@@ -464,7 +513,7 @@ func (r *RawClient) GetJobStatus(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/posts/%v/jobs",

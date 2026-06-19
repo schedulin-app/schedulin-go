@@ -10,9 +10,9 @@ import (
 	os "os"
 	testing "testing"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	client "github.com/schedulin/schedulin-go/client"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	client "github.com/schedulin-app/schedulin-go/client"
+	option "github.com/schedulin-app/schedulin-go/option"
 	require "github.com/stretchr/testify/require"
 )
 
@@ -115,11 +115,6 @@ func TestPostsCreateWithWireMock(
 	request := &schedulingo.PostCreate{
 		Caption:         "caption",
 		SocialAccountID: "socialAccountId",
-		Media: []*schedulingo.PostCreateMediaItem{
-			&schedulingo.PostCreateMediaItem{
-				URL: "url",
-			},
-		},
 	}
 	_, invocationErr := client.Posts.Create(
 		context.TODO(),
@@ -131,6 +126,30 @@ func TestPostsCreateWithWireMock(
 
 	require.NoError(t, invocationErr, "Client method call should succeed")
 	VerifyRequestCount(t, "TestPostsCreateWithWireMock", "POST", "/v0/posts", nil, 1)
+}
+
+func TestPostsV0PostCountByTabWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulingo.V0PostCountByTabRequest{}
+	_, invocationErr := client.Posts.V0PostCountByTab(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestPostsV0PostCountByTabWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestPostsV0PostCountByTabWithWireMock", "GET", "/v0/posts/counts/by-tab", nil, 1)
 }
 
 func TestPostsRetrieveWithWireMock(

@@ -3,7 +3,7 @@
 package option
 
 import (
-	core "github.com/schedulin/schedulin-go/core"
+	core "github.com/schedulin-app/schedulin-go/core"
 	http "net/http"
 	url "net/url"
 )

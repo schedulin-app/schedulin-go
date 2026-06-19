@@ -1,4 +1,4 @@
-module github.com/schedulin/schedulin-go
+module github.com/schedulin-app/schedulin-go
 
 go 1.21
 

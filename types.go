@@ -5,7 +5,7 @@ package api
 import (
 	json "encoding/json"
 	fmt "fmt"
-	internal "github.com/schedulin/schedulin-go/internal"
+	internal "github.com/schedulin-app/schedulin-go/internal"
 	big "math/big"
 	time "time"
 )
@@ -35,14 +35,20 @@ func (a AnalyticsStatus) Ptr() *AnalyticsStatus {
 	return &a
 }
 
+// Error envelope. The machine-readable `code` and HTTP `status` are always present; the human-readable reason is in `data.message` (or `data.fieldErrors` for 422 validation errors).
 var (
-	errorResponseFieldError = big.NewInt(1 << 0)
-	errorResponseFieldCode  = big.NewInt(1 << 1)
+	errorResponseFieldCode    = big.NewInt(1 << 0)
+	errorResponseFieldStatus  = big.NewInt(1 << 1)
+	errorResponseFieldMessage = big.NewInt(1 << 2)
+	errorResponseFieldData    = big.NewInt(1 << 3)
 )
 
 type ErrorResponse struct {
-	Error string `json:"error" url:"error"`
-	Code  int    `json:"code" url:"code"`
+	// e.g. "BAD_REQUEST", "UNAUTHORIZED", "NOT_FOUND".
+	Code    string         `json:"code" url:"code"`
+	Status  int            `json:"status" url:"status"`
+	Message *string        `json:"message,omitempty" url:"message,omitempty"`
+	Data    map[string]any `json:"data,omitempty" url:"data,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -51,18 +57,32 @@ type ErrorResponse struct {
 	rawJSON         json.RawMessage
 }
 
-func (e *ErrorResponse) GetError() string {
+func (e *ErrorResponse) GetCode() string {
 	if e == nil {
 		return ""
 	}
-	return e.Error
+	return e.Code
 }
 
-func (e *ErrorResponse) GetCode() int {
+func (e *ErrorResponse) GetStatus() int {
 	if e == nil {
 		return 0
 	}
-	return e.Code
+	return e.Status
+}
+
+func (e *ErrorResponse) GetMessage() *string {
+	if e == nil {
+		return nil
+	}
+	return e.Message
+}
+
+func (e *ErrorResponse) GetData() map[string]any {
+	if e == nil {
+		return nil
+	}
+	return e.Data
 }
 
 func (e *ErrorResponse) GetExtraProperties() map[string]interface{} {
@@ -79,18 +99,32 @@ func (e *ErrorResponse) require(field *big.Int) {
 	e.explicitFields.Or(e.explicitFields, field)
 }
 
-// SetError sets the Error field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (e *ErrorResponse) SetError(error_ string) {
-	e.Error = error_
-	e.require(errorResponseFieldError)
-}
-
 // SetCode sets the Code field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (e *ErrorResponse) SetCode(code int) {
+func (e *ErrorResponse) SetCode(code string) {
 	e.Code = code
 	e.require(errorResponseFieldCode)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *ErrorResponse) SetStatus(status int) {
+	e.Status = status
+	e.require(errorResponseFieldStatus)
+}
+
+// SetMessage sets the Message field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *ErrorResponse) SetMessage(message *string) {
+	e.Message = message
+	e.require(errorResponseFieldMessage)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *ErrorResponse) SetData(data map[string]any) {
+	e.Data = data
+	e.require(errorResponseFieldData)
 }
 
 func (e *ErrorResponse) UnmarshalJSON(data []byte) error {
@@ -133,34 +167,6 @@ func (e *ErrorResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", e)
-}
-
-type ImageProcessingStatus string
-
-const (
-	ImageProcessingStatusPending    ImageProcessingStatus = "PENDING"
-	ImageProcessingStatusProcessing ImageProcessingStatus = "PROCESSING"
-	ImageProcessingStatusProcessed  ImageProcessingStatus = "PROCESSED"
-	ImageProcessingStatusFailed     ImageProcessingStatus = "FAILED"
-)
-
-func NewImageProcessingStatusFromString(s string) (ImageProcessingStatus, error) {
-	switch s {
-	case "PENDING":
-		return ImageProcessingStatusPending, nil
-	case "PROCESSING":
-		return ImageProcessingStatusProcessing, nil
-	case "PROCESSED":
-		return ImageProcessingStatusProcessed, nil
-	case "FAILED":
-		return ImageProcessingStatusFailed, nil
-	}
-	var t ImageProcessingStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (i ImageProcessingStatus) Ptr() *ImageProcessingStatus {
-	return &i
 }
 
 var (
@@ -333,8 +339,8 @@ var (
 )
 
 type MediaSearchCursor struct {
-	ID        string                      `json:"id" url:"id"`
-	UpdatedAt *MediaSearchCursorUpdatedAt `json:"updatedAt" url:"updatedAt"`
+	ID        string    `json:"id" url:"id"`
+	UpdatedAt time.Time `json:"updatedAt" url:"updatedAt"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -350,9 +356,9 @@ func (m *MediaSearchCursor) GetID() string {
 	return m.ID
 }
 
-func (m *MediaSearchCursor) GetUpdatedAt() *MediaSearchCursorUpdatedAt {
+func (m *MediaSearchCursor) GetUpdatedAt() time.Time {
 	if m == nil {
-		return nil
+		return time.Time{}
 	}
 	return m.UpdatedAt
 }
@@ -380,18 +386,24 @@ func (m *MediaSearchCursor) SetID(id string) {
 
 // SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *MediaSearchCursor) SetUpdatedAt(updatedAt *MediaSearchCursorUpdatedAt) {
+func (m *MediaSearchCursor) SetUpdatedAt(updatedAt time.Time) {
 	m.UpdatedAt = updatedAt
 	m.require(mediaSearchCursorFieldUpdatedAt)
 }
 
 func (m *MediaSearchCursor) UnmarshalJSON(data []byte) error {
-	type unmarshaler MediaSearchCursor
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
+	type embed MediaSearchCursor
+	var unmarshaler = struct {
+		embed
+		UpdatedAt *internal.DateTime `json:"updatedAt"`
+	}{
+		embed: embed(*m),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
 		return err
 	}
-	*m = MediaSearchCursor(value)
+	*m = MediaSearchCursor(unmarshaler.embed)
+	m.UpdatedAt = unmarshaler.UpdatedAt.Time()
 	extraProperties, err := internal.ExtractExtraProperties(data, *m)
 	if err != nil {
 		return err
@@ -405,8 +417,10 @@ func (m *MediaSearchCursor) MarshalJSON() ([]byte, error) {
 	type embed MediaSearchCursor
 	var marshaler = struct {
 		embed
+		UpdatedAt *internal.DateTime `json:"updatedAt"`
 	}{
-		embed: embed(*m),
+		embed:     embed(*m),
+		UpdatedAt: internal.NewDateTime(m.UpdatedAt),
 	}
 	explicitMarshaler := internal.HandleExplicitFields(marshaler, m.explicitFields)
 	return json.Marshal(explicitMarshaler)
@@ -425,68 +439,6 @@ func (m *MediaSearchCursor) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", m)
-}
-
-type MediaSearchCursorUpdatedAt struct {
-	DateTime time.Time
-	String   string
-
-	typ string
-}
-
-func (m *MediaSearchCursorUpdatedAt) GetDateTime() time.Time {
-	if m == nil {
-		return time.Time{}
-	}
-	return m.DateTime
-}
-
-func (m *MediaSearchCursorUpdatedAt) GetString() string {
-	if m == nil {
-		return ""
-	}
-	return m.String
-}
-
-func (m *MediaSearchCursorUpdatedAt) UnmarshalJSON(data []byte) error {
-	var valueDateTime *internal.DateTime
-	if err := json.Unmarshal(data, &valueDateTime); err == nil {
-		m.typ = "DateTime"
-		m.DateTime = valueDateTime.Time()
-		return nil
-	}
-	var valueString string
-	if err := json.Unmarshal(data, &valueString); err == nil {
-		m.typ = "String"
-		m.String = valueString
-		return nil
-	}
-	return fmt.Errorf("%s cannot be deserialized as a %T", data, m)
-}
-
-func (m MediaSearchCursorUpdatedAt) MarshalJSON() ([]byte, error) {
-	if m.typ == "DateTime" || !m.DateTime.IsZero() {
-		return json.Marshal(internal.NewDateTime(m.DateTime))
-	}
-	if m.typ == "String" || m.String != "" {
-		return json.Marshal(m.String)
-	}
-	return nil, fmt.Errorf("type %T does not include a non-empty union type", m)
-}
-
-type MediaSearchCursorUpdatedAtVisitor interface {
-	VisitDateTime(time.Time) error
-	VisitString(string) error
-}
-
-func (m *MediaSearchCursorUpdatedAt) Accept(visitor MediaSearchCursorUpdatedAtVisitor) error {
-	if m.typ == "DateTime" || !m.DateTime.IsZero() {
-		return visitor.VisitDateTime(m.DateTime)
-	}
-	if m.typ == "String" || m.String != "" {
-		return visitor.VisitString(m.String)
-	}
-	return fmt.Errorf("type %T does not include a non-empty union type", m)
 }
 
 type MediaSearchTagMode string
@@ -816,6 +768,66 @@ func (m *MediaUpdate) String() string {
 	return fmt.Sprintf("%#v", m)
 }
 
+type OauthScope string
+
+const (
+	// View posts and drafts
+	OauthScopePostsRead OauthScope = "posts:read"
+	// Create, edit, and delete posts
+	OauthScopePostsWrite OauthScope = "posts:write"
+	// View tags
+	OauthScopeTagsRead OauthScope = "tags:read"
+	// Create, edit, and delete tags
+	OauthScopeTagsWrite OauthScope = "tags:write"
+	// View connected social accounts
+	OauthScopeSocialAccountsRead OauthScope = "social-accounts:read"
+	// Update and disconnect social accounts
+	OauthScopeSocialAccountsWrite OauthScope = "social-accounts:write"
+	// View channels
+	OauthScopeChannelsRead OauthScope = "channels:read"
+	// View media files
+	OauthScopeMediaRead OauthScope = "media:read"
+	// Upload and delete media files
+	OauthScopeMediaWrite OauthScope = "media:write"
+	// View analytics data
+	OauthScopeAnalyticsRead OauthScope = "analytics:read"
+	// View organization details
+	OauthScopeOrgRead OauthScope = "org:read"
+)
+
+func NewOauthScopeFromString(s string) (OauthScope, error) {
+	switch s {
+	case "posts:read":
+		return OauthScopePostsRead, nil
+	case "posts:write":
+		return OauthScopePostsWrite, nil
+	case "tags:read":
+		return OauthScopeTagsRead, nil
+	case "tags:write":
+		return OauthScopeTagsWrite, nil
+	case "social-accounts:read":
+		return OauthScopeSocialAccountsRead, nil
+	case "social-accounts:write":
+		return OauthScopeSocialAccountsWrite, nil
+	case "channels:read":
+		return OauthScopeChannelsRead, nil
+	case "media:read":
+		return OauthScopeMediaRead, nil
+	case "media:write":
+		return OauthScopeMediaWrite, nil
+	case "analytics:read":
+		return OauthScopeAnalyticsRead, nil
+	case "org:read":
+		return OauthScopeOrgRead, nil
+	}
+	var t OauthScope
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (o OauthScope) Ptr() *OauthScope {
+	return &o
+}
+
 var (
 	postPublishDraftFieldID          = big.NewInt(1 << 0)
 	postPublishDraftFieldScheduledAt = big.NewInt(1 << 1)
@@ -925,9 +937,9 @@ func (p *PostPublishDraft) String() string {
 }
 
 var (
-	postSearchFieldCursor           = big.NewInt(1 << 0)
-	postSearchFieldPage             = big.NewInt(1 << 1)
-	postSearchFieldStatus           = big.NewInt(1 << 2)
+	postSearchFieldPage             = big.NewInt(1 << 0)
+	postSearchFieldStatus           = big.NewInt(1 << 1)
+	postSearchFieldApprovalStatus   = big.NewInt(1 << 2)
 	postSearchFieldScheduledAt      = big.NewInt(1 << 3)
 	postSearchFieldTagIDs           = big.NewInt(1 << 4)
 	postSearchFieldTagMode          = big.NewInt(1 << 5)
@@ -936,27 +948,20 @@ var (
 )
 
 type PostSearch struct {
-	Cursor           *PostSearchCursor      `json:"cursor,omitempty" url:"cursor,omitempty"`
-	Page             *int                   `json:"page,omitempty" url:"page,omitempty"`
-	Status           *PostSearchStatus      `json:"status,omitempty" url:"status,omitempty"`
-	ScheduledAt      *PostSearchScheduledAt `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
-	TagIDs           []string               `json:"tagIds,omitempty" url:"tagIds,omitempty"`
-	TagMode          *PostSearchTagMode     `json:"tagMode,omitempty" url:"tagMode,omitempty"`
-	SocialAccountIDs []string               `json:"socialAccountIds,omitempty" url:"socialAccountIds,omitempty"`
-	Limit            *float64               `json:"limit,omitempty" url:"limit,omitempty"`
+	Page             *int                      `json:"page,omitempty" url:"page,omitempty"`
+	Status           *PostSearchStatus         `json:"status,omitempty" url:"status,omitempty"`
+	ApprovalStatus   *PostSearchApprovalStatus `json:"approvalStatus,omitempty" url:"approvalStatus,omitempty"`
+	ScheduledAt      *PostSearchScheduledAt    `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
+	TagIDs           []string                  `json:"tagIds,omitempty" url:"tagIds,omitempty"`
+	TagMode          *PostSearchTagMode        `json:"tagMode,omitempty" url:"tagMode,omitempty"`
+	SocialAccountIDs []string                  `json:"socialAccountIds,omitempty" url:"socialAccountIds,omitempty"`
+	Limit            *float64                  `json:"limit,omitempty" url:"limit,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
-}
-
-func (p *PostSearch) GetCursor() *PostSearchCursor {
-	if p == nil {
-		return nil
-	}
-	return p.Cursor
 }
 
 func (p *PostSearch) GetPage() *int {
@@ -971,6 +976,13 @@ func (p *PostSearch) GetStatus() *PostSearchStatus {
 		return nil
 	}
 	return p.Status
+}
+
+func (p *PostSearch) GetApprovalStatus() *PostSearchApprovalStatus {
+	if p == nil {
+		return nil
+	}
+	return p.ApprovalStatus
 }
 
 func (p *PostSearch) GetScheduledAt() *PostSearchScheduledAt {
@@ -1022,13 +1034,6 @@ func (p *PostSearch) require(field *big.Int) {
 	p.explicitFields.Or(p.explicitFields, field)
 }
 
-// SetCursor sets the Cursor field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostSearch) SetCursor(cursor *PostSearchCursor) {
-	p.Cursor = cursor
-	p.require(postSearchFieldCursor)
-}
-
 // SetPage sets the Page field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (p *PostSearch) SetPage(page *int) {
@@ -1041,6 +1046,13 @@ func (p *PostSearch) SetPage(page *int) {
 func (p *PostSearch) SetStatus(status *PostSearchStatus) {
 	p.Status = status
 	p.require(postSearchFieldStatus)
+}
+
+// SetApprovalStatus sets the ApprovalStatus field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostSearch) SetApprovalStatus(approvalStatus *PostSearchApprovalStatus) {
+	p.ApprovalStatus = approvalStatus
+	p.require(postSearchFieldApprovalStatus)
 }
 
 // SetScheduledAt sets the ScheduledAt field and marks it as non-optional;
@@ -1120,112 +1132,32 @@ func (p *PostSearch) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
-var (
-	postSearchCursorFieldID        = big.NewInt(1 << 0)
-	postSearchCursorFieldUpdatedAt = big.NewInt(1 << 1)
+type PostSearchApprovalStatus string
+
+const (
+	PostSearchApprovalStatusDraft           PostSearchApprovalStatus = "DRAFT"
+	PostSearchApprovalStatusPendingApproval PostSearchApprovalStatus = "PENDING_APPROVAL"
+	PostSearchApprovalStatusApproved        PostSearchApprovalStatus = "APPROVED"
+	PostSearchApprovalStatusRejected        PostSearchApprovalStatus = "REJECTED"
 )
 
-type PostSearchCursor struct {
-	ID        string    `json:"id" url:"id"`
-	UpdatedAt time.Time `json:"updatedAt" url:"updatedAt"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
+func NewPostSearchApprovalStatusFromString(s string) (PostSearchApprovalStatus, error) {
+	switch s {
+	case "DRAFT":
+		return PostSearchApprovalStatusDraft, nil
+	case "PENDING_APPROVAL":
+		return PostSearchApprovalStatusPendingApproval, nil
+	case "APPROVED":
+		return PostSearchApprovalStatusApproved, nil
+	case "REJECTED":
+		return PostSearchApprovalStatusRejected, nil
+	}
+	var t PostSearchApprovalStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
 }
 
-func (p *PostSearchCursor) GetID() string {
-	if p == nil {
-		return ""
-	}
-	return p.ID
-}
-
-func (p *PostSearchCursor) GetUpdatedAt() time.Time {
-	if p == nil {
-		return time.Time{}
-	}
-	return p.UpdatedAt
-}
-
-func (p *PostSearchCursor) GetExtraProperties() map[string]interface{} {
-	if p == nil {
-		return nil
-	}
-	return p.extraProperties
-}
-
-func (p *PostSearchCursor) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
-	}
-	p.explicitFields.Or(p.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostSearchCursor) SetID(id string) {
-	p.ID = id
-	p.require(postSearchCursorFieldID)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostSearchCursor) SetUpdatedAt(updatedAt time.Time) {
-	p.UpdatedAt = updatedAt
-	p.require(postSearchCursorFieldUpdatedAt)
-}
-
-func (p *PostSearchCursor) UnmarshalJSON(data []byte) error {
-	type embed PostSearchCursor
-	var unmarshaler = struct {
-		embed
-		UpdatedAt *internal.DateTime `json:"updatedAt"`
-	}{
-		embed: embed(*p),
-	}
-	if err := json.Unmarshal(data, &unmarshaler); err != nil {
-		return err
-	}
-	*p = PostSearchCursor(unmarshaler.embed)
-	p.UpdatedAt = unmarshaler.UpdatedAt.Time()
-	extraProperties, err := internal.ExtractExtraProperties(data, *p)
-	if err != nil {
-		return err
-	}
-	p.extraProperties = extraProperties
-	p.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (p *PostSearchCursor) MarshalJSON() ([]byte, error) {
-	type embed PostSearchCursor
-	var marshaler = struct {
-		embed
-		UpdatedAt *internal.DateTime `json:"updatedAt"`
-	}{
-		embed:     embed(*p),
-		UpdatedAt: internal.NewDateTime(p.UpdatedAt),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (p *PostSearchCursor) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	if len(p.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(p); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", p)
+func (p PostSearchApprovalStatus) Ptr() *PostSearchApprovalStatus {
+	return &p
 }
 
 var (
@@ -1382,516 +1314,19 @@ func (p PostSearchTagMode) Ptr() *PostSearchTagMode {
 }
 
 var (
-	socialAccountFieldID                    = big.NewInt(1 << 0)
-	socialAccountFieldPlatform              = big.NewInt(1 << 1)
-	socialAccountFieldAccountID             = big.NewInt(1 << 2)
-	socialAccountFieldScope                 = big.NewInt(1 << 3)
-	socialAccountFieldImageURL              = big.NewInt(1 << 4)
-	socialAccountFieldImageProcessingStatus = big.NewInt(1 << 5)
-	socialAccountFieldUsername              = big.NewInt(1 << 6)
-	socialAccountFieldPlatformData          = big.NewInt(1 << 7)
-	socialAccountFieldTokenExpiresAt        = big.NewInt(1 << 8)
-	socialAccountFieldUserID                = big.NewInt(1 << 9)
-	socialAccountFieldLastRefreshAt         = big.NewInt(1 << 10)
-	socialAccountFieldStatus                = big.NewInt(1 << 11)
-	socialAccountFieldDisconnectedReason    = big.NewInt(1 << 12)
-	socialAccountFieldCreatedAt             = big.NewInt(1 << 13)
-	socialAccountFieldUpdatedAt             = big.NewInt(1 << 14)
-	socialAccountFieldRefreshTokenValid     = big.NewInt(1 << 15)
-)
-
-type SocialAccount struct {
-	ID                    string                           `json:"id" url:"id"`
-	Platform              SocialPlatform                   `json:"platform" url:"platform"`
-	AccountID             string                           `json:"accountId" url:"accountId"`
-	Scope                 string                           `json:"scope" url:"scope"`
-	ImageURL              *string                          `json:"imageUrl,omitempty" url:"imageUrl,omitempty"`
-	ImageProcessingStatus ImageProcessingStatus            `json:"imageProcessingStatus" url:"imageProcessingStatus"`
-	Username              *string                          `json:"username,omitempty" url:"username,omitempty"`
-	PlatformData          any                              `json:"platformData,omitempty" url:"platformData,omitempty"`
-	TokenExpiresAt        *time.Time                       `json:"tokenExpiresAt,omitempty" url:"tokenExpiresAt,omitempty"`
-	UserID                string                           `json:"userId" url:"userId"`
-	LastRefreshAt         *time.Time                       `json:"lastRefreshAt,omitempty" url:"lastRefreshAt,omitempty"`
-	Status                SocialAccountStatus              `json:"status" url:"status"`
-	DisconnectedReason    *SocialAccountDisconnectedReason `json:"disconnectedReason,omitempty" url:"disconnectedReason,omitempty"`
-	CreatedAt             time.Time                        `json:"createdAt" url:"createdAt"`
-	UpdatedAt             time.Time                        `json:"updatedAt" url:"updatedAt"`
-	RefreshTokenValid     bool                             `json:"refreshTokenValid" url:"refreshTokenValid"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (s *SocialAccount) GetID() string {
-	if s == nil {
-		return ""
-	}
-	return s.ID
-}
-
-func (s *SocialAccount) GetPlatform() SocialPlatform {
-	if s == nil {
-		return ""
-	}
-	return s.Platform
-}
-
-func (s *SocialAccount) GetAccountID() string {
-	if s == nil {
-		return ""
-	}
-	return s.AccountID
-}
-
-func (s *SocialAccount) GetScope() string {
-	if s == nil {
-		return ""
-	}
-	return s.Scope
-}
-
-func (s *SocialAccount) GetImageURL() *string {
-	if s == nil {
-		return nil
-	}
-	return s.ImageURL
-}
-
-func (s *SocialAccount) GetImageProcessingStatus() ImageProcessingStatus {
-	if s == nil {
-		return ""
-	}
-	return s.ImageProcessingStatus
-}
-
-func (s *SocialAccount) GetUsername() *string {
-	if s == nil {
-		return nil
-	}
-	return s.Username
-}
-
-func (s *SocialAccount) GetPlatformData() any {
-	if s == nil {
-		return nil
-	}
-	return s.PlatformData
-}
-
-func (s *SocialAccount) GetTokenExpiresAt() *time.Time {
-	if s == nil {
-		return nil
-	}
-	return s.TokenExpiresAt
-}
-
-func (s *SocialAccount) GetUserID() string {
-	if s == nil {
-		return ""
-	}
-	return s.UserID
-}
-
-func (s *SocialAccount) GetLastRefreshAt() *time.Time {
-	if s == nil {
-		return nil
-	}
-	return s.LastRefreshAt
-}
-
-func (s *SocialAccount) GetStatus() SocialAccountStatus {
-	if s == nil {
-		return ""
-	}
-	return s.Status
-}
-
-func (s *SocialAccount) GetDisconnectedReason() *SocialAccountDisconnectedReason {
-	if s == nil {
-		return nil
-	}
-	return s.DisconnectedReason
-}
-
-func (s *SocialAccount) GetCreatedAt() time.Time {
-	if s == nil {
-		return time.Time{}
-	}
-	return s.CreatedAt
-}
-
-func (s *SocialAccount) GetUpdatedAt() time.Time {
-	if s == nil {
-		return time.Time{}
-	}
-	return s.UpdatedAt
-}
-
-func (s *SocialAccount) GetRefreshTokenValid() bool {
-	if s == nil {
-		return false
-	}
-	return s.RefreshTokenValid
-}
-
-func (s *SocialAccount) GetExtraProperties() map[string]interface{} {
-	if s == nil {
-		return nil
-	}
-	return s.extraProperties
-}
-
-func (s *SocialAccount) require(field *big.Int) {
-	if s.explicitFields == nil {
-		s.explicitFields = big.NewInt(0)
-	}
-	s.explicitFields.Or(s.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetID(id string) {
-	s.ID = id
-	s.require(socialAccountFieldID)
-}
-
-// SetPlatform sets the Platform field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetPlatform(platform SocialPlatform) {
-	s.Platform = platform
-	s.require(socialAccountFieldPlatform)
-}
-
-// SetAccountID sets the AccountID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetAccountID(accountID string) {
-	s.AccountID = accountID
-	s.require(socialAccountFieldAccountID)
-}
-
-// SetScope sets the Scope field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetScope(scope string) {
-	s.Scope = scope
-	s.require(socialAccountFieldScope)
-}
-
-// SetImageURL sets the ImageURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetImageURL(imageURL *string) {
-	s.ImageURL = imageURL
-	s.require(socialAccountFieldImageURL)
-}
-
-// SetImageProcessingStatus sets the ImageProcessingStatus field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetImageProcessingStatus(imageProcessingStatus ImageProcessingStatus) {
-	s.ImageProcessingStatus = imageProcessingStatus
-	s.require(socialAccountFieldImageProcessingStatus)
-}
-
-// SetUsername sets the Username field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetUsername(username *string) {
-	s.Username = username
-	s.require(socialAccountFieldUsername)
-}
-
-// SetPlatformData sets the PlatformData field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetPlatformData(platformData any) {
-	s.PlatformData = platformData
-	s.require(socialAccountFieldPlatformData)
-}
-
-// SetTokenExpiresAt sets the TokenExpiresAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetTokenExpiresAt(tokenExpiresAt *time.Time) {
-	s.TokenExpiresAt = tokenExpiresAt
-	s.require(socialAccountFieldTokenExpiresAt)
-}
-
-// SetUserID sets the UserID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetUserID(userID string) {
-	s.UserID = userID
-	s.require(socialAccountFieldUserID)
-}
-
-// SetLastRefreshAt sets the LastRefreshAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetLastRefreshAt(lastRefreshAt *time.Time) {
-	s.LastRefreshAt = lastRefreshAt
-	s.require(socialAccountFieldLastRefreshAt)
-}
-
-// SetStatus sets the Status field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetStatus(status SocialAccountStatus) {
-	s.Status = status
-	s.require(socialAccountFieldStatus)
-}
-
-// SetDisconnectedReason sets the DisconnectedReason field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetDisconnectedReason(disconnectedReason *SocialAccountDisconnectedReason) {
-	s.DisconnectedReason = disconnectedReason
-	s.require(socialAccountFieldDisconnectedReason)
-}
-
-// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetCreatedAt(createdAt time.Time) {
-	s.CreatedAt = createdAt
-	s.require(socialAccountFieldCreatedAt)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetUpdatedAt(updatedAt time.Time) {
-	s.UpdatedAt = updatedAt
-	s.require(socialAccountFieldUpdatedAt)
-}
-
-// SetRefreshTokenValid sets the RefreshTokenValid field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccount) SetRefreshTokenValid(refreshTokenValid bool) {
-	s.RefreshTokenValid = refreshTokenValid
-	s.require(socialAccountFieldRefreshTokenValid)
-}
-
-func (s *SocialAccount) UnmarshalJSON(data []byte) error {
-	type embed SocialAccount
-	var unmarshaler = struct {
-		embed
-		TokenExpiresAt *internal.DateTime `json:"tokenExpiresAt,omitempty"`
-		LastRefreshAt  *internal.DateTime `json:"lastRefreshAt,omitempty"`
-		CreatedAt      *internal.DateTime `json:"createdAt"`
-		UpdatedAt      *internal.DateTime `json:"updatedAt"`
-	}{
-		embed: embed(*s),
-	}
-	if err := json.Unmarshal(data, &unmarshaler); err != nil {
-		return err
-	}
-	*s = SocialAccount(unmarshaler.embed)
-	s.TokenExpiresAt = unmarshaler.TokenExpiresAt.TimePtr()
-	s.LastRefreshAt = unmarshaler.LastRefreshAt.TimePtr()
-	s.CreatedAt = unmarshaler.CreatedAt.Time()
-	s.UpdatedAt = unmarshaler.UpdatedAt.Time()
-	extraProperties, err := internal.ExtractExtraProperties(data, *s)
-	if err != nil {
-		return err
-	}
-	s.extraProperties = extraProperties
-	s.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (s *SocialAccount) MarshalJSON() ([]byte, error) {
-	type embed SocialAccount
-	var marshaler = struct {
-		embed
-		TokenExpiresAt *internal.DateTime `json:"tokenExpiresAt,omitempty"`
-		LastRefreshAt  *internal.DateTime `json:"lastRefreshAt,omitempty"`
-		CreatedAt      *internal.DateTime `json:"createdAt"`
-		UpdatedAt      *internal.DateTime `json:"updatedAt"`
-	}{
-		embed:          embed(*s),
-		TokenExpiresAt: internal.NewOptionalDateTime(s.TokenExpiresAt),
-		LastRefreshAt:  internal.NewOptionalDateTime(s.LastRefreshAt),
-		CreatedAt:      internal.NewDateTime(s.CreatedAt),
-		UpdatedAt:      internal.NewDateTime(s.UpdatedAt),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (s *SocialAccount) String() string {
-	if s == nil {
-		return "<nil>"
-	}
-	if len(s.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(s); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", s)
-}
-
-type SocialAccountDisconnectedReason string
-
-const (
-	SocialAccountDisconnectedReasonTokenExpired     SocialAccountDisconnectedReason = "TOKEN_EXPIRED"
-	SocialAccountDisconnectedReasonTokenInvalid     SocialAccountDisconnectedReason = "TOKEN_INVALID"
-	SocialAccountDisconnectedReasonTokenRevoked     SocialAccountDisconnectedReason = "TOKEN_REVOKED"
-	SocialAccountDisconnectedReasonRefreshFailed    SocialAccountDisconnectedReason = "REFRESH_FAILED"
-	SocialAccountDisconnectedReasonAccountSuspended SocialAccountDisconnectedReason = "ACCOUNT_SUSPENDED"
-	SocialAccountDisconnectedReasonPermissionDenied SocialAccountDisconnectedReason = "PERMISSION_DENIED"
-)
-
-func NewSocialAccountDisconnectedReasonFromString(s string) (SocialAccountDisconnectedReason, error) {
-	switch s {
-	case "TOKEN_EXPIRED":
-		return SocialAccountDisconnectedReasonTokenExpired, nil
-	case "TOKEN_INVALID":
-		return SocialAccountDisconnectedReasonTokenInvalid, nil
-	case "TOKEN_REVOKED":
-		return SocialAccountDisconnectedReasonTokenRevoked, nil
-	case "REFRESH_FAILED":
-		return SocialAccountDisconnectedReasonRefreshFailed, nil
-	case "ACCOUNT_SUSPENDED":
-		return SocialAccountDisconnectedReasonAccountSuspended, nil
-	case "PERMISSION_DENIED":
-		return SocialAccountDisconnectedReasonPermissionDenied, nil
-	}
-	var t SocialAccountDisconnectedReason
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SocialAccountDisconnectedReason) Ptr() *SocialAccountDisconnectedReason {
-	return &s
-}
-
-type SocialAccountStatus string
-
-const (
-	SocialAccountStatusConnected    SocialAccountStatus = "connected"
-	SocialAccountStatusDisconnected SocialAccountStatus = "disconnected"
-)
-
-func NewSocialAccountStatusFromString(s string) (SocialAccountStatus, error) {
-	switch s {
-	case "connected":
-		return SocialAccountStatusConnected, nil
-	case "disconnected":
-		return SocialAccountStatusDisconnected, nil
-	}
-	var t SocialAccountStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SocialAccountStatus) Ptr() *SocialAccountStatus {
-	return &s
-}
-
-var (
-	socialAccountUpdateFieldPlatform              = big.NewInt(1 << 0)
-	socialAccountUpdateFieldAccessToken           = big.NewInt(1 << 1)
-	socialAccountUpdateFieldSecretAccessToken     = big.NewInt(1 << 2)
-	socialAccountUpdateFieldRefreshToken          = big.NewInt(1 << 3)
-	socialAccountUpdateFieldRefreshTokenValid     = big.NewInt(1 << 4)
-	socialAccountUpdateFieldTokenExpiresAt        = big.NewInt(1 << 5)
-	socialAccountUpdateFieldImageURL              = big.NewInt(1 << 6)
-	socialAccountUpdateFieldImageProcessingStatus = big.NewInt(1 << 7)
-	socialAccountUpdateFieldPlatformData          = big.NewInt(1 << 8)
-	socialAccountUpdateFieldLastRefreshAt         = big.NewInt(1 << 9)
-	socialAccountUpdateFieldStatus                = big.NewInt(1 << 10)
-	socialAccountUpdateFieldID                    = big.NewInt(1 << 11)
+	socialAccountUpdateFieldID     = big.NewInt(1 << 0)
+	socialAccountUpdateFieldStatus = big.NewInt(1 << 1)
 )
 
 type SocialAccountUpdate struct {
-	Platform              *SocialAccountUpdatePlatform              `json:"platform,omitempty" url:"platform,omitempty"`
-	AccessToken           *string                                   `json:"accessToken,omitempty" url:"accessToken,omitempty"`
-	SecretAccessToken     *string                                   `json:"secretAccessToken,omitempty" url:"secretAccessToken,omitempty"`
-	RefreshToken          *string                                   `json:"refreshToken,omitempty" url:"refreshToken,omitempty"`
-	RefreshTokenValid     *bool                                     `json:"refreshTokenValid,omitempty" url:"refreshTokenValid,omitempty"`
-	TokenExpiresAt        *time.Time                                `json:"tokenExpiresAt,omitempty" url:"tokenExpiresAt,omitempty"`
-	ImageURL              *string                                   `json:"imageUrl,omitempty" url:"imageUrl,omitempty"`
-	ImageProcessingStatus *SocialAccountUpdateImageProcessingStatus `json:"imageProcessingStatus,omitempty" url:"imageProcessingStatus,omitempty"`
-	PlatformData          map[string]any                            `json:"platformData,omitempty" url:"platformData,omitempty"`
-	LastRefreshAt         *time.Time                                `json:"lastRefreshAt,omitempty" url:"lastRefreshAt,omitempty"`
-	Status                *SocialAccountUpdateStatus                `json:"status,omitempty" url:"status,omitempty"`
-	ID                    string                                    `json:"id" url:"id"`
+	ID     string                     `json:"id" url:"id"`
+	Status *SocialAccountUpdateStatus `json:"status,omitempty" url:"status,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
-}
-
-func (s *SocialAccountUpdate) GetPlatform() *SocialAccountUpdatePlatform {
-	if s == nil {
-		return nil
-	}
-	return s.Platform
-}
-
-func (s *SocialAccountUpdate) GetAccessToken() *string {
-	if s == nil {
-		return nil
-	}
-	return s.AccessToken
-}
-
-func (s *SocialAccountUpdate) GetSecretAccessToken() *string {
-	if s == nil {
-		return nil
-	}
-	return s.SecretAccessToken
-}
-
-func (s *SocialAccountUpdate) GetRefreshToken() *string {
-	if s == nil {
-		return nil
-	}
-	return s.RefreshToken
-}
-
-func (s *SocialAccountUpdate) GetRefreshTokenValid() *bool {
-	if s == nil {
-		return nil
-	}
-	return s.RefreshTokenValid
-}
-
-func (s *SocialAccountUpdate) GetTokenExpiresAt() *time.Time {
-	if s == nil {
-		return nil
-	}
-	return s.TokenExpiresAt
-}
-
-func (s *SocialAccountUpdate) GetImageURL() *string {
-	if s == nil {
-		return nil
-	}
-	return s.ImageURL
-}
-
-func (s *SocialAccountUpdate) GetImageProcessingStatus() *SocialAccountUpdateImageProcessingStatus {
-	if s == nil {
-		return nil
-	}
-	return s.ImageProcessingStatus
-}
-
-func (s *SocialAccountUpdate) GetPlatformData() map[string]any {
-	if s == nil {
-		return nil
-	}
-	return s.PlatformData
-}
-
-func (s *SocialAccountUpdate) GetLastRefreshAt() *time.Time {
-	if s == nil {
-		return nil
-	}
-	return s.LastRefreshAt
-}
-
-func (s *SocialAccountUpdate) GetStatus() *SocialAccountUpdateStatus {
-	if s == nil {
-		return nil
-	}
-	return s.Status
 }
 
 func (s *SocialAccountUpdate) GetID() string {
@@ -1899,6 +1334,13 @@ func (s *SocialAccountUpdate) GetID() string {
 		return ""
 	}
 	return s.ID
+}
+
+func (s *SocialAccountUpdate) GetStatus() *SocialAccountUpdateStatus {
+	if s == nil {
+		return nil
+	}
+	return s.Status
 }
 
 func (s *SocialAccountUpdate) GetExtraProperties() map[string]interface{} {
@@ -1915,74 +1357,11 @@ func (s *SocialAccountUpdate) require(field *big.Int) {
 	s.explicitFields.Or(s.explicitFields, field)
 }
 
-// SetPlatform sets the Platform field and marks it as non-optional;
+// SetID sets the ID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetPlatform(platform *SocialAccountUpdatePlatform) {
-	s.Platform = platform
-	s.require(socialAccountUpdateFieldPlatform)
-}
-
-// SetAccessToken sets the AccessToken field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetAccessToken(accessToken *string) {
-	s.AccessToken = accessToken
-	s.require(socialAccountUpdateFieldAccessToken)
-}
-
-// SetSecretAccessToken sets the SecretAccessToken field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetSecretAccessToken(secretAccessToken *string) {
-	s.SecretAccessToken = secretAccessToken
-	s.require(socialAccountUpdateFieldSecretAccessToken)
-}
-
-// SetRefreshToken sets the RefreshToken field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetRefreshToken(refreshToken *string) {
-	s.RefreshToken = refreshToken
-	s.require(socialAccountUpdateFieldRefreshToken)
-}
-
-// SetRefreshTokenValid sets the RefreshTokenValid field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetRefreshTokenValid(refreshTokenValid *bool) {
-	s.RefreshTokenValid = refreshTokenValid
-	s.require(socialAccountUpdateFieldRefreshTokenValid)
-}
-
-// SetTokenExpiresAt sets the TokenExpiresAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetTokenExpiresAt(tokenExpiresAt *time.Time) {
-	s.TokenExpiresAt = tokenExpiresAt
-	s.require(socialAccountUpdateFieldTokenExpiresAt)
-}
-
-// SetImageURL sets the ImageURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetImageURL(imageURL *string) {
-	s.ImageURL = imageURL
-	s.require(socialAccountUpdateFieldImageURL)
-}
-
-// SetImageProcessingStatus sets the ImageProcessingStatus field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetImageProcessingStatus(imageProcessingStatus *SocialAccountUpdateImageProcessingStatus) {
-	s.ImageProcessingStatus = imageProcessingStatus
-	s.require(socialAccountUpdateFieldImageProcessingStatus)
-}
-
-// SetPlatformData sets the PlatformData field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetPlatformData(platformData map[string]any) {
-	s.PlatformData = platformData
-	s.require(socialAccountUpdateFieldPlatformData)
-}
-
-// SetLastRefreshAt sets the LastRefreshAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetLastRefreshAt(lastRefreshAt *time.Time) {
-	s.LastRefreshAt = lastRefreshAt
-	s.require(socialAccountUpdateFieldLastRefreshAt)
+func (s *SocialAccountUpdate) SetID(id string) {
+	s.ID = id
+	s.require(socialAccountUpdateFieldID)
 }
 
 // SetStatus sets the Status field and marks it as non-optional;
@@ -1992,28 +1371,13 @@ func (s *SocialAccountUpdate) SetStatus(status *SocialAccountUpdateStatus) {
 	s.require(socialAccountUpdateFieldStatus)
 }
 
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (s *SocialAccountUpdate) SetID(id string) {
-	s.ID = id
-	s.require(socialAccountUpdateFieldID)
-}
-
 func (s *SocialAccountUpdate) UnmarshalJSON(data []byte) error {
-	type embed SocialAccountUpdate
-	var unmarshaler = struct {
-		embed
-		TokenExpiresAt *internal.DateTime `json:"tokenExpiresAt,omitempty"`
-		LastRefreshAt  *internal.DateTime `json:"lastRefreshAt,omitempty"`
-	}{
-		embed: embed(*s),
-	}
-	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+	type unmarshaler SocialAccountUpdate
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
 		return err
 	}
-	*s = SocialAccountUpdate(unmarshaler.embed)
-	s.TokenExpiresAt = unmarshaler.TokenExpiresAt.TimePtr()
-	s.LastRefreshAt = unmarshaler.LastRefreshAt.TimePtr()
+	*s = SocialAccountUpdate(value)
 	extraProperties, err := internal.ExtractExtraProperties(data, *s)
 	if err != nil {
 		return err
@@ -2027,12 +1391,8 @@ func (s *SocialAccountUpdate) MarshalJSON() ([]byte, error) {
 	type embed SocialAccountUpdate
 	var marshaler = struct {
 		embed
-		TokenExpiresAt *internal.DateTime `json:"tokenExpiresAt,omitempty"`
-		LastRefreshAt  *internal.DateTime `json:"lastRefreshAt,omitempty"`
 	}{
-		embed:          embed(*s),
-		TokenExpiresAt: internal.NewOptionalDateTime(s.TokenExpiresAt),
-		LastRefreshAt:  internal.NewOptionalDateTime(s.LastRefreshAt),
+		embed: embed(*s),
 	}
 	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
 	return json.Marshal(explicitMarshaler)
@@ -2051,77 +1411,6 @@ func (s *SocialAccountUpdate) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", s)
-}
-
-type SocialAccountUpdateImageProcessingStatus string
-
-const (
-	SocialAccountUpdateImageProcessingStatusPending    SocialAccountUpdateImageProcessingStatus = "PENDING"
-	SocialAccountUpdateImageProcessingStatusProcessing SocialAccountUpdateImageProcessingStatus = "PROCESSING"
-	SocialAccountUpdateImageProcessingStatusProcessed  SocialAccountUpdateImageProcessingStatus = "PROCESSED"
-	SocialAccountUpdateImageProcessingStatusFailed     SocialAccountUpdateImageProcessingStatus = "FAILED"
-)
-
-func NewSocialAccountUpdateImageProcessingStatusFromString(s string) (SocialAccountUpdateImageProcessingStatus, error) {
-	switch s {
-	case "PENDING":
-		return SocialAccountUpdateImageProcessingStatusPending, nil
-	case "PROCESSING":
-		return SocialAccountUpdateImageProcessingStatusProcessing, nil
-	case "PROCESSED":
-		return SocialAccountUpdateImageProcessingStatusProcessed, nil
-	case "FAILED":
-		return SocialAccountUpdateImageProcessingStatusFailed, nil
-	}
-	var t SocialAccountUpdateImageProcessingStatus
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SocialAccountUpdateImageProcessingStatus) Ptr() *SocialAccountUpdateImageProcessingStatus {
-	return &s
-}
-
-type SocialAccountUpdatePlatform string
-
-const (
-	SocialAccountUpdatePlatformBluesky   SocialAccountUpdatePlatform = "bluesky"
-	SocialAccountUpdatePlatformFacebook  SocialAccountUpdatePlatform = "facebook"
-	SocialAccountUpdatePlatformInstagram SocialAccountUpdatePlatform = "instagram"
-	SocialAccountUpdatePlatformLinkedin  SocialAccountUpdatePlatform = "linkedin"
-	SocialAccountUpdatePlatformPinterest SocialAccountUpdatePlatform = "pinterest"
-	SocialAccountUpdatePlatformThreads   SocialAccountUpdatePlatform = "threads"
-	SocialAccountUpdatePlatformTiktok    SocialAccountUpdatePlatform = "tiktok"
-	SocialAccountUpdatePlatformTwitter   SocialAccountUpdatePlatform = "twitter"
-	SocialAccountUpdatePlatformYoutube   SocialAccountUpdatePlatform = "youtube"
-)
-
-func NewSocialAccountUpdatePlatformFromString(s string) (SocialAccountUpdatePlatform, error) {
-	switch s {
-	case "bluesky":
-		return SocialAccountUpdatePlatformBluesky, nil
-	case "facebook":
-		return SocialAccountUpdatePlatformFacebook, nil
-	case "instagram":
-		return SocialAccountUpdatePlatformInstagram, nil
-	case "linkedin":
-		return SocialAccountUpdatePlatformLinkedin, nil
-	case "pinterest":
-		return SocialAccountUpdatePlatformPinterest, nil
-	case "threads":
-		return SocialAccountUpdatePlatformThreads, nil
-	case "tiktok":
-		return SocialAccountUpdatePlatformTiktok, nil
-	case "twitter":
-		return SocialAccountUpdatePlatformTwitter, nil
-	case "youtube":
-		return SocialAccountUpdatePlatformYoutube, nil
-	}
-	var t SocialAccountUpdatePlatform
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SocialAccountUpdatePlatform) Ptr() *SocialAccountUpdatePlatform {
-	return &s
 }
 
 type SocialAccountUpdateStatus string
@@ -2148,16 +1437,14 @@ func (s SocialAccountUpdateStatus) Ptr() *SocialAccountUpdateStatus {
 
 var (
 	tagFieldID        = big.NewInt(1 << 0)
-	tagFieldUserID    = big.NewInt(1 << 1)
-	tagFieldName      = big.NewInt(1 << 2)
-	tagFieldColor     = big.NewInt(1 << 3)
-	tagFieldCreatedAt = big.NewInt(1 << 4)
-	tagFieldUpdatedAt = big.NewInt(1 << 5)
+	tagFieldName      = big.NewInt(1 << 1)
+	tagFieldColor     = big.NewInt(1 << 2)
+	tagFieldCreatedAt = big.NewInt(1 << 3)
+	tagFieldUpdatedAt = big.NewInt(1 << 4)
 )
 
 type Tag struct {
 	ID        string    `json:"id" url:"id"`
-	UserID    string    `json:"userId" url:"userId"`
 	Name      string    `json:"name" url:"name"`
 	Color     string    `json:"color" url:"color"`
 	CreatedAt time.Time `json:"createdAt" url:"createdAt"`
@@ -2175,13 +1462,6 @@ func (t *Tag) GetID() string {
 		return ""
 	}
 	return t.ID
-}
-
-func (t *Tag) GetUserID() string {
-	if t == nil {
-		return ""
-	}
-	return t.UserID
 }
 
 func (t *Tag) GetName() string {
@@ -2231,13 +1511,6 @@ func (t *Tag) require(field *big.Int) {
 func (t *Tag) SetID(id string) {
 	t.ID = id
 	t.require(tagFieldID)
-}
-
-// SetUserID sets the UserID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (t *Tag) SetUserID(userID string) {
-	t.UserID = userID
-	t.require(tagFieldUserID)
 }
 
 // SetName sets the Name field and marks it as non-optional;

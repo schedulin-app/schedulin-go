@@ -8,7 +8,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/schedulin/schedulin-go/core"
+	"github.com/schedulin-app/schedulin-go/core"
 )
 
 // ErrorCodes maps HTTP status codes to error constructors.

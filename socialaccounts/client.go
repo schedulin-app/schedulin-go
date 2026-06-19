@@ -5,10 +5,10 @@ package socialaccounts
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	core "github.com/schedulin/schedulin-go/core"
-	internal "github.com/schedulin/schedulin-go/internal"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	core "github.com/schedulin-app/schedulin-go/core"
+	internal "github.com/schedulin-app/schedulin-go/internal"
+	option "github.com/schedulin-app/schedulin-go/option"
 )
 
 type Client struct {
@@ -38,7 +38,7 @@ func NewClient(options *core.RequestOptions) *Client {
 func (c *Client) List(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) ([]*schedulingo.ListSocialAccountsResponseItem, error) {
+) (*schedulingo.ListSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
 		opts...,
@@ -100,13 +100,30 @@ func (c *Client) UpdateTimezone(
 	return response.Body, nil
 }
 
-// Fetch the latest profile information from the connected platform and update the social account
-func (c *Client) RefreshProfile(
+// List the boards for a connected Pinterest account. Use a board id in `platformConfiguration.board_ids` when creating a Pinterest post.
+func (c *Client) PinterestBoards(
 	ctx context.Context,
-	request *schedulingo.RefreshProfileSocialAccountsRequest,
+	request *schedulingo.PinterestBoardsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.RefreshProfileSocialAccountsResponse, error) {
-	response, err := c.WithRawResponse.RefreshProfile(
+) (*schedulingo.PinterestBoardsSocialAccountsResponse, error) {
+	response, err := c.WithRawResponse.PinterestBoards(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+// Fetch the privacy-level options, duration limits, and interaction settings for a connected TikTok account — required to build a valid `platformConfiguration` when creating a TikTok post.
+func (c *Client) TiktokCreatorInfo(
+	ctx context.Context,
+	request *schedulingo.TiktokCreatorInfoSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*schedulingo.TiktokCreatorInfoSocialAccountsResponse, error) {
+	response, err := c.WithRawResponse.TiktokCreatorInfo(
 		ctx,
 		request,
 		opts...,

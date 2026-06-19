@@ -4,7 +4,8 @@ package api
 
 import (
 	json "encoding/json"
-	internal "github.com/schedulin/schedulin-go/internal"
+	fmt "fmt"
+	internal "github.com/schedulin-app/schedulin-go/internal"
 	big "math/big"
 )
 
@@ -141,6 +142,90 @@ func (l *ListTagsRequest) SetQ(q *string) {
 func (l *ListTagsRequest) SetLimit(limit *float64) {
 	l.Limit = limit
 	l.require(listTagsRequestFieldLimit)
+}
+
+var (
+	listTagsResponseFieldData = big.NewInt(1 << 0)
+)
+
+type ListTagsResponse struct {
+	Data []*Tag `json:"data" url:"data"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListTagsResponse) GetData() []*Tag {
+	if l == nil {
+		return nil
+	}
+	return l.Data
+}
+
+func (l *ListTagsResponse) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListTagsResponse) require(field *big.Int) {
+	if l.explicitFields == nil {
+		l.explicitFields = big.NewInt(0)
+	}
+	l.explicitFields.Or(l.explicitFields, field)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListTagsResponse) SetData(data []*Tag) {
+	l.Data = data
+	l.require(listTagsResponseFieldData)
+}
+
+func (l *ListTagsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListTagsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListTagsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListTagsResponse) MarshalJSON() ([]byte, error) {
+	type embed ListTagsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListTagsResponse) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
 }
 
 var (

@@ -6,10 +6,10 @@ import (
 	context "context"
 	http "net/http"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	core "github.com/schedulin/schedulin-go/core"
-	internal "github.com/schedulin/schedulin-go/internal"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	core "github.com/schedulin-app/schedulin-go/core"
+	internal "github.com/schedulin-app/schedulin-go/internal"
+	option "github.com/schedulin-app/schedulin-go/option"
 )
 
 type RawClient struct {
@@ -41,7 +41,7 @@ func (r *RawClient) Retrieve(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/media/%v",
@@ -86,7 +86,7 @@ func (r *RawClient) Update(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/media/%v",
@@ -133,7 +133,7 @@ func (r *RawClient) List(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := baseURL + "/v0/media"
 	queryParams, err := internal.QueryValues(request)
@@ -182,7 +182,7 @@ func (r *RawClient) SetTags(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/media/%v/tags",
@@ -223,19 +223,19 @@ func (r *RawClient) SetTags(
 func (r *RawClient) CountByTag(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (*core.Response[any], error) {
+) (*core.Response[*schedulingo.CountByTagMediaResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := baseURL + "/v0/media/tag-counts"
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response any
+	var response *schedulingo.CountByTagMediaResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -254,7 +254,7 @@ func (r *RawClient) CountByTag(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[any]{
+	return &core.Response[*schedulingo.CountByTagMediaResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -270,7 +270,7 @@ func (r *RawClient) CreatePresignedPost(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := baseURL + "/v0/media/presign"
 	headers := internal.MergeHeaders(

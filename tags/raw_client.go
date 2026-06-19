@@ -6,10 +6,10 @@ import (
 	context "context"
 	http "net/http"
 
-	schedulingo "github.com/schedulin/schedulin-go"
-	core "github.com/schedulin/schedulin-go/core"
-	internal "github.com/schedulin/schedulin-go/internal"
-	option "github.com/schedulin/schedulin-go/option"
+	schedulingo "github.com/schedulin-app/schedulin-go"
+	core "github.com/schedulin-app/schedulin-go/core"
+	internal "github.com/schedulin-app/schedulin-go/internal"
+	option "github.com/schedulin-app/schedulin-go/option"
 )
 
 type RawClient struct {
@@ -36,12 +36,12 @@ func (r *RawClient) List(
 	ctx context.Context,
 	request *schedulingo.ListTagsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[[]*schedulingo.Tag], error) {
+) (*core.Response[*schedulingo.ListTagsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := baseURL + "/v0/tags"
 	queryParams, err := internal.QueryValues(request)
@@ -55,7 +55,7 @@ func (r *RawClient) List(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response []*schedulingo.Tag
+	var response *schedulingo.ListTagsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -74,7 +74,7 @@ func (r *RawClient) List(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[[]*schedulingo.Tag]{
+	return &core.Response[*schedulingo.ListTagsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -90,7 +90,7 @@ func (r *RawClient) Create(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := baseURL + "/v0/tags"
 	headers := internal.MergeHeaders(
@@ -134,7 +134,7 @@ func (r *RawClient) Update(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/tags/%v",
@@ -181,7 +181,7 @@ func (r *RawClient) Delete(
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
 		r.baseURL,
-		"",
+		"https://api.schedulin.app",
 	)
 	endpointURL := internal.EncodeURL(
 		baseURL+"/v0/tags/%v",
