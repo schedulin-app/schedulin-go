@@ -241,7 +241,7 @@ client.Posts.Create(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.V0PostCountByTab() -> any</code></summary>
+<details><summary><code>client.Posts.CountByTab() -> any</code></summary>
 <dl>
 <dd>
 
@@ -268,8 +268,8 @@ Returns counts of posts for the Queue, Drafts, Approvals, and Sent tabs
 <dd>
 
 ```go
-request := &schedulingo.V0PostCountByTabRequest{}
-client.Posts.V0PostCountByTab(
+request := &schedulingo.CountByTabPostsRequest{}
+client.Posts.CountByTab(
         context.TODO(),
         request,
     )
@@ -1395,8 +1395,6 @@ Update an existing tag by its ID. Only the tag owner can update their tags.
 ```go
 request := &schedulingo.UpdateTagsRequest{
         ID: "id",
-        Name: "name",
-        Color: "color",
     }
 client.Tags.Update(
         context.TODO(),
@@ -1425,7 +1423,7 @@ client.Tags.Update(
 <dl>
 <dd>
 
-**name:** `string` 
+**name:** `*string` 
     
 </dd>
 </dl>
@@ -1433,7 +1431,7 @@ client.Tags.Update(
 <dl>
 <dd>
 
-**color:** `string` 
+**color:** `*string` 
     
 </dd>
 </dl>

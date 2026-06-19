@@ -69,12 +69,12 @@ func (c *Client) Create(
 }
 
 // Returns counts of posts for the Queue, Drafts, Approvals, and Sent tabs
-func (c *Client) V0PostCountByTab(
+func (c *Client) CountByTab(
 	ctx context.Context,
-	request *schedulingo.V0PostCountByTabRequest,
+	request *schedulingo.CountByTabPostsRequest,
 	opts ...option.RequestOption,
 ) (any, error) {
-	response, err := c.WithRawResponse.V0PostCountByTab(
+	response, err := c.WithRawResponse.CountByTab(
 		ctx,
 		request,
 		opts...,

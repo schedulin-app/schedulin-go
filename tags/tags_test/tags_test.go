@@ -140,9 +140,7 @@ func TestTagsUpdateWithWireMock(
 		option.WithAPIKey("test-value"),
 	)
 	request := &schedulingo.UpdateTagsRequest{
-		ID:    "id",
-		Name:  "name",
-		Color: "color",
+		ID: "id",
 	}
 	_, invocationErr := client.Tags.Update(
 		context.TODO(),

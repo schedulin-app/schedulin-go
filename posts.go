@@ -70,6 +70,31 @@ func (a *AnalyticsSummaryPostsRequest) SetID(id string) {
 }
 
 var (
+	countByTabPostsRequestFieldSocialAccountIDs = big.NewInt(1 << 0)
+)
+
+type CountByTabPostsRequest struct {
+	SocialAccountIDs []*string `json:"-" url:"socialAccountIds,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (c *CountByTabPostsRequest) require(field *big.Int) {
+	if c.explicitFields == nil {
+		c.explicitFields = big.NewInt(0)
+	}
+	c.explicitFields.Or(c.explicitFields, field)
+}
+
+// SetSocialAccountIDs sets the SocialAccountIDs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CountByTabPostsRequest) SetSocialAccountIDs(socialAccountIDs []*string) {
+	c.SocialAccountIDs = socialAccountIDs
+	c.require(countByTabPostsRequestFieldSocialAccountIDs)
+}
+
+var (
 	postCreateFieldCaption               = big.NewInt(1 << 0)
 	postCreateFieldScheduledAt           = big.NewInt(1 << 1)
 	postCreateFieldSocialAccountID       = big.NewInt(1 << 2)
@@ -5418,29 +5443,4 @@ func (u *UpdateTagsPostsRequest) MarshalJSON() ([]byte, error) {
 	}
 	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
 	return json.Marshal(explicitMarshaler)
-}
-
-var (
-	v0PostCountByTabRequestFieldSocialAccountIDs = big.NewInt(1 << 0)
-)
-
-type V0PostCountByTabRequest struct {
-	SocialAccountIDs []*string `json:"-" url:"socialAccountIds,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-}
-
-func (v *V0PostCountByTabRequest) require(field *big.Int) {
-	if v.explicitFields == nil {
-		v.explicitFields = big.NewInt(0)
-	}
-	v.explicitFields.Or(v.explicitFields, field)
-}
-
-// SetSocialAccountIDs sets the SocialAccountIDs field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (v *V0PostCountByTabRequest) SetSocialAccountIDs(socialAccountIDs []*string) {
-	v.SocialAccountIDs = socialAccountIDs
-	v.require(v0PostCountByTabRequestFieldSocialAccountIDs)
 }

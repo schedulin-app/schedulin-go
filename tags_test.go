@@ -314,7 +314,7 @@ func TestSettersUpdateTagsRequest(t *testing.T) {
 
 	t.Run("SetName", func(t *testing.T) {
 		obj := &UpdateTagsRequest{}
-		var fernTestValueName string
+		var fernTestValueName *string
 		obj.SetName(fernTestValueName)
 		assert.Equal(t, fernTestValueName, obj.Name)
 		assert.NotNil(t, obj.explicitFields)
@@ -322,7 +322,7 @@ func TestSettersUpdateTagsRequest(t *testing.T) {
 
 	t.Run("SetColor", func(t *testing.T) {
 		obj := &UpdateTagsRequest{}
-		var fernTestValueColor string
+		var fernTestValueColor *string
 		obj.SetColor(fernTestValueColor)
 		assert.Equal(t, fernTestValueColor, obj.Color)
 		assert.NotNil(t, obj.explicitFields)
@@ -366,7 +366,7 @@ func TestSettersMarkExplicitUpdateTagsRequest(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &UpdateTagsRequest{}
-		var fernTestValueName string
+		var fernTestValueName *string
 
 		// Act
 		obj.SetName(fernTestValueName)
@@ -397,7 +397,7 @@ func TestSettersMarkExplicitUpdateTagsRequest(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &UpdateTagsRequest{}
-		var fernTestValueColor string
+		var fernTestValueColor *string
 
 		// Act
 		obj.SetColor(fernTestValueColor)

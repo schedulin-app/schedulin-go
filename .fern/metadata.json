@@ -8,7 +8,7 @@
       "version": "1.21"
     }
   },
-  "originGitCommit": "116626acf45f97bcd3910abd148178b7ab17adcf",
+  "originGitCommit": "67bfa3ac6200e8c687364c994b22ddb22dac578e",
   "originGitCommitIsDirty": false,
   "invokedBy": "ci",
   "ciProvider": "github"

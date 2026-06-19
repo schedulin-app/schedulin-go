@@ -125,9 +125,9 @@ func (r *RawClient) Create(
 	}, nil
 }
 
-func (r *RawClient) V0PostCountByTab(
+func (r *RawClient) CountByTab(
 	ctx context.Context,
-	request *schedulingo.V0PostCountByTabRequest,
+	request *schedulingo.CountByTabPostsRequest,
 	opts ...option.RequestOption,
 ) (*core.Response[any], error) {
 	options := core.NewRequestOptions(opts...)

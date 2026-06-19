@@ -235,9 +235,9 @@ var (
 )
 
 type UpdateTagsRequest struct {
-	ID    string `json:"-" url:"-"`
-	Name  string `json:"name" url:"-"`
-	Color string `json:"color" url:"-"`
+	ID    string  `json:"-" url:"-"`
+	Name  *string `json:"name,omitempty" url:"-"`
+	Color *string `json:"color,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -259,14 +259,14 @@ func (u *UpdateTagsRequest) SetID(id string) {
 
 // SetName sets the Name field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateTagsRequest) SetName(name string) {
+func (u *UpdateTagsRequest) SetName(name *string) {
 	u.Name = name
 	u.require(updateTagsRequestFieldName)
 }
 
 // SetColor sets the Color field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateTagsRequest) SetColor(color string) {
+func (u *UpdateTagsRequest) SetColor(color *string) {
 	u.Color = color
 	u.require(updateTagsRequestFieldColor)
 }

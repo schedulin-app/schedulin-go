@@ -128,7 +128,7 @@ func TestPostsCreateWithWireMock(
 	VerifyRequestCount(t, "TestPostsCreateWithWireMock", "POST", "/v0/posts", nil, 1)
 }
 
-func TestPostsV0PostCountByTabWithWireMock(
+func TestPostsCountByTabWithWireMock(
 	t *testing.T,
 ) {
 	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
@@ -139,17 +139,17 @@ func TestPostsV0PostCountByTabWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.V0PostCountByTabRequest{}
-	_, invocationErr := client.Posts.V0PostCountByTab(
+	request := &schedulingo.CountByTabPostsRequest{}
+	_, invocationErr := client.Posts.CountByTab(
 		context.TODO(),
 		request,
 		option.WithHTTPHeader(
-			http.Header{"X-Test-Id": []string{"TestPostsV0PostCountByTabWithWireMock"}},
+			http.Header{"X-Test-Id": []string{"TestPostsCountByTabWithWireMock"}},
 		),
 	)
 
 	require.NoError(t, invocationErr, "Client method call should succeed")
-	VerifyRequestCount(t, "TestPostsV0PostCountByTabWithWireMock", "GET", "/v0/posts/counts/by-tab", nil, 1)
+	VerifyRequestCount(t, "TestPostsCountByTabWithWireMock", "GET", "/v0/posts/counts/by-tab", nil, 1)
 }
 
 func TestPostsRetrieveWithWireMock(

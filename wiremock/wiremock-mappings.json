@@ -64,7 +64,7 @@
       }
     },
     {
-      "id": "f520317d-74ba-4e93-8254-816c1644c119",
+      "id": "4f00c985-9bb0-4c37-a73c-ee0240437dca",
       "name": "Get post counts grouped by UI tab - default",
       "request": {
         "urlPathTemplate": "/v0/posts/counts/by-tab",
@@ -82,7 +82,7 @@
           "Content-Type": "application/json"
         }
       },
-      "uuid": "f520317d-74ba-4e93-8254-816c1644c119",
+      "uuid": "4f00c985-9bb0-4c37-a73c-ee0240437dca",
       "persistent": true,
       "priority": 3,
       "metadata": {
