@@ -84,7 +84,7 @@ func (c *CreatePresignedPost) MarshalJSON() ([]byte, error) {
 }
 
 var (
-	listMediaRequestFieldCursor  = big.NewInt(1 << 0)
+	listMediaRequestFieldPage    = big.NewInt(1 << 0)
 	listMediaRequestFieldLimit   = big.NewInt(1 << 1)
 	listMediaRequestFieldQ       = big.NewInt(1 << 2)
 	listMediaRequestFieldType    = big.NewInt(1 << 3)
@@ -93,7 +93,7 @@ var (
 )
 
 type ListMediaRequest struct {
-	Cursor  *ListMediaRequestCursor  `json:"-" url:"cursor,omitempty"`
+	Page    *int                     `json:"-" url:"page,omitempty"`
 	Limit   *float64                 `json:"-" url:"limit,omitempty"`
 	Q       *string                  `json:"-" url:"q,omitempty"`
 	Type    *ListMediaRequestType    `json:"-" url:"type,omitempty"`
@@ -111,11 +111,11 @@ func (l *ListMediaRequest) require(field *big.Int) {
 	l.explicitFields.Or(l.explicitFields, field)
 }
 
-// SetCursor sets the Cursor field and marks it as non-optional;
+// SetPage sets the Page field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListMediaRequest) SetCursor(cursor *ListMediaRequestCursor) {
-	l.Cursor = cursor
-	l.require(listMediaRequestFieldCursor)
+func (l *ListMediaRequest) SetPage(page *int) {
+	l.Page = page
+	l.require(listMediaRequestFieldPage)
 }
 
 // SetLimit sets the Limit field and marks it as non-optional;
@@ -849,114 +849,6 @@ func (c CreatePresignedPostIntent) Ptr() *CreatePresignedPostIntent {
 	return &c
 }
 
-var (
-	listMediaRequestCursorFieldID        = big.NewInt(1 << 0)
-	listMediaRequestCursorFieldUpdatedAt = big.NewInt(1 << 1)
-)
-
-type ListMediaRequestCursor struct {
-	ID        string    `json:"id" url:"id"`
-	UpdatedAt time.Time `json:"updatedAt" url:"updatedAt"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (l *ListMediaRequestCursor) GetID() string {
-	if l == nil {
-		return ""
-	}
-	return l.ID
-}
-
-func (l *ListMediaRequestCursor) GetUpdatedAt() time.Time {
-	if l == nil {
-		return time.Time{}
-	}
-	return l.UpdatedAt
-}
-
-func (l *ListMediaRequestCursor) GetExtraProperties() map[string]interface{} {
-	if l == nil {
-		return nil
-	}
-	return l.extraProperties
-}
-
-func (l *ListMediaRequestCursor) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
-	}
-	l.explicitFields.Or(l.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListMediaRequestCursor) SetID(id string) {
-	l.ID = id
-	l.require(listMediaRequestCursorFieldID)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListMediaRequestCursor) SetUpdatedAt(updatedAt time.Time) {
-	l.UpdatedAt = updatedAt
-	l.require(listMediaRequestCursorFieldUpdatedAt)
-}
-
-func (l *ListMediaRequestCursor) UnmarshalJSON(data []byte) error {
-	type embed ListMediaRequestCursor
-	var unmarshaler = struct {
-		embed
-		UpdatedAt *internal.DateTime `json:"updatedAt"`
-	}{
-		embed: embed(*l),
-	}
-	if err := json.Unmarshal(data, &unmarshaler); err != nil {
-		return err
-	}
-	*l = ListMediaRequestCursor(unmarshaler.embed)
-	l.UpdatedAt = unmarshaler.UpdatedAt.Time()
-	extraProperties, err := internal.ExtractExtraProperties(data, *l)
-	if err != nil {
-		return err
-	}
-	l.extraProperties = extraProperties
-	l.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (l *ListMediaRequestCursor) MarshalJSON() ([]byte, error) {
-	type embed ListMediaRequestCursor
-	var marshaler = struct {
-		embed
-		UpdatedAt *internal.DateTime `json:"updatedAt"`
-	}{
-		embed:     embed(*l),
-		UpdatedAt: internal.NewDateTime(l.UpdatedAt),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (l *ListMediaRequestCursor) String() string {
-	if l == nil {
-		return "<nil>"
-	}
-	if len(l.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(l); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", l)
-}
-
 type ListMediaRequestTagMode string
 
 const (
@@ -1002,6 +894,138 @@ func NewListMediaRequestTypeFromString(s string) (ListMediaRequestType, error) {
 
 func (l ListMediaRequestType) Ptr() *ListMediaRequestType {
 	return &l
+}
+
+var (
+	listMediaResponseFieldItems      = big.NewInt(1 << 0)
+	listMediaResponseFieldPage       = big.NewInt(1 << 1)
+	listMediaResponseFieldTotal      = big.NewInt(1 << 2)
+	listMediaResponseFieldTotalPages = big.NewInt(1 << 3)
+)
+
+type ListMediaResponse struct {
+	Items      []*Media `json:"items" url:"items"`
+	Page       float64  `json:"page" url:"page"`
+	Total      float64  `json:"total" url:"total"`
+	TotalPages float64  `json:"totalPages" url:"totalPages"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListMediaResponse) GetItems() []*Media {
+	if l == nil {
+		return nil
+	}
+	return l.Items
+}
+
+func (l *ListMediaResponse) GetPage() float64 {
+	if l == nil {
+		return 0
+	}
+	return l.Page
+}
+
+func (l *ListMediaResponse) GetTotal() float64 {
+	if l == nil {
+		return 0
+	}
+	return l.Total
+}
+
+func (l *ListMediaResponse) GetTotalPages() float64 {
+	if l == nil {
+		return 0
+	}
+	return l.TotalPages
+}
+
+func (l *ListMediaResponse) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListMediaResponse) require(field *big.Int) {
+	if l.explicitFields == nil {
+		l.explicitFields = big.NewInt(0)
+	}
+	l.explicitFields.Or(l.explicitFields, field)
+}
+
+// SetItems sets the Items field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListMediaResponse) SetItems(items []*Media) {
+	l.Items = items
+	l.require(listMediaResponseFieldItems)
+}
+
+// SetPage sets the Page field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListMediaResponse) SetPage(page float64) {
+	l.Page = page
+	l.require(listMediaResponseFieldPage)
+}
+
+// SetTotal sets the Total field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListMediaResponse) SetTotal(total float64) {
+	l.Total = total
+	l.require(listMediaResponseFieldTotal)
+}
+
+// SetTotalPages sets the TotalPages field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListMediaResponse) SetTotalPages(totalPages float64) {
+	l.TotalPages = totalPages
+	l.require(listMediaResponseFieldTotalPages)
+}
+
+func (l *ListMediaResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListMediaResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListMediaResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListMediaResponse) MarshalJSON() ([]byte, error) {
+	type embed ListMediaResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListMediaResponse) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
 }
 
 var (

@@ -68,12 +68,12 @@ func (c *Client) Update(
 	return response.Body, nil
 }
 
-// List media for the organization with cursor pagination, search, type and tag filters
+// List media for the organization with page pagination, search, type and tag filters
 func (c *Client) List(
 	ctx context.Context,
 	request *schedulingo.ListMediaRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.ListMediaResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
 		request,

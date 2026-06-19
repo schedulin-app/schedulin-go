@@ -173,11 +173,11 @@ func TestSettersMarkExplicitCreatePresignedPost(t *testing.T) {
 }
 
 func TestSettersListMediaRequest(t *testing.T) {
-	t.Run("SetCursor", func(t *testing.T) {
+	t.Run("SetPage", func(t *testing.T) {
 		obj := &ListMediaRequest{}
-		var fernTestValueCursor *ListMediaRequestCursor
-		obj.SetCursor(fernTestValueCursor)
-		assert.Equal(t, fernTestValueCursor, obj.Cursor)
+		var fernTestValuePage *int
+		obj.SetPage(fernTestValuePage)
+		assert.Equal(t, fernTestValuePage, obj.Page)
 		assert.NotNil(t, obj.explicitFields)
 	})
 
@@ -224,14 +224,14 @@ func TestSettersListMediaRequest(t *testing.T) {
 }
 
 func TestSettersMarkExplicitListMediaRequest(t *testing.T) {
-	t.Run("SetCursor_MarksExplicit", func(t *testing.T) {
+	t.Run("SetPage_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &ListMediaRequest{}
-		var fernTestValueCursor *ListMediaRequestCursor
+		var fernTestValuePage *int
 
 		// Act
-		obj.SetCursor(fernTestValueCursor)
+		obj.SetPage(fernTestValuePage)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -1743,83 +1743,155 @@ func TestSettersMarkExplicitCountByTagMediaResponseDataItem(t *testing.T) {
 
 }
 
-func TestSettersListMediaRequestCursor(t *testing.T) {
-	t.Run("SetID", func(t *testing.T) {
-		obj := &ListMediaRequestCursor{}
-		var fernTestValueID string
-		obj.SetID(fernTestValueID)
-		assert.Equal(t, fernTestValueID, obj.ID)
+func TestSettersListMediaResponse(t *testing.T) {
+	t.Run("SetItems", func(t *testing.T) {
+		obj := &ListMediaResponse{}
+		var fernTestValueItems []*Media
+		obj.SetItems(fernTestValueItems)
+		assert.Equal(t, fernTestValueItems, obj.Items)
 		assert.NotNil(t, obj.explicitFields)
 	})
 
-	t.Run("SetUpdatedAt", func(t *testing.T) {
-		obj := &ListMediaRequestCursor{}
-		var fernTestValueUpdatedAt time.Time
-		obj.SetUpdatedAt(fernTestValueUpdatedAt)
-		assert.Equal(t, fernTestValueUpdatedAt, obj.UpdatedAt)
+	t.Run("SetPage", func(t *testing.T) {
+		obj := &ListMediaResponse{}
+		var fernTestValuePage float64
+		obj.SetPage(fernTestValuePage)
+		assert.Equal(t, fernTestValuePage, obj.Page)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetTotal", func(t *testing.T) {
+		obj := &ListMediaResponse{}
+		var fernTestValueTotal float64
+		obj.SetTotal(fernTestValueTotal)
+		assert.Equal(t, fernTestValueTotal, obj.Total)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetTotalPages", func(t *testing.T) {
+		obj := &ListMediaResponse{}
+		var fernTestValueTotalPages float64
+		obj.SetTotalPages(fernTestValueTotalPages)
+		assert.Equal(t, fernTestValueTotalPages, obj.TotalPages)
 		assert.NotNil(t, obj.explicitFields)
 	})
 
 }
 
-func TestGettersListMediaRequestCursor(t *testing.T) {
-	t.Run("GetID", func(t *testing.T) {
+func TestGettersListMediaResponse(t *testing.T) {
+	t.Run("GetItems", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &ListMediaRequestCursor{}
-		var expected string
-		obj.ID = expected
+		obj := &ListMediaResponse{}
+		var expected []*Media
+		obj.Items = expected
 
 		// Act & Assert
-		assert.Equal(t, expected, obj.GetID(), "getter should return the property value")
+		assert.Equal(t, expected, obj.GetItems(), "getter should return the property value")
 	})
 
-	t.Run("GetID_NilReceiver", func(t *testing.T) {
+	t.Run("GetItems_NilValue", func(t *testing.T) {
 		t.Parallel()
-		var obj *ListMediaRequestCursor
+		// Arrange
+		obj := &ListMediaResponse{}
+		obj.Items = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetItems(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetItems_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListMediaResponse
 		// Should not panic - getters should handle nil receiver gracefully
 		defer func() {
 			if r := recover(); r != nil {
 				t.Errorf("Getter panicked on nil receiver: %v", r)
 			}
 		}()
-		_ = obj.GetID() // Should return zero value
+		_ = obj.GetItems() // Should return zero value
 	})
 
-	t.Run("GetUpdatedAt", func(t *testing.T) {
+	t.Run("GetPage", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &ListMediaRequestCursor{}
-		var expected time.Time
-		obj.UpdatedAt = expected
+		obj := &ListMediaResponse{}
+		var expected float64
+		obj.Page = expected
 
 		// Act & Assert
-		assert.Equal(t, expected, obj.GetUpdatedAt(), "getter should return the property value")
+		assert.Equal(t, expected, obj.GetPage(), "getter should return the property value")
 	})
 
-	t.Run("GetUpdatedAt_NilReceiver", func(t *testing.T) {
+	t.Run("GetPage_NilReceiver", func(t *testing.T) {
 		t.Parallel()
-		var obj *ListMediaRequestCursor
+		var obj *ListMediaResponse
 		// Should not panic - getters should handle nil receiver gracefully
 		defer func() {
 			if r := recover(); r != nil {
 				t.Errorf("Getter panicked on nil receiver: %v", r)
 			}
 		}()
-		_ = obj.GetUpdatedAt() // Should return zero value
+		_ = obj.GetPage() // Should return zero value
+	})
+
+	t.Run("GetTotal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListMediaResponse{}
+		var expected float64
+		obj.Total = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetTotal(), "getter should return the property value")
+	})
+
+	t.Run("GetTotal_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListMediaResponse
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetTotal() // Should return zero value
+	})
+
+	t.Run("GetTotalPages", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListMediaResponse{}
+		var expected float64
+		obj.TotalPages = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetTotalPages(), "getter should return the property value")
+	})
+
+	t.Run("GetTotalPages_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListMediaResponse
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetTotalPages() // Should return zero value
 	})
 
 }
 
-func TestSettersMarkExplicitListMediaRequestCursor(t *testing.T) {
-	t.Run("SetID_MarksExplicit", func(t *testing.T) {
+func TestSettersMarkExplicitListMediaResponse(t *testing.T) {
+	t.Run("SetItems_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &ListMediaRequestCursor{}
-		var fernTestValueID string
+		obj := &ListMediaResponse{}
+		var fernTestValueItems []*Media
 
 		// Act
-		obj.SetID(fernTestValueID)
+		obj.SetItems(fernTestValueItems)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -1843,14 +1915,76 @@ func TestSettersMarkExplicitListMediaRequestCursor(t *testing.T) {
 		// It verifies that setting a field via setter allows successful JSON round-trip
 	})
 
-	t.Run("SetUpdatedAt_MarksExplicit", func(t *testing.T) {
+	t.Run("SetPage_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &ListMediaRequestCursor{}
-		var fernTestValueUpdatedAt time.Time
+		obj := &ListMediaResponse{}
+		var fernTestValuePage float64
 
 		// Act
-		obj.SetUpdatedAt(fernTestValueUpdatedAt)
+		obj.SetPage(fernTestValuePage)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetTotal_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListMediaResponse{}
+		var fernTestValueTotal float64
+
+		// Act
+		obj.SetTotal(fernTestValueTotal)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetTotalPages_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListMediaResponse{}
+		var fernTestValueTotalPages float64
+
+		// Act
+		obj.SetTotalPages(fernTestValueTotalPages)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -2221,11 +2355,11 @@ func TestJSONMarshalingCountByTagMediaResponseDataItem(t *testing.T) {
 	})
 }
 
-func TestJSONMarshalingListMediaRequestCursor(t *testing.T) {
+func TestJSONMarshalingListMediaResponse(t *testing.T) {
 	t.Run("MarshalUnmarshal", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
-		obj := &ListMediaRequestCursor{}
+		obj := &ListMediaResponse{}
 
 		// Act - Marshal to JSON
 		data, err := json.Marshal(obj)
@@ -2234,21 +2368,21 @@ func TestJSONMarshalingListMediaRequestCursor(t *testing.T) {
 		assert.NotEmpty(t, data, "marshaled data should not be empty")
 
 		// Unmarshal back and verify round-trip
-		var unmarshaled ListMediaRequestCursor
+		var unmarshaled ListMediaResponse
 		err = json.Unmarshal(data, &unmarshaled)
 		assert.NoError(t, err, "round-trip unmarshal should succeed")
 	})
 
 	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
 		t.Parallel()
-		var obj ListMediaRequestCursor
+		var obj ListMediaResponse
 		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
 		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
 	})
 
 	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
 		t.Parallel()
-		var obj ListMediaRequestCursor
+		var obj ListMediaResponse
 		err := json.Unmarshal([]byte(`{}`), &obj)
 		assert.NoError(t, err, "unmarshaling empty object should succeed")
 	})
@@ -2352,17 +2486,17 @@ func TestStringCountByTagMediaResponseDataItem(t *testing.T) {
 	})
 }
 
-func TestStringListMediaRequestCursor(t *testing.T) {
+func TestStringListMediaResponse(t *testing.T) {
 	t.Run("StringMethod", func(t *testing.T) {
 		t.Parallel()
-		obj := &ListMediaRequestCursor{}
+		obj := &ListMediaResponse{}
 		result := obj.String()
 		assert.NotEmpty(t, result, "String() should return a non-empty representation")
 	})
 
 	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
 		t.Parallel()
-		var obj *ListMediaRequestCursor
+		var obj *ListMediaResponse
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
 	})
@@ -2569,10 +2703,10 @@ func TestExtraPropertiesCountByTagMediaResponseDataItem(t *testing.T) {
 	})
 }
 
-func TestExtraPropertiesListMediaRequestCursor(t *testing.T) {
+func TestExtraPropertiesListMediaResponse(t *testing.T) {
 	t.Run("GetExtraProperties", func(t *testing.T) {
 		t.Parallel()
-		obj := &ListMediaRequestCursor{}
+		obj := &ListMediaResponse{}
 		// Should not panic when calling GetExtraProperties()
 		defer func() {
 			if r := recover(); r != nil {
@@ -2586,7 +2720,7 @@ func TestExtraPropertiesListMediaRequestCursor(t *testing.T) {
 
 	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
 		t.Parallel()
-		var obj *ListMediaRequestCursor
+		var obj *ListMediaResponse
 		extraProps := obj.GetExtraProperties()
 		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
 	})

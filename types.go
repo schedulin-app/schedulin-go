@@ -170,7 +170,7 @@ func (e *ErrorResponse) String() string {
 }
 
 var (
-	mediaSearchFieldCursor  = big.NewInt(1 << 0)
+	mediaSearchFieldPage    = big.NewInt(1 << 0)
 	mediaSearchFieldLimit   = big.NewInt(1 << 1)
 	mediaSearchFieldQ       = big.NewInt(1 << 2)
 	mediaSearchFieldType    = big.NewInt(1 << 3)
@@ -179,7 +179,7 @@ var (
 )
 
 type MediaSearch struct {
-	Cursor  *MediaSearchCursor  `json:"cursor,omitempty" url:"cursor,omitempty"`
+	Page    *int                `json:"page,omitempty" url:"page,omitempty"`
 	Limit   *float64            `json:"limit,omitempty" url:"limit,omitempty"`
 	Q       *string             `json:"q,omitempty" url:"q,omitempty"`
 	Type    *MediaSearchType    `json:"type,omitempty" url:"type,omitempty"`
@@ -193,11 +193,11 @@ type MediaSearch struct {
 	rawJSON         json.RawMessage
 }
 
-func (m *MediaSearch) GetCursor() *MediaSearchCursor {
+func (m *MediaSearch) GetPage() *int {
 	if m == nil {
 		return nil
 	}
-	return m.Cursor
+	return m.Page
 }
 
 func (m *MediaSearch) GetLimit() *float64 {
@@ -249,11 +249,11 @@ func (m *MediaSearch) require(field *big.Int) {
 	m.explicitFields.Or(m.explicitFields, field)
 }
 
-// SetCursor sets the Cursor field and marks it as non-optional;
+// SetPage sets the Page field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *MediaSearch) SetCursor(cursor *MediaSearchCursor) {
-	m.Cursor = cursor
-	m.require(mediaSearchFieldCursor)
+func (m *MediaSearch) SetPage(page *int) {
+	m.Page = page
+	m.require(mediaSearchFieldPage)
 }
 
 // SetLimit sets the Limit field and marks it as non-optional;
@@ -319,114 +319,6 @@ func (m *MediaSearch) MarshalJSON() ([]byte, error) {
 }
 
 func (m *MediaSearch) String() string {
-	if m == nil {
-		return "<nil>"
-	}
-	if len(m.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(m.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(m); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", m)
-}
-
-var (
-	mediaSearchCursorFieldID        = big.NewInt(1 << 0)
-	mediaSearchCursorFieldUpdatedAt = big.NewInt(1 << 1)
-)
-
-type MediaSearchCursor struct {
-	ID        string    `json:"id" url:"id"`
-	UpdatedAt time.Time `json:"updatedAt" url:"updatedAt"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (m *MediaSearchCursor) GetID() string {
-	if m == nil {
-		return ""
-	}
-	return m.ID
-}
-
-func (m *MediaSearchCursor) GetUpdatedAt() time.Time {
-	if m == nil {
-		return time.Time{}
-	}
-	return m.UpdatedAt
-}
-
-func (m *MediaSearchCursor) GetExtraProperties() map[string]interface{} {
-	if m == nil {
-		return nil
-	}
-	return m.extraProperties
-}
-
-func (m *MediaSearchCursor) require(field *big.Int) {
-	if m.explicitFields == nil {
-		m.explicitFields = big.NewInt(0)
-	}
-	m.explicitFields.Or(m.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (m *MediaSearchCursor) SetID(id string) {
-	m.ID = id
-	m.require(mediaSearchCursorFieldID)
-}
-
-// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (m *MediaSearchCursor) SetUpdatedAt(updatedAt time.Time) {
-	m.UpdatedAt = updatedAt
-	m.require(mediaSearchCursorFieldUpdatedAt)
-}
-
-func (m *MediaSearchCursor) UnmarshalJSON(data []byte) error {
-	type embed MediaSearchCursor
-	var unmarshaler = struct {
-		embed
-		UpdatedAt *internal.DateTime `json:"updatedAt"`
-	}{
-		embed: embed(*m),
-	}
-	if err := json.Unmarshal(data, &unmarshaler); err != nil {
-		return err
-	}
-	*m = MediaSearchCursor(unmarshaler.embed)
-	m.UpdatedAt = unmarshaler.UpdatedAt.Time()
-	extraProperties, err := internal.ExtractExtraProperties(data, *m)
-	if err != nil {
-		return err
-	}
-	m.extraProperties = extraProperties
-	m.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (m *MediaSearchCursor) MarshalJSON() ([]byte, error) {
-	type embed MediaSearchCursor
-	var marshaler = struct {
-		embed
-		UpdatedAt *internal.DateTime `json:"updatedAt"`
-	}{
-		embed:     embed(*m),
-		UpdatedAt: internal.NewDateTime(m.UpdatedAt),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, m.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (m *MediaSearchCursor) String() string {
 	if m == nil {
 		return "<nil>"
 	}

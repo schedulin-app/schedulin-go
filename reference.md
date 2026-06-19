@@ -1676,7 +1676,7 @@ client.Media.Update(
 </dl>
 </details>
 
-<details><summary><code>client.Media.List() -> any</code></summary>
+<details><summary><code>client.Media.List() -> *schedulingo.ListMediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -1688,7 +1688,7 @@ client.Media.Update(
 <dl>
 <dd>
 
-List media for the organization with cursor pagination, search, type and tag filters
+List media for the organization with page pagination, search, type and tag filters
 </dd>
 </dl>
 </dd>
@@ -1723,7 +1723,7 @@ client.Media.List(
 <dl>
 <dd>
 
-**cursor:** `*schedulingo.ListMediaRequestCursor` 
+**page:** `*int` 
     
 </dd>
 </dl>
