@@ -63,6 +63,14 @@ client.Posts.List(
 <dl>
 <dd>
 
+**statuses:** `*schedulingo.ListPostsRequestStatusesItem` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **approvalStatus:** `*schedulingo.ListPostsRequestApprovalStatus` 
     
 </dd>

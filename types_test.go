@@ -1524,6 +1524,14 @@ func TestSettersPostSearch(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetStatuses", func(t *testing.T) {
+		obj := &PostSearch{}
+		var fernTestValueStatuses []PostSearchStatusesItem
+		obj.SetStatuses(fernTestValueStatuses)
+		assert.Equal(t, fernTestValueStatuses, obj.Statuses)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetApprovalStatus", func(t *testing.T) {
 		obj := &PostSearch{}
 		var fernTestValueApprovalStatus *PostSearchApprovalStatus
@@ -1639,6 +1647,39 @@ func TestGettersPostSearch(t *testing.T) {
 			}
 		}()
 		_ = obj.GetStatus() // Should return zero value
+	})
+
+	t.Run("GetStatuses", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostSearch{}
+		var expected []PostSearchStatusesItem
+		obj.Statuses = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetStatuses(), "getter should return the property value")
+	})
+
+	t.Run("GetStatuses_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostSearch{}
+		obj.Statuses = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetStatuses(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetStatuses_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *PostSearch
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetStatuses() // Should return zero value
 	})
 
 	t.Run("GetApprovalStatus", func(t *testing.T) {
@@ -1881,6 +1922,37 @@ func TestSettersMarkExplicitPostSearch(t *testing.T) {
 
 		// Act
 		obj.SetStatus(fernTestValueStatus)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetStatuses_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostSearch{}
+		var fernTestValueStatuses []PostSearchStatusesItem
+
+		// Act
+		obj.SetStatuses(fernTestValueStatuses)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -3883,6 +3955,56 @@ func TestEnumPostSearchStatus(t *testing.T) {
 
 	t.Run("Ptr", func(t *testing.T) {
 		val, err := NewPostSearchStatusFromString("SCHEDULED")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
+func TestEnumPostSearchStatusesItem(t *testing.T) {
+	t.Run("NewFromString_SCHEDULED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostSearchStatusesItemFromString("SCHEDULED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostSearchStatusesItem("SCHEDULED"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_PROCESSING", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostSearchStatusesItemFromString("PROCESSING")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostSearchStatusesItem("PROCESSING"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_COMPLETED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostSearchStatusesItemFromString("COMPLETED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostSearchStatusesItem("COMPLETED"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_DRAFT", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostSearchStatusesItemFromString("DRAFT")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostSearchStatusesItem("DRAFT"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_FAILED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostSearchStatusesItemFromString("FAILED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostSearchStatusesItem("FAILED"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewPostSearchStatusesItemFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewPostSearchStatusesItemFromString("SCHEDULED")
 		assert.NoError(t, err)
 		ptr := val.Ptr()
 		assert.NotNil(t, ptr)

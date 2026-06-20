@@ -288,17 +288,19 @@ func (g *GetJobStatusPostsRequest) SetID(id string) {
 var (
 	listPostsRequestFieldPage             = big.NewInt(1 << 0)
 	listPostsRequestFieldStatus           = big.NewInt(1 << 1)
-	listPostsRequestFieldApprovalStatus   = big.NewInt(1 << 2)
-	listPostsRequestFieldScheduledAt      = big.NewInt(1 << 3)
-	listPostsRequestFieldTagIDs           = big.NewInt(1 << 4)
-	listPostsRequestFieldTagMode          = big.NewInt(1 << 5)
-	listPostsRequestFieldSocialAccountIDs = big.NewInt(1 << 6)
-	listPostsRequestFieldLimit            = big.NewInt(1 << 7)
+	listPostsRequestFieldStatuses         = big.NewInt(1 << 2)
+	listPostsRequestFieldApprovalStatus   = big.NewInt(1 << 3)
+	listPostsRequestFieldScheduledAt      = big.NewInt(1 << 4)
+	listPostsRequestFieldTagIDs           = big.NewInt(1 << 5)
+	listPostsRequestFieldTagMode          = big.NewInt(1 << 6)
+	listPostsRequestFieldSocialAccountIDs = big.NewInt(1 << 7)
+	listPostsRequestFieldLimit            = big.NewInt(1 << 8)
 )
 
 type ListPostsRequest struct {
 	Page             *int                            `json:"-" url:"page,omitempty"`
 	Status           *ListPostsRequestStatus         `json:"-" url:"status,omitempty"`
+	Statuses         []*ListPostsRequestStatusesItem `json:"-" url:"statuses,omitempty"`
 	ApprovalStatus   *ListPostsRequestApprovalStatus `json:"-" url:"approvalStatus,omitempty"`
 	ScheduledAt      *ListPostsRequestScheduledAt    `json:"-" url:"scheduledAt,omitempty"`
 	TagIDs           []*string                       `json:"-" url:"tagIds,omitempty"`
@@ -329,6 +331,13 @@ func (l *ListPostsRequest) SetPage(page *int) {
 func (l *ListPostsRequest) SetStatus(status *ListPostsRequestStatus) {
 	l.Status = status
 	l.require(listPostsRequestFieldStatus)
+}
+
+// SetStatuses sets the Statuses field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListPostsRequest) SetStatuses(statuses []*ListPostsRequestStatusesItem) {
+	l.Statuses = statuses
+	l.require(listPostsRequestFieldStatuses)
 }
 
 // SetApprovalStatus sets the ApprovalStatus field and marks it as non-optional;
@@ -3371,6 +3380,37 @@ func NewListPostsRequestStatusFromString(s string) (ListPostsRequestStatus, erro
 }
 
 func (l ListPostsRequestStatus) Ptr() *ListPostsRequestStatus {
+	return &l
+}
+
+type ListPostsRequestStatusesItem string
+
+const (
+	ListPostsRequestStatusesItemScheduled  ListPostsRequestStatusesItem = "SCHEDULED"
+	ListPostsRequestStatusesItemProcessing ListPostsRequestStatusesItem = "PROCESSING"
+	ListPostsRequestStatusesItemCompleted  ListPostsRequestStatusesItem = "COMPLETED"
+	ListPostsRequestStatusesItemDraft      ListPostsRequestStatusesItem = "DRAFT"
+	ListPostsRequestStatusesItemFailed     ListPostsRequestStatusesItem = "FAILED"
+)
+
+func NewListPostsRequestStatusesItemFromString(s string) (ListPostsRequestStatusesItem, error) {
+	switch s {
+	case "SCHEDULED":
+		return ListPostsRequestStatusesItemScheduled, nil
+	case "PROCESSING":
+		return ListPostsRequestStatusesItemProcessing, nil
+	case "COMPLETED":
+		return ListPostsRequestStatusesItemCompleted, nil
+	case "DRAFT":
+		return ListPostsRequestStatusesItemDraft, nil
+	case "FAILED":
+		return ListPostsRequestStatusesItemFailed, nil
+	}
+	var t ListPostsRequestStatusesItem
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (l ListPostsRequestStatusesItem) Ptr() *ListPostsRequestStatusesItem {
 	return &l
 }
 

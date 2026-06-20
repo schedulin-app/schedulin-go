@@ -831,17 +831,19 @@ func (p *PostPublishDraft) String() string {
 var (
 	postSearchFieldPage             = big.NewInt(1 << 0)
 	postSearchFieldStatus           = big.NewInt(1 << 1)
-	postSearchFieldApprovalStatus   = big.NewInt(1 << 2)
-	postSearchFieldScheduledAt      = big.NewInt(1 << 3)
-	postSearchFieldTagIDs           = big.NewInt(1 << 4)
-	postSearchFieldTagMode          = big.NewInt(1 << 5)
-	postSearchFieldSocialAccountIDs = big.NewInt(1 << 6)
-	postSearchFieldLimit            = big.NewInt(1 << 7)
+	postSearchFieldStatuses         = big.NewInt(1 << 2)
+	postSearchFieldApprovalStatus   = big.NewInt(1 << 3)
+	postSearchFieldScheduledAt      = big.NewInt(1 << 4)
+	postSearchFieldTagIDs           = big.NewInt(1 << 5)
+	postSearchFieldTagMode          = big.NewInt(1 << 6)
+	postSearchFieldSocialAccountIDs = big.NewInt(1 << 7)
+	postSearchFieldLimit            = big.NewInt(1 << 8)
 )
 
 type PostSearch struct {
 	Page             *int                      `json:"page,omitempty" url:"page,omitempty"`
 	Status           *PostSearchStatus         `json:"status,omitempty" url:"status,omitempty"`
+	Statuses         []PostSearchStatusesItem  `json:"statuses,omitempty" url:"statuses,omitempty"`
 	ApprovalStatus   *PostSearchApprovalStatus `json:"approvalStatus,omitempty" url:"approvalStatus,omitempty"`
 	ScheduledAt      *PostSearchScheduledAt    `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
 	TagIDs           []string                  `json:"tagIds,omitempty" url:"tagIds,omitempty"`
@@ -868,6 +870,13 @@ func (p *PostSearch) GetStatus() *PostSearchStatus {
 		return nil
 	}
 	return p.Status
+}
+
+func (p *PostSearch) GetStatuses() []PostSearchStatusesItem {
+	if p == nil {
+		return nil
+	}
+	return p.Statuses
 }
 
 func (p *PostSearch) GetApprovalStatus() *PostSearchApprovalStatus {
@@ -938,6 +947,13 @@ func (p *PostSearch) SetPage(page *int) {
 func (p *PostSearch) SetStatus(status *PostSearchStatus) {
 	p.Status = status
 	p.require(postSearchFieldStatus)
+}
+
+// SetStatuses sets the Statuses field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostSearch) SetStatuses(statuses []PostSearchStatusesItem) {
+	p.Statuses = statuses
+	p.require(postSearchFieldStatuses)
 }
 
 // SetApprovalStatus sets the ApprovalStatus field and marks it as non-optional;
@@ -1180,6 +1196,37 @@ func NewPostSearchStatusFromString(s string) (PostSearchStatus, error) {
 }
 
 func (p PostSearchStatus) Ptr() *PostSearchStatus {
+	return &p
+}
+
+type PostSearchStatusesItem string
+
+const (
+	PostSearchStatusesItemScheduled  PostSearchStatusesItem = "SCHEDULED"
+	PostSearchStatusesItemProcessing PostSearchStatusesItem = "PROCESSING"
+	PostSearchStatusesItemCompleted  PostSearchStatusesItem = "COMPLETED"
+	PostSearchStatusesItemDraft      PostSearchStatusesItem = "DRAFT"
+	PostSearchStatusesItemFailed     PostSearchStatusesItem = "FAILED"
+)
+
+func NewPostSearchStatusesItemFromString(s string) (PostSearchStatusesItem, error) {
+	switch s {
+	case "SCHEDULED":
+		return PostSearchStatusesItemScheduled, nil
+	case "PROCESSING":
+		return PostSearchStatusesItemProcessing, nil
+	case "COMPLETED":
+		return PostSearchStatusesItemCompleted, nil
+	case "DRAFT":
+		return PostSearchStatusesItemDraft, nil
+	case "FAILED":
+		return PostSearchStatusesItemFailed, nil
+	}
+	var t PostSearchStatusesItem
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostSearchStatusesItem) Ptr() *PostSearchStatusesItem {
 	return &p
 }
 
