@@ -532,6 +532,26 @@ const (
 	ListSocialAccountsResponseDataItemPlatformTiktok                ListSocialAccountsResponseDataItemPlatform = "tiktok"
 	ListSocialAccountsResponseDataItemPlatformTwitter               ListSocialAccountsResponseDataItemPlatform = "twitter"
 	ListSocialAccountsResponseDataItemPlatformYoutube               ListSocialAccountsResponseDataItemPlatform = "youtube"
+	ListSocialAccountsResponseDataItemPlatformMastodon              ListSocialAccountsResponseDataItemPlatform = "mastodon"
+	ListSocialAccountsResponseDataItemPlatformTelegram              ListSocialAccountsResponseDataItemPlatform = "telegram"
+	ListSocialAccountsResponseDataItemPlatformDevto                 ListSocialAccountsResponseDataItemPlatform = "devto"
+	ListSocialAccountsResponseDataItemPlatformHashnode              ListSocialAccountsResponseDataItemPlatform = "hashnode"
+	ListSocialAccountsResponseDataItemPlatformMedium                ListSocialAccountsResponseDataItemPlatform = "medium"
+	ListSocialAccountsResponseDataItemPlatformWordpress             ListSocialAccountsResponseDataItemPlatform = "wordpress"
+	ListSocialAccountsResponseDataItemPlatformLemmy                 ListSocialAccountsResponseDataItemPlatform = "lemmy"
+	ListSocialAccountsResponseDataItemPlatformNostr                 ListSocialAccountsResponseDataItemPlatform = "nostr"
+	ListSocialAccountsResponseDataItemPlatformDiscord               ListSocialAccountsResponseDataItemPlatform = "discord"
+	ListSocialAccountsResponseDataItemPlatformDribbble              ListSocialAccountsResponseDataItemPlatform = "dribbble"
+	ListSocialAccountsResponseDataItemPlatformFarcaster             ListSocialAccountsResponseDataItemPlatform = "farcaster"
+	ListSocialAccountsResponseDataItemPlatformKick                  ListSocialAccountsResponseDataItemPlatform = "kick"
+	ListSocialAccountsResponseDataItemPlatformListmonk              ListSocialAccountsResponseDataItemPlatform = "listmonk"
+	ListSocialAccountsResponseDataItemPlatformMewe                  ListSocialAccountsResponseDataItemPlatform = "mewe"
+	ListSocialAccountsResponseDataItemPlatformMoltbook              ListSocialAccountsResponseDataItemPlatform = "moltbook"
+	ListSocialAccountsResponseDataItemPlatformSkool                 ListSocialAccountsResponseDataItemPlatform = "skool"
+	ListSocialAccountsResponseDataItemPlatformSlack                 ListSocialAccountsResponseDataItemPlatform = "slack"
+	ListSocialAccountsResponseDataItemPlatformTwitch                ListSocialAccountsResponseDataItemPlatform = "twitch"
+	ListSocialAccountsResponseDataItemPlatformVk                    ListSocialAccountsResponseDataItemPlatform = "vk"
+	ListSocialAccountsResponseDataItemPlatformWhop                  ListSocialAccountsResponseDataItemPlatform = "whop"
 )
 
 func NewListSocialAccountsResponseDataItemPlatformFromString(s string) (ListSocialAccountsResponseDataItemPlatform, error) {
@@ -558,6 +578,46 @@ func NewListSocialAccountsResponseDataItemPlatformFromString(s string) (ListSoci
 		return ListSocialAccountsResponseDataItemPlatformTwitter, nil
 	case "youtube":
 		return ListSocialAccountsResponseDataItemPlatformYoutube, nil
+	case "mastodon":
+		return ListSocialAccountsResponseDataItemPlatformMastodon, nil
+	case "telegram":
+		return ListSocialAccountsResponseDataItemPlatformTelegram, nil
+	case "devto":
+		return ListSocialAccountsResponseDataItemPlatformDevto, nil
+	case "hashnode":
+		return ListSocialAccountsResponseDataItemPlatformHashnode, nil
+	case "medium":
+		return ListSocialAccountsResponseDataItemPlatformMedium, nil
+	case "wordpress":
+		return ListSocialAccountsResponseDataItemPlatformWordpress, nil
+	case "lemmy":
+		return ListSocialAccountsResponseDataItemPlatformLemmy, nil
+	case "nostr":
+		return ListSocialAccountsResponseDataItemPlatformNostr, nil
+	case "discord":
+		return ListSocialAccountsResponseDataItemPlatformDiscord, nil
+	case "dribbble":
+		return ListSocialAccountsResponseDataItemPlatformDribbble, nil
+	case "farcaster":
+		return ListSocialAccountsResponseDataItemPlatformFarcaster, nil
+	case "kick":
+		return ListSocialAccountsResponseDataItemPlatformKick, nil
+	case "listmonk":
+		return ListSocialAccountsResponseDataItemPlatformListmonk, nil
+	case "mewe":
+		return ListSocialAccountsResponseDataItemPlatformMewe, nil
+	case "moltbook":
+		return ListSocialAccountsResponseDataItemPlatformMoltbook, nil
+	case "skool":
+		return ListSocialAccountsResponseDataItemPlatformSkool, nil
+	case "slack":
+		return ListSocialAccountsResponseDataItemPlatformSlack, nil
+	case "twitch":
+		return ListSocialAccountsResponseDataItemPlatformTwitch, nil
+	case "vk":
+		return ListSocialAccountsResponseDataItemPlatformVk, nil
+	case "whop":
+		return ListSocialAccountsResponseDataItemPlatformWhop, nil
 	}
 	var t ListSocialAccountsResponseDataItemPlatform
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

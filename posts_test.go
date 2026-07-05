@@ -13560,6 +13560,146 @@ func TestEnumCreatePostsResponseMediaItemTagsItemPlatform(t *testing.T) {
 		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("youtube"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("whop"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)
@@ -13982,6 +14122,146 @@ func TestEnumPostCreateMediaItemTagsItemPlatform(t *testing.T) {
 		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("youtube"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("whop"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewPostCreateMediaItemTagsItemPlatformFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)
@@ -14103,6 +14383,146 @@ func TestEnumPostCreatePartsItemMediaItemTagsItemPlatform(t *testing.T) {
 		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("youtube"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("whop"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)
@@ -14222,6 +14642,146 @@ func TestEnumPostCreateThumbnailTagsItemPlatform(t *testing.T) {
 		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("youtube")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("youtube"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("whop"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
@@ -14393,6 +14953,146 @@ func TestEnumPostWithRelationsMediaItemTagsItemPlatform(t *testing.T) {
 		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("youtube")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("youtube"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("whop"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
@@ -14629,6 +15329,146 @@ func TestEnumSocialPlatform(t *testing.T) {
 		val, err := NewSocialPlatformFromString("youtube")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, SocialPlatform("youtube"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("whop"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_Invalid", func(t *testing.T) {

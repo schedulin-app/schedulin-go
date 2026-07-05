@@ -1721,6 +1721,26 @@ const (
 	PostWithRelationsMediaItemTagsItemPlatformTiktok                PostWithRelationsMediaItemTagsItemPlatform = "tiktok"
 	PostWithRelationsMediaItemTagsItemPlatformTwitter               PostWithRelationsMediaItemTagsItemPlatform = "twitter"
 	PostWithRelationsMediaItemTagsItemPlatformYoutube               PostWithRelationsMediaItemTagsItemPlatform = "youtube"
+	PostWithRelationsMediaItemTagsItemPlatformMastodon              PostWithRelationsMediaItemTagsItemPlatform = "mastodon"
+	PostWithRelationsMediaItemTagsItemPlatformTelegram              PostWithRelationsMediaItemTagsItemPlatform = "telegram"
+	PostWithRelationsMediaItemTagsItemPlatformDevto                 PostWithRelationsMediaItemTagsItemPlatform = "devto"
+	PostWithRelationsMediaItemTagsItemPlatformHashnode              PostWithRelationsMediaItemTagsItemPlatform = "hashnode"
+	PostWithRelationsMediaItemTagsItemPlatformMedium                PostWithRelationsMediaItemTagsItemPlatform = "medium"
+	PostWithRelationsMediaItemTagsItemPlatformWordpress             PostWithRelationsMediaItemTagsItemPlatform = "wordpress"
+	PostWithRelationsMediaItemTagsItemPlatformLemmy                 PostWithRelationsMediaItemTagsItemPlatform = "lemmy"
+	PostWithRelationsMediaItemTagsItemPlatformNostr                 PostWithRelationsMediaItemTagsItemPlatform = "nostr"
+	PostWithRelationsMediaItemTagsItemPlatformDiscord               PostWithRelationsMediaItemTagsItemPlatform = "discord"
+	PostWithRelationsMediaItemTagsItemPlatformDribbble              PostWithRelationsMediaItemTagsItemPlatform = "dribbble"
+	PostWithRelationsMediaItemTagsItemPlatformFarcaster             PostWithRelationsMediaItemTagsItemPlatform = "farcaster"
+	PostWithRelationsMediaItemTagsItemPlatformKick                  PostWithRelationsMediaItemTagsItemPlatform = "kick"
+	PostWithRelationsMediaItemTagsItemPlatformListmonk              PostWithRelationsMediaItemTagsItemPlatform = "listmonk"
+	PostWithRelationsMediaItemTagsItemPlatformMewe                  PostWithRelationsMediaItemTagsItemPlatform = "mewe"
+	PostWithRelationsMediaItemTagsItemPlatformMoltbook              PostWithRelationsMediaItemTagsItemPlatform = "moltbook"
+	PostWithRelationsMediaItemTagsItemPlatformSkool                 PostWithRelationsMediaItemTagsItemPlatform = "skool"
+	PostWithRelationsMediaItemTagsItemPlatformSlack                 PostWithRelationsMediaItemTagsItemPlatform = "slack"
+	PostWithRelationsMediaItemTagsItemPlatformTwitch                PostWithRelationsMediaItemTagsItemPlatform = "twitch"
+	PostWithRelationsMediaItemTagsItemPlatformVk                    PostWithRelationsMediaItemTagsItemPlatform = "vk"
+	PostWithRelationsMediaItemTagsItemPlatformWhop                  PostWithRelationsMediaItemTagsItemPlatform = "whop"
 )
 
 func NewPostWithRelationsMediaItemTagsItemPlatformFromString(s string) (PostWithRelationsMediaItemTagsItemPlatform, error) {
@@ -1747,6 +1767,46 @@ func NewPostWithRelationsMediaItemTagsItemPlatformFromString(s string) (PostWith
 		return PostWithRelationsMediaItemTagsItemPlatformTwitter, nil
 	case "youtube":
 		return PostWithRelationsMediaItemTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return PostWithRelationsMediaItemTagsItemPlatformMastodon, nil
+	case "telegram":
+		return PostWithRelationsMediaItemTagsItemPlatformTelegram, nil
+	case "devto":
+		return PostWithRelationsMediaItemTagsItemPlatformDevto, nil
+	case "hashnode":
+		return PostWithRelationsMediaItemTagsItemPlatformHashnode, nil
+	case "medium":
+		return PostWithRelationsMediaItemTagsItemPlatformMedium, nil
+	case "wordpress":
+		return PostWithRelationsMediaItemTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return PostWithRelationsMediaItemTagsItemPlatformLemmy, nil
+	case "nostr":
+		return PostWithRelationsMediaItemTagsItemPlatformNostr, nil
+	case "discord":
+		return PostWithRelationsMediaItemTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return PostWithRelationsMediaItemTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return PostWithRelationsMediaItemTagsItemPlatformFarcaster, nil
+	case "kick":
+		return PostWithRelationsMediaItemTagsItemPlatformKick, nil
+	case "listmonk":
+		return PostWithRelationsMediaItemTagsItemPlatformListmonk, nil
+	case "mewe":
+		return PostWithRelationsMediaItemTagsItemPlatformMewe, nil
+	case "moltbook":
+		return PostWithRelationsMediaItemTagsItemPlatformMoltbook, nil
+	case "skool":
+		return PostWithRelationsMediaItemTagsItemPlatformSkool, nil
+	case "slack":
+		return PostWithRelationsMediaItemTagsItemPlatformSlack, nil
+	case "twitch":
+		return PostWithRelationsMediaItemTagsItemPlatformTwitch, nil
+	case "vk":
+		return PostWithRelationsMediaItemTagsItemPlatformVk, nil
+	case "whop":
+		return PostWithRelationsMediaItemTagsItemPlatformWhop, nil
 	}
 	var t PostWithRelationsMediaItemTagsItemPlatform
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -2290,6 +2350,26 @@ const (
 	SocialPlatformTiktok                SocialPlatform = "tiktok"
 	SocialPlatformTwitter               SocialPlatform = "twitter"
 	SocialPlatformYoutube               SocialPlatform = "youtube"
+	SocialPlatformMastodon              SocialPlatform = "mastodon"
+	SocialPlatformTelegram              SocialPlatform = "telegram"
+	SocialPlatformDevto                 SocialPlatform = "devto"
+	SocialPlatformHashnode              SocialPlatform = "hashnode"
+	SocialPlatformMedium                SocialPlatform = "medium"
+	SocialPlatformWordpress             SocialPlatform = "wordpress"
+	SocialPlatformLemmy                 SocialPlatform = "lemmy"
+	SocialPlatformNostr                 SocialPlatform = "nostr"
+	SocialPlatformDiscord               SocialPlatform = "discord"
+	SocialPlatformDribbble              SocialPlatform = "dribbble"
+	SocialPlatformFarcaster             SocialPlatform = "farcaster"
+	SocialPlatformKick                  SocialPlatform = "kick"
+	SocialPlatformListmonk              SocialPlatform = "listmonk"
+	SocialPlatformMewe                  SocialPlatform = "mewe"
+	SocialPlatformMoltbook              SocialPlatform = "moltbook"
+	SocialPlatformSkool                 SocialPlatform = "skool"
+	SocialPlatformSlack                 SocialPlatform = "slack"
+	SocialPlatformTwitch                SocialPlatform = "twitch"
+	SocialPlatformVk                    SocialPlatform = "vk"
+	SocialPlatformWhop                  SocialPlatform = "whop"
 )
 
 func NewSocialPlatformFromString(s string) (SocialPlatform, error) {
@@ -2316,6 +2396,46 @@ func NewSocialPlatformFromString(s string) (SocialPlatform, error) {
 		return SocialPlatformTwitter, nil
 	case "youtube":
 		return SocialPlatformYoutube, nil
+	case "mastodon":
+		return SocialPlatformMastodon, nil
+	case "telegram":
+		return SocialPlatformTelegram, nil
+	case "devto":
+		return SocialPlatformDevto, nil
+	case "hashnode":
+		return SocialPlatformHashnode, nil
+	case "medium":
+		return SocialPlatformMedium, nil
+	case "wordpress":
+		return SocialPlatformWordpress, nil
+	case "lemmy":
+		return SocialPlatformLemmy, nil
+	case "nostr":
+		return SocialPlatformNostr, nil
+	case "discord":
+		return SocialPlatformDiscord, nil
+	case "dribbble":
+		return SocialPlatformDribbble, nil
+	case "farcaster":
+		return SocialPlatformFarcaster, nil
+	case "kick":
+		return SocialPlatformKick, nil
+	case "listmonk":
+		return SocialPlatformListmonk, nil
+	case "mewe":
+		return SocialPlatformMewe, nil
+	case "moltbook":
+		return SocialPlatformMoltbook, nil
+	case "skool":
+		return SocialPlatformSkool, nil
+	case "slack":
+		return SocialPlatformSlack, nil
+	case "twitch":
+		return SocialPlatformTwitch, nil
+	case "vk":
+		return SocialPlatformVk, nil
+	case "whop":
+		return SocialPlatformWhop, nil
 	}
 	var t SocialPlatform
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -3267,6 +3387,26 @@ const (
 	CreatePostsResponseMediaItemTagsItemPlatformTiktok                CreatePostsResponseMediaItemTagsItemPlatform = "tiktok"
 	CreatePostsResponseMediaItemTagsItemPlatformTwitter               CreatePostsResponseMediaItemTagsItemPlatform = "twitter"
 	CreatePostsResponseMediaItemTagsItemPlatformYoutube               CreatePostsResponseMediaItemTagsItemPlatform = "youtube"
+	CreatePostsResponseMediaItemTagsItemPlatformMastodon              CreatePostsResponseMediaItemTagsItemPlatform = "mastodon"
+	CreatePostsResponseMediaItemTagsItemPlatformTelegram              CreatePostsResponseMediaItemTagsItemPlatform = "telegram"
+	CreatePostsResponseMediaItemTagsItemPlatformDevto                 CreatePostsResponseMediaItemTagsItemPlatform = "devto"
+	CreatePostsResponseMediaItemTagsItemPlatformHashnode              CreatePostsResponseMediaItemTagsItemPlatform = "hashnode"
+	CreatePostsResponseMediaItemTagsItemPlatformMedium                CreatePostsResponseMediaItemTagsItemPlatform = "medium"
+	CreatePostsResponseMediaItemTagsItemPlatformWordpress             CreatePostsResponseMediaItemTagsItemPlatform = "wordpress"
+	CreatePostsResponseMediaItemTagsItemPlatformLemmy                 CreatePostsResponseMediaItemTagsItemPlatform = "lemmy"
+	CreatePostsResponseMediaItemTagsItemPlatformNostr                 CreatePostsResponseMediaItemTagsItemPlatform = "nostr"
+	CreatePostsResponseMediaItemTagsItemPlatformDiscord               CreatePostsResponseMediaItemTagsItemPlatform = "discord"
+	CreatePostsResponseMediaItemTagsItemPlatformDribbble              CreatePostsResponseMediaItemTagsItemPlatform = "dribbble"
+	CreatePostsResponseMediaItemTagsItemPlatformFarcaster             CreatePostsResponseMediaItemTagsItemPlatform = "farcaster"
+	CreatePostsResponseMediaItemTagsItemPlatformKick                  CreatePostsResponseMediaItemTagsItemPlatform = "kick"
+	CreatePostsResponseMediaItemTagsItemPlatformListmonk              CreatePostsResponseMediaItemTagsItemPlatform = "listmonk"
+	CreatePostsResponseMediaItemTagsItemPlatformMewe                  CreatePostsResponseMediaItemTagsItemPlatform = "mewe"
+	CreatePostsResponseMediaItemTagsItemPlatformMoltbook              CreatePostsResponseMediaItemTagsItemPlatform = "moltbook"
+	CreatePostsResponseMediaItemTagsItemPlatformSkool                 CreatePostsResponseMediaItemTagsItemPlatform = "skool"
+	CreatePostsResponseMediaItemTagsItemPlatformSlack                 CreatePostsResponseMediaItemTagsItemPlatform = "slack"
+	CreatePostsResponseMediaItemTagsItemPlatformTwitch                CreatePostsResponseMediaItemTagsItemPlatform = "twitch"
+	CreatePostsResponseMediaItemTagsItemPlatformVk                    CreatePostsResponseMediaItemTagsItemPlatform = "vk"
+	CreatePostsResponseMediaItemTagsItemPlatformWhop                  CreatePostsResponseMediaItemTagsItemPlatform = "whop"
 )
 
 func NewCreatePostsResponseMediaItemTagsItemPlatformFromString(s string) (CreatePostsResponseMediaItemTagsItemPlatform, error) {
@@ -3293,6 +3433,46 @@ func NewCreatePostsResponseMediaItemTagsItemPlatformFromString(s string) (Create
 		return CreatePostsResponseMediaItemTagsItemPlatformTwitter, nil
 	case "youtube":
 		return CreatePostsResponseMediaItemTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return CreatePostsResponseMediaItemTagsItemPlatformMastodon, nil
+	case "telegram":
+		return CreatePostsResponseMediaItemTagsItemPlatformTelegram, nil
+	case "devto":
+		return CreatePostsResponseMediaItemTagsItemPlatformDevto, nil
+	case "hashnode":
+		return CreatePostsResponseMediaItemTagsItemPlatformHashnode, nil
+	case "medium":
+		return CreatePostsResponseMediaItemTagsItemPlatformMedium, nil
+	case "wordpress":
+		return CreatePostsResponseMediaItemTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return CreatePostsResponseMediaItemTagsItemPlatformLemmy, nil
+	case "nostr":
+		return CreatePostsResponseMediaItemTagsItemPlatformNostr, nil
+	case "discord":
+		return CreatePostsResponseMediaItemTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return CreatePostsResponseMediaItemTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return CreatePostsResponseMediaItemTagsItemPlatformFarcaster, nil
+	case "kick":
+		return CreatePostsResponseMediaItemTagsItemPlatformKick, nil
+	case "listmonk":
+		return CreatePostsResponseMediaItemTagsItemPlatformListmonk, nil
+	case "mewe":
+		return CreatePostsResponseMediaItemTagsItemPlatformMewe, nil
+	case "moltbook":
+		return CreatePostsResponseMediaItemTagsItemPlatformMoltbook, nil
+	case "skool":
+		return CreatePostsResponseMediaItemTagsItemPlatformSkool, nil
+	case "slack":
+		return CreatePostsResponseMediaItemTagsItemPlatformSlack, nil
+	case "twitch":
+		return CreatePostsResponseMediaItemTagsItemPlatformTwitch, nil
+	case "vk":
+		return CreatePostsResponseMediaItemTagsItemPlatformVk, nil
+	case "whop":
+		return CreatePostsResponseMediaItemTagsItemPlatformWhop, nil
 	}
 	var t CreatePostsResponseMediaItemTagsItemPlatform
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -4018,6 +4198,26 @@ const (
 	PostCreateMediaItemTagsItemPlatformTiktok                PostCreateMediaItemTagsItemPlatform = "tiktok"
 	PostCreateMediaItemTagsItemPlatformTwitter               PostCreateMediaItemTagsItemPlatform = "twitter"
 	PostCreateMediaItemTagsItemPlatformYoutube               PostCreateMediaItemTagsItemPlatform = "youtube"
+	PostCreateMediaItemTagsItemPlatformMastodon              PostCreateMediaItemTagsItemPlatform = "mastodon"
+	PostCreateMediaItemTagsItemPlatformTelegram              PostCreateMediaItemTagsItemPlatform = "telegram"
+	PostCreateMediaItemTagsItemPlatformDevto                 PostCreateMediaItemTagsItemPlatform = "devto"
+	PostCreateMediaItemTagsItemPlatformHashnode              PostCreateMediaItemTagsItemPlatform = "hashnode"
+	PostCreateMediaItemTagsItemPlatformMedium                PostCreateMediaItemTagsItemPlatform = "medium"
+	PostCreateMediaItemTagsItemPlatformWordpress             PostCreateMediaItemTagsItemPlatform = "wordpress"
+	PostCreateMediaItemTagsItemPlatformLemmy                 PostCreateMediaItemTagsItemPlatform = "lemmy"
+	PostCreateMediaItemTagsItemPlatformNostr                 PostCreateMediaItemTagsItemPlatform = "nostr"
+	PostCreateMediaItemTagsItemPlatformDiscord               PostCreateMediaItemTagsItemPlatform = "discord"
+	PostCreateMediaItemTagsItemPlatformDribbble              PostCreateMediaItemTagsItemPlatform = "dribbble"
+	PostCreateMediaItemTagsItemPlatformFarcaster             PostCreateMediaItemTagsItemPlatform = "farcaster"
+	PostCreateMediaItemTagsItemPlatformKick                  PostCreateMediaItemTagsItemPlatform = "kick"
+	PostCreateMediaItemTagsItemPlatformListmonk              PostCreateMediaItemTagsItemPlatform = "listmonk"
+	PostCreateMediaItemTagsItemPlatformMewe                  PostCreateMediaItemTagsItemPlatform = "mewe"
+	PostCreateMediaItemTagsItemPlatformMoltbook              PostCreateMediaItemTagsItemPlatform = "moltbook"
+	PostCreateMediaItemTagsItemPlatformSkool                 PostCreateMediaItemTagsItemPlatform = "skool"
+	PostCreateMediaItemTagsItemPlatformSlack                 PostCreateMediaItemTagsItemPlatform = "slack"
+	PostCreateMediaItemTagsItemPlatformTwitch                PostCreateMediaItemTagsItemPlatform = "twitch"
+	PostCreateMediaItemTagsItemPlatformVk                    PostCreateMediaItemTagsItemPlatform = "vk"
+	PostCreateMediaItemTagsItemPlatformWhop                  PostCreateMediaItemTagsItemPlatform = "whop"
 )
 
 func NewPostCreateMediaItemTagsItemPlatformFromString(s string) (PostCreateMediaItemTagsItemPlatform, error) {
@@ -4044,6 +4244,46 @@ func NewPostCreateMediaItemTagsItemPlatformFromString(s string) (PostCreateMedia
 		return PostCreateMediaItemTagsItemPlatformTwitter, nil
 	case "youtube":
 		return PostCreateMediaItemTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return PostCreateMediaItemTagsItemPlatformMastodon, nil
+	case "telegram":
+		return PostCreateMediaItemTagsItemPlatformTelegram, nil
+	case "devto":
+		return PostCreateMediaItemTagsItemPlatformDevto, nil
+	case "hashnode":
+		return PostCreateMediaItemTagsItemPlatformHashnode, nil
+	case "medium":
+		return PostCreateMediaItemTagsItemPlatformMedium, nil
+	case "wordpress":
+		return PostCreateMediaItemTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return PostCreateMediaItemTagsItemPlatformLemmy, nil
+	case "nostr":
+		return PostCreateMediaItemTagsItemPlatformNostr, nil
+	case "discord":
+		return PostCreateMediaItemTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return PostCreateMediaItemTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return PostCreateMediaItemTagsItemPlatformFarcaster, nil
+	case "kick":
+		return PostCreateMediaItemTagsItemPlatformKick, nil
+	case "listmonk":
+		return PostCreateMediaItemTagsItemPlatformListmonk, nil
+	case "mewe":
+		return PostCreateMediaItemTagsItemPlatformMewe, nil
+	case "moltbook":
+		return PostCreateMediaItemTagsItemPlatformMoltbook, nil
+	case "skool":
+		return PostCreateMediaItemTagsItemPlatformSkool, nil
+	case "slack":
+		return PostCreateMediaItemTagsItemPlatformSlack, nil
+	case "twitch":
+		return PostCreateMediaItemTagsItemPlatformTwitch, nil
+	case "vk":
+		return PostCreateMediaItemTagsItemPlatformVk, nil
+	case "whop":
+		return PostCreateMediaItemTagsItemPlatformWhop, nil
 	}
 	var t PostCreateMediaItemTagsItemPlatform
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -4597,6 +4837,26 @@ const (
 	PostCreatePartsItemMediaItemTagsItemPlatformTiktok                PostCreatePartsItemMediaItemTagsItemPlatform = "tiktok"
 	PostCreatePartsItemMediaItemTagsItemPlatformTwitter               PostCreatePartsItemMediaItemTagsItemPlatform = "twitter"
 	PostCreatePartsItemMediaItemTagsItemPlatformYoutube               PostCreatePartsItemMediaItemTagsItemPlatform = "youtube"
+	PostCreatePartsItemMediaItemTagsItemPlatformMastodon              PostCreatePartsItemMediaItemTagsItemPlatform = "mastodon"
+	PostCreatePartsItemMediaItemTagsItemPlatformTelegram              PostCreatePartsItemMediaItemTagsItemPlatform = "telegram"
+	PostCreatePartsItemMediaItemTagsItemPlatformDevto                 PostCreatePartsItemMediaItemTagsItemPlatform = "devto"
+	PostCreatePartsItemMediaItemTagsItemPlatformHashnode              PostCreatePartsItemMediaItemTagsItemPlatform = "hashnode"
+	PostCreatePartsItemMediaItemTagsItemPlatformMedium                PostCreatePartsItemMediaItemTagsItemPlatform = "medium"
+	PostCreatePartsItemMediaItemTagsItemPlatformWordpress             PostCreatePartsItemMediaItemTagsItemPlatform = "wordpress"
+	PostCreatePartsItemMediaItemTagsItemPlatformLemmy                 PostCreatePartsItemMediaItemTagsItemPlatform = "lemmy"
+	PostCreatePartsItemMediaItemTagsItemPlatformNostr                 PostCreatePartsItemMediaItemTagsItemPlatform = "nostr"
+	PostCreatePartsItemMediaItemTagsItemPlatformDiscord               PostCreatePartsItemMediaItemTagsItemPlatform = "discord"
+	PostCreatePartsItemMediaItemTagsItemPlatformDribbble              PostCreatePartsItemMediaItemTagsItemPlatform = "dribbble"
+	PostCreatePartsItemMediaItemTagsItemPlatformFarcaster             PostCreatePartsItemMediaItemTagsItemPlatform = "farcaster"
+	PostCreatePartsItemMediaItemTagsItemPlatformKick                  PostCreatePartsItemMediaItemTagsItemPlatform = "kick"
+	PostCreatePartsItemMediaItemTagsItemPlatformListmonk              PostCreatePartsItemMediaItemTagsItemPlatform = "listmonk"
+	PostCreatePartsItemMediaItemTagsItemPlatformMewe                  PostCreatePartsItemMediaItemTagsItemPlatform = "mewe"
+	PostCreatePartsItemMediaItemTagsItemPlatformMoltbook              PostCreatePartsItemMediaItemTagsItemPlatform = "moltbook"
+	PostCreatePartsItemMediaItemTagsItemPlatformSkool                 PostCreatePartsItemMediaItemTagsItemPlatform = "skool"
+	PostCreatePartsItemMediaItemTagsItemPlatformSlack                 PostCreatePartsItemMediaItemTagsItemPlatform = "slack"
+	PostCreatePartsItemMediaItemTagsItemPlatformTwitch                PostCreatePartsItemMediaItemTagsItemPlatform = "twitch"
+	PostCreatePartsItemMediaItemTagsItemPlatformVk                    PostCreatePartsItemMediaItemTagsItemPlatform = "vk"
+	PostCreatePartsItemMediaItemTagsItemPlatformWhop                  PostCreatePartsItemMediaItemTagsItemPlatform = "whop"
 )
 
 func NewPostCreatePartsItemMediaItemTagsItemPlatformFromString(s string) (PostCreatePartsItemMediaItemTagsItemPlatform, error) {
@@ -4623,6 +4883,46 @@ func NewPostCreatePartsItemMediaItemTagsItemPlatformFromString(s string) (PostCr
 		return PostCreatePartsItemMediaItemTagsItemPlatformTwitter, nil
 	case "youtube":
 		return PostCreatePartsItemMediaItemTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return PostCreatePartsItemMediaItemTagsItemPlatformMastodon, nil
+	case "telegram":
+		return PostCreatePartsItemMediaItemTagsItemPlatformTelegram, nil
+	case "devto":
+		return PostCreatePartsItemMediaItemTagsItemPlatformDevto, nil
+	case "hashnode":
+		return PostCreatePartsItemMediaItemTagsItemPlatformHashnode, nil
+	case "medium":
+		return PostCreatePartsItemMediaItemTagsItemPlatformMedium, nil
+	case "wordpress":
+		return PostCreatePartsItemMediaItemTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return PostCreatePartsItemMediaItemTagsItemPlatformLemmy, nil
+	case "nostr":
+		return PostCreatePartsItemMediaItemTagsItemPlatformNostr, nil
+	case "discord":
+		return PostCreatePartsItemMediaItemTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return PostCreatePartsItemMediaItemTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return PostCreatePartsItemMediaItemTagsItemPlatformFarcaster, nil
+	case "kick":
+		return PostCreatePartsItemMediaItemTagsItemPlatformKick, nil
+	case "listmonk":
+		return PostCreatePartsItemMediaItemTagsItemPlatformListmonk, nil
+	case "mewe":
+		return PostCreatePartsItemMediaItemTagsItemPlatformMewe, nil
+	case "moltbook":
+		return PostCreatePartsItemMediaItemTagsItemPlatformMoltbook, nil
+	case "skool":
+		return PostCreatePartsItemMediaItemTagsItemPlatformSkool, nil
+	case "slack":
+		return PostCreatePartsItemMediaItemTagsItemPlatformSlack, nil
+	case "twitch":
+		return PostCreatePartsItemMediaItemTagsItemPlatformTwitch, nil
+	case "vk":
+		return PostCreatePartsItemMediaItemTagsItemPlatformVk, nil
+	case "whop":
+		return PostCreatePartsItemMediaItemTagsItemPlatformWhop, nil
 	}
 	var t PostCreatePartsItemMediaItemTagsItemPlatform
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -5076,6 +5376,26 @@ const (
 	PostCreateThumbnailTagsItemPlatformTiktok                PostCreateThumbnailTagsItemPlatform = "tiktok"
 	PostCreateThumbnailTagsItemPlatformTwitter               PostCreateThumbnailTagsItemPlatform = "twitter"
 	PostCreateThumbnailTagsItemPlatformYoutube               PostCreateThumbnailTagsItemPlatform = "youtube"
+	PostCreateThumbnailTagsItemPlatformMastodon              PostCreateThumbnailTagsItemPlatform = "mastodon"
+	PostCreateThumbnailTagsItemPlatformTelegram              PostCreateThumbnailTagsItemPlatform = "telegram"
+	PostCreateThumbnailTagsItemPlatformDevto                 PostCreateThumbnailTagsItemPlatform = "devto"
+	PostCreateThumbnailTagsItemPlatformHashnode              PostCreateThumbnailTagsItemPlatform = "hashnode"
+	PostCreateThumbnailTagsItemPlatformMedium                PostCreateThumbnailTagsItemPlatform = "medium"
+	PostCreateThumbnailTagsItemPlatformWordpress             PostCreateThumbnailTagsItemPlatform = "wordpress"
+	PostCreateThumbnailTagsItemPlatformLemmy                 PostCreateThumbnailTagsItemPlatform = "lemmy"
+	PostCreateThumbnailTagsItemPlatformNostr                 PostCreateThumbnailTagsItemPlatform = "nostr"
+	PostCreateThumbnailTagsItemPlatformDiscord               PostCreateThumbnailTagsItemPlatform = "discord"
+	PostCreateThumbnailTagsItemPlatformDribbble              PostCreateThumbnailTagsItemPlatform = "dribbble"
+	PostCreateThumbnailTagsItemPlatformFarcaster             PostCreateThumbnailTagsItemPlatform = "farcaster"
+	PostCreateThumbnailTagsItemPlatformKick                  PostCreateThumbnailTagsItemPlatform = "kick"
+	PostCreateThumbnailTagsItemPlatformListmonk              PostCreateThumbnailTagsItemPlatform = "listmonk"
+	PostCreateThumbnailTagsItemPlatformMewe                  PostCreateThumbnailTagsItemPlatform = "mewe"
+	PostCreateThumbnailTagsItemPlatformMoltbook              PostCreateThumbnailTagsItemPlatform = "moltbook"
+	PostCreateThumbnailTagsItemPlatformSkool                 PostCreateThumbnailTagsItemPlatform = "skool"
+	PostCreateThumbnailTagsItemPlatformSlack                 PostCreateThumbnailTagsItemPlatform = "slack"
+	PostCreateThumbnailTagsItemPlatformTwitch                PostCreateThumbnailTagsItemPlatform = "twitch"
+	PostCreateThumbnailTagsItemPlatformVk                    PostCreateThumbnailTagsItemPlatform = "vk"
+	PostCreateThumbnailTagsItemPlatformWhop                  PostCreateThumbnailTagsItemPlatform = "whop"
 )
 
 func NewPostCreateThumbnailTagsItemPlatformFromString(s string) (PostCreateThumbnailTagsItemPlatform, error) {
@@ -5102,6 +5422,46 @@ func NewPostCreateThumbnailTagsItemPlatformFromString(s string) (PostCreateThumb
 		return PostCreateThumbnailTagsItemPlatformTwitter, nil
 	case "youtube":
 		return PostCreateThumbnailTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return PostCreateThumbnailTagsItemPlatformMastodon, nil
+	case "telegram":
+		return PostCreateThumbnailTagsItemPlatformTelegram, nil
+	case "devto":
+		return PostCreateThumbnailTagsItemPlatformDevto, nil
+	case "hashnode":
+		return PostCreateThumbnailTagsItemPlatformHashnode, nil
+	case "medium":
+		return PostCreateThumbnailTagsItemPlatformMedium, nil
+	case "wordpress":
+		return PostCreateThumbnailTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return PostCreateThumbnailTagsItemPlatformLemmy, nil
+	case "nostr":
+		return PostCreateThumbnailTagsItemPlatformNostr, nil
+	case "discord":
+		return PostCreateThumbnailTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return PostCreateThumbnailTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return PostCreateThumbnailTagsItemPlatformFarcaster, nil
+	case "kick":
+		return PostCreateThumbnailTagsItemPlatformKick, nil
+	case "listmonk":
+		return PostCreateThumbnailTagsItemPlatformListmonk, nil
+	case "mewe":
+		return PostCreateThumbnailTagsItemPlatformMewe, nil
+	case "moltbook":
+		return PostCreateThumbnailTagsItemPlatformMoltbook, nil
+	case "skool":
+		return PostCreateThumbnailTagsItemPlatformSkool, nil
+	case "slack":
+		return PostCreateThumbnailTagsItemPlatformSlack, nil
+	case "twitch":
+		return PostCreateThumbnailTagsItemPlatformTwitch, nil
+	case "vk":
+		return PostCreateThumbnailTagsItemPlatformVk, nil
+	case "whop":
+		return PostCreateThumbnailTagsItemPlatformWhop, nil
 	}
 	var t PostCreateThumbnailTagsItemPlatform
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

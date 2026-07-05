@@ -2993,6 +2993,146 @@ func TestEnumListSocialAccountsResponseDataItemPlatform(t *testing.T) {
 		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("youtube"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListSocialAccountsResponseDataItemPlatformFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListSocialAccountsResponseDataItemPlatform("whop"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewListSocialAccountsResponseDataItemPlatformFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)
