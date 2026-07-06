@@ -178,6 +178,32 @@ func TestSocialAccountsUpdateTimezoneWithWireMock(
 	VerifyRequestCount(t, "TestSocialAccountsUpdateTimezoneWithWireMock", "PUT", "/v0/social-accounts/id/timezone", nil, 1)
 }
 
+func TestSocialAccountsNextSlotsWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulingo.NextSlotsSocialAccountsRequest{
+		ID: "id",
+	}
+	_, invocationErr := client.SocialAccounts.NextSlots(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestSocialAccountsNextSlotsWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestSocialAccountsNextSlotsWithWireMock", "GET", "/v0/social-accounts/id/next-slots", nil, 1)
+}
+
 func TestSocialAccountsPinterestBoardsWithWireMock(
 	t *testing.T,
 ) {

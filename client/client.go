@@ -7,6 +7,7 @@ import (
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	media "github.com/schedulin-app/schedulin-go/media"
 	option "github.com/schedulin-app/schedulin-go/option"
+	platforms "github.com/schedulin-app/schedulin-go/platforms"
 	posts "github.com/schedulin-app/schedulin-go/posts"
 	socialaccounts "github.com/schedulin-app/schedulin-go/socialaccounts"
 	tags "github.com/schedulin-app/schedulin-go/tags"
@@ -17,6 +18,7 @@ type Client struct {
 	SocialAccounts *socialaccounts.Client
 	Tags           *tags.Client
 	Media          *media.Client
+	Platforms      *platforms.Client
 
 	options *core.RequestOptions
 	baseURL string
@@ -30,6 +32,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 		SocialAccounts: socialaccounts.NewClient(options),
 		Tags:           tags.NewClient(options),
 		Media:          media.NewClient(options),
+		Platforms:      platforms.NewClient(options),
 		options:        options,
 		baseURL:        options.BaseURL,
 		caller: internal.NewCaller(

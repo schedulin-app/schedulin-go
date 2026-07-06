@@ -100,6 +100,23 @@ func (c *Client) UpdateTimezone(
 	return response.Body, nil
 }
 
+// Return the next available queue slot times (UTC) for a social account, computed from its queue schedule, per-slot capacity, and timezone. Empty when the account has no queue times configured. Use a slot as `scheduledAt`, or pass `action: "queue"` when creating a post to take the next slot automatically.
+func (c *Client) NextSlots(
+	ctx context.Context,
+	request *schedulingo.NextSlotsSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*schedulingo.NextSlotsSocialAccountsResponse, error) {
+	response, err := c.WithRawResponse.NextSlots(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // List the boards for a connected Pinterest account. Use a board id in `platformConfiguration.board_ids` when creating a Pinterest post.
 func (c *Client) PinterestBoards(
 	ctx context.Context,

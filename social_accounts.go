@@ -57,6 +57,49 @@ func (d *DeleteSocialAccountsRequest) MarshalJSON() ([]byte, error) {
 }
 
 var (
+	nextSlotsSocialAccountsRequestFieldID    = big.NewInt(1 << 0)
+	nextSlotsSocialAccountsRequestFieldLimit = big.NewInt(1 << 1)
+	nextSlotsSocialAccountsRequestFieldAfter = big.NewInt(1 << 2)
+)
+
+type NextSlotsSocialAccountsRequest struct {
+	ID    string  `json:"-" url:"-"`
+	Limit *int    `json:"-" url:"limit,omitempty"`
+	After *string `json:"-" url:"after,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (n *NextSlotsSocialAccountsRequest) require(field *big.Int) {
+	if n.explicitFields == nil {
+		n.explicitFields = big.NewInt(0)
+	}
+	n.explicitFields.Or(n.explicitFields, field)
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (n *NextSlotsSocialAccountsRequest) SetID(id string) {
+	n.ID = id
+	n.require(nextSlotsSocialAccountsRequestFieldID)
+}
+
+// SetLimit sets the Limit field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (n *NextSlotsSocialAccountsRequest) SetLimit(limit *int) {
+	n.Limit = limit
+	n.require(nextSlotsSocialAccountsRequestFieldLimit)
+}
+
+// SetAfter sets the After field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (n *NextSlotsSocialAccountsRequest) SetAfter(after *string) {
+	n.After = after
+	n.require(nextSlotsSocialAccountsRequestFieldAfter)
+}
+
+var (
 	pinterestBoardsSocialAccountsRequestFieldID = big.NewInt(1 << 0)
 )
 
@@ -647,6 +690,90 @@ func NewListSocialAccountsResponseDataItemStatusFromString(s string) (ListSocial
 
 func (l ListSocialAccountsResponseDataItemStatus) Ptr() *ListSocialAccountsResponseDataItemStatus {
 	return &l
+}
+
+var (
+	nextSlotsSocialAccountsResponseFieldSlots = big.NewInt(1 << 0)
+)
+
+type NextSlotsSocialAccountsResponse struct {
+	Slots []time.Time `json:"slots" url:"slots"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (n *NextSlotsSocialAccountsResponse) GetSlots() []time.Time {
+	if n == nil {
+		return nil
+	}
+	return n.Slots
+}
+
+func (n *NextSlotsSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
+	if n == nil {
+		return nil
+	}
+	return n.extraProperties
+}
+
+func (n *NextSlotsSocialAccountsResponse) require(field *big.Int) {
+	if n.explicitFields == nil {
+		n.explicitFields = big.NewInt(0)
+	}
+	n.explicitFields.Or(n.explicitFields, field)
+}
+
+// SetSlots sets the Slots field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (n *NextSlotsSocialAccountsResponse) SetSlots(slots []time.Time) {
+	n.Slots = slots
+	n.require(nextSlotsSocialAccountsResponseFieldSlots)
+}
+
+func (n *NextSlotsSocialAccountsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler NextSlotsSocialAccountsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*n = NextSlotsSocialAccountsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *n)
+	if err != nil {
+		return err
+	}
+	n.extraProperties = extraProperties
+	n.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (n *NextSlotsSocialAccountsResponse) MarshalJSON() ([]byte, error) {
+	type embed NextSlotsSocialAccountsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*n),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, n.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (n *NextSlotsSocialAccountsResponse) String() string {
+	if n == nil {
+		return "<nil>"
+	}
+	if len(n.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(n.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(n); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", n)
 }
 
 var (

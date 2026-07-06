@@ -524,6 +524,42 @@
       }
     },
     {
+      "id": "2b2c9c27-7ffc-4d85-a7dd-5831866291cf",
+      "name": "Get next queue slots - default",
+      "request": {
+        "urlPathTemplate": "/v0/social-accounts/{id}/next-slots",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"slots\": [\n    \"2024-01-15T09:30:00Z\"\n  ]\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "2b2c9c27-7ffc-4d85-a7dd-5831866291cf",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
       "id": "97ec5e07-504b-4859-a62f-f6831cf8ce49",
       "name": "List Pinterest boards - default",
       "request": {
@@ -932,9 +968,41 @@
           }
         }
       }
+    },
+    {
+      "id": "2d06c1f9-e08f-41a7-b12e-c363f05b965c",
+      "name": "List platform posting requirements - default",
+      "request": {
+        "urlPathTemplate": "/v0/platforms",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"data\": [\n    {\n      \"platform\": \"platform\",\n      \"name\": \"name\",\n      \"comingSoon\": true,\n      \"captionMaxLength\": 1.1,\n      \"mediaRules\": {\n        \"max\": 1.1\n      },\n      \"platformConfiguration\": {\n        \"required\": true,\n        \"validated\": true\n      },\n      \"helperEndpoints\": [\n        {\n          \"method\": \"method\",\n          \"path\": \"path\",\n          \"description\": \"description\"\n        }\n      ]\n    }\n  ]\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "2d06c1f9-e08f-41a7-b12e-c363f05b965c",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      },
+      "postServeActions": []
     }
   ],
   "meta": {
-    "total": 27
+    "total": 29
   }
 }

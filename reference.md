@@ -1114,6 +1114,83 @@ client.SocialAccounts.UpdateTimezone(
 </dl>
 </details>
 
+<details><summary><code>client.SocialAccounts.NextSlots(ID) -> *schedulingo.NextSlotsSocialAccountsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Return the next available queue slot times (UTC) for a social account, computed from its queue schedule, per-slot capacity, and timezone. Empty when the account has no queue times configured. Use a slot as `scheduledAt`, or pass `action: "queue"` when creating a post to take the next slot automatically.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulingo.NextSlotsSocialAccountsRequest{
+        ID: "id",
+    }
+client.SocialAccounts.NextSlots(
+        context.TODO(),
+        request,
+    )
+}
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `*int` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**after:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.SocialAccounts.PinterestBoards(ID) -> *schedulingo.PinterestBoardsSocialAccountsResponse</code></summary>
 <dl>
 <dd>
@@ -1973,6 +2050,49 @@ client.Media.CreatePresignedPost(
 
 **intent:** `*schedulingo.CreatePresignedPostIntent` 
     
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Platforms
+<details><summary><code>client.Platforms.List() -> *schedulingo.ListPlatformsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Per-platform posting requirements: caption length limits, media count/type rules, whether `platformConfiguration` is required, its JSON Schema when server-validated, and helper endpoints for fetching dynamic values (e.g. Pinterest boards). Platforms marked `comingSoon` cannot be posted to yet.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+client.Platforms.List(
+        context.TODO(),
+    )
+}
+```
 </dd>
 </dl>
 </dd>
