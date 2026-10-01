@@ -428,8 +428,8 @@ var (
 	mediaFieldSize      = big.NewInt(1 << 11)
 )
 
-// mediaRequiredNullableFields maps the wire names of Media's required, nullable fields to their field bits.
-var mediaRequiredNullableFields = map[string]*big.Int{
+// mediaNullableFields maps the wire names of Media's nullable fields (required or optional) to their field bits.
+var mediaNullableFields = map[string]*big.Int{
 	"width":    mediaFieldWidth,
 	"height":   mediaFieldHeight,
 	"duration": mediaFieldDuration,
@@ -661,7 +661,7 @@ func (m *Media) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.extraProperties = extraProperties
-	presentFields, err := internal.ExplicitFieldsFromJSON(data, mediaRequiredNullableFields)
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, mediaNullableFields)
 	if err != nil {
 		return err
 	}

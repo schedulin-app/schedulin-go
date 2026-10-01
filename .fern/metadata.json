@@ -1,14 +1,14 @@
 {
   "cliVersion": "5.44.6",
   "generatorName": "fernapi/fern-go-sdk",
-  "generatorVersion": "latest",
+  "generatorVersion": "1.64.2",
   "generatorConfig": {
     "module": {
       "path": "github.com/schedulin-app/schedulin-go",
       "version": "1.21"
     }
   },
-  "originGitCommit": "f6513ca638985ede654898ee5008eebc7bd24dc1",
+  "originGitCommit": "ab75bcb74575f77021f057b1a7360f2ac63ef494",
   "originGitCommitIsDirty": false,
   "invokedBy": "ci",
   "ciProvider": "github"

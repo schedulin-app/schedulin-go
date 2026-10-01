@@ -31,6 +31,13 @@ func (i *InternalServerError) Unwrap() error {
 	return i.APIError
 }
 
+func (i *InternalServerError) GetBody() *ErrorResponse {
+	if i == nil {
+		return nil
+	}
+	return i.Body
+}
+
 // Unauthorized
 type UnauthorizedError struct {
 	*core.APIError
@@ -53,4 +60,11 @@ func (u *UnauthorizedError) MarshalJSON() ([]byte, error) {
 
 func (u *UnauthorizedError) Unwrap() error {
 	return u.APIError
+}
+
+func (u *UnauthorizedError) GetBody() *ErrorResponse {
+	if u == nil {
+		return nil
+	}
+	return u.Body
 }

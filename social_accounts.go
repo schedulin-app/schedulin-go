@@ -406,8 +406,8 @@ var (
 	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 10)
 )
 
-// listSocialAccountsResponseDataItemRequiredNullableFields maps the wire names of ListSocialAccountsResponseDataItem's required, nullable fields to their field bits.
-var listSocialAccountsResponseDataItemRequiredNullableFields = map[string]*big.Int{
+// listSocialAccountsResponseDataItemNullableFields maps the wire names of ListSocialAccountsResponseDataItem's nullable fields (required or optional) to their field bits.
+var listSocialAccountsResponseDataItemNullableFields = map[string]*big.Int{
 	"username":                    listSocialAccountsResponseDataItemFieldUsername,
 	"displayName":                 listSocialAccountsResponseDataItemFieldDisplayName,
 	"profileImageUrl":             listSocialAccountsResponseDataItemFieldProfileImageURL,
@@ -629,7 +629,7 @@ func (l *ListSocialAccountsResponseDataItem) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	l.extraProperties = extraProperties
-	presentFields, err := internal.ExplicitFieldsFromJSON(data, listSocialAccountsResponseDataItemRequiredNullableFields)
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, listSocialAccountsResponseDataItemNullableFields)
 	if err != nil {
 		return err
 	}

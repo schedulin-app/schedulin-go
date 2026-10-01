@@ -209,12 +209,18 @@ func (p *PostCreate) SetParts(parts []*PostCreatePartsItem) {
 }
 
 func (p *PostCreate) UnmarshalJSON(data []byte) error {
-	type unmarshaler PostCreate
-	var body unmarshaler
+	type embed PostCreate
+	var body = struct {
+		embed
+		ScheduledAt *internal.DateTime `json:"scheduledAt,omitempty"`
+	}{
+		embed: embed(*p),
+	}
 	if err := json.Unmarshal(data, &body); err != nil {
 		return err
 	}
-	*p = PostCreate(body)
+	*p = PostCreate(body.embed)
+	p.ScheduledAt = body.ScheduledAt.TimePtr()
 	return nil
 }
 
@@ -415,12 +421,18 @@ func (p *PublishDraftPostsRequest) SetScheduledAt(scheduledAt *time.Time) {
 }
 
 func (p *PublishDraftPostsRequest) UnmarshalJSON(data []byte) error {
-	type unmarshaler PublishDraftPostsRequest
-	var body unmarshaler
+	type embed PublishDraftPostsRequest
+	var body = struct {
+		embed
+		ScheduledAt *internal.DateTime `json:"scheduledAt,omitempty"`
+	}{
+		embed: embed(*p),
+	}
 	if err := json.Unmarshal(data, &body); err != nil {
 		return err
 	}
-	*p = PublishDraftPostsRequest(body)
+	*p = PublishDraftPostsRequest(body.embed)
+	p.ScheduledAt = body.ScheduledAt.TimePtr()
 	return nil
 }
 
@@ -613,8 +625,8 @@ var (
 	postFieldUpdatedAt             = big.NewInt(1 << 15)
 )
 
-// postRequiredNullableFields maps the wire names of Post's required, nullable fields to their field bits.
-var postRequiredNullableFields = map[string]*big.Int{
+// postNullableFields maps the wire names of Post's nullable fields (required or optional) to their field bits.
+var postNullableFields = map[string]*big.Int{
 	"externalId":            postFieldExternalID,
 	"approvalRequestedAt":   postFieldApprovalRequestedAt,
 	"approvalRequestedBy":   postFieldApprovalRequestedBy,
@@ -917,7 +929,7 @@ func (p *Post) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	p.extraProperties = extraProperties
-	presentFields, err := internal.ExplicitFieldsFromJSON(data, postRequiredNullableFields)
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postNullableFields)
 	if err != nil {
 		return err
 	}
@@ -1045,8 +1057,8 @@ var (
 	postWithRelationsFieldTags                  = big.NewInt(1 << 18)
 )
 
-// postWithRelationsRequiredNullableFields maps the wire names of PostWithRelations's required, nullable fields to their field bits.
-var postWithRelationsRequiredNullableFields = map[string]*big.Int{
+// postWithRelationsNullableFields maps the wire names of PostWithRelations's nullable fields (required or optional) to their field bits.
+var postWithRelationsNullableFields = map[string]*big.Int{
 	"externalId":            postWithRelationsFieldExternalID,
 	"approvalRequestedAt":   postWithRelationsFieldApprovalRequestedAt,
 	"approvalRequestedBy":   postWithRelationsFieldApprovalRequestedBy,
@@ -1394,7 +1406,7 @@ func (p *PostWithRelations) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	p.extraProperties = extraProperties
-	presentFields, err := internal.ExplicitFieldsFromJSON(data, postWithRelationsRequiredNullableFields)
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postWithRelationsNullableFields)
 	if err != nil {
 		return err
 	}
@@ -1449,6 +1461,13 @@ var (
 	postWithRelationsMediaItemFieldAlt                  = big.NewInt(1 << 4)
 	postWithRelationsMediaItemFieldSkipProcessing       = big.NewInt(1 << 5)
 )
+
+// postWithRelationsMediaItemNullableFields maps the wire names of PostWithRelationsMediaItem's nullable fields (required or optional) to their field bits.
+var postWithRelationsMediaItemNullableFields = map[string]*big.Int{
+	"thumbnail_url":          postWithRelationsMediaItemFieldThumbnailURL,
+	"thumbnail_timestamp_ms": postWithRelationsMediaItemFieldThumbnailTimestampMs,
+	"alt":                    postWithRelationsMediaItemFieldAlt,
+}
 
 type PostWithRelationsMediaItem struct {
 	URL                  string                                `json:"url" url:"url"`
@@ -1577,6 +1596,13 @@ func (p *PostWithRelationsMediaItem) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postWithRelationsMediaItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
 	p.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -1904,8 +1930,8 @@ var (
 	socialAccountFieldRefreshTokenValid     = big.NewInt(1 << 9)
 )
 
-// socialAccountRequiredNullableFields maps the wire names of SocialAccount's required, nullable fields to their field bits.
-var socialAccountRequiredNullableFields = map[string]*big.Int{
+// socialAccountNullableFields maps the wire names of SocialAccount's nullable fields (required or optional) to their field bits.
+var socialAccountNullableFields = map[string]*big.Int{
 	"imageUrl":           socialAccountFieldImageURL,
 	"username":           socialAccountFieldUsername,
 	"disconnectedReason": socialAccountFieldDisconnectedReason,
@@ -2106,7 +2132,7 @@ func (s *SocialAccount) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	s.extraProperties = extraProperties
-	presentFields, err := internal.ExplicitFieldsFromJSON(data, socialAccountRequiredNullableFields)
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, socialAccountNullableFields)
 	if err != nil {
 		return err
 	}
@@ -2194,8 +2220,8 @@ var (
 	socialAccountPublicFieldExternalID      = big.NewInt(1 << 6)
 )
 
-// socialAccountPublicRequiredNullableFields maps the wire names of SocialAccountPublic's required, nullable fields to their field bits.
-var socialAccountPublicRequiredNullableFields = map[string]*big.Int{
+// socialAccountPublicNullableFields maps the wire names of SocialAccountPublic's nullable fields (required or optional) to their field bits.
+var socialAccountPublicNullableFields = map[string]*big.Int{
 	"username":        socialAccountPublicFieldUsername,
 	"profilePhotoUrl": socialAccountPublicFieldProfilePhotoURL,
 	"externalId":      socialAccountPublicFieldExternalID,
@@ -2343,7 +2369,7 @@ func (s *SocialAccountPublic) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	s.extraProperties = extraProperties
-	presentFields, err := internal.ExplicitFieldsFromJSON(data, socialAccountPublicRequiredNullableFields)
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, socialAccountPublicNullableFields)
 	if err != nil {
 		return err
 	}
@@ -2629,6 +2655,11 @@ var (
 	analyticsSeriesPostsResponseDataItemFieldMetrics     = big.NewInt(1 << 3)
 )
 
+// analyticsSeriesPostsResponseDataItemNullableFields maps the wire names of AnalyticsSeriesPostsResponseDataItem's nullable fields (required or optional) to their field bits.
+var analyticsSeriesPostsResponseDataItemNullableFields = map[string]*big.Int{
+	"metrics": analyticsSeriesPostsResponseDataItemFieldMetrics,
+}
+
 type AnalyticsSeriesPostsResponseDataItem struct {
 	ID          string         `json:"id" url:"id"`
 	CollectedAt time.Time      `json:"collectedAt" url:"collectedAt"`
@@ -2732,6 +2763,13 @@ func (a *AnalyticsSeriesPostsResponseDataItem) UnmarshalJSON(data []byte) error 
 		return err
 	}
 	a.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, analyticsSeriesPostsResponseDataItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		a.require(presentFields)
+	}
 	a.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -2771,8 +2809,9 @@ var (
 	analyticsSummaryPostsResponseFieldUpdatedAt              = big.NewInt(1 << 3)
 )
 
-// analyticsSummaryPostsResponseRequiredNullableFields maps the wire names of AnalyticsSummaryPostsResponse's required, nullable fields to their field bits.
-var analyticsSummaryPostsResponseRequiredNullableFields = map[string]*big.Int{
+// analyticsSummaryPostsResponseNullableFields maps the wire names of AnalyticsSummaryPostsResponse's nullable fields (required or optional) to their field bits.
+var analyticsSummaryPostsResponseNullableFields = map[string]*big.Int{
+	"analyticsLatest":        analyticsSummaryPostsResponseFieldAnalyticsLatest,
 	"analyticsLastFetchedAt": analyticsSummaryPostsResponseFieldAnalyticsLastFetchedAt,
 	"analyticsNextFetchAt":   analyticsSummaryPostsResponseFieldAnalyticsNextFetchAt,
 }
@@ -2884,7 +2923,7 @@ func (a *AnalyticsSummaryPostsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	a.extraProperties = extraProperties
-	presentFields, err := internal.ExplicitFieldsFromJSON(data, analyticsSummaryPostsResponseRequiredNullableFields)
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, analyticsSummaryPostsResponseNullableFields)
 	if err != nil {
 		return err
 	}
@@ -2940,8 +2979,8 @@ var (
 	createPostsResponseFieldUpdatedAt             = big.NewInt(1 << 9)
 )
 
-// createPostsResponseRequiredNullableFields maps the wire names of CreatePostsResponse's required, nullable fields to their field bits.
-var createPostsResponseRequiredNullableFields = map[string]*big.Int{
+// createPostsResponseNullableFields maps the wire names of CreatePostsResponse's nullable fields (required or optional) to their field bits.
+var createPostsResponseNullableFields = map[string]*big.Int{
 	"externalId":            createPostsResponseFieldExternalID,
 	"scheduledAt":           createPostsResponseFieldScheduledAt,
 	"platformConfiguration": createPostsResponseFieldPlatformConfiguration,
@@ -3144,7 +3183,7 @@ func (c *CreatePostsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	c.extraProperties = extraProperties
-	presentFields, err := internal.ExplicitFieldsFromJSON(data, createPostsResponseRequiredNullableFields)
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, createPostsResponseNullableFields)
 	if err != nil {
 		return err
 	}
@@ -3195,6 +3234,13 @@ var (
 	createPostsResponseMediaItemFieldAlt                  = big.NewInt(1 << 4)
 	createPostsResponseMediaItemFieldSkipProcessing       = big.NewInt(1 << 5)
 )
+
+// createPostsResponseMediaItemNullableFields maps the wire names of CreatePostsResponseMediaItem's nullable fields (required or optional) to their field bits.
+var createPostsResponseMediaItemNullableFields = map[string]*big.Int{
+	"thumbnail_url":          createPostsResponseMediaItemFieldThumbnailURL,
+	"thumbnail_timestamp_ms": createPostsResponseMediaItemFieldThumbnailTimestampMs,
+	"alt":                    createPostsResponseMediaItemFieldAlt,
+}
 
 type CreatePostsResponseMediaItem struct {
 	URL                  string                                  `json:"url" url:"url"`
@@ -3323,6 +3369,13 @@ func (c *CreatePostsResponseMediaItem) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	c.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, createPostsResponseMediaItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		c.require(presentFields)
+	}
 	c.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3926,6 +3979,13 @@ var (
 	postCreateMediaItemFieldDuration             = big.NewInt(1 << 11)
 )
 
+// postCreateMediaItemNullableFields maps the wire names of PostCreateMediaItem's nullable fields (required or optional) to their field bits.
+var postCreateMediaItemNullableFields = map[string]*big.Int{
+	"thumbnail_url":          postCreateMediaItemFieldThumbnailURL,
+	"thumbnail_timestamp_ms": postCreateMediaItemFieldThumbnailTimestampMs,
+	"alt":                    postCreateMediaItemFieldAlt,
+}
+
 type PostCreateMediaItem struct {
 	URL                  string                         `json:"url" url:"url"`
 	ThumbnailURL         *string                        `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
@@ -4143,6 +4203,13 @@ func (p *PostCreateMediaItem) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postCreateMediaItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
 	p.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -4574,6 +4641,13 @@ var (
 	postCreatePartsItemMediaItemFieldDuration             = big.NewInt(1 << 11)
 )
 
+// postCreatePartsItemMediaItemNullableFields maps the wire names of PostCreatePartsItemMediaItem's nullable fields (required or optional) to their field bits.
+var postCreatePartsItemMediaItemNullableFields = map[string]*big.Int{
+	"thumbnail_url":          postCreatePartsItemMediaItemFieldThumbnailURL,
+	"thumbnail_timestamp_ms": postCreatePartsItemMediaItemFieldThumbnailTimestampMs,
+	"alt":                    postCreatePartsItemMediaItemFieldAlt,
+}
+
 type PostCreatePartsItemMediaItem struct {
 	URL                  string                                  `json:"url" url:"url"`
 	ThumbnailURL         *string                                 `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
@@ -4791,6 +4865,13 @@ func (p *PostCreatePartsItemMediaItem) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postCreatePartsItemMediaItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
 	p.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -5120,6 +5201,13 @@ var (
 	postCreateThumbnailFieldDuration             = big.NewInt(1 << 11)
 )
 
+// postCreateThumbnailNullableFields maps the wire names of PostCreateThumbnail's nullable fields (required or optional) to their field bits.
+var postCreateThumbnailNullableFields = map[string]*big.Int{
+	"thumbnail_url":          postCreateThumbnailFieldThumbnailURL,
+	"thumbnail_timestamp_ms": postCreateThumbnailFieldThumbnailTimestampMs,
+	"alt":                    postCreateThumbnailFieldAlt,
+}
+
 type PostCreateThumbnail struct {
 	URL                  string                         `json:"url" url:"url"`
 	ThumbnailURL         *string                        `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
@@ -5337,6 +5425,13 @@ func (p *PostCreateThumbnail) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postCreateThumbnailNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
 	p.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -5930,12 +6025,18 @@ func (u *UpdatePostsRequest) SetTagIDs(tagIDs []string) {
 }
 
 func (u *UpdatePostsRequest) UnmarshalJSON(data []byte) error {
-	type unmarshaler UpdatePostsRequest
-	var body unmarshaler
+	type embed UpdatePostsRequest
+	var body = struct {
+		embed
+		ScheduledAt *internal.DateTime `json:"scheduledAt,omitempty"`
+	}{
+		embed: embed(*u),
+	}
 	if err := json.Unmarshal(data, &body); err != nil {
 		return err
 	}
-	*u = UpdatePostsRequest(body)
+	*u = UpdatePostsRequest(body.embed)
+	u.ScheduledAt = body.ScheduledAt.TimePtr()
 	return nil
 }
 

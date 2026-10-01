@@ -35,7 +35,6 @@ func (a AnalyticsStatus) Ptr() *AnalyticsStatus {
 	return &a
 }
 
-// Error envelope. The machine-readable `code` and HTTP `status` are always present; the human-readable reason is in `data.message` (or `data.fieldErrors` for 422 validation errors).
 var (
 	errorResponseFieldCode    = big.NewInt(1 << 0)
 	errorResponseFieldStatus  = big.NewInt(1 << 1)
@@ -43,6 +42,7 @@ var (
 	errorResponseFieldData    = big.NewInt(1 << 3)
 )
 
+// Error envelope. The machine-readable `code` and HTTP `status` are always present; the human-readable reason is in `data.message` (or `data.fieldErrors` for 422 validation errors).
 type ErrorResponse struct {
 	// e.g. "BAD_REQUEST", "UNAUTHORIZED", "NOT_FOUND".
 	Code    string         `json:"code" url:"code"`
@@ -749,6 +749,11 @@ var (
 	postPublishDraftFieldScheduledAt = big.NewInt(1 << 1)
 )
 
+// postPublishDraftNullableFields maps the wire names of PostPublishDraft's nullable fields (required or optional) to their field bits.
+var postPublishDraftNullableFields = map[string]*big.Int{
+	"scheduledAt": postPublishDraftFieldScheduledAt,
+}
+
 type PostPublishDraft struct {
 	ID          string     `json:"id" url:"id"`
 	ScheduledAt *time.Time `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
@@ -822,6 +827,13 @@ func (p *PostPublishDraft) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postPublishDraftNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
 	p.rawJSON = json.RawMessage(data)
 	return nil
 }

@@ -2646,7 +2646,7 @@ client.Webhooks.Create(
 <dl>
 <dd>
 
-**events:** `[]*schedulingo.CreateWebhooksRequestEventsItem` 
+**events:** `[]schedulingo.CreateWebhooksRequestEventsItem` 
     
 </dd>
 </dl>
@@ -2850,7 +2850,7 @@ client.Webhooks.Update(
 <dl>
 <dd>
 
-**events:** `[]*schedulingo.UpdateWebhooksRequestEventsItem` 
+**events:** `[]schedulingo.UpdateWebhooksRequestEventsItem` 
     
 </dd>
 </dl>
