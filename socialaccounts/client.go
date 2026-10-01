@@ -164,7 +164,7 @@ func (c *Client) Delete(
 	return response.Body, nil
 }
 
-// Set the IANA timezone (e.g. 'America/Los_Angeles') used to interpret queue times for this account.
+// Set the IANA timezone (e.g. 'America/Los_Angeles') used to interpret queue times for this account. Unknown names and UTC-offset strings (e.g. '+05:00') are rejected with 422.
 //
 // Example:
 //

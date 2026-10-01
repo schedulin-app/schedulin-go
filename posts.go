@@ -5918,8 +5918,6 @@ const (
 	UpdatePostsRequestStatusDraft      UpdatePostsRequestStatus = "DRAFT"
 	UpdatePostsRequestStatusScheduled  UpdatePostsRequestStatus = "SCHEDULED"
 	UpdatePostsRequestStatusProcessing UpdatePostsRequestStatus = "PROCESSING"
-	UpdatePostsRequestStatusCompleted  UpdatePostsRequestStatus = "COMPLETED"
-	UpdatePostsRequestStatusFailed     UpdatePostsRequestStatus = "FAILED"
 )
 
 func NewUpdatePostsRequestStatusFromString(s string) (UpdatePostsRequestStatus, error) {
@@ -5930,10 +5928,6 @@ func NewUpdatePostsRequestStatusFromString(s string) (UpdatePostsRequestStatus, 
 		return UpdatePostsRequestStatusScheduled, nil
 	case "PROCESSING":
 		return UpdatePostsRequestStatusProcessing, nil
-	case "COMPLETED":
-		return UpdatePostsRequestStatusCompleted, nil
-	case "FAILED":
-		return UpdatePostsRequestStatusFailed, nil
 	}
 	var t UpdatePostsRequestStatus
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
