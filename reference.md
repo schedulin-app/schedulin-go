@@ -1815,52 +1815,15 @@ Upload raw image, video, or audio bytes directly as multipart/form-data. The fil
 
 ```go
 request := &schedulingo.UploadMediaRequest{
-    File: "file",
+    File: strings.NewReader(
+        "",
+    ),
 }
 client.Media.Upload(
     context.TODO(),
     request,
 )
 ```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**file:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**name:** `*string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**alt:** `*string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**contentType:** `*string` 
-    
 </dd>
 </dl>
 </dd>
@@ -2040,7 +2003,7 @@ client.Media.Update(
 </dl>
 </details>
 
-<details><summary><code>client.Media.V0MediaDelete(ID, request) -> any</code></summary>
+<details><summary><code>client.Media.Delete(ID, request) -> any</code></summary>
 <dl>
 <dd>
 
@@ -2067,10 +2030,10 @@ Delete a media object and remove its files from storage. Fails with a conflict w
 <dd>
 
 ```go
-request := &schedulingo.V0MediaDeleteRequest{
+request := &schedulingo.DeleteMediaRequest{
     ID: "id",
 }
-client.Media.V0MediaDelete(
+client.Media.Delete(
     context.TODO(),
     request,
 )

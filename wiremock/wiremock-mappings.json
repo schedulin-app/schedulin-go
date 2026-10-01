@@ -973,7 +973,7 @@
       }
     },
     {
-      "id": "bf458640-e583-4dce-aa3a-cee7ffc1cc05",
+      "id": "4069df49-2d43-4ce2-ac90-bed22150b645",
       "name": "Delete media - default",
       "request": {
         "urlPathTemplate": "/v0/media/{id}",
@@ -996,7 +996,7 @@
           "Content-Type": "application/json"
         }
       },
-      "uuid": "bf458640-e583-4dce-aa3a-cee7ffc1cc05",
+      "uuid": "4069df49-2d43-4ce2-ac90-bed22150b645",
       "persistent": true,
       "priority": 3,
       "metadata": {

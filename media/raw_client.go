@@ -136,7 +136,30 @@ func (r *RawClient) Upload(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	headers.Add("Content-Type", "application/json")
+	writer := internal.NewMultipartWriter()
+	if err := writer.WriteFile("file", request.File); err != nil {
+		return nil, err
+	}
+	if request.Name != nil {
+		if err := writer.WriteField("name", *request.Name); err != nil {
+			return nil, err
+		}
+	}
+	if request.Alt != nil {
+		if err := writer.WriteField("alt", *request.Alt); err != nil {
+			return nil, err
+		}
+	}
+	if request.ContentType != nil {
+		if err := writer.WriteField("contentType", *request.ContentType); err != nil {
+			return nil, err
+		}
+	}
+	if err := writer.Close(); err != nil {
+		return nil, err
+	}
+	headers.Set("Content-Type", writer.ContentType())
+
 	var response any
 	raw, err := r.caller.Call(
 		ctx,
@@ -149,7 +172,7 @@ func (r *RawClient) Upload(
 			BodyProperties:  options.BodyProperties,
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
-			Request:         request,
+			Request:         writer.Buffer(),
 			Response:        &response,
 			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
 		},
@@ -257,9 +280,9 @@ func (r *RawClient) Update(
 	}, nil
 }
 
-func (r *RawClient) V0MediaDelete(
+func (r *RawClient) Delete(
 	ctx context.Context,
-	request *schedulingo.V0MediaDeleteRequest,
+	request *schedulingo.DeleteMediaRequest,
 	opts ...option.RequestOption,
 ) (*core.Response[any], error) {
 	options := core.NewRequestOptions(opts...)

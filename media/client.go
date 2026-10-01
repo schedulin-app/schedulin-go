@@ -91,7 +91,9 @@ func (c *Client) CreateUploadLink(
 // Example:
 //
 //	request := &schedulingo.UploadMediaRequest{
-//	    File: "file",
+//	    File: strings.NewReader(
+//	        "",
+//	    ),
 //	}
 //	client.Media.Upload(
 //	    context.TODO(),
@@ -172,19 +174,19 @@ func (c *Client) Update(
 //
 // Example:
 //
-//	request := &schedulingo.V0MediaDeleteRequest{
+//	request := &schedulingo.DeleteMediaRequest{
 //	    ID: "id",
 //	}
-//	client.Media.V0MediaDelete(
+//	client.Media.Delete(
 //	    context.TODO(),
 //	    request,
 //	)
-func (c *Client) V0MediaDelete(
+func (c *Client) Delete(
 	ctx context.Context,
-	request *schedulingo.V0MediaDeleteRequest,
+	request *schedulingo.DeleteMediaRequest,
 	opts ...option.RequestOption,
 ) (any, error) {
-	response, err := c.WithRawResponse.V0MediaDelete(
+	response, err := c.WithRawResponse.Delete(
 		ctx,
 		request,
 		opts...,

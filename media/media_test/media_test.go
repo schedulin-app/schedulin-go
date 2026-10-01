@@ -8,6 +8,7 @@ import (
 	json "encoding/json"
 	http "net/http"
 	os "os"
+	strings "strings"
 	testing "testing"
 
 	schedulingo "github.com/schedulin-app/schedulin-go"
@@ -139,7 +140,9 @@ func TestMediaUploadWithWireMock(
 		option.WithAPIKey("test-value"),
 	)
 	request := &schedulingo.UploadMediaRequest{
-		File: "file",
+		File: strings.NewReader(
+			"",
+		),
 	}
 	_, invocationErr := client.Media.Upload(
 		context.TODO(),
@@ -206,7 +209,7 @@ func TestMediaUpdateWithWireMock(
 	VerifyRequestCount(t, "TestMediaUpdateWithWireMock", "PUT", "/v0/media/id", nil, 1)
 }
 
-func TestMediaV0MediaDeleteWithWireMock(
+func TestMediaDeleteWithWireMock(
 	t *testing.T,
 ) {
 	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
@@ -217,19 +220,19 @@ func TestMediaV0MediaDeleteWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.V0MediaDeleteRequest{
+	request := &schedulingo.DeleteMediaRequest{
 		ID: "id",
 	}
-	_, invocationErr := client.Media.V0MediaDelete(
+	_, invocationErr := client.Media.Delete(
 		context.TODO(),
 		request,
 		option.WithHTTPHeader(
-			http.Header{"X-Test-Id": []string{"TestMediaV0MediaDeleteWithWireMock"}},
+			http.Header{"X-Test-Id": []string{"TestMediaDeleteWithWireMock"}},
 		),
 	)
 
 	require.NoError(t, invocationErr, "Client method call should succeed")
-	VerifyRequestCount(t, "TestMediaV0MediaDeleteWithWireMock", "DELETE", "/v0/media/id", nil, 1)
+	VerifyRequestCount(t, "TestMediaDeleteWithWireMock", "DELETE", "/v0/media/id", nil, 1)
 }
 
 func TestMediaListWithWireMock(

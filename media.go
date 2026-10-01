@@ -6,6 +6,7 @@ import (
 	json "encoding/json"
 	fmt "fmt"
 	internal "github.com/schedulin-app/schedulin-go/internal"
+	io "io"
 	big "math/big"
 	time "time"
 )
@@ -205,6 +206,54 @@ func (c *CreateUploadLinkMediaRequest) MarshalJSON() ([]byte, error) {
 		embed: embed(*c),
 	}
 	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+var (
+	deleteMediaRequestFieldID = big.NewInt(1 << 0)
+)
+
+type DeleteMediaRequest struct {
+	ID string `json:"-" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (d *DeleteMediaRequest) require(field *big.Int) {
+	next := new(big.Int)
+	if d.explicitFields != nil {
+		next.Set(d.explicitFields)
+	}
+	next.Or(next, field)
+	d.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (d *DeleteMediaRequest) SetID(id string) {
+	d.ID = id
+	d.require(deleteMediaRequestFieldID)
+}
+
+func (d *DeleteMediaRequest) UnmarshalJSON(data []byte) error {
+	type unmarshaler DeleteMediaRequest
+	var body unmarshaler
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	*d = DeleteMediaRequest(body)
+	return nil
+}
+
+func (d *DeleteMediaRequest) MarshalJSON() ([]byte, error) {
+	type embed DeleteMediaRequest
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*d),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, d.explicitFields)
 	return json.Marshal(explicitMarshaler)
 }
 
@@ -1286,18 +1335,11 @@ func (u *UpdateMediaRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
-var (
-	uploadMediaRequestFieldFile        = big.NewInt(1 << 0)
-	uploadMediaRequestFieldName        = big.NewInt(1 << 1)
-	uploadMediaRequestFieldAlt         = big.NewInt(1 << 2)
-	uploadMediaRequestFieldContentType = big.NewInt(1 << 3)
-)
-
 type UploadMediaRequest struct {
-	File        string  `json:"file" url:"-"`
-	Name        *string `json:"name,omitempty" url:"-"`
-	Alt         *string `json:"alt,omitempty" url:"-"`
-	ContentType *string `json:"contentType,omitempty" url:"-"`
+	File        io.Reader `json:"-" url:"-"`
+	Name        *string   `json:"name,omitempty" url:"-"`
+	Alt         *string   `json:"alt,omitempty" url:"-"`
+	ContentType *string   `json:"contentType,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1310,101 +1352,4 @@ func (u *UploadMediaRequest) require(field *big.Int) {
 	}
 	next.Or(next, field)
 	u.explicitFields = next
-}
-
-// SetFile sets the File field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UploadMediaRequest) SetFile(file string) {
-	u.File = file
-	u.require(uploadMediaRequestFieldFile)
-}
-
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UploadMediaRequest) SetName(name *string) {
-	u.Name = name
-	u.require(uploadMediaRequestFieldName)
-}
-
-// SetAlt sets the Alt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UploadMediaRequest) SetAlt(alt *string) {
-	u.Alt = alt
-	u.require(uploadMediaRequestFieldAlt)
-}
-
-// SetContentType sets the ContentType field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UploadMediaRequest) SetContentType(contentType *string) {
-	u.ContentType = contentType
-	u.require(uploadMediaRequestFieldContentType)
-}
-
-func (u *UploadMediaRequest) UnmarshalJSON(data []byte) error {
-	type unmarshaler UploadMediaRequest
-	var body unmarshaler
-	if err := json.Unmarshal(data, &body); err != nil {
-		return err
-	}
-	*u = UploadMediaRequest(body)
-	return nil
-}
-
-func (u *UploadMediaRequest) MarshalJSON() ([]byte, error) {
-	type embed UploadMediaRequest
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*u),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-var (
-	v0MediaDeleteRequestFieldID = big.NewInt(1 << 0)
-)
-
-type V0MediaDeleteRequest struct {
-	ID string `json:"-" url:"-"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-}
-
-func (v *V0MediaDeleteRequest) require(field *big.Int) {
-	next := new(big.Int)
-	if v.explicitFields != nil {
-		next.Set(v.explicitFields)
-	}
-	next.Or(next, field)
-	v.explicitFields = next
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (v *V0MediaDeleteRequest) SetID(id string) {
-	v.ID = id
-	v.require(v0MediaDeleteRequestFieldID)
-}
-
-func (v *V0MediaDeleteRequest) UnmarshalJSON(data []byte) error {
-	type unmarshaler V0MediaDeleteRequest
-	var body unmarshaler
-	if err := json.Unmarshal(data, &body); err != nil {
-		return err
-	}
-	*v = V0MediaDeleteRequest(body)
-	return nil
-}
-
-func (v *V0MediaDeleteRequest) MarshalJSON() ([]byte, error) {
-	type embed V0MediaDeleteRequest
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*v),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, v.explicitFields)
-	return json.Marshal(explicitMarshaler)
 }
