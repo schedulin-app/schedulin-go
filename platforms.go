@@ -38,10 +38,12 @@ func (l *ListPlatformsResponse) GetExtraProperties() map[string]interface{} {
 }
 
 func (l *ListPlatformsResponse) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
 	}
-	l.explicitFields.Or(l.explicitFields, field)
+	next.Or(next, field)
+	l.explicitFields = next
 }
 
 // SetData sets the Data field and marks it as non-optional;
@@ -176,10 +178,12 @@ func (l *ListPlatformsResponseDataItem) GetExtraProperties() map[string]interfac
 }
 
 func (l *ListPlatformsResponseDataItem) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
 	}
-	l.explicitFields.Or(l.explicitFields, field)
+	next.Or(next, field)
+	l.explicitFields = next
 }
 
 // SetPlatform sets the Platform field and marks it as non-optional;
@@ -320,10 +324,12 @@ func (l *ListPlatformsResponseDataItemHelperEndpointsItem) GetExtraProperties() 
 }
 
 func (l *ListPlatformsResponseDataItemHelperEndpointsItem) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
 	}
-	l.explicitFields.Or(l.explicitFields, field)
+	next.Or(next, field)
+	l.explicitFields = next
 }
 
 // SetMethod sets the Method field and marks it as non-optional;
@@ -390,15 +396,17 @@ func (l *ListPlatformsResponseDataItemHelperEndpointsItem) String() string {
 }
 
 var (
-	listPlatformsResponseDataItemMediaRulesFieldMin          = big.NewInt(1 << 0)
-	listPlatformsResponseDataItemMediaRulesFieldMax          = big.NewInt(1 << 1)
-	listPlatformsResponseDataItemMediaRulesFieldAllowedTypes = big.NewInt(1 << 2)
+	listPlatformsResponseDataItemMediaRulesFieldMin               = big.NewInt(1 << 0)
+	listPlatformsResponseDataItemMediaRulesFieldMax               = big.NewInt(1 << 1)
+	listPlatformsResponseDataItemMediaRulesFieldAllowedTypes      = big.NewInt(1 << 2)
+	listPlatformsResponseDataItemMediaRulesFieldAllowedDimensions = big.NewInt(1 << 3)
 )
 
 type ListPlatformsResponseDataItemMediaRules struct {
-	Min          *float64                                                  `json:"min,omitempty" url:"min,omitempty"`
-	Max          float64                                                   `json:"max" url:"max"`
-	AllowedTypes []ListPlatformsResponseDataItemMediaRulesAllowedTypesItem `json:"allowedTypes,omitempty" url:"allowedTypes,omitempty"`
+	Min               *float64                                                        `json:"min,omitempty" url:"min,omitempty"`
+	Max               float64                                                         `json:"max" url:"max"`
+	AllowedTypes      []ListPlatformsResponseDataItemMediaRulesAllowedTypesItem       `json:"allowedTypes,omitempty" url:"allowedTypes,omitempty"`
+	AllowedDimensions []*ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem `json:"allowedDimensions,omitempty" url:"allowedDimensions,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -428,6 +436,13 @@ func (l *ListPlatformsResponseDataItemMediaRules) GetAllowedTypes() []ListPlatfo
 	return l.AllowedTypes
 }
 
+func (l *ListPlatformsResponseDataItemMediaRules) GetAllowedDimensions() []*ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem {
+	if l == nil {
+		return nil
+	}
+	return l.AllowedDimensions
+}
+
 func (l *ListPlatformsResponseDataItemMediaRules) GetExtraProperties() map[string]interface{} {
 	if l == nil {
 		return nil
@@ -436,10 +451,12 @@ func (l *ListPlatformsResponseDataItemMediaRules) GetExtraProperties() map[strin
 }
 
 func (l *ListPlatformsResponseDataItemMediaRules) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
 	}
-	l.explicitFields.Or(l.explicitFields, field)
+	next.Or(next, field)
+	l.explicitFields = next
 }
 
 // SetMin sets the Min field and marks it as non-optional;
@@ -461,6 +478,13 @@ func (l *ListPlatformsResponseDataItemMediaRules) SetMax(max float64) {
 func (l *ListPlatformsResponseDataItemMediaRules) SetAllowedTypes(allowedTypes []ListPlatformsResponseDataItemMediaRulesAllowedTypesItem) {
 	l.AllowedTypes = allowedTypes
 	l.require(listPlatformsResponseDataItemMediaRulesFieldAllowedTypes)
+}
+
+// SetAllowedDimensions sets the AllowedDimensions field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListPlatformsResponseDataItemMediaRules) SetAllowedDimensions(allowedDimensions []*ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) {
+	l.AllowedDimensions = allowedDimensions
+	l.require(listPlatformsResponseDataItemMediaRulesFieldAllowedDimensions)
 }
 
 func (l *ListPlatformsResponseDataItemMediaRules) UnmarshalJSON(data []byte) error {
@@ -491,6 +515,108 @@ func (l *ListPlatformsResponseDataItemMediaRules) MarshalJSON() ([]byte, error) 
 }
 
 func (l *ListPlatformsResponseDataItemMediaRules) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	listPlatformsResponseDataItemMediaRulesAllowedDimensionsItemFieldWidth  = big.NewInt(1 << 0)
+	listPlatformsResponseDataItemMediaRulesAllowedDimensionsItemFieldHeight = big.NewInt(1 << 1)
+)
+
+type ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem struct {
+	Width  float64 `json:"width" url:"width"`
+	Height float64 `json:"height" url:"height"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) GetWidth() float64 {
+	if l == nil {
+		return 0
+	}
+	return l.Width
+}
+
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) GetHeight() float64 {
+	if l == nil {
+		return 0
+	}
+	return l.Height
+}
+
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetWidth sets the Width field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) SetWidth(width float64) {
+	l.Width = width
+	l.require(listPlatformsResponseDataItemMediaRulesAllowedDimensionsItemFieldWidth)
+}
+
+// SetHeight sets the Height field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) SetHeight(height float64) {
+	l.Height = height
+	l.require(listPlatformsResponseDataItemMediaRulesAllowedDimensionsItemFieldHeight)
+}
+
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) MarshalJSON() ([]byte, error) {
+	type embed ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) String() string {
 	if l == nil {
 		return "<nil>"
 	}
@@ -577,10 +703,12 @@ func (l *ListPlatformsResponseDataItemPlatformConfiguration) GetExtraProperties(
 }
 
 func (l *ListPlatformsResponseDataItemPlatformConfiguration) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
 	}
-	l.explicitFields.Or(l.explicitFields, field)
+	next.Or(next, field)
+	l.explicitFields = next
 }
 
 // SetRequired sets the Required field and marks it as non-optional;

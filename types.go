@@ -93,10 +93,12 @@ func (e *ErrorResponse) GetExtraProperties() map[string]interface{} {
 }
 
 func (e *ErrorResponse) require(field *big.Int) {
-	if e.explicitFields == nil {
-		e.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if e.explicitFields != nil {
+		next.Set(e.explicitFields)
 	}
-	e.explicitFields.Or(e.explicitFields, field)
+	next.Or(next, field)
+	e.explicitFields = next
 }
 
 // SetCode sets the Code field and marks it as non-optional;
@@ -243,10 +245,12 @@ func (m *MediaSearch) GetExtraProperties() map[string]interface{} {
 }
 
 func (m *MediaSearch) require(field *big.Int) {
-	if m.explicitFields == nil {
-		m.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if m.explicitFields != nil {
+		next.Set(m.explicitFields)
 	}
-	m.explicitFields.Or(m.explicitFields, field)
+	next.Or(next, field)
+	m.explicitFields = next
 }
 
 // SetPage sets the Page field and marks it as non-optional;
@@ -418,10 +422,12 @@ func (m *MediaSetTags) GetExtraProperties() map[string]interface{} {
 }
 
 func (m *MediaSetTags) require(field *big.Int) {
-	if m.explicitFields == nil {
-		m.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if m.explicitFields != nil {
+		next.Set(m.explicitFields)
 	}
-	m.explicitFields.Or(m.explicitFields, field)
+	next.Or(next, field)
+	m.explicitFields = next
 }
 
 // SetMediaID sets the MediaID field and marks it as non-optional;
@@ -563,10 +569,12 @@ func (m *MediaUpdate) GetExtraProperties() map[string]interface{} {
 }
 
 func (m *MediaUpdate) require(field *big.Int) {
-	if m.explicitFields == nil {
-		m.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if m.explicitFields != nil {
+		next.Set(m.explicitFields)
 	}
-	m.explicitFields.Or(m.explicitFields, field)
+	next.Or(next, field)
+	m.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -685,6 +693,14 @@ const (
 	OauthScopeAnalyticsRead OauthScope = "analytics:read"
 	// View organization details
 	OauthScopeOrgRead OauthScope = "org:read"
+	// View AI generation jobs and available voices
+	OauthScopeAiRead OauthScope = "ai:read"
+	// Generate AI images and videos (spends AI credits)
+	OauthScopeAiWrite OauthScope = "ai:write"
+	// View webhook endpoints and delivery history
+	OauthScopeWebhooksRead OauthScope = "webhooks:read"
+	// Create, edit, and delete webhook endpoints
+	OauthScopeWebhooksWrite OauthScope = "webhooks:write"
 )
 
 func NewOauthScopeFromString(s string) (OauthScope, error) {
@@ -711,6 +727,14 @@ func NewOauthScopeFromString(s string) (OauthScope, error) {
 		return OauthScopeAnalyticsRead, nil
 	case "org:read":
 		return OauthScopeOrgRead, nil
+	case "ai:read":
+		return OauthScopeAiRead, nil
+	case "ai:write":
+		return OauthScopeAiWrite, nil
+	case "webhooks:read":
+		return OauthScopeWebhooksRead, nil
+	case "webhooks:write":
+		return OauthScopeWebhooksWrite, nil
 	}
 	var t OauthScope
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -758,10 +782,12 @@ func (p *PostPublishDraft) GetExtraProperties() map[string]interface{} {
 }
 
 func (p *PostPublishDraft) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -929,10 +955,12 @@ func (p *PostSearch) GetExtraProperties() map[string]interface{} {
 }
 
 func (p *PostSearch) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetPage sets the Page field and marks it as non-optional;
@@ -1106,10 +1134,12 @@ func (p *PostSearchScheduledAt) GetExtraProperties() map[string]interface{} {
 }
 
 func (p *PostSearchScheduledAt) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetFrom sets the From field and marks it as non-optional;
@@ -1290,10 +1320,12 @@ func (s *SocialAccountUpdate) GetExtraProperties() map[string]interface{} {
 }
 
 func (s *SocialAccountUpdate) require(field *big.Int) {
-	if s.explicitFields == nil {
-		s.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if s.explicitFields != nil {
+		next.Set(s.explicitFields)
 	}
-	s.explicitFields.Or(s.explicitFields, field)
+	next.Or(next, field)
+	s.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -1439,10 +1471,12 @@ func (t *Tag) GetExtraProperties() map[string]interface{} {
 }
 
 func (t *Tag) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if t.explicitFields != nil {
+		next.Set(t.explicitFields)
 	}
-	t.explicitFields.Or(t.explicitFields, field)
+	next.Or(next, field)
+	t.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -1572,10 +1606,12 @@ func (t *TagSearch) GetExtraProperties() map[string]interface{} {
 }
 
 func (t *TagSearch) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if t.explicitFields != nil {
+		next.Set(t.explicitFields)
 	}
-	t.explicitFields.Or(t.explicitFields, field)
+	next.Or(next, field)
+	t.explicitFields = next
 }
 
 // SetQ sets the Q field and marks it as non-optional;
@@ -1681,10 +1717,12 @@ func (t *TagUpsert) GetExtraProperties() map[string]interface{} {
 }
 
 func (t *TagUpsert) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if t.explicitFields != nil {
+		next.Set(t.explicitFields)
 	}
-	t.explicitFields.Or(t.explicitFields, field)
+	next.Or(next, field)
+	t.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;

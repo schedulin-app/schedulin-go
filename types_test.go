@@ -3855,6 +3855,34 @@ func TestEnumOauthScope(t *testing.T) {
 		assert.Equal(t, OauthScope("org:read"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_ai_read", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewOauthScopeFromString("ai:read")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, OauthScope("ai:read"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_ai_write", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewOauthScopeFromString("ai:write")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, OauthScope("ai:write"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_webhooks_read", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewOauthScopeFromString("webhooks:read")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, OauthScope("webhooks:read"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_webhooks_write", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewOauthScopeFromString("webhooks:write")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, OauthScope("webhooks:write"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewOauthScopeFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)

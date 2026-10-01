@@ -73,6 +73,103 @@ func (r *RawClient) List(
 	}, nil
 }
 
+func (r *RawClient) ListWhopCompanies(
+	ctx context.Context,
+	request *schedulingo.ListWhopCompaniesSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[*schedulingo.ListWhopCompaniesSocialAccountsResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.schedulin.app",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v0/social-accounts/%v/whop-companies",
+		request.ID,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *schedulingo.ListWhopCompaniesSocialAccountsResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*schedulingo.ListWhopCompaniesSocialAccountsResponse]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
+func (r *RawClient) ListWhopForums(
+	ctx context.Context,
+	request *schedulingo.ListWhopForumsSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[*schedulingo.ListWhopForumsSocialAccountsResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.schedulin.app",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v0/social-accounts/%v/whop-forums",
+		request.ID,
+	)
+	queryParams, err := internal.QueryValues(request)
+	if err != nil {
+		return nil, err
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *schedulingo.ListWhopForumsSocialAccountsResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*schedulingo.ListWhopForumsSocialAccountsResponse]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
 func (r *RawClient) Update(
 	ctx context.Context,
 	request *schedulingo.UpdateSocialAccountsRequest,

@@ -35,6 +35,12 @@ func NewClient(options *core.RequestOptions) *Client {
 }
 
 // Retrieve all connected social media accounts for the authenticated user
+//
+// Example:
+//
+//	client.SocialAccounts.List(
+//	    context.TODO(),
+//	)
 func (c *Client) List(
 	ctx context.Context,
 	opts ...option.RequestOption,
@@ -49,7 +55,72 @@ func (c *Client) List(
 	return response.Body, nil
 }
 
+// List companies available to a connected Whop account. Select one before requesting its forum experiences.
+//
+// Example:
+//
+//	request := &schedulingo.ListWhopCompaniesSocialAccountsRequest{
+//	    ID: "id",
+//	}
+//	client.SocialAccounts.ListWhopCompanies(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) ListWhopCompanies(
+	ctx context.Context,
+	request *schedulingo.ListWhopCompaniesSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*schedulingo.ListWhopCompaniesSocialAccountsResponse, error) {
+	response, err := c.WithRawResponse.ListWhopCompanies(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+// List forum experiences for a Whop company. Use an item id as platformConfiguration.experience.
+//
+// Example:
+//
+//	request := &schedulingo.ListWhopForumsSocialAccountsRequest{
+//	    ID: "id",
+//	    CompanyID: "companyId",
+//	}
+//	client.SocialAccounts.ListWhopForums(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) ListWhopForums(
+	ctx context.Context,
+	request *schedulingo.ListWhopForumsSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*schedulingo.ListWhopForumsSocialAccountsResponse, error) {
+	response, err := c.WithRawResponse.ListWhopForums(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // Update social media account settings and information
+//
+// Example:
+//
+//	request := &schedulingo.UpdateSocialAccountsRequest{
+//	    ID: "id",
+//	}
+//	client.SocialAccounts.Update(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Update(
 	ctx context.Context,
 	request *schedulingo.UpdateSocialAccountsRequest,
@@ -67,6 +138,16 @@ func (c *Client) Update(
 }
 
 // Remove a connected social media account
+//
+// Example:
+//
+//	request := &schedulingo.DeleteSocialAccountsRequest{
+//	    ID: "id",
+//	}
+//	client.SocialAccounts.Delete(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Delete(
 	ctx context.Context,
 	request *schedulingo.DeleteSocialAccountsRequest,
@@ -84,6 +165,17 @@ func (c *Client) Delete(
 }
 
 // Set the IANA timezone (e.g. 'America/Los_Angeles') used to interpret queue times for this account.
+//
+// Example:
+//
+//	request := &schedulingo.UpdateTimezoneSocialAccountsRequest{
+//	    ID: "id",
+//	    Timezone: "timezone",
+//	}
+//	client.SocialAccounts.UpdateTimezone(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) UpdateTimezone(
 	ctx context.Context,
 	request *schedulingo.UpdateTimezoneSocialAccountsRequest,
@@ -101,6 +193,16 @@ func (c *Client) UpdateTimezone(
 }
 
 // Return the next available queue slot times (UTC) for a social account, computed from its queue schedule, per-slot capacity, and timezone. Empty when the account has no queue times configured. Use a slot as `scheduledAt`, or pass `action: "queue"` when creating a post to take the next slot automatically.
+//
+// Example:
+//
+//	request := &schedulingo.NextSlotsSocialAccountsRequest{
+//	    ID: "id",
+//	}
+//	client.SocialAccounts.NextSlots(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) NextSlots(
 	ctx context.Context,
 	request *schedulingo.NextSlotsSocialAccountsRequest,
@@ -118,6 +220,16 @@ func (c *Client) NextSlots(
 }
 
 // List the boards for a connected Pinterest account. Use a board id in `platformConfiguration.board_ids` when creating a Pinterest post.
+//
+// Example:
+//
+//	request := &schedulingo.PinterestBoardsSocialAccountsRequest{
+//	    ID: "id",
+//	}
+//	client.SocialAccounts.PinterestBoards(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) PinterestBoards(
 	ctx context.Context,
 	request *schedulingo.PinterestBoardsSocialAccountsRequest,
@@ -135,6 +247,16 @@ func (c *Client) PinterestBoards(
 }
 
 // Fetch the privacy-level options, duration limits, and interaction settings for a connected TikTok account — required to build a valid `platformConfiguration` when creating a TikTok post.
+//
+// Example:
+//
+//	request := &schedulingo.TiktokCreatorInfoSocialAccountsRequest{
+//	    ID: "id",
+//	}
+//	client.SocialAccounts.TiktokCreatorInfo(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) TiktokCreatorInfo(
 	ctx context.Context,
 	request *schedulingo.TiktokCreatorInfoSocialAccountsRequest,

@@ -336,29 +336,3 @@ func TestPostsUpdateTagsWithWireMock(
 	require.NoError(t, invocationErr, "Client method call should succeed")
 	VerifyRequestCount(t, "TestPostsUpdateTagsWithWireMock", "PUT", "/v0/posts/id/tags", nil, 1)
 }
-
-func TestPostsGetJobStatusWithWireMock(
-	t *testing.T,
-) {
-	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
-	if WireMockBaseURL == "" {
-		WireMockBaseURL = "http://localhost:8080"
-	}
-	client := client.NewClient(
-		option.WithBaseURL(WireMockBaseURL),
-		option.WithAPIKey("test-value"),
-	)
-	request := &schedulingo.GetJobStatusPostsRequest{
-		ID: "id",
-	}
-	_, invocationErr := client.Posts.GetJobStatus(
-		context.TODO(),
-		request,
-		option.WithHTTPHeader(
-			http.Header{"X-Test-Id": []string{"TestPostsGetJobStatusWithWireMock"}},
-		),
-	)
-
-	require.NoError(t, invocationErr, "Client method call should succeed")
-	VerifyRequestCount(t, "TestPostsGetJobStatusWithWireMock", "GET", "/v0/posts/id/jobs", nil, 1)
-}

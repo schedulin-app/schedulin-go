@@ -193,6 +193,14 @@ func TestSettersPostCreate(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetTitle", func(t *testing.T) {
+		obj := &PostCreate{}
+		var fernTestValueTitle *string
+		obj.SetTitle(fernTestValueTitle)
+		assert.Equal(t, fernTestValueTitle, obj.Title)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetScheduledAt", func(t *testing.T) {
 		obj := &PostCreate{}
 		var fernTestValueScheduledAt *time.Time
@@ -268,6 +276,37 @@ func TestSettersMarkExplicitPostCreate(t *testing.T) {
 
 		// Act
 		obj.SetCaption(fernTestValueCaption)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetTitle_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostCreate{}
+		var fernTestValueTitle *string
+
+		// Act
+		obj.SetTitle(fernTestValueTitle)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -557,51 +596,6 @@ func TestSettersMarkExplicitDeletePostsRequest(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &DeletePostsRequest{}
-		var fernTestValueID string
-
-		// Act
-		obj.SetID(fernTestValueID)
-
-		// Assert - object with explicitly set field can be marshaled/unmarshaled
-		bytes, err := json.Marshal(obj)
-		require.NoError(t, err, "marshaling should succeed for test setup")
-
-		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
-		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
-		if len(bytes) > 0 && bytes[0] == '{' {
-			// JSON object - unmarshal into map
-			var unmarshaled map[string]interface{}
-			err = json.Unmarshal(bytes, &unmarshaled)
-			require.NoError(t, err, "unmarshaling should succeed for test verification")
-		} else {
-			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
-			var unmarshaled interface{}
-			err = json.Unmarshal(bytes, &unmarshaled)
-			require.NoError(t, err, "unmarshaling should succeed for test verification")
-		}
-
-		// Note: This does not explicitly assert the presence of a specific JSON field
-		// It verifies that setting a field via setter allows successful JSON round-trip
-	})
-
-}
-
-func TestSettersGetJobStatusPostsRequest(t *testing.T) {
-	t.Run("SetID", func(t *testing.T) {
-		obj := &GetJobStatusPostsRequest{}
-		var fernTestValueID string
-		obj.SetID(fernTestValueID)
-		assert.Equal(t, fernTestValueID, obj.ID)
-		assert.NotNil(t, obj.explicitFields)
-	})
-
-}
-
-func TestSettersMarkExplicitGetJobStatusPostsRequest(t *testing.T) {
-	t.Run("SetID_MarksExplicit", func(t *testing.T) {
-		t.Parallel()
-		// Arrange
-		obj := &GetJobStatusPostsRequest{}
 		var fernTestValueID string
 
 		// Act
@@ -13130,6 +13124,287 @@ func TestJSONMarshalingUpdatePostsRequestMediaItem(t *testing.T) {
 	})
 }
 
+func TestRequiredNullableRoundTripAnalyticsSummaryPostsResponse(t *testing.T) {
+	requiredNullableKeys := []string{
+		"analyticsLastFetchedAt",
+		"analyticsNextFetchAt",
+	}
+	marshalToMap := func(t *testing.T, obj *AnalyticsSummaryPostsResponse) map[string]json.RawMessage {
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		var result map[string]json.RawMessage
+		require.NoError(t, json.Unmarshal(data, &result), "marshaled data should be a JSON object")
+		return result
+	}
+
+	t.Run("NullPreserved", func(t *testing.T) {
+		t.Parallel()
+		var obj AnalyticsSummaryPostsResponse
+		require.NoError(t, json.Unmarshal([]byte(`{"analyticsLastFetchedAt":null,"analyticsNextFetchAt":null}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			value, ok := result[key]
+			require.True(t, ok, "required nullable field %q received as null should be present in the output", key)
+			assert.Equal(t, "null", string(value), "required nullable field %q received as null should be null in the output", key)
+		}
+	})
+
+	t.Run("AbsentStaysAbsent", func(t *testing.T) {
+		t.Parallel()
+		var obj AnalyticsSummaryPostsResponse
+		require.NoError(t, json.Unmarshal([]byte(`{}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q absent from the input should be absent from the output", key)
+		}
+	})
+
+	t.Run("FreshValueOmits", func(t *testing.T) {
+		t.Parallel()
+		result := marshalToMap(t, &AnalyticsSummaryPostsResponse{})
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q should be omitted from a freshly constructed value", key)
+		}
+	})
+}
+
+func TestRequiredNullableRoundTripCreatePostsResponse(t *testing.T) {
+	requiredNullableKeys := []string{
+		"externalId",
+		"scheduledAt",
+		"platformConfiguration",
+	}
+	marshalToMap := func(t *testing.T, obj *CreatePostsResponse) map[string]json.RawMessage {
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		var result map[string]json.RawMessage
+		require.NoError(t, json.Unmarshal(data, &result), "marshaled data should be a JSON object")
+		return result
+	}
+
+	t.Run("NullPreserved", func(t *testing.T) {
+		t.Parallel()
+		var obj CreatePostsResponse
+		require.NoError(t, json.Unmarshal([]byte(`{"externalId":null,"scheduledAt":null,"platformConfiguration":null}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			value, ok := result[key]
+			require.True(t, ok, "required nullable field %q received as null should be present in the output", key)
+			assert.Equal(t, "null", string(value), "required nullable field %q received as null should be null in the output", key)
+		}
+	})
+
+	t.Run("AbsentStaysAbsent", func(t *testing.T) {
+		t.Parallel()
+		var obj CreatePostsResponse
+		require.NoError(t, json.Unmarshal([]byte(`{}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q absent from the input should be absent from the output", key)
+		}
+	})
+
+	t.Run("FreshValueOmits", func(t *testing.T) {
+		t.Parallel()
+		result := marshalToMap(t, &CreatePostsResponse{})
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q should be omitted from a freshly constructed value", key)
+		}
+	})
+}
+
+func TestRequiredNullableRoundTripPost(t *testing.T) {
+	requiredNullableKeys := []string{
+		"externalId",
+		"approvalRequestedAt",
+		"approvalRequestedBy",
+		"approvedAt",
+		"approvedBy",
+		"rejectionReason",
+		"scheduledAt",
+		"platformConfiguration",
+		"url",
+	}
+	marshalToMap := func(t *testing.T, obj *Post) map[string]json.RawMessage {
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		var result map[string]json.RawMessage
+		require.NoError(t, json.Unmarshal(data, &result), "marshaled data should be a JSON object")
+		return result
+	}
+
+	t.Run("NullPreserved", func(t *testing.T) {
+		t.Parallel()
+		var obj Post
+		require.NoError(t, json.Unmarshal([]byte(`{"externalId":null,"approvalRequestedAt":null,"approvalRequestedBy":null,"approvedAt":null,"approvedBy":null,"rejectionReason":null,"scheduledAt":null,"platformConfiguration":null,"url":null}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			value, ok := result[key]
+			require.True(t, ok, "required nullable field %q received as null should be present in the output", key)
+			assert.Equal(t, "null", string(value), "required nullable field %q received as null should be null in the output", key)
+		}
+	})
+
+	t.Run("AbsentStaysAbsent", func(t *testing.T) {
+		t.Parallel()
+		var obj Post
+		require.NoError(t, json.Unmarshal([]byte(`{}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q absent from the input should be absent from the output", key)
+		}
+	})
+
+	t.Run("FreshValueOmits", func(t *testing.T) {
+		t.Parallel()
+		result := marshalToMap(t, &Post{})
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q should be omitted from a freshly constructed value", key)
+		}
+	})
+}
+
+func TestRequiredNullableRoundTripPostWithRelations(t *testing.T) {
+	requiredNullableKeys := []string{
+		"externalId",
+		"approvalRequestedAt",
+		"approvalRequestedBy",
+		"approvedAt",
+		"approvedBy",
+		"rejectionReason",
+		"scheduledAt",
+		"platformConfiguration",
+		"url",
+	}
+	marshalToMap := func(t *testing.T, obj *PostWithRelations) map[string]json.RawMessage {
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		var result map[string]json.RawMessage
+		require.NoError(t, json.Unmarshal(data, &result), "marshaled data should be a JSON object")
+		return result
+	}
+
+	t.Run("NullPreserved", func(t *testing.T) {
+		t.Parallel()
+		var obj PostWithRelations
+		require.NoError(t, json.Unmarshal([]byte(`{"externalId":null,"approvalRequestedAt":null,"approvalRequestedBy":null,"approvedAt":null,"approvedBy":null,"rejectionReason":null,"scheduledAt":null,"platformConfiguration":null,"url":null}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			value, ok := result[key]
+			require.True(t, ok, "required nullable field %q received as null should be present in the output", key)
+			assert.Equal(t, "null", string(value), "required nullable field %q received as null should be null in the output", key)
+		}
+	})
+
+	t.Run("AbsentStaysAbsent", func(t *testing.T) {
+		t.Parallel()
+		var obj PostWithRelations
+		require.NoError(t, json.Unmarshal([]byte(`{}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q absent from the input should be absent from the output", key)
+		}
+	})
+
+	t.Run("FreshValueOmits", func(t *testing.T) {
+		t.Parallel()
+		result := marshalToMap(t, &PostWithRelations{})
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q should be omitted from a freshly constructed value", key)
+		}
+	})
+}
+
+func TestRequiredNullableRoundTripSocialAccount(t *testing.T) {
+	requiredNullableKeys := []string{
+		"imageUrl",
+		"username",
+		"disconnectedReason",
+	}
+	marshalToMap := func(t *testing.T, obj *SocialAccount) map[string]json.RawMessage {
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		var result map[string]json.RawMessage
+		require.NoError(t, json.Unmarshal(data, &result), "marshaled data should be a JSON object")
+		return result
+	}
+
+	t.Run("NullPreserved", func(t *testing.T) {
+		t.Parallel()
+		var obj SocialAccount
+		require.NoError(t, json.Unmarshal([]byte(`{"imageUrl":null,"username":null,"disconnectedReason":null}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			value, ok := result[key]
+			require.True(t, ok, "required nullable field %q received as null should be present in the output", key)
+			assert.Equal(t, "null", string(value), "required nullable field %q received as null should be null in the output", key)
+		}
+	})
+
+	t.Run("AbsentStaysAbsent", func(t *testing.T) {
+		t.Parallel()
+		var obj SocialAccount
+		require.NoError(t, json.Unmarshal([]byte(`{}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q absent from the input should be absent from the output", key)
+		}
+	})
+
+	t.Run("FreshValueOmits", func(t *testing.T) {
+		t.Parallel()
+		result := marshalToMap(t, &SocialAccount{})
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q should be omitted from a freshly constructed value", key)
+		}
+	})
+}
+
+func TestRequiredNullableRoundTripSocialAccountPublic(t *testing.T) {
+	requiredNullableKeys := []string{
+		"username",
+		"profilePhotoUrl",
+		"externalId",
+	}
+	marshalToMap := func(t *testing.T, obj *SocialAccountPublic) map[string]json.RawMessage {
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		var result map[string]json.RawMessage
+		require.NoError(t, json.Unmarshal(data, &result), "marshaled data should be a JSON object")
+		return result
+	}
+
+	t.Run("NullPreserved", func(t *testing.T) {
+		t.Parallel()
+		var obj SocialAccountPublic
+		require.NoError(t, json.Unmarshal([]byte(`{"username":null,"profilePhotoUrl":null,"externalId":null}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			value, ok := result[key]
+			require.True(t, ok, "required nullable field %q received as null should be present in the output", key)
+			assert.Equal(t, "null", string(value), "required nullable field %q received as null should be null in the output", key)
+		}
+	})
+
+	t.Run("AbsentStaysAbsent", func(t *testing.T) {
+		t.Parallel()
+		var obj SocialAccountPublic
+		require.NoError(t, json.Unmarshal([]byte(`{}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q absent from the input should be absent from the output", key)
+		}
+	})
+
+	t.Run("FreshValueOmits", func(t *testing.T) {
+		t.Parallel()
+		result := marshalToMap(t, &SocialAccountPublic{})
+		for _, key := range requiredNullableKeys {
+			assert.NotContains(t, result, key, "required nullable field %q should be omitted from a freshly constructed value", key)
+		}
+	})
+}
+
 func TestStringAnalyticsSeriesPostsResponse(t *testing.T) {
 	t.Run("StringMethod", func(t *testing.T) {
 		t.Parallel()
@@ -13530,6 +13805,13 @@ func TestEnumCreatePostsResponseMediaItemTagsItemPlatform(t *testing.T) {
 		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("reddit")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("reddit"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_snapchat", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("snapchat")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("snapchat"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_threads", func(t *testing.T) {
@@ -14094,6 +14376,13 @@ func TestEnumPostCreateMediaItemTagsItemPlatform(t *testing.T) {
 		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("reddit"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_snapchat", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("snapchat")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateMediaItemTagsItemPlatform("snapchat"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_threads", func(t *testing.T) {
 		t.Parallel()
 		val, err := NewPostCreateMediaItemTagsItemPlatformFromString("threads")
@@ -14355,6 +14644,13 @@ func TestEnumPostCreatePartsItemMediaItemTagsItemPlatform(t *testing.T) {
 		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("reddit"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_snapchat", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("snapchat")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreatePartsItemMediaItemTagsItemPlatform("snapchat"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_threads", func(t *testing.T) {
 		t.Parallel()
 		val, err := NewPostCreatePartsItemMediaItemTagsItemPlatformFromString("threads")
@@ -14614,6 +14910,13 @@ func TestEnumPostCreateThumbnailTagsItemPlatform(t *testing.T) {
 		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("reddit")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("reddit"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_snapchat", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostCreateThumbnailTagsItemPlatformFromString("snapchat")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostCreateThumbnailTagsItemPlatform("snapchat"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_threads", func(t *testing.T) {
@@ -14927,6 +15230,13 @@ func TestEnumPostWithRelationsMediaItemTagsItemPlatform(t *testing.T) {
 		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("reddit"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_snapchat", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("snapchat")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostWithRelationsMediaItemTagsItemPlatform("snapchat"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_threads", func(t *testing.T) {
 		t.Parallel()
 		val, err := NewPostWithRelationsMediaItemTagsItemPlatformFromString("threads")
@@ -15181,6 +15491,13 @@ func TestEnumSocialAccountDisconnectedReason(t *testing.T) {
 		assert.Equal(t, SocialAccountDisconnectedReason("PERMISSION_DENIED"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_EMAIL_UNCONFIRMED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialAccountDisconnectedReasonFromString("EMAIL_UNCONFIRMED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialAccountDisconnectedReason("EMAIL_UNCONFIRMED"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewSocialAccountDisconnectedReasonFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)
@@ -15301,6 +15618,13 @@ func TestEnumSocialPlatform(t *testing.T) {
 		val, err := NewSocialPlatformFromString("reddit")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, SocialPlatform("reddit"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_snapchat", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialPlatformFromString("snapchat")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialPlatform("snapchat"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_threads", func(t *testing.T) {

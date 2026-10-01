@@ -34,7 +34,96 @@ func NewClient(options *core.RequestOptions) *Client {
 	}
 }
 
+// Downloads a publicly reachable image or video into the media library and returns the media record. Use the returned `url` in `media[].url` when creating a post. Prefer this over the presign flow whenever your client cannot issue a raw HTTP PUT (e.g. an AI agent). The source URL must be public (no auth), http(s), and at most the post upload limit (250 MB); SVG and other active content is rejected.
+//
+// Example:
+//
+//	request := &schedulingo.CreateFromURLMediaRequest{
+//	    URL: "url",
+//	}
+//	client.Media.CreateFromURL(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) CreateFromURL(
+	ctx context.Context,
+	request *schedulingo.CreateFromURLMediaRequest,
+	opts ...option.RequestOption,
+) (any, error) {
+	response, err := c.WithRawResponse.CreateFromURL(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+// Returns a short-lived URL to a page where the user uploads files from their device (or a pasted attachment) straight into the media library. Hand the URL to the user; once they've uploaded, call GET /v0/media (list media, newest first) and reference the returned `url` when creating a post. Use this whenever the file isn't already at a public URL.
+//
+// Example:
+//
+//	request := &schedulingo.CreateUploadLinkMediaRequest{}
+//	client.Media.CreateUploadLink(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) CreateUploadLink(
+	ctx context.Context,
+	request *schedulingo.CreateUploadLinkMediaRequest,
+	opts ...option.RequestOption,
+) (any, error) {
+	response, err := c.WithRawResponse.CreateUploadLink(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+// Upload raw image, video, or audio bytes directly as multipart/form-data. The file is stored in your media library and the record is returned; use its `url` in `media[].url` when creating a post. Max 250 MB; SVG and other active content is rejected. For a file already hosted at a public URL, prefer POST /v0/media/from-url.
+//
+// Example:
+//
+//	request := &schedulingo.UploadMediaRequest{
+//	    File: "file",
+//	}
+//	client.Media.Upload(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) Upload(
+	ctx context.Context,
+	request *schedulingo.UploadMediaRequest,
+	opts ...option.RequestOption,
+) (any, error) {
+	response, err := c.WithRawResponse.Upload(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // Retrieve media information by its ID
+//
+// Example:
+//
+//	request := &schedulingo.RetrieveMediaRequest{
+//	    ID: "id",
+//	}
+//	client.Media.Retrieve(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Retrieve(
 	ctx context.Context,
 	request *schedulingo.RetrieveMediaRequest,
@@ -52,6 +141,17 @@ func (c *Client) Retrieve(
 }
 
 // Update media information and metadata
+//
+// Example:
+//
+//	request := &schedulingo.UpdateMediaRequest{
+//	    ID: "id",
+//	    URL: "url",
+//	}
+//	client.Media.Update(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Update(
 	ctx context.Context,
 	request *schedulingo.UpdateMediaRequest,
@@ -68,7 +168,42 @@ func (c *Client) Update(
 	return response.Body, nil
 }
 
+// Delete a media object and remove its files from storage. Fails with a conflict when the media is attached to any post — remove it from those posts (or delete them) first.
+//
+// Example:
+//
+//	request := &schedulingo.V0MediaDeleteRequest{
+//	    ID: "id",
+//	}
+//	client.Media.V0MediaDelete(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) V0MediaDelete(
+	ctx context.Context,
+	request *schedulingo.V0MediaDeleteRequest,
+	opts ...option.RequestOption,
+) (any, error) {
+	response, err := c.WithRawResponse.V0MediaDelete(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // List media for the organization with page pagination, search, type and tag filters
+//
+// Example:
+//
+//	request := &schedulingo.ListMediaRequest{}
+//	client.Media.List(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) List(
 	ctx context.Context,
 	request *schedulingo.ListMediaRequest,
@@ -86,6 +221,19 @@ func (c *Client) List(
 }
 
 // Replace the set of tags attached to a media item with the provided tag IDs
+//
+// Example:
+//
+//	request := &schedulingo.SetTagsMediaRequest{
+//	    MediaID: "mediaId",
+//	    TagIDs: []string{
+//	        "tagIds",
+//	    },
+//	}
+//	client.Media.SetTags(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) SetTags(
 	ctx context.Context,
 	request *schedulingo.SetTagsMediaRequest,
@@ -103,6 +251,12 @@ func (c *Client) SetTags(
 }
 
 // Return media counts grouped by tag for the organization
+//
+// Example:
+//
+//	client.Media.CountByTag(
+//	    context.TODO(),
+//	)
 func (c *Client) CountByTag(
 	ctx context.Context,
 	opts ...option.RequestOption,
@@ -118,6 +272,17 @@ func (c *Client) CountByTag(
 }
 
 // Returns a presigned PUT URL. Upload by issuing an HTTP PUT of the raw file bytes to `url` with a `Content-Type` header matching `contentType`, then reference the returned `key` when creating a post.
+//
+// Example:
+//
+//	request := &schedulingo.CreatePresignedPost{
+//	    ContentType: "contentType",
+//	    Key: "key",
+//	}
+//	client.Media.CreatePresignedPost(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) CreatePresignedPost(
 	ctx context.Context,
 	request *schedulingo.CreatePresignedPost,

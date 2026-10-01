@@ -77,6 +77,82 @@ func VerifyRequestCount(
 	require.Equal(t, expected, len(result.Requests))
 }
 
+func TestMediaCreateFromURLWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulingo.CreateFromURLMediaRequest{
+		URL: "url",
+	}
+	_, invocationErr := client.Media.CreateFromURL(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestMediaCreateFromURLWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestMediaCreateFromURLWithWireMock", "POST", "/v0/media/from-url", nil, 1)
+}
+
+func TestMediaCreateUploadLinkWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulingo.CreateUploadLinkMediaRequest{}
+	_, invocationErr := client.Media.CreateUploadLink(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestMediaCreateUploadLinkWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestMediaCreateUploadLinkWithWireMock", "POST", "/v0/media/upload-link", nil, 1)
+}
+
+func TestMediaUploadWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulingo.UploadMediaRequest{
+		File: "file",
+	}
+	_, invocationErr := client.Media.Upload(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestMediaUploadWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestMediaUploadWithWireMock", "POST", "/v0/media/upload", nil, 1)
+}
+
 func TestMediaRetrieveWithWireMock(
 	t *testing.T,
 ) {
@@ -128,6 +204,32 @@ func TestMediaUpdateWithWireMock(
 
 	require.NoError(t, invocationErr, "Client method call should succeed")
 	VerifyRequestCount(t, "TestMediaUpdateWithWireMock", "PUT", "/v0/media/id", nil, 1)
+}
+
+func TestMediaV0MediaDeleteWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulingo.V0MediaDeleteRequest{
+		ID: "id",
+	}
+	_, invocationErr := client.Media.V0MediaDelete(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestMediaV0MediaDeleteWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestMediaV0MediaDeleteWithWireMock", "DELETE", "/v0/media/id", nil, 1)
 }
 
 func TestMediaListWithWireMock(

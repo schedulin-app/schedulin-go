@@ -3,6 +3,7 @@
 package client
 
 import (
+	ai "github.com/schedulin-app/schedulin-go/ai"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	media "github.com/schedulin-app/schedulin-go/media"
@@ -11,6 +12,7 @@ import (
 	posts "github.com/schedulin-app/schedulin-go/posts"
 	socialaccounts "github.com/schedulin-app/schedulin-go/socialaccounts"
 	tags "github.com/schedulin-app/schedulin-go/tags"
+	webhooks "github.com/schedulin-app/schedulin-go/webhooks"
 )
 
 type Client struct {
@@ -19,6 +21,8 @@ type Client struct {
 	Tags           *tags.Client
 	Media          *media.Client
 	Platforms      *platforms.Client
+	Ai             *ai.Client
+	Webhooks       *webhooks.Client
 
 	options *core.RequestOptions
 	baseURL string
@@ -33,6 +37,8 @@ func NewClient(opts ...option.RequestOption) *Client {
 		Tags:           tags.NewClient(options),
 		Media:          media.NewClient(options),
 		Platforms:      platforms.NewClient(options),
+		Ai:             ai.NewClient(options),
+		Webhooks:       webhooks.NewClient(options),
 		options:        options,
 		baseURL:        options.BaseURL,
 		caller: internal.NewCaller(

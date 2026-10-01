@@ -35,6 +35,14 @@ func NewClient(options *core.RequestOptions) *Client {
 }
 
 // Search and filter posts with various criteria including status, date range, social accounts, and tags
+//
+// Example:
+//
+//	request := &schedulingo.ListPostsRequest{}
+//	client.Posts.List(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) List(
 	ctx context.Context,
 	request *schedulingo.ListPostsRequest,
@@ -51,7 +59,18 @@ func (c *Client) List(
 	return response.Body, nil
 }
 
-// Create a new post with media, tags, and scheduling options
+// Create a new post with media, tags, and scheduling options. Media items may reference a stored library URL or any publicly reachable image/video URL — external URLs are downloaded into the media library automatically, so clients that cannot issue a raw presigned PUT can attach media in one call.
+//
+// Example:
+//
+//	request := &schedulingo.PostCreate{
+//	    Caption: "caption",
+//	    SocialAccountID: "socialAccountId",
+//	}
+//	client.Posts.Create(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Create(
 	ctx context.Context,
 	request *schedulingo.PostCreate,
@@ -69,6 +88,14 @@ func (c *Client) Create(
 }
 
 // Returns counts of posts for the Queue, Drafts, Approvals, and Sent tabs
+//
+// Example:
+//
+//	request := &schedulingo.CountByTabPostsRequest{}
+//	client.Posts.CountByTab(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) CountByTab(
 	ctx context.Context,
 	request *schedulingo.CountByTabPostsRequest,
@@ -86,6 +113,16 @@ func (c *Client) CountByTab(
 }
 
 // Retrieve a single post by its ID with all relations
+//
+// Example:
+//
+//	request := &schedulingo.RetrievePostsRequest{
+//	    ID: "id",
+//	}
+//	client.Posts.Retrieve(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Retrieve(
 	ctx context.Context,
 	request *schedulingo.RetrievePostsRequest,
@@ -103,6 +140,16 @@ func (c *Client) Retrieve(
 }
 
 // Update an existing post by its ID
+//
+// Example:
+//
+//	request := &schedulingo.UpdatePostsRequest{
+//	    ID: "id",
+//	}
+//	client.Posts.Update(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Update(
 	ctx context.Context,
 	request *schedulingo.UpdatePostsRequest,
@@ -120,6 +167,16 @@ func (c *Client) Update(
 }
 
 // Delete a post by its ID
+//
+// Example:
+//
+//	request := &schedulingo.DeletePostsRequest{
+//	    ID: "id",
+//	}
+//	client.Posts.Delete(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Delete(
 	ctx context.Context,
 	request *schedulingo.DeletePostsRequest,
@@ -137,6 +194,16 @@ func (c *Client) Delete(
 }
 
 // Retrieve the latest analytics snapshot for a post
+//
+// Example:
+//
+//	request := &schedulingo.AnalyticsSummaryPostsRequest{
+//	    ID: "id",
+//	}
+//	client.Posts.AnalyticsSummary(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) AnalyticsSummary(
 	ctx context.Context,
 	request *schedulingo.AnalyticsSummaryPostsRequest,
@@ -154,6 +221,16 @@ func (c *Client) AnalyticsSummary(
 }
 
 // Retrieve time series analytics metrics for a post
+//
+// Example:
+//
+//	request := &schedulingo.AnalyticsSeriesPostsRequest{
+//	    ID: "id",
+//	}
+//	client.Posts.AnalyticsSeries(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) AnalyticsSeries(
 	ctx context.Context,
 	request *schedulingo.AnalyticsSeriesPostsRequest,
@@ -171,6 +248,16 @@ func (c *Client) AnalyticsSeries(
 }
 
 // Publish a draft post to connected social media accounts
+//
+// Example:
+//
+//	request := &schedulingo.PublishDraftPostsRequest{
+//	    ID: "id",
+//	}
+//	client.Posts.PublishDraft(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) PublishDraft(
 	ctx context.Context,
 	request *schedulingo.PublishDraftPostsRequest,
@@ -188,29 +275,25 @@ func (c *Client) PublishDraft(
 }
 
 // Replace all tags on a post. No status restrictions apply.
+//
+// Example:
+//
+//	request := &schedulingo.UpdateTagsPostsRequest{
+//	    ID: "id",
+//	    TagIDs: []string{
+//	        "tagIds",
+//	    },
+//	}
+//	client.Posts.UpdateTags(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) UpdateTags(
 	ctx context.Context,
 	request *schedulingo.UpdateTagsPostsRequest,
 	opts ...option.RequestOption,
 ) (*schedulingo.Post, error) {
 	response, err := c.WithRawResponse.UpdateTags(
-		ctx,
-		request,
-		opts...,
-	)
-	if err != nil {
-		return nil, err
-	}
-	return response.Body, nil
-}
-
-// Retrieve the processing job status and logs for a post
-func (c *Client) GetJobStatus(
-	ctx context.Context,
-	request *schedulingo.GetJobStatusPostsRequest,
-	opts ...option.RequestOption,
-) (any, error) {
-	response, err := c.WithRawResponse.GetJobStatus(
 		ctx,
 		request,
 		opts...,

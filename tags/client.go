@@ -35,6 +35,14 @@ func NewClient(options *core.RequestOptions) *Client {
 }
 
 // Retrieve a list of tags for the authenticated user with optional search filtering
+//
+// Example:
+//
+//	request := &schedulingo.ListTagsRequest{}
+//	client.Tags.List(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) List(
 	ctx context.Context,
 	request *schedulingo.ListTagsRequest,
@@ -52,6 +60,17 @@ func (c *Client) List(
 }
 
 // Create a new tag. Users can have up to 5 tags.
+//
+// Example:
+//
+//	request := &schedulingo.CreateTagsRequest{
+//	    Name: "name",
+//	    Color: "color",
+//	}
+//	client.Tags.Create(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Create(
 	ctx context.Context,
 	request *schedulingo.CreateTagsRequest,
@@ -69,6 +88,16 @@ func (c *Client) Create(
 }
 
 // Update an existing tag by its ID. Only the tag owner can update their tags.
+//
+// Example:
+//
+//	request := &schedulingo.UpdateTagsRequest{
+//	    ID: "id",
+//	}
+//	client.Tags.Update(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Update(
 	ctx context.Context,
 	request *schedulingo.UpdateTagsRequest,
@@ -86,6 +115,16 @@ func (c *Client) Update(
 }
 
 // Delete a tag by its ID. Only the tag owner can delete their tags.
+//
+// Example:
+//
+//	request := &schedulingo.DeleteTagsRequest{
+//	    ID: "id",
+//	}
+//	client.Tags.Delete(
+//	    context.TODO(),
+//	    request,
+//	)
 func (c *Client) Delete(
 	ctx context.Context,
 	request *schedulingo.DeleteTagsRequest,

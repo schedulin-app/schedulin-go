@@ -22,10 +22,12 @@ type DeleteSocialAccountsRequest struct {
 }
 
 func (d *DeleteSocialAccountsRequest) require(field *big.Int) {
-	if d.explicitFields == nil {
-		d.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if d.explicitFields != nil {
+		next.Set(d.explicitFields)
 	}
-	d.explicitFields.Or(d.explicitFields, field)
+	next.Or(next, field)
+	d.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -57,6 +59,69 @@ func (d *DeleteSocialAccountsRequest) MarshalJSON() ([]byte, error) {
 }
 
 var (
+	listWhopCompaniesSocialAccountsRequestFieldID = big.NewInt(1 << 0)
+)
+
+type ListWhopCompaniesSocialAccountsRequest struct {
+	ID string `json:"-" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (l *ListWhopCompaniesSocialAccountsRequest) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListWhopCompaniesSocialAccountsRequest) SetID(id string) {
+	l.ID = id
+	l.require(listWhopCompaniesSocialAccountsRequestFieldID)
+}
+
+var (
+	listWhopForumsSocialAccountsRequestFieldID        = big.NewInt(1 << 0)
+	listWhopForumsSocialAccountsRequestFieldCompanyID = big.NewInt(1 << 1)
+)
+
+type ListWhopForumsSocialAccountsRequest struct {
+	ID        string `json:"-" url:"-"`
+	CompanyID string `json:"-" url:"companyId"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (l *ListWhopForumsSocialAccountsRequest) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListWhopForumsSocialAccountsRequest) SetID(id string) {
+	l.ID = id
+	l.require(listWhopForumsSocialAccountsRequestFieldID)
+}
+
+// SetCompanyID sets the CompanyID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListWhopForumsSocialAccountsRequest) SetCompanyID(companyID string) {
+	l.CompanyID = companyID
+	l.require(listWhopForumsSocialAccountsRequestFieldCompanyID)
+}
+
+var (
 	nextSlotsSocialAccountsRequestFieldID    = big.NewInt(1 << 0)
 	nextSlotsSocialAccountsRequestFieldLimit = big.NewInt(1 << 1)
 	nextSlotsSocialAccountsRequestFieldAfter = big.NewInt(1 << 2)
@@ -72,10 +137,12 @@ type NextSlotsSocialAccountsRequest struct {
 }
 
 func (n *NextSlotsSocialAccountsRequest) require(field *big.Int) {
-	if n.explicitFields == nil {
-		n.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if n.explicitFields != nil {
+		next.Set(n.explicitFields)
 	}
-	n.explicitFields.Or(n.explicitFields, field)
+	next.Or(next, field)
+	n.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -111,10 +178,12 @@ type PinterestBoardsSocialAccountsRequest struct {
 }
 
 func (p *PinterestBoardsSocialAccountsRequest) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -136,10 +205,12 @@ type TiktokCreatorInfoSocialAccountsRequest struct {
 }
 
 func (t *TiktokCreatorInfoSocialAccountsRequest) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if t.explicitFields != nil {
+		next.Set(t.explicitFields)
 	}
-	t.explicitFields.Or(t.explicitFields, field)
+	next.Or(next, field)
+	t.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -178,10 +249,12 @@ func (d *DeleteSocialAccountsResponse) GetExtraProperties() map[string]interface
 }
 
 func (d *DeleteSocialAccountsResponse) require(field *big.Int) {
-	if d.explicitFields == nil {
-		d.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if d.explicitFields != nil {
+		next.Set(d.explicitFields)
 	}
-	d.explicitFields.Or(d.explicitFields, field)
+	next.Or(next, field)
+	d.explicitFields = next
 }
 
 // SetSuccess sets the Success field and marks it as non-optional;
@@ -262,10 +335,12 @@ func (l *ListSocialAccountsResponse) GetExtraProperties() map[string]interface{}
 }
 
 func (l *ListSocialAccountsResponse) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
 	}
-	l.explicitFields.Or(l.explicitFields, field)
+	next.Or(next, field)
+	l.explicitFields = next
 }
 
 // SetData sets the Data field and marks it as non-optional;
@@ -318,29 +393,40 @@ func (l *ListSocialAccountsResponse) String() string {
 }
 
 var (
-	listSocialAccountsResponseDataItemFieldID                  = big.NewInt(1 << 0)
-	listSocialAccountsResponseDataItemFieldPlatform            = big.NewInt(1 << 1)
-	listSocialAccountsResponseDataItemFieldStatus              = big.NewInt(1 << 2)
-	listSocialAccountsResponseDataItemFieldUsername            = big.NewInt(1 << 3)
-	listSocialAccountsResponseDataItemFieldDisplayName         = big.NewInt(1 << 4)
-	listSocialAccountsResponseDataItemFieldProfileImageURL     = big.NewInt(1 << 5)
-	listSocialAccountsResponseDataItemFieldRefreshTokenValid   = big.NewInt(1 << 6)
-	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt = big.NewInt(1 << 7)
-	listSocialAccountsResponseDataItemFieldCreatedAt           = big.NewInt(1 << 8)
-	listSocialAccountsResponseDataItemFieldUpdatedAt           = big.NewInt(1 << 9)
+	listSocialAccountsResponseDataItemFieldID                          = big.NewInt(1 << 0)
+	listSocialAccountsResponseDataItemFieldPlatform                    = big.NewInt(1 << 1)
+	listSocialAccountsResponseDataItemFieldStatus                      = big.NewInt(1 << 2)
+	listSocialAccountsResponseDataItemFieldUsername                    = big.NewInt(1 << 3)
+	listSocialAccountsResponseDataItemFieldDisplayName                 = big.NewInt(1 << 4)
+	listSocialAccountsResponseDataItemFieldProfileImageURL             = big.NewInt(1 << 5)
+	listSocialAccountsResponseDataItemFieldRefreshTokenValid           = big.NewInt(1 << 6)
+	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 7)
+	listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 8)
+	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 9)
+	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 10)
 )
 
+// listSocialAccountsResponseDataItemRequiredNullableFields maps the wire names of ListSocialAccountsResponseDataItem's required, nullable fields to their field bits.
+var listSocialAccountsResponseDataItemRequiredNullableFields = map[string]*big.Int{
+	"username":                    listSocialAccountsResponseDataItemFieldUsername,
+	"displayName":                 listSocialAccountsResponseDataItemFieldDisplayName,
+	"profileImageUrl":             listSocialAccountsResponseDataItemFieldProfileImageURL,
+	"analyticsDisabledAt":         listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt,
+	"webhookSubscriptionFailedAt": listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt,
+}
+
 type ListSocialAccountsResponseDataItem struct {
-	ID                  string                                     `json:"id" url:"id"`
-	Platform            ListSocialAccountsResponseDataItemPlatform `json:"platform" url:"platform"`
-	Status              ListSocialAccountsResponseDataItemStatus   `json:"status" url:"status"`
-	Username            *string                                    `json:"username,omitempty" url:"username,omitempty"`
-	DisplayName         *string                                    `json:"displayName,omitempty" url:"displayName,omitempty"`
-	ProfileImageURL     *string                                    `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
-	RefreshTokenValid   bool                                       `json:"refreshTokenValid" url:"refreshTokenValid"`
-	AnalyticsDisabledAt *time.Time                                 `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
-	CreatedAt           time.Time                                  `json:"createdAt" url:"createdAt"`
-	UpdatedAt           time.Time                                  `json:"updatedAt" url:"updatedAt"`
+	ID                          string                                     `json:"id" url:"id"`
+	Platform                    ListSocialAccountsResponseDataItemPlatform `json:"platform" url:"platform"`
+	Status                      ListSocialAccountsResponseDataItemStatus   `json:"status" url:"status"`
+	Username                    *string                                    `json:"username,omitempty" url:"username,omitempty"`
+	DisplayName                 *string                                    `json:"displayName,omitempty" url:"displayName,omitempty"`
+	ProfileImageURL             *string                                    `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
+	RefreshTokenValid           bool                                       `json:"refreshTokenValid" url:"refreshTokenValid"`
+	AnalyticsDisabledAt         *time.Time                                 `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
+	WebhookSubscriptionFailedAt *time.Time                                 `json:"webhookSubscriptionFailedAt,omitempty" url:"webhookSubscriptionFailedAt,omitempty"`
+	CreatedAt                   time.Time                                  `json:"createdAt" url:"createdAt"`
+	UpdatedAt                   time.Time                                  `json:"updatedAt" url:"updatedAt"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -405,6 +491,13 @@ func (l *ListSocialAccountsResponseDataItem) GetAnalyticsDisabledAt() *time.Time
 	return l.AnalyticsDisabledAt
 }
 
+func (l *ListSocialAccountsResponseDataItem) GetWebhookSubscriptionFailedAt() *time.Time {
+	if l == nil {
+		return nil
+	}
+	return l.WebhookSubscriptionFailedAt
+}
+
 func (l *ListSocialAccountsResponseDataItem) GetCreatedAt() time.Time {
 	if l == nil {
 		return time.Time{}
@@ -427,10 +520,12 @@ func (l *ListSocialAccountsResponseDataItem) GetExtraProperties() map[string]int
 }
 
 func (l *ListSocialAccountsResponseDataItem) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
 	}
-	l.explicitFields.Or(l.explicitFields, field)
+	next.Or(next, field)
+	l.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -489,6 +584,13 @@ func (l *ListSocialAccountsResponseDataItem) SetAnalyticsDisabledAt(analyticsDis
 	l.require(listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt)
 }
 
+// SetWebhookSubscriptionFailedAt sets the WebhookSubscriptionFailedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSocialAccountsResponseDataItem) SetWebhookSubscriptionFailedAt(webhookSubscriptionFailedAt *time.Time) {
+	l.WebhookSubscriptionFailedAt = webhookSubscriptionFailedAt
+	l.require(listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt)
+}
+
 // SetCreatedAt sets the CreatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (l *ListSocialAccountsResponseDataItem) SetCreatedAt(createdAt time.Time) {
@@ -507,9 +609,10 @@ func (l *ListSocialAccountsResponseDataItem) UnmarshalJSON(data []byte) error {
 	type embed ListSocialAccountsResponseDataItem
 	var unmarshaler = struct {
 		embed
-		AnalyticsDisabledAt *internal.DateTime `json:"analyticsDisabledAt,omitempty"`
-		CreatedAt           *internal.DateTime `json:"createdAt"`
-		UpdatedAt           *internal.DateTime `json:"updatedAt"`
+		AnalyticsDisabledAt         *internal.DateTime `json:"analyticsDisabledAt,omitempty"`
+		WebhookSubscriptionFailedAt *internal.DateTime `json:"webhookSubscriptionFailedAt,omitempty"`
+		CreatedAt                   *internal.DateTime `json:"createdAt"`
+		UpdatedAt                   *internal.DateTime `json:"updatedAt"`
 	}{
 		embed: embed(*l),
 	}
@@ -518,6 +621,7 @@ func (l *ListSocialAccountsResponseDataItem) UnmarshalJSON(data []byte) error {
 	}
 	*l = ListSocialAccountsResponseDataItem(unmarshaler.embed)
 	l.AnalyticsDisabledAt = unmarshaler.AnalyticsDisabledAt.TimePtr()
+	l.WebhookSubscriptionFailedAt = unmarshaler.WebhookSubscriptionFailedAt.TimePtr()
 	l.CreatedAt = unmarshaler.CreatedAt.Time()
 	l.UpdatedAt = unmarshaler.UpdatedAt.Time()
 	extraProperties, err := internal.ExtractExtraProperties(data, *l)
@@ -525,6 +629,13 @@ func (l *ListSocialAccountsResponseDataItem) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	l.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, listSocialAccountsResponseDataItemRequiredNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		l.require(presentFields)
+	}
 	l.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -533,14 +644,16 @@ func (l *ListSocialAccountsResponseDataItem) MarshalJSON() ([]byte, error) {
 	type embed ListSocialAccountsResponseDataItem
 	var marshaler = struct {
 		embed
-		AnalyticsDisabledAt *internal.DateTime `json:"analyticsDisabledAt,omitempty"`
-		CreatedAt           *internal.DateTime `json:"createdAt"`
-		UpdatedAt           *internal.DateTime `json:"updatedAt"`
+		AnalyticsDisabledAt         *internal.DateTime `json:"analyticsDisabledAt,omitempty"`
+		WebhookSubscriptionFailedAt *internal.DateTime `json:"webhookSubscriptionFailedAt,omitempty"`
+		CreatedAt                   *internal.DateTime `json:"createdAt"`
+		UpdatedAt                   *internal.DateTime `json:"updatedAt"`
 	}{
-		embed:               embed(*l),
-		AnalyticsDisabledAt: internal.NewOptionalDateTime(l.AnalyticsDisabledAt),
-		CreatedAt:           internal.NewDateTime(l.CreatedAt),
-		UpdatedAt:           internal.NewDateTime(l.UpdatedAt),
+		embed:                       embed(*l),
+		AnalyticsDisabledAt:         internal.NewOptionalDateTime(l.AnalyticsDisabledAt),
+		WebhookSubscriptionFailedAt: internal.NewOptionalDateTime(l.WebhookSubscriptionFailedAt),
+		CreatedAt:                   internal.NewDateTime(l.CreatedAt),
+		UpdatedAt:                   internal.NewDateTime(l.UpdatedAt),
 	}
 	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
 	return json.Marshal(explicitMarshaler)
@@ -571,6 +684,7 @@ const (
 	ListSocialAccountsResponseDataItemPlatformLinkedin              ListSocialAccountsResponseDataItemPlatform = "linkedin"
 	ListSocialAccountsResponseDataItemPlatformPinterest             ListSocialAccountsResponseDataItemPlatform = "pinterest"
 	ListSocialAccountsResponseDataItemPlatformReddit                ListSocialAccountsResponseDataItemPlatform = "reddit"
+	ListSocialAccountsResponseDataItemPlatformSnapchat              ListSocialAccountsResponseDataItemPlatform = "snapchat"
 	ListSocialAccountsResponseDataItemPlatformThreads               ListSocialAccountsResponseDataItemPlatform = "threads"
 	ListSocialAccountsResponseDataItemPlatformTiktok                ListSocialAccountsResponseDataItemPlatform = "tiktok"
 	ListSocialAccountsResponseDataItemPlatformTwitter               ListSocialAccountsResponseDataItemPlatform = "twitter"
@@ -613,6 +727,8 @@ func NewListSocialAccountsResponseDataItemPlatformFromString(s string) (ListSoci
 		return ListSocialAccountsResponseDataItemPlatformPinterest, nil
 	case "reddit":
 		return ListSocialAccountsResponseDataItemPlatformReddit, nil
+	case "snapchat":
+		return ListSocialAccountsResponseDataItemPlatformSnapchat, nil
 	case "threads":
 		return ListSocialAccountsResponseDataItemPlatformThreads, nil
 	case "tiktok":
@@ -693,6 +809,382 @@ func (l ListSocialAccountsResponseDataItemStatus) Ptr() *ListSocialAccountsRespo
 }
 
 var (
+	listWhopCompaniesSocialAccountsResponseFieldItems = big.NewInt(1 << 0)
+)
+
+type ListWhopCompaniesSocialAccountsResponse struct {
+	Items []*ListWhopCompaniesSocialAccountsResponseItemsItem `json:"items" url:"items"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponse) GetItems() []*ListWhopCompaniesSocialAccountsResponseItemsItem {
+	if l == nil {
+		return nil
+	}
+	return l.Items
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetItems sets the Items field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListWhopCompaniesSocialAccountsResponse) SetItems(items []*ListWhopCompaniesSocialAccountsResponseItemsItem) {
+	l.Items = items
+	l.require(listWhopCompaniesSocialAccountsResponseFieldItems)
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListWhopCompaniesSocialAccountsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListWhopCompaniesSocialAccountsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponse) MarshalJSON() ([]byte, error) {
+	type embed ListWhopCompaniesSocialAccountsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponse) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	listWhopCompaniesSocialAccountsResponseItemsItemFieldID   = big.NewInt(1 << 0)
+	listWhopCompaniesSocialAccountsResponseItemsItemFieldName = big.NewInt(1 << 1)
+)
+
+type ListWhopCompaniesSocialAccountsResponseItemsItem struct {
+	ID   string `json:"id" url:"id"`
+	Name string `json:"name" url:"name"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponseItemsItem) GetID() string {
+	if l == nil {
+		return ""
+	}
+	return l.ID
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponseItemsItem) GetName() string {
+	if l == nil {
+		return ""
+	}
+	return l.Name
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponseItemsItem) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponseItemsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListWhopCompaniesSocialAccountsResponseItemsItem) SetID(id string) {
+	l.ID = id
+	l.require(listWhopCompaniesSocialAccountsResponseItemsItemFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListWhopCompaniesSocialAccountsResponseItemsItem) SetName(name string) {
+	l.Name = name
+	l.require(listWhopCompaniesSocialAccountsResponseItemsItemFieldName)
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponseItemsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListWhopCompaniesSocialAccountsResponseItemsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListWhopCompaniesSocialAccountsResponseItemsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponseItemsItem) MarshalJSON() ([]byte, error) {
+	type embed ListWhopCompaniesSocialAccountsResponseItemsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListWhopCompaniesSocialAccountsResponseItemsItem) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	listWhopForumsSocialAccountsResponseFieldItems = big.NewInt(1 << 0)
+)
+
+type ListWhopForumsSocialAccountsResponse struct {
+	Items []*ListWhopForumsSocialAccountsResponseItemsItem `json:"items" url:"items"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListWhopForumsSocialAccountsResponse) GetItems() []*ListWhopForumsSocialAccountsResponseItemsItem {
+	if l == nil {
+		return nil
+	}
+	return l.Items
+}
+
+func (l *ListWhopForumsSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListWhopForumsSocialAccountsResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetItems sets the Items field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListWhopForumsSocialAccountsResponse) SetItems(items []*ListWhopForumsSocialAccountsResponseItemsItem) {
+	l.Items = items
+	l.require(listWhopForumsSocialAccountsResponseFieldItems)
+}
+
+func (l *ListWhopForumsSocialAccountsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListWhopForumsSocialAccountsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListWhopForumsSocialAccountsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListWhopForumsSocialAccountsResponse) MarshalJSON() ([]byte, error) {
+	type embed ListWhopForumsSocialAccountsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListWhopForumsSocialAccountsResponse) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	listWhopForumsSocialAccountsResponseItemsItemFieldID   = big.NewInt(1 << 0)
+	listWhopForumsSocialAccountsResponseItemsItemFieldName = big.NewInt(1 << 1)
+)
+
+type ListWhopForumsSocialAccountsResponseItemsItem struct {
+	ID   string `json:"id" url:"id"`
+	Name string `json:"name" url:"name"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListWhopForumsSocialAccountsResponseItemsItem) GetID() string {
+	if l == nil {
+		return ""
+	}
+	return l.ID
+}
+
+func (l *ListWhopForumsSocialAccountsResponseItemsItem) GetName() string {
+	if l == nil {
+		return ""
+	}
+	return l.Name
+}
+
+func (l *ListWhopForumsSocialAccountsResponseItemsItem) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListWhopForumsSocialAccountsResponseItemsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListWhopForumsSocialAccountsResponseItemsItem) SetID(id string) {
+	l.ID = id
+	l.require(listWhopForumsSocialAccountsResponseItemsItemFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListWhopForumsSocialAccountsResponseItemsItem) SetName(name string) {
+	l.Name = name
+	l.require(listWhopForumsSocialAccountsResponseItemsItemFieldName)
+}
+
+func (l *ListWhopForumsSocialAccountsResponseItemsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListWhopForumsSocialAccountsResponseItemsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListWhopForumsSocialAccountsResponseItemsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListWhopForumsSocialAccountsResponseItemsItem) MarshalJSON() ([]byte, error) {
+	type embed ListWhopForumsSocialAccountsResponseItemsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListWhopForumsSocialAccountsResponseItemsItem) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
 	nextSlotsSocialAccountsResponseFieldSlots = big.NewInt(1 << 0)
 )
 
@@ -721,10 +1213,12 @@ func (n *NextSlotsSocialAccountsResponse) GetExtraProperties() map[string]interf
 }
 
 func (n *NextSlotsSocialAccountsResponse) require(field *big.Int) {
-	if n.explicitFields == nil {
-		n.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if n.explicitFields != nil {
+		next.Set(n.explicitFields)
 	}
-	n.explicitFields.Or(n.explicitFields, field)
+	next.Or(next, field)
+	n.explicitFields = next
 }
 
 // SetSlots sets the Slots field and marks it as non-optional;
@@ -735,12 +1229,18 @@ func (n *NextSlotsSocialAccountsResponse) SetSlots(slots []time.Time) {
 }
 
 func (n *NextSlotsSocialAccountsResponse) UnmarshalJSON(data []byte) error {
-	type unmarshaler NextSlotsSocialAccountsResponse
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
+	type embed NextSlotsSocialAccountsResponse
+	var unmarshaler = struct {
+		embed
+		Slots []*internal.DateTime `json:"slots,omitempty"`
+	}{
+		embed: embed(*n),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
 		return err
 	}
-	*n = NextSlotsSocialAccountsResponse(value)
+	*n = NextSlotsSocialAccountsResponse(unmarshaler.embed)
+	n.Slots = internal.TimesFromDateTimeList(unmarshaler.Slots)
 	extraProperties, err := internal.ExtractExtraProperties(data, *n)
 	if err != nil {
 		return err
@@ -754,8 +1254,10 @@ func (n *NextSlotsSocialAccountsResponse) MarshalJSON() ([]byte, error) {
 	type embed NextSlotsSocialAccountsResponse
 	var marshaler = struct {
 		embed
+		Slots []*internal.DateTime `json:"slots,omitempty"`
 	}{
 		embed: embed(*n),
+		Slots: internal.NewDateTimeList(n.Slots),
 	}
 	explicitMarshaler := internal.HandleExplicitFields(marshaler, n.explicitFields)
 	return json.Marshal(explicitMarshaler)
@@ -805,10 +1307,12 @@ func (p *PinterestBoardsSocialAccountsResponse) GetExtraProperties() map[string]
 }
 
 func (p *PinterestBoardsSocialAccountsResponse) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetData sets the Data field and marks it as non-optional;
@@ -907,10 +1411,12 @@ func (p *PinterestBoardsSocialAccountsResponseDataItem) GetExtraProperties() map
 }
 
 func (p *PinterestBoardsSocialAccountsResponseDataItem) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -1039,10 +1545,12 @@ func (t *TiktokCreatorInfoSocialAccountsResponse) GetExtraProperties() map[strin
 }
 
 func (t *TiktokCreatorInfoSocialAccountsResponse) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if t.explicitFields != nil {
+		next.Set(t.explicitFields)
 	}
-	t.explicitFields.Or(t.explicitFields, field)
+	next.Or(next, field)
+	t.explicitFields = next
 }
 
 // SetError sets the Error field and marks it as non-optional;
@@ -1193,10 +1701,12 @@ func (t *TiktokCreatorInfoSocialAccountsResponseData) GetExtraProperties() map[s
 }
 
 func (t *TiktokCreatorInfoSocialAccountsResponseData) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if t.explicitFields != nil {
+		next.Set(t.explicitFields)
 	}
-	t.explicitFields.Or(t.explicitFields, field)
+	next.Or(next, field)
+	t.explicitFields = next
 }
 
 // SetCreatorAvatarURL sets the CreatorAvatarURL field and marks it as non-optional;
@@ -1344,10 +1854,12 @@ func (t *TiktokCreatorInfoSocialAccountsResponseError) GetExtraProperties() map[
 }
 
 func (t *TiktokCreatorInfoSocialAccountsResponseError) require(field *big.Int) {
-	if t.explicitFields == nil {
-		t.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if t.explicitFields != nil {
+		next.Set(t.explicitFields)
 	}
-	t.explicitFields.Or(t.explicitFields, field)
+	next.Or(next, field)
+	t.explicitFields = next
 }
 
 // SetCode sets the Code field and marks it as non-optional;
@@ -1464,10 +1976,12 @@ func (u *UpdateSocialAccountsResponse) GetExtraProperties() map[string]interface
 }
 
 func (u *UpdateSocialAccountsResponse) require(field *big.Int) {
-	if u.explicitFields == nil {
-		u.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
 	}
-	u.explicitFields.Or(u.explicitFields, field)
+	next.Or(next, field)
+	u.explicitFields = next
 }
 
 // SetSuccess sets the Success field and marks it as non-optional;
@@ -1548,10 +2062,12 @@ func (u *UpdateTimezoneSocialAccountsResponse) GetExtraProperties() map[string]i
 }
 
 func (u *UpdateTimezoneSocialAccountsResponse) require(field *big.Int) {
-	if u.explicitFields == nil {
-		u.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
 	}
-	u.explicitFields.Or(u.explicitFields, field)
+	next.Or(next, field)
+	u.explicitFields = next
 }
 
 // SetSuccess sets the Success field and marks it as non-optional;
@@ -1617,10 +2133,12 @@ type UpdateSocialAccountsRequest struct {
 }
 
 func (u *UpdateSocialAccountsRequest) require(field *big.Int) {
-	if u.explicitFields == nil {
-		u.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
 	}
-	u.explicitFields.Or(u.explicitFields, field)
+	next.Or(next, field)
+	u.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -1672,10 +2190,12 @@ type UpdateTimezoneSocialAccountsRequest struct {
 }
 
 func (u *UpdateTimezoneSocialAccountsRequest) require(field *big.Int) {
-	if u.explicitFields == nil {
-		u.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
 	}
-	u.explicitFields.Or(u.explicitFields, field)
+	next.Or(next, field)
+	u.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;

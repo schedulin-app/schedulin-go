@@ -24,10 +24,12 @@ type AnalyticsSeriesPostsRequest struct {
 }
 
 func (a *AnalyticsSeriesPostsRequest) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if a.explicitFields != nil {
+		next.Set(a.explicitFields)
 	}
-	a.explicitFields.Or(a.explicitFields, field)
+	next.Or(next, field)
+	a.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -56,10 +58,12 @@ type AnalyticsSummaryPostsRequest struct {
 }
 
 func (a *AnalyticsSummaryPostsRequest) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if a.explicitFields != nil {
+		next.Set(a.explicitFields)
 	}
-	a.explicitFields.Or(a.explicitFields, field)
+	next.Or(next, field)
+	a.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -81,10 +85,12 @@ type CountByTabPostsRequest struct {
 }
 
 func (c *CountByTabPostsRequest) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if c.explicitFields != nil {
+		next.Set(c.explicitFields)
 	}
-	c.explicitFields.Or(c.explicitFields, field)
+	next.Or(next, field)
+	c.explicitFields = next
 }
 
 // SetSocialAccountIDs sets the SocialAccountIDs field and marks it as non-optional;
@@ -96,18 +102,20 @@ func (c *CountByTabPostsRequest) SetSocialAccountIDs(socialAccountIDs []*string)
 
 var (
 	postCreateFieldCaption               = big.NewInt(1 << 0)
-	postCreateFieldScheduledAt           = big.NewInt(1 << 1)
-	postCreateFieldSocialAccountID       = big.NewInt(1 << 2)
-	postCreateFieldMedia                 = big.NewInt(1 << 3)
-	postCreateFieldThumbnail             = big.NewInt(1 << 4)
-	postCreateFieldPlatformConfiguration = big.NewInt(1 << 5)
-	postCreateFieldTagIDs                = big.NewInt(1 << 6)
-	postCreateFieldAction                = big.NewInt(1 << 7)
-	postCreateFieldParts                 = big.NewInt(1 << 8)
+	postCreateFieldTitle                 = big.NewInt(1 << 1)
+	postCreateFieldScheduledAt           = big.NewInt(1 << 2)
+	postCreateFieldSocialAccountID       = big.NewInt(1 << 3)
+	postCreateFieldMedia                 = big.NewInt(1 << 4)
+	postCreateFieldThumbnail             = big.NewInt(1 << 5)
+	postCreateFieldPlatformConfiguration = big.NewInt(1 << 6)
+	postCreateFieldTagIDs                = big.NewInt(1 << 7)
+	postCreateFieldAction                = big.NewInt(1 << 8)
+	postCreateFieldParts                 = big.NewInt(1 << 9)
 )
 
 type PostCreate struct {
 	Caption               string                 `json:"caption" url:"-"`
+	Title                 *string                `json:"title,omitempty" url:"-"`
 	ScheduledAt           *time.Time             `json:"scheduledAt,omitempty" url:"-"`
 	SocialAccountID       string                 `json:"socialAccountId" url:"-"`
 	Media                 []*PostCreateMediaItem `json:"media,omitempty" url:"-"`
@@ -122,10 +130,12 @@ type PostCreate struct {
 }
 
 func (p *PostCreate) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetCaption sets the Caption field and marks it as non-optional;
@@ -133,6 +143,13 @@ func (p *PostCreate) require(field *big.Int) {
 func (p *PostCreate) SetCaption(caption string) {
 	p.Caption = caption
 	p.require(postCreateFieldCaption)
+}
+
+// SetTitle sets the Title field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetTitle(title *string) {
+	p.Title = title
+	p.require(postCreateFieldTitle)
 }
 
 // SetScheduledAt sets the ScheduledAt field and marks it as non-optional;
@@ -226,10 +243,12 @@ type DeletePostsRequest struct {
 }
 
 func (d *DeletePostsRequest) require(field *big.Int) {
-	if d.explicitFields == nil {
-		d.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if d.explicitFields != nil {
+		next.Set(d.explicitFields)
 	}
-	d.explicitFields.Or(d.explicitFields, field)
+	next.Or(next, field)
+	d.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -261,31 +280,6 @@ func (d *DeletePostsRequest) MarshalJSON() ([]byte, error) {
 }
 
 var (
-	getJobStatusPostsRequestFieldID = big.NewInt(1 << 0)
-)
-
-type GetJobStatusPostsRequest struct {
-	ID string `json:"-" url:"-"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-}
-
-func (g *GetJobStatusPostsRequest) require(field *big.Int) {
-	if g.explicitFields == nil {
-		g.explicitFields = big.NewInt(0)
-	}
-	g.explicitFields.Or(g.explicitFields, field)
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (g *GetJobStatusPostsRequest) SetID(id string) {
-	g.ID = id
-	g.require(getJobStatusPostsRequestFieldID)
-}
-
-var (
 	listPostsRequestFieldPage             = big.NewInt(1 << 0)
 	listPostsRequestFieldStatus           = big.NewInt(1 << 1)
 	listPostsRequestFieldStatuses         = big.NewInt(1 << 2)
@@ -313,10 +307,12 @@ type ListPostsRequest struct {
 }
 
 func (l *ListPostsRequest) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
 	}
-	l.explicitFields.Or(l.explicitFields, field)
+	next.Or(next, field)
+	l.explicitFields = next
 }
 
 // SetPage sets the Page field and marks it as non-optional;
@@ -396,10 +392,12 @@ type PublishDraftPostsRequest struct {
 }
 
 func (p *PublishDraftPostsRequest) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -451,10 +449,12 @@ type RetrievePostsRequest struct {
 }
 
 func (r *RetrievePostsRequest) require(field *big.Int) {
-	if r.explicitFields == nil {
-		r.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if r.explicitFields != nil {
+		next.Set(r.explicitFields)
 	}
-	r.explicitFields.Or(r.explicitFields, field)
+	next.Or(next, field)
+	r.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -530,10 +530,12 @@ func (l *ListPostsRequestScheduledAt) GetExtraProperties() map[string]interface{
 }
 
 func (l *ListPostsRequestScheduledAt) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
 	}
-	l.explicitFields.Or(l.explicitFields, field)
+	next.Or(next, field)
+	l.explicitFields = next
 }
 
 // SetFrom sets the From field and marks it as non-optional;
@@ -610,6 +612,19 @@ var (
 	postFieldCreatedAt             = big.NewInt(1 << 14)
 	postFieldUpdatedAt             = big.NewInt(1 << 15)
 )
+
+// postRequiredNullableFields maps the wire names of Post's required, nullable fields to their field bits.
+var postRequiredNullableFields = map[string]*big.Int{
+	"externalId":            postFieldExternalID,
+	"approvalRequestedAt":   postFieldApprovalRequestedAt,
+	"approvalRequestedBy":   postFieldApprovalRequestedBy,
+	"approvedAt":            postFieldApprovedAt,
+	"approvedBy":            postFieldApprovedBy,
+	"rejectionReason":       postFieldRejectionReason,
+	"scheduledAt":           postFieldScheduledAt,
+	"platformConfiguration": postFieldPlatformConfiguration,
+	"url":                   postFieldURL,
+}
 
 type Post struct {
 	ID                    string             `json:"id" url:"id"`
@@ -756,10 +771,12 @@ func (p *Post) GetExtraProperties() map[string]interface{} {
 }
 
 func (p *Post) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -900,6 +917,13 @@ func (p *Post) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postRequiredNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
 	p.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -1020,6 +1044,19 @@ var (
 	postWithRelationsFieldMedia                 = big.NewInt(1 << 17)
 	postWithRelationsFieldTags                  = big.NewInt(1 << 18)
 )
+
+// postWithRelationsRequiredNullableFields maps the wire names of PostWithRelations's required, nullable fields to their field bits.
+var postWithRelationsRequiredNullableFields = map[string]*big.Int{
+	"externalId":            postWithRelationsFieldExternalID,
+	"approvalRequestedAt":   postWithRelationsFieldApprovalRequestedAt,
+	"approvalRequestedBy":   postWithRelationsFieldApprovalRequestedBy,
+	"approvedAt":            postWithRelationsFieldApprovedAt,
+	"approvedBy":            postWithRelationsFieldApprovedBy,
+	"rejectionReason":       postWithRelationsFieldRejectionReason,
+	"scheduledAt":           postWithRelationsFieldScheduledAt,
+	"platformConfiguration": postWithRelationsFieldPlatformConfiguration,
+	"url":                   postWithRelationsFieldURL,
+}
 
 type PostWithRelations struct {
 	ID                    string                        `json:"id" url:"id"`
@@ -1190,10 +1227,12 @@ func (p *PostWithRelations) GetExtraProperties() map[string]interface{} {
 }
 
 func (p *PostWithRelations) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -1355,6 +1394,13 @@ func (p *PostWithRelations) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postWithRelationsRequiredNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
 	p.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -1469,10 +1515,12 @@ func (p *PostWithRelationsMediaItem) GetExtraProperties() map[string]interface{}
 }
 
 func (p *PostWithRelationsMediaItem) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetURL sets the URL field and marks it as non-optional;
@@ -1624,10 +1672,12 @@ func (p *PostWithRelationsMediaItemTagsItem) GetExtraProperties() map[string]int
 }
 
 func (p *PostWithRelationsMediaItemTagsItem) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -1717,6 +1767,7 @@ const (
 	PostWithRelationsMediaItemTagsItemPlatformLinkedin              PostWithRelationsMediaItemTagsItemPlatform = "linkedin"
 	PostWithRelationsMediaItemTagsItemPlatformPinterest             PostWithRelationsMediaItemTagsItemPlatform = "pinterest"
 	PostWithRelationsMediaItemTagsItemPlatformReddit                PostWithRelationsMediaItemTagsItemPlatform = "reddit"
+	PostWithRelationsMediaItemTagsItemPlatformSnapchat              PostWithRelationsMediaItemTagsItemPlatform = "snapchat"
 	PostWithRelationsMediaItemTagsItemPlatformThreads               PostWithRelationsMediaItemTagsItemPlatform = "threads"
 	PostWithRelationsMediaItemTagsItemPlatformTiktok                PostWithRelationsMediaItemTagsItemPlatform = "tiktok"
 	PostWithRelationsMediaItemTagsItemPlatformTwitter               PostWithRelationsMediaItemTagsItemPlatform = "twitter"
@@ -1759,6 +1810,8 @@ func NewPostWithRelationsMediaItemTagsItemPlatformFromString(s string) (PostWith
 		return PostWithRelationsMediaItemTagsItemPlatformPinterest, nil
 	case "reddit":
 		return PostWithRelationsMediaItemTagsItemPlatformReddit, nil
+	case "snapchat":
+		return PostWithRelationsMediaItemTagsItemPlatformSnapchat, nil
 	case "threads":
 		return PostWithRelationsMediaItemTagsItemPlatformThreads, nil
 	case "tiktok":
@@ -1850,6 +1903,13 @@ var (
 	socialAccountFieldUpdatedAt             = big.NewInt(1 << 8)
 	socialAccountFieldRefreshTokenValid     = big.NewInt(1 << 9)
 )
+
+// socialAccountRequiredNullableFields maps the wire names of SocialAccount's required, nullable fields to their field bits.
+var socialAccountRequiredNullableFields = map[string]*big.Int{
+	"imageUrl":           socialAccountFieldImageURL,
+	"username":           socialAccountFieldUsername,
+	"disconnectedReason": socialAccountFieldDisconnectedReason,
+}
 
 type SocialAccount struct {
 	ID                    string                           `json:"id" url:"id"`
@@ -1948,10 +2008,12 @@ func (s *SocialAccount) GetExtraProperties() map[string]interface{} {
 }
 
 func (s *SocialAccount) require(field *big.Int) {
-	if s.explicitFields == nil {
-		s.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if s.explicitFields != nil {
+		next.Set(s.explicitFields)
 	}
-	s.explicitFields.Or(s.explicitFields, field)
+	next.Or(next, field)
+	s.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -2044,6 +2106,13 @@ func (s *SocialAccount) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	s.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, socialAccountRequiredNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		s.require(presentFields)
+	}
 	s.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -2087,6 +2156,7 @@ const (
 	SocialAccountDisconnectedReasonRefreshFailed    SocialAccountDisconnectedReason = "REFRESH_FAILED"
 	SocialAccountDisconnectedReasonAccountSuspended SocialAccountDisconnectedReason = "ACCOUNT_SUSPENDED"
 	SocialAccountDisconnectedReasonPermissionDenied SocialAccountDisconnectedReason = "PERMISSION_DENIED"
+	SocialAccountDisconnectedReasonEmailUnconfirmed SocialAccountDisconnectedReason = "EMAIL_UNCONFIRMED"
 )
 
 func NewSocialAccountDisconnectedReasonFromString(s string) (SocialAccountDisconnectedReason, error) {
@@ -2103,6 +2173,8 @@ func NewSocialAccountDisconnectedReasonFromString(s string) (SocialAccountDiscon
 		return SocialAccountDisconnectedReasonAccountSuspended, nil
 	case "PERMISSION_DENIED":
 		return SocialAccountDisconnectedReasonPermissionDenied, nil
+	case "EMAIL_UNCONFIRMED":
+		return SocialAccountDisconnectedReasonEmailUnconfirmed, nil
 	}
 	var t SocialAccountDisconnectedReason
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -2121,6 +2193,13 @@ var (
 	socialAccountPublicFieldStatus          = big.NewInt(1 << 5)
 	socialAccountPublicFieldExternalID      = big.NewInt(1 << 6)
 )
+
+// socialAccountPublicRequiredNullableFields maps the wire names of SocialAccountPublic's required, nullable fields to their field bits.
+var socialAccountPublicRequiredNullableFields = map[string]*big.Int{
+	"username":        socialAccountPublicFieldUsername,
+	"profilePhotoUrl": socialAccountPublicFieldProfilePhotoURL,
+	"externalId":      socialAccountPublicFieldExternalID,
+}
 
 type SocialAccountPublic struct {
 	ID              string                    `json:"id" url:"id"`
@@ -2195,10 +2274,12 @@ func (s *SocialAccountPublic) GetExtraProperties() map[string]interface{} {
 }
 
 func (s *SocialAccountPublic) require(field *big.Int) {
-	if s.explicitFields == nil {
-		s.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if s.explicitFields != nil {
+		next.Set(s.explicitFields)
 	}
-	s.explicitFields.Or(s.explicitFields, field)
+	next.Or(next, field)
+	s.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -2262,6 +2343,13 @@ func (s *SocialAccountPublic) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	s.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, socialAccountPublicRequiredNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		s.require(presentFields)
+	}
 	s.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -2346,6 +2434,7 @@ const (
 	SocialPlatformLinkedin              SocialPlatform = "linkedin"
 	SocialPlatformPinterest             SocialPlatform = "pinterest"
 	SocialPlatformReddit                SocialPlatform = "reddit"
+	SocialPlatformSnapchat              SocialPlatform = "snapchat"
 	SocialPlatformThreads               SocialPlatform = "threads"
 	SocialPlatformTiktok                SocialPlatform = "tiktok"
 	SocialPlatformTwitter               SocialPlatform = "twitter"
@@ -2388,6 +2477,8 @@ func NewSocialPlatformFromString(s string) (SocialPlatform, error) {
 		return SocialPlatformPinterest, nil
 	case "reddit":
 		return SocialPlatformReddit, nil
+	case "snapchat":
+		return SocialPlatformSnapchat, nil
 	case "threads":
 		return SocialPlatformThreads, nil
 	case "tiktok":
@@ -2474,10 +2565,12 @@ func (a *AnalyticsSeriesPostsResponse) GetExtraProperties() map[string]interface
 }
 
 func (a *AnalyticsSeriesPostsResponse) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if a.explicitFields != nil {
+		next.Set(a.explicitFields)
 	}
-	a.explicitFields.Or(a.explicitFields, field)
+	next.Or(next, field)
+	a.explicitFields = next
 }
 
 // SetData sets the Data field and marks it as non-optional;
@@ -2585,10 +2678,12 @@ func (a *AnalyticsSeriesPostsResponseDataItem) GetExtraProperties() map[string]i
 }
 
 func (a *AnalyticsSeriesPostsResponseDataItem) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if a.explicitFields != nil {
+		next.Set(a.explicitFields)
 	}
-	a.explicitFields.Or(a.explicitFields, field)
+	next.Or(next, field)
+	a.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -2676,6 +2771,12 @@ var (
 	analyticsSummaryPostsResponseFieldUpdatedAt              = big.NewInt(1 << 3)
 )
 
+// analyticsSummaryPostsResponseRequiredNullableFields maps the wire names of AnalyticsSummaryPostsResponse's required, nullable fields to their field bits.
+var analyticsSummaryPostsResponseRequiredNullableFields = map[string]*big.Int{
+	"analyticsLastFetchedAt": analyticsSummaryPostsResponseFieldAnalyticsLastFetchedAt,
+	"analyticsNextFetchAt":   analyticsSummaryPostsResponseFieldAnalyticsNextFetchAt,
+}
+
 type AnalyticsSummaryPostsResponse struct {
 	AnalyticsLatest        any        `json:"analyticsLatest,omitempty" url:"analyticsLatest,omitempty"`
 	AnalyticsLastFetchedAt *time.Time `json:"analyticsLastFetchedAt,omitempty" url:"analyticsLastFetchedAt,omitempty"`
@@ -2725,10 +2826,12 @@ func (a *AnalyticsSummaryPostsResponse) GetExtraProperties() map[string]interfac
 }
 
 func (a *AnalyticsSummaryPostsResponse) require(field *big.Int) {
-	if a.explicitFields == nil {
-		a.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if a.explicitFields != nil {
+		next.Set(a.explicitFields)
 	}
-	a.explicitFields.Or(a.explicitFields, field)
+	next.Or(next, field)
+	a.explicitFields = next
 }
 
 // SetAnalyticsLatest sets the AnalyticsLatest field and marks it as non-optional;
@@ -2781,6 +2884,13 @@ func (a *AnalyticsSummaryPostsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	a.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, analyticsSummaryPostsResponseRequiredNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		a.require(presentFields)
+	}
 	a.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -2829,6 +2939,13 @@ var (
 	createPostsResponseFieldCreatedAt             = big.NewInt(1 << 8)
 	createPostsResponseFieldUpdatedAt             = big.NewInt(1 << 9)
 )
+
+// createPostsResponseRequiredNullableFields maps the wire names of CreatePostsResponse's required, nullable fields to their field bits.
+var createPostsResponseRequiredNullableFields = map[string]*big.Int{
+	"externalId":            createPostsResponseFieldExternalID,
+	"scheduledAt":           createPostsResponseFieldScheduledAt,
+	"platformConfiguration": createPostsResponseFieldPlatformConfiguration,
+}
 
 type CreatePostsResponse struct {
 	ID                    string                          `json:"id" url:"id"`
@@ -2927,10 +3044,12 @@ func (c *CreatePostsResponse) GetExtraProperties() map[string]interface{} {
 }
 
 func (c *CreatePostsResponse) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if c.explicitFields != nil {
+		next.Set(c.explicitFields)
 	}
-	c.explicitFields.Or(c.explicitFields, field)
+	next.Or(next, field)
+	c.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -3025,6 +3144,13 @@ func (c *CreatePostsResponse) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	c.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, createPostsResponseRequiredNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		c.require(presentFields)
+	}
 	c.rawJSON = json.RawMessage(data)
 	return nil
 }
@@ -3135,10 +3261,12 @@ func (c *CreatePostsResponseMediaItem) GetExtraProperties() map[string]interface
 }
 
 func (c *CreatePostsResponseMediaItem) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if c.explicitFields != nil {
+		next.Set(c.explicitFields)
 	}
-	c.explicitFields.Or(c.explicitFields, field)
+	next.Or(next, field)
+	c.explicitFields = next
 }
 
 // SetURL sets the URL field and marks it as non-optional;
@@ -3290,10 +3418,12 @@ func (c *CreatePostsResponseMediaItemTagsItem) GetExtraProperties() map[string]i
 }
 
 func (c *CreatePostsResponseMediaItemTagsItem) require(field *big.Int) {
-	if c.explicitFields == nil {
-		c.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if c.explicitFields != nil {
+		next.Set(c.explicitFields)
 	}
-	c.explicitFields.Or(c.explicitFields, field)
+	next.Or(next, field)
+	c.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -3383,6 +3513,7 @@ const (
 	CreatePostsResponseMediaItemTagsItemPlatformLinkedin              CreatePostsResponseMediaItemTagsItemPlatform = "linkedin"
 	CreatePostsResponseMediaItemTagsItemPlatformPinterest             CreatePostsResponseMediaItemTagsItemPlatform = "pinterest"
 	CreatePostsResponseMediaItemTagsItemPlatformReddit                CreatePostsResponseMediaItemTagsItemPlatform = "reddit"
+	CreatePostsResponseMediaItemTagsItemPlatformSnapchat              CreatePostsResponseMediaItemTagsItemPlatform = "snapchat"
 	CreatePostsResponseMediaItemTagsItemPlatformThreads               CreatePostsResponseMediaItemTagsItemPlatform = "threads"
 	CreatePostsResponseMediaItemTagsItemPlatformTiktok                CreatePostsResponseMediaItemTagsItemPlatform = "tiktok"
 	CreatePostsResponseMediaItemTagsItemPlatformTwitter               CreatePostsResponseMediaItemTagsItemPlatform = "twitter"
@@ -3425,6 +3556,8 @@ func NewCreatePostsResponseMediaItemTagsItemPlatformFromString(s string) (Create
 		return CreatePostsResponseMediaItemTagsItemPlatformPinterest, nil
 	case "reddit":
 		return CreatePostsResponseMediaItemTagsItemPlatformReddit, nil
+	case "snapchat":
+		return CreatePostsResponseMediaItemTagsItemPlatformSnapchat, nil
 	case "threads":
 		return CreatePostsResponseMediaItemTagsItemPlatformThreads, nil
 	case "tiktok":
@@ -3672,10 +3805,12 @@ func (l *ListPostsResponse) GetExtraProperties() map[string]interface{} {
 }
 
 func (l *ListPostsResponse) require(field *big.Int) {
-	if l.explicitFields == nil {
-		l.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
 	}
-	l.explicitFields.Or(l.explicitFields, field)
+	next.Or(next, field)
+	l.explicitFields = next
 }
 
 // SetPosts sets the Posts field and marks it as non-optional;
@@ -3904,10 +4039,12 @@ func (p *PostCreateMediaItem) GetExtraProperties() map[string]interface{} {
 }
 
 func (p *PostCreateMediaItem) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetURL sets the URL field and marks it as non-optional;
@@ -4101,10 +4238,12 @@ func (p *PostCreateMediaItemTagsItem) GetExtraProperties() map[string]interface{
 }
 
 func (p *PostCreateMediaItemTagsItem) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -4194,6 +4333,7 @@ const (
 	PostCreateMediaItemTagsItemPlatformLinkedin              PostCreateMediaItemTagsItemPlatform = "linkedin"
 	PostCreateMediaItemTagsItemPlatformPinterest             PostCreateMediaItemTagsItemPlatform = "pinterest"
 	PostCreateMediaItemTagsItemPlatformReddit                PostCreateMediaItemTagsItemPlatform = "reddit"
+	PostCreateMediaItemTagsItemPlatformSnapchat              PostCreateMediaItemTagsItemPlatform = "snapchat"
 	PostCreateMediaItemTagsItemPlatformThreads               PostCreateMediaItemTagsItemPlatform = "threads"
 	PostCreateMediaItemTagsItemPlatformTiktok                PostCreateMediaItemTagsItemPlatform = "tiktok"
 	PostCreateMediaItemTagsItemPlatformTwitter               PostCreateMediaItemTagsItemPlatform = "twitter"
@@ -4236,6 +4376,8 @@ func NewPostCreateMediaItemTagsItemPlatformFromString(s string) (PostCreateMedia
 		return PostCreateMediaItemTagsItemPlatformPinterest, nil
 	case "reddit":
 		return PostCreateMediaItemTagsItemPlatformReddit, nil
+	case "snapchat":
+		return PostCreateMediaItemTagsItemPlatformSnapchat, nil
 	case "threads":
 		return PostCreateMediaItemTagsItemPlatformThreads, nil
 	case "tiktok":
@@ -4353,10 +4495,12 @@ func (p *PostCreatePartsItem) GetExtraProperties() map[string]interface{} {
 }
 
 func (p *PostCreatePartsItem) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetCaption sets the Caption field and marks it as non-optional;
@@ -4543,10 +4687,12 @@ func (p *PostCreatePartsItemMediaItem) GetExtraProperties() map[string]interface
 }
 
 func (p *PostCreatePartsItemMediaItem) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetURL sets the URL field and marks it as non-optional;
@@ -4740,10 +4886,12 @@ func (p *PostCreatePartsItemMediaItemTagsItem) GetExtraProperties() map[string]i
 }
 
 func (p *PostCreatePartsItemMediaItemTagsItem) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -4833,6 +4981,7 @@ const (
 	PostCreatePartsItemMediaItemTagsItemPlatformLinkedin              PostCreatePartsItemMediaItemTagsItemPlatform = "linkedin"
 	PostCreatePartsItemMediaItemTagsItemPlatformPinterest             PostCreatePartsItemMediaItemTagsItemPlatform = "pinterest"
 	PostCreatePartsItemMediaItemTagsItemPlatformReddit                PostCreatePartsItemMediaItemTagsItemPlatform = "reddit"
+	PostCreatePartsItemMediaItemTagsItemPlatformSnapchat              PostCreatePartsItemMediaItemTagsItemPlatform = "snapchat"
 	PostCreatePartsItemMediaItemTagsItemPlatformThreads               PostCreatePartsItemMediaItemTagsItemPlatform = "threads"
 	PostCreatePartsItemMediaItemTagsItemPlatformTiktok                PostCreatePartsItemMediaItemTagsItemPlatform = "tiktok"
 	PostCreatePartsItemMediaItemTagsItemPlatformTwitter               PostCreatePartsItemMediaItemTagsItemPlatform = "twitter"
@@ -4875,6 +5024,8 @@ func NewPostCreatePartsItemMediaItemTagsItemPlatformFromString(s string) (PostCr
 		return PostCreatePartsItemMediaItemTagsItemPlatformPinterest, nil
 	case "reddit":
 		return PostCreatePartsItemMediaItemTagsItemPlatformReddit, nil
+	case "snapchat":
+		return PostCreatePartsItemMediaItemTagsItemPlatformSnapchat, nil
 	case "threads":
 		return PostCreatePartsItemMediaItemTagsItemPlatformThreads, nil
 	case "tiktok":
@@ -5082,10 +5233,12 @@ func (p *PostCreateThumbnail) GetExtraProperties() map[string]interface{} {
 }
 
 func (p *PostCreateThumbnail) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetURL sets the URL field and marks it as non-optional;
@@ -5279,10 +5432,12 @@ func (p *PostCreateThumbnailTagsItem) GetExtraProperties() map[string]interface{
 }
 
 func (p *PostCreateThumbnailTagsItem) require(field *big.Int) {
-	if p.explicitFields == nil {
-		p.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
 	}
-	p.explicitFields.Or(p.explicitFields, field)
+	next.Or(next, field)
+	p.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -5372,6 +5527,7 @@ const (
 	PostCreateThumbnailTagsItemPlatformLinkedin              PostCreateThumbnailTagsItemPlatform = "linkedin"
 	PostCreateThumbnailTagsItemPlatformPinterest             PostCreateThumbnailTagsItemPlatform = "pinterest"
 	PostCreateThumbnailTagsItemPlatformReddit                PostCreateThumbnailTagsItemPlatform = "reddit"
+	PostCreateThumbnailTagsItemPlatformSnapchat              PostCreateThumbnailTagsItemPlatform = "snapchat"
 	PostCreateThumbnailTagsItemPlatformThreads               PostCreateThumbnailTagsItemPlatform = "threads"
 	PostCreateThumbnailTagsItemPlatformTiktok                PostCreateThumbnailTagsItemPlatform = "tiktok"
 	PostCreateThumbnailTagsItemPlatformTwitter               PostCreateThumbnailTagsItemPlatform = "twitter"
@@ -5414,6 +5570,8 @@ func NewPostCreateThumbnailTagsItemPlatformFromString(s string) (PostCreateThumb
 		return PostCreateThumbnailTagsItemPlatformPinterest, nil
 	case "reddit":
 		return PostCreateThumbnailTagsItemPlatformReddit, nil
+	case "snapchat":
+		return PostCreateThumbnailTagsItemPlatformSnapchat, nil
 	case "threads":
 		return PostCreateThumbnailTagsItemPlatformThreads, nil
 	case "tiktok":
@@ -5567,10 +5725,12 @@ func (u *UpdatePostsRequestMediaItem) GetExtraProperties() map[string]interface{
 }
 
 func (u *UpdatePostsRequestMediaItem) require(field *big.Int) {
-	if u.explicitFields == nil {
-		u.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
 	}
-	u.explicitFields.Or(u.explicitFields, field)
+	next.Or(next, field)
+	u.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -5712,10 +5872,12 @@ type UpdatePostsRequest struct {
 }
 
 func (u *UpdatePostsRequest) require(field *big.Int) {
-	if u.explicitFields == nil {
-		u.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
 	}
-	u.explicitFields.Or(u.explicitFields, field)
+	next.Or(next, field)
+	u.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;
@@ -5804,10 +5966,12 @@ type UpdateTagsPostsRequest struct {
 }
 
 func (u *UpdateTagsPostsRequest) require(field *big.Int) {
-	if u.explicitFields == nil {
-		u.explicitFields = big.NewInt(0)
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
 	}
-	u.explicitFields.Or(u.explicitFields, field)
+	next.Or(next, field)
+	u.explicitFields = next
 }
 
 // SetID sets the ID field and marks it as non-optional;

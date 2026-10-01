@@ -803,6 +803,14 @@ func TestSettersListPlatformsResponseDataItemMediaRules(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetAllowedDimensions", func(t *testing.T) {
+		obj := &ListPlatformsResponseDataItemMediaRules{}
+		var fernTestValueAllowedDimensions []*ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
+		obj.SetAllowedDimensions(fernTestValueAllowedDimensions)
+		assert.Equal(t, fernTestValueAllowedDimensions, obj.AllowedDimensions)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 }
 
 func TestGettersListPlatformsResponseDataItemMediaRules(t *testing.T) {
@@ -895,6 +903,39 @@ func TestGettersListPlatformsResponseDataItemMediaRules(t *testing.T) {
 		_ = obj.GetAllowedTypes() // Should return zero value
 	})
 
+	t.Run("GetAllowedDimensions", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItemMediaRules{}
+		var expected []*ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
+		obj.AllowedDimensions = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetAllowedDimensions(), "getter should return the property value")
+	})
+
+	t.Run("GetAllowedDimensions_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItemMediaRules{}
+		obj.AllowedDimensions = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetAllowedDimensions(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetAllowedDimensions_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListPlatformsResponseDataItemMediaRules
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetAllowedDimensions() // Should return zero value
+	})
+
 }
 
 func TestSettersMarkExplicitListPlatformsResponseDataItemMediaRules(t *testing.T) {
@@ -968,6 +1009,170 @@ func TestSettersMarkExplicitListPlatformsResponseDataItemMediaRules(t *testing.T
 
 		// Act
 		obj.SetAllowedTypes(fernTestValueAllowedTypes)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetAllowedDimensions_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItemMediaRules{}
+		var fernTestValueAllowedDimensions []*ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
+
+		// Act
+		obj.SetAllowedDimensions(fernTestValueAllowedDimensions)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
+func TestSettersListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(t *testing.T) {
+	t.Run("SetWidth", func(t *testing.T) {
+		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
+		var fernTestValueWidth float64
+		obj.SetWidth(fernTestValueWidth)
+		assert.Equal(t, fernTestValueWidth, obj.Width)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetHeight", func(t *testing.T) {
+		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
+		var fernTestValueHeight float64
+		obj.SetHeight(fernTestValueHeight)
+		assert.Equal(t, fernTestValueHeight, obj.Height)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestGettersListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(t *testing.T) {
+	t.Run("GetWidth", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
+		var expected float64
+		obj.Width = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetWidth(), "getter should return the property value")
+	})
+
+	t.Run("GetWidth_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetWidth() // Should return zero value
+	})
+
+	t.Run("GetHeight", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
+		var expected float64
+		obj.Height = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetHeight(), "getter should return the property value")
+	})
+
+	t.Run("GetHeight_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetHeight() // Should return zero value
+	})
+
+}
+
+func TestSettersMarkExplicitListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(t *testing.T) {
+	t.Run("SetWidth_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
+		var fernTestValueWidth float64
+
+		// Act
+		obj.SetWidth(fernTestValueWidth)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetHeight_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
+		var fernTestValueHeight float64
+
+		// Act
+		obj.SetHeight(fernTestValueHeight)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -1330,6 +1535,39 @@ func TestJSONMarshalingListPlatformsResponseDataItemMediaRules(t *testing.T) {
 	})
 }
 
+func TestJSONMarshalingListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(t *testing.T) {
+	t.Run("MarshalUnmarshal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
+
+		// Act - Marshal to JSON
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		assert.NotNil(t, data, "marshaled data should not be nil")
+		assert.NotEmpty(t, data, "marshaled data should not be empty")
+
+		// Unmarshal back and verify round-trip
+		var unmarshaled ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
+		err = json.Unmarshal(data, &unmarshaled)
+		assert.NoError(t, err, "round-trip unmarshal should succeed")
+	})
+
+	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
+		t.Parallel()
+		var obj ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
+		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
+		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
+	})
+
+	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
+		t.Parallel()
+		var obj ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
+		err := json.Unmarshal([]byte(`{}`), &obj)
+		assert.NoError(t, err, "unmarshaling empty object should succeed")
+	})
+}
+
 func TestJSONMarshalingListPlatformsResponseDataItemPlatformConfiguration(t *testing.T) {
 	t.Run("MarshalUnmarshal", func(t *testing.T) {
 		t.Parallel()
@@ -1422,6 +1660,22 @@ func TestStringListPlatformsResponseDataItemMediaRules(t *testing.T) {
 	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *ListPlatformsResponseDataItemMediaRules
+		result := obj.String()
+		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestStringListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(t *testing.T) {
+	t.Run("StringMethod", func(t *testing.T) {
+		t.Parallel()
+		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
+		result := obj.String()
+		assert.NotEmpty(t, result, "String() should return a non-empty representation")
+	})
+
+	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
 	})
@@ -1566,6 +1820,29 @@ func TestExtraPropertiesListPlatformsResponseDataItemMediaRules(t *testing.T) {
 	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *ListPlatformsResponseDataItemMediaRules
+		extraProps := obj.GetExtraProperties()
+		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
+	})
+}
+
+func TestExtraPropertiesListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(t *testing.T) {
+	t.Run("GetExtraProperties", func(t *testing.T) {
+		t.Parallel()
+		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
+		// Should not panic when calling GetExtraProperties()
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("GetExtraProperties() panicked: %v", r)
+			}
+		}()
+		extraProps := obj.GetExtraProperties()
+		// Result can be nil or an empty/non-empty map
+		_ = extraProps
+	})
+
+	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem
 		extraProps := obj.GetExtraProperties()
 		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
 	})
