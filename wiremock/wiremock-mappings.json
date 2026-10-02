@@ -457,6 +457,78 @@
       }
     },
     {
+      "id": "a2f52b7d-f994-4f5d-ba4e-496814a8133e",
+      "name": "List Discord channels - default",
+      "request": {
+        "urlPathTemplate": "/v0/social-accounts/{id}/discord-channels",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"items\": [\n    {\n      \"id\": \"id\",\n      \"name\": \"name\"\n    }\n  ]\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "a2f52b7d-f994-4f5d-ba4e-496814a8133e",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "cbb689a7-584a-4add-b8de-e44f85edac6b",
+      "name": "List Slack channels - default",
+      "request": {
+        "urlPathTemplate": "/v0/social-accounts/{id}/slack-channels",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"items\": [\n    {\n      \"id\": \"id\",\n      \"name\": \"name\"\n    }\n  ]\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "cbb689a7-584a-4add-b8de-e44f85edac6b",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
       "id": "08415ac1-acbb-49ab-af1e-a30e9808bfc7",
       "name": "Update social account - default",
       "request": {
@@ -1520,6 +1592,6 @@
     }
   ],
   "meta": {
-    "total": 44
+    "total": 46
   }
 }

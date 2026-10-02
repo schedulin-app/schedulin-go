@@ -110,6 +110,60 @@ func (c *Client) ListWhopForums(
 	return response.Body, nil
 }
 
+// List the text and announcement channels the Schedulin bot can post into for a connected Discord server. Use an item id as `platformConfiguration.channel` when creating a Discord post.
+//
+// Example:
+//
+//	request := &schedulingo.ListDiscordChannelsSocialAccountsRequest{
+//	    ID: "id",
+//	}
+//	client.SocialAccounts.ListDiscordChannels(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) ListDiscordChannels(
+	ctx context.Context,
+	request *schedulingo.ListDiscordChannelsSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*schedulingo.ListDiscordChannelsSocialAccountsResponse, error) {
+	response, err := c.WithRawResponse.ListDiscordChannels(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+// List the channels in a connected Slack workspace that the Schedulin bot can post into (public channels, plus private channels it was invited to). Use an item id as `platformConfiguration.channel` when creating a Slack post.
+//
+// Example:
+//
+//	request := &schedulingo.ListSlackChannelsSocialAccountsRequest{
+//	    ID: "id",
+//	}
+//	client.SocialAccounts.ListSlackChannels(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) ListSlackChannels(
+	ctx context.Context,
+	request *schedulingo.ListSlackChannelsSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*schedulingo.ListSlackChannelsSocialAccountsResponse, error) {
+	response, err := c.WithRawResponse.ListSlackChannels(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // Update social media account settings and information
 //
 // Example:

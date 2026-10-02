@@ -59,6 +59,60 @@ func (d *DeleteSocialAccountsRequest) MarshalJSON() ([]byte, error) {
 }
 
 var (
+	listDiscordChannelsSocialAccountsRequestFieldID = big.NewInt(1 << 0)
+)
+
+type ListDiscordChannelsSocialAccountsRequest struct {
+	ID string `json:"-" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (l *ListDiscordChannelsSocialAccountsRequest) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListDiscordChannelsSocialAccountsRequest) SetID(id string) {
+	l.ID = id
+	l.require(listDiscordChannelsSocialAccountsRequestFieldID)
+}
+
+var (
+	listSlackChannelsSocialAccountsRequestFieldID = big.NewInt(1 << 0)
+)
+
+type ListSlackChannelsSocialAccountsRequest struct {
+	ID string `json:"-" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (l *ListSlackChannelsSocialAccountsRequest) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSlackChannelsSocialAccountsRequest) SetID(id string) {
+	l.ID = id
+	l.require(listSlackChannelsSocialAccountsRequestFieldID)
+}
+
+var (
 	listWhopCompaniesSocialAccountsRequestFieldID = big.NewInt(1 << 0)
 )
 
@@ -304,6 +358,382 @@ func (d *DeleteSocialAccountsResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", d)
+}
+
+var (
+	listDiscordChannelsSocialAccountsResponseFieldItems = big.NewInt(1 << 0)
+)
+
+type ListDiscordChannelsSocialAccountsResponse struct {
+	Items []*ListDiscordChannelsSocialAccountsResponseItemsItem `json:"items" url:"items"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponse) GetItems() []*ListDiscordChannelsSocialAccountsResponseItemsItem {
+	if l == nil {
+		return nil
+	}
+	return l.Items
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetItems sets the Items field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListDiscordChannelsSocialAccountsResponse) SetItems(items []*ListDiscordChannelsSocialAccountsResponseItemsItem) {
+	l.Items = items
+	l.require(listDiscordChannelsSocialAccountsResponseFieldItems)
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListDiscordChannelsSocialAccountsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListDiscordChannelsSocialAccountsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponse) MarshalJSON() ([]byte, error) {
+	type embed ListDiscordChannelsSocialAccountsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponse) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	listDiscordChannelsSocialAccountsResponseItemsItemFieldID   = big.NewInt(1 << 0)
+	listDiscordChannelsSocialAccountsResponseItemsItemFieldName = big.NewInt(1 << 1)
+)
+
+type ListDiscordChannelsSocialAccountsResponseItemsItem struct {
+	ID   string `json:"id" url:"id"`
+	Name string `json:"name" url:"name"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponseItemsItem) GetID() string {
+	if l == nil {
+		return ""
+	}
+	return l.ID
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponseItemsItem) GetName() string {
+	if l == nil {
+		return ""
+	}
+	return l.Name
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponseItemsItem) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponseItemsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListDiscordChannelsSocialAccountsResponseItemsItem) SetID(id string) {
+	l.ID = id
+	l.require(listDiscordChannelsSocialAccountsResponseItemsItemFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListDiscordChannelsSocialAccountsResponseItemsItem) SetName(name string) {
+	l.Name = name
+	l.require(listDiscordChannelsSocialAccountsResponseItemsItemFieldName)
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponseItemsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListDiscordChannelsSocialAccountsResponseItemsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListDiscordChannelsSocialAccountsResponseItemsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponseItemsItem) MarshalJSON() ([]byte, error) {
+	type embed ListDiscordChannelsSocialAccountsResponseItemsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListDiscordChannelsSocialAccountsResponseItemsItem) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	listSlackChannelsSocialAccountsResponseFieldItems = big.NewInt(1 << 0)
+)
+
+type ListSlackChannelsSocialAccountsResponse struct {
+	Items []*ListSlackChannelsSocialAccountsResponseItemsItem `json:"items" url:"items"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListSlackChannelsSocialAccountsResponse) GetItems() []*ListSlackChannelsSocialAccountsResponseItemsItem {
+	if l == nil {
+		return nil
+	}
+	return l.Items
+}
+
+func (l *ListSlackChannelsSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListSlackChannelsSocialAccountsResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetItems sets the Items field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSlackChannelsSocialAccountsResponse) SetItems(items []*ListSlackChannelsSocialAccountsResponseItemsItem) {
+	l.Items = items
+	l.require(listSlackChannelsSocialAccountsResponseFieldItems)
+}
+
+func (l *ListSlackChannelsSocialAccountsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListSlackChannelsSocialAccountsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListSlackChannelsSocialAccountsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListSlackChannelsSocialAccountsResponse) MarshalJSON() ([]byte, error) {
+	type embed ListSlackChannelsSocialAccountsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListSlackChannelsSocialAccountsResponse) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	listSlackChannelsSocialAccountsResponseItemsItemFieldID   = big.NewInt(1 << 0)
+	listSlackChannelsSocialAccountsResponseItemsItemFieldName = big.NewInt(1 << 1)
+)
+
+type ListSlackChannelsSocialAccountsResponseItemsItem struct {
+	ID   string `json:"id" url:"id"`
+	Name string `json:"name" url:"name"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListSlackChannelsSocialAccountsResponseItemsItem) GetID() string {
+	if l == nil {
+		return ""
+	}
+	return l.ID
+}
+
+func (l *ListSlackChannelsSocialAccountsResponseItemsItem) GetName() string {
+	if l == nil {
+		return ""
+	}
+	return l.Name
+}
+
+func (l *ListSlackChannelsSocialAccountsResponseItemsItem) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListSlackChannelsSocialAccountsResponseItemsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSlackChannelsSocialAccountsResponseItemsItem) SetID(id string) {
+	l.ID = id
+	l.require(listSlackChannelsSocialAccountsResponseItemsItemFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSlackChannelsSocialAccountsResponseItemsItem) SetName(name string) {
+	l.Name = name
+	l.require(listSlackChannelsSocialAccountsResponseItemsItemFieldName)
+}
+
+func (l *ListSlackChannelsSocialAccountsResponseItemsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListSlackChannelsSocialAccountsResponseItemsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListSlackChannelsSocialAccountsResponseItemsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListSlackChannelsSocialAccountsResponseItemsItem) MarshalJSON() ([]byte, error) {
+	type embed ListSlackChannelsSocialAccountsResponseItemsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListSlackChannelsSocialAccountsResponseItemsItem) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
 }
 
 var (

@@ -152,6 +152,58 @@ func TestSocialAccountsListWhopForumsWithWireMock(
 	VerifyRequestCount(t, "TestSocialAccountsListWhopForumsWithWireMock", "GET", "/v0/social-accounts/id/whop-forums", map[string]interface{}{"companyId": "companyId"}, 1)
 }
 
+func TestSocialAccountsListDiscordChannelsWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulingo.ListDiscordChannelsSocialAccountsRequest{
+		ID: "id",
+	}
+	_, invocationErr := client.SocialAccounts.ListDiscordChannels(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestSocialAccountsListDiscordChannelsWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestSocialAccountsListDiscordChannelsWithWireMock", "GET", "/v0/social-accounts/id/discord-channels", nil, 1)
+}
+
+func TestSocialAccountsListSlackChannelsWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulingo.ListSlackChannelsSocialAccountsRequest{
+		ID: "id",
+	}
+	_, invocationErr := client.SocialAccounts.ListSlackChannels(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestSocialAccountsListSlackChannelsWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestSocialAccountsListSlackChannelsWithWireMock", "GET", "/v0/social-accounts/id/slack-channels", nil, 1)
+}
+
 func TestSocialAccountsUpdateWithWireMock(
 	t *testing.T,
 ) {

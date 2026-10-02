@@ -170,6 +170,96 @@ func (r *RawClient) ListWhopForums(
 	}, nil
 }
 
+func (r *RawClient) ListDiscordChannels(
+	ctx context.Context,
+	request *schedulingo.ListDiscordChannelsSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[*schedulingo.ListDiscordChannelsSocialAccountsResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.schedulin.app",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v0/social-accounts/%v/discord-channels",
+		request.ID,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *schedulingo.ListDiscordChannelsSocialAccountsResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*schedulingo.ListDiscordChannelsSocialAccountsResponse]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
+func (r *RawClient) ListSlackChannels(
+	ctx context.Context,
+	request *schedulingo.ListSlackChannelsSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*core.Response[*schedulingo.ListSlackChannelsSocialAccountsResponse], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.schedulin.app",
+	)
+	endpointURL := internal.EncodeURL(
+		baseURL+"/v0/social-accounts/%v/slack-channels",
+		request.ID,
+	)
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	var response *schedulingo.ListSlackChannelsSocialAccountsResponse
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*schedulingo.ListSlackChannelsSocialAccountsResponse]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
 func (r *RawClient) Update(
 	ctx context.Context,
 	request *schedulingo.UpdateSocialAccountsRequest,
