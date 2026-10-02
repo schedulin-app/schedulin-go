@@ -129,7 +129,7 @@ func (r *RawClient) CountByTab(
 	ctx context.Context,
 	request *schedulingo.CountByTabPostsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[any], error) {
+) (*core.Response[*schedulingo.CountByTabPostsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -148,7 +148,7 @@ func (r *RawClient) CountByTab(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response any
+	var response *schedulingo.CountByTabPostsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -167,7 +167,7 @@ func (r *RawClient) CountByTab(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[any]{
+	return &core.Response[*schedulingo.CountByTabPostsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

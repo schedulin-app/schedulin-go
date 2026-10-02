@@ -2058,7 +2058,7 @@ type TiktokCreatorInfoSocialAccountsResponseData struct {
 	CommentDisabled         bool     `json:"comment_disabled" url:"comment_disabled"`
 	DuetDisabled            bool     `json:"duet_disabled" url:"duet_disabled"`
 	StitchDisabled          bool     `json:"stitch_disabled" url:"stitch_disabled"`
-	MaxVideoPostDurationSec float64  `json:"max_video_post_duration_sec" url:"max_video_post_duration_sec"`
+	MaxVideoPostDurationSec int      `json:"max_video_post_duration_sec" url:"max_video_post_duration_sec"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -2116,7 +2116,7 @@ func (t *TiktokCreatorInfoSocialAccountsResponseData) GetStitchDisabled() bool {
 	return t.StitchDisabled
 }
 
-func (t *TiktokCreatorInfoSocialAccountsResponseData) GetMaxVideoPostDurationSec() float64 {
+func (t *TiktokCreatorInfoSocialAccountsResponseData) GetMaxVideoPostDurationSec() int {
 	if t == nil {
 		return 0
 	}
@@ -2190,7 +2190,7 @@ func (t *TiktokCreatorInfoSocialAccountsResponseData) SetStitchDisabled(stitchDi
 
 // SetMaxVideoPostDurationSec sets the MaxVideoPostDurationSec field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TiktokCreatorInfoSocialAccountsResponseData) SetMaxVideoPostDurationSec(maxVideoPostDurationSec float64) {
+func (t *TiktokCreatorInfoSocialAccountsResponseData) SetMaxVideoPostDurationSec(maxVideoPostDurationSec int) {
 	t.MaxVideoPostDurationSec = maxVideoPostDurationSec
 	t.require(tiktokCreatorInfoSocialAccountsResponseDataFieldMaxVideoPostDurationSec)
 }

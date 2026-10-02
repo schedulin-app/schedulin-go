@@ -110,7 +110,7 @@ client.Posts.List(
 <dl>
 <dd>
 
-**limit:** `*float64` 
+**limit:** `*int` 
     
 </dd>
 </dl>
@@ -255,7 +255,7 @@ client.Posts.Create(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.CountByTab() -> any</code></summary>
+<details><summary><code>client.Posts.CountByTab() -> *schedulingo.CountByTabPostsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1547,7 +1547,7 @@ client.Tags.List(
 <dl>
 <dd>
 
-**limit:** `*float64` 
+**limit:** `*int` 
     
 </dd>
 </dl>
@@ -1765,7 +1765,7 @@ client.Tags.Delete(
 </details>
 
 ## Media
-<details><summary><code>client.Media.CreateFromURL(request) -> any</code></summary>
+<details><summary><code>client.Media.CreateFromURL(request) -> *schedulingo.Media</code></summary>
 <dl>
 <dd>
 
@@ -1849,7 +1849,7 @@ client.Media.CreateFromURL(
 </dl>
 </details>
 
-<details><summary><code>client.Media.CreateUploadLink(request) -> any</code></summary>
+<details><summary><code>client.Media.CreateUploadLink(request) -> *schedulingo.CreateUploadLinkMediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -1907,7 +1907,7 @@ client.Media.CreateUploadLink(
 </dl>
 </details>
 
-<details><summary><code>client.Media.Upload(request) -> any</code></summary>
+<details><summary><code>client.Media.Upload(request) -> *schedulingo.Media</code></summary>
 <dl>
 <dd>
 
@@ -2043,7 +2043,6 @@ Update media information and metadata
 ```go
 request := &schedulingo.UpdateMediaRequest{
     ID: "id",
-    URL: "url",
 }
 client.Media.Update(
     context.TODO(),
@@ -2071,7 +2070,7 @@ client.Media.Update(
 <dl>
 <dd>
 
-**url:** `string` 
+**url:** `*string` 
     
 </dd>
 </dl>
@@ -2123,7 +2122,7 @@ client.Media.Update(
 </dl>
 </details>
 
-<details><summary><code>client.Media.Delete(ID, request) -> any</code></summary>
+<details><summary><code>client.Media.Delete(ID, request) -> *schedulingo.DeleteMediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -2237,7 +2236,7 @@ client.Media.List(
 <dl>
 <dd>
 
-**limit:** `*float64` 
+**limit:** `*int` 
     
 </dd>
 </dl>
@@ -2281,7 +2280,7 @@ client.Media.List(
 </dl>
 </details>
 
-<details><summary><code>client.Media.SetTags(MediaID, request) -> any</code></summary>
+<details><summary><code>client.Media.SetTags(MediaID, request) -> *schedulingo.SetTagsMediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -2521,7 +2520,7 @@ client.Platforms.List(
 </details>
 
 ## Ai
-<details><summary><code>client.Ai.GenerateImage(request) -> any</code></summary>
+<details><summary><code>client.Ai.GenerateImage(request) -> *schedulingo.GenerateImageAiResponse</code></summary>
 <dl>
 <dd>
 
@@ -2605,7 +2604,7 @@ client.Ai.GenerateImage(
 </dl>
 </details>
 
-<details><summary><code>client.Ai.GetGeneration() -> any</code></summary>
+<details><summary><code>client.Ai.GetGeneration() -> *schedulingo.AiGeneration</code></summary>
 <dl>
 <dd>
 
@@ -2666,7 +2665,7 @@ client.Ai.GetGeneration(
 </details>
 
 ## Webhooks
-<details><summary><code>client.Webhooks.List() -> any</code></summary>
+<details><summary><code>client.Webhooks.List() -> *schedulingo.ListWebhooksResponse</code></summary>
 <dl>
 <dd>
 
@@ -2707,7 +2706,7 @@ client.Webhooks.List(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.Create(request) -> any</code></summary>
+<details><summary><code>client.Webhooks.Create(request) -> *schedulingo.WebhookEndpoint</code></summary>
 <dl>
 <dd>
 
@@ -2786,7 +2785,7 @@ client.Webhooks.Create(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.Retrieve(ID) -> any</code></summary>
+<details><summary><code>client.Webhooks.Retrieve(ID) -> *schedulingo.WebhookEndpoint</code></summary>
 <dl>
 <dd>
 
@@ -2846,7 +2845,7 @@ client.Webhooks.Retrieve(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.Delete(ID, request) -> any</code></summary>
+<details><summary><code>client.Webhooks.Delete(ID, request) -> *schedulingo.DeleteWebhooksResponse</code></summary>
 <dl>
 <dd>
 
@@ -2906,7 +2905,7 @@ client.Webhooks.Delete(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.Update(ID, request) -> any</code></summary>
+<details><summary><code>client.Webhooks.Update(ID, request) -> *schedulingo.WebhookEndpoint</code></summary>
 <dl>
 <dd>
 
@@ -2998,7 +2997,7 @@ client.Webhooks.Update(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.RotateSecret(ID, request) -> any</code></summary>
+<details><summary><code>client.Webhooks.RotateSecret(ID, request) -> *schedulingo.WebhookEndpoint</code></summary>
 <dl>
 <dd>
 
@@ -3058,7 +3057,7 @@ client.Webhooks.RotateSecret(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.Test(ID, request) -> any</code></summary>
+<details><summary><code>client.Webhooks.Test(ID, request) -> *schedulingo.TestWebhooksResponse</code></summary>
 <dl>
 <dd>
 
@@ -3118,7 +3117,7 @@ client.Webhooks.Test(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.ListDeliveries(ID) -> any</code></summary>
+<details><summary><code>client.Webhooks.ListDeliveries(ID) -> *schedulingo.ListDeliveriesWebhooksResponse</code></summary>
 <dl>
 <dd>
 

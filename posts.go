@@ -306,7 +306,7 @@ type ListPostsRequest struct {
 	TagIDs           []*string                       `json:"-" url:"tagIds,omitempty"`
 	TagMode          *ListPostsRequestTagMode        `json:"-" url:"tagMode,omitempty"`
 	SocialAccountIDs []*string                       `json:"-" url:"socialAccountIds,omitempty"`
-	Limit            *float64                        `json:"-" url:"limit,omitempty"`
+	Limit            *int                            `json:"-" url:"limit,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -379,7 +379,7 @@ func (l *ListPostsRequest) SetSocialAccountIDs(socialAccountIDs []*string) {
 
 // SetLimit sets the Limit field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListPostsRequest) SetLimit(limit *float64) {
+func (l *ListPostsRequest) SetLimit(limit *int) {
 	l.Limit = limit
 	l.require(listPostsRequestFieldLimit)
 }
@@ -621,8 +621,11 @@ var (
 	postFieldPlatformConfiguration = big.NewInt(1 << 11)
 	postFieldSocialAccountID       = big.NewInt(1 << 12)
 	postFieldURL                   = big.NewInt(1 << 13)
-	postFieldCreatedAt             = big.NewInt(1 << 14)
-	postFieldUpdatedAt             = big.NewInt(1 << 15)
+	postFieldTitle                 = big.NewInt(1 << 14)
+	postFieldPostedAt              = big.NewInt(1 << 15)
+	postFieldErrorMessage          = big.NewInt(1 << 16)
+	postFieldCreatedAt             = big.NewInt(1 << 17)
+	postFieldUpdatedAt             = big.NewInt(1 << 18)
 )
 
 // postNullableFields maps the wire names of Post's nullable fields (required or optional) to their field bits.
@@ -636,6 +639,9 @@ var postNullableFields = map[string]*big.Int{
 	"scheduledAt":           postFieldScheduledAt,
 	"platformConfiguration": postFieldPlatformConfiguration,
 	"url":                   postFieldURL,
+	"title":                 postFieldTitle,
+	"postedAt":              postFieldPostedAt,
+	"errorMessage":          postFieldErrorMessage,
 }
 
 type Post struct {
@@ -653,6 +659,9 @@ type Post struct {
 	PlatformConfiguration map[string]any     `json:"platformConfiguration,omitempty" url:"platformConfiguration,omitempty"`
 	SocialAccountID       string             `json:"socialAccountId" url:"socialAccountId"`
 	URL                   *string            `json:"url,omitempty" url:"url,omitempty"`
+	Title                 *string            `json:"title,omitempty" url:"title,omitempty"`
+	PostedAt              *time.Time         `json:"postedAt,omitempty" url:"postedAt,omitempty"`
+	ErrorMessage          *string            `json:"errorMessage,omitempty" url:"errorMessage,omitempty"`
 	CreatedAt             time.Time          `json:"createdAt" url:"createdAt"`
 	UpdatedAt             time.Time          `json:"updatedAt" url:"updatedAt"`
 
@@ -759,6 +768,27 @@ func (p *Post) GetURL() *string {
 		return nil
 	}
 	return p.URL
+}
+
+func (p *Post) GetTitle() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Title
+}
+
+func (p *Post) GetPostedAt() *time.Time {
+	if p == nil {
+		return nil
+	}
+	return p.PostedAt
+}
+
+func (p *Post) GetErrorMessage() *string {
+	if p == nil {
+		return nil
+	}
+	return p.ErrorMessage
 }
 
 func (p *Post) GetCreatedAt() time.Time {
@@ -889,6 +919,27 @@ func (p *Post) SetURL(url *string) {
 	p.require(postFieldURL)
 }
 
+// SetTitle sets the Title field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *Post) SetTitle(title *string) {
+	p.Title = title
+	p.require(postFieldTitle)
+}
+
+// SetPostedAt sets the PostedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *Post) SetPostedAt(postedAt *time.Time) {
+	p.PostedAt = postedAt
+	p.require(postFieldPostedAt)
+}
+
+// SetErrorMessage sets the ErrorMessage field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *Post) SetErrorMessage(errorMessage *string) {
+	p.ErrorMessage = errorMessage
+	p.require(postFieldErrorMessage)
+}
+
 // SetCreatedAt sets the CreatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (p *Post) SetCreatedAt(createdAt time.Time) {
@@ -910,6 +961,7 @@ func (p *Post) UnmarshalJSON(data []byte) error {
 		ApprovalRequestedAt *internal.DateTime `json:"approvalRequestedAt,omitempty"`
 		ApprovedAt          *internal.DateTime `json:"approvedAt,omitempty"`
 		ScheduledAt         *internal.DateTime `json:"scheduledAt,omitempty"`
+		PostedAt            *internal.DateTime `json:"postedAt,omitempty"`
 		CreatedAt           *internal.DateTime `json:"createdAt"`
 		UpdatedAt           *internal.DateTime `json:"updatedAt"`
 	}{
@@ -922,6 +974,7 @@ func (p *Post) UnmarshalJSON(data []byte) error {
 	p.ApprovalRequestedAt = unmarshaler.ApprovalRequestedAt.TimePtr()
 	p.ApprovedAt = unmarshaler.ApprovedAt.TimePtr()
 	p.ScheduledAt = unmarshaler.ScheduledAt.TimePtr()
+	p.PostedAt = unmarshaler.PostedAt.TimePtr()
 	p.CreatedAt = unmarshaler.CreatedAt.Time()
 	p.UpdatedAt = unmarshaler.UpdatedAt.Time()
 	extraProperties, err := internal.ExtractExtraProperties(data, *p)
@@ -947,6 +1000,7 @@ func (p *Post) MarshalJSON() ([]byte, error) {
 		ApprovalRequestedAt *internal.DateTime `json:"approvalRequestedAt,omitempty"`
 		ApprovedAt          *internal.DateTime `json:"approvedAt,omitempty"`
 		ScheduledAt         *internal.DateTime `json:"scheduledAt,omitempty"`
+		PostedAt            *internal.DateTime `json:"postedAt,omitempty"`
 		CreatedAt           *internal.DateTime `json:"createdAt"`
 		UpdatedAt           *internal.DateTime `json:"updatedAt"`
 	}{
@@ -954,6 +1008,7 @@ func (p *Post) MarshalJSON() ([]byte, error) {
 		ApprovalRequestedAt: internal.NewOptionalDateTime(p.ApprovalRequestedAt),
 		ApprovedAt:          internal.NewOptionalDateTime(p.ApprovedAt),
 		ScheduledAt:         internal.NewOptionalDateTime(p.ScheduledAt),
+		PostedAt:            internal.NewOptionalDateTime(p.PostedAt),
 		CreatedAt:           internal.NewDateTime(p.CreatedAt),
 		UpdatedAt:           internal.NewDateTime(p.UpdatedAt),
 	}
@@ -1004,6 +1059,297 @@ func (p PostApprovalStatus) Ptr() *PostApprovalStatus {
 	return &p
 }
 
+var (
+	postMediaFieldID           = big.NewInt(1 << 0)
+	postMediaFieldURL          = big.NewInt(1 << 1)
+	postMediaFieldName         = big.NewInt(1 << 2)
+	postMediaFieldMimeType     = big.NewInt(1 << 3)
+	postMediaFieldWidth        = big.NewInt(1 << 4)
+	postMediaFieldHeight       = big.NewInt(1 << 5)
+	postMediaFieldDuration     = big.NewInt(1 << 6)
+	postMediaFieldSize         = big.NewInt(1 << 7)
+	postMediaFieldAlt          = big.NewInt(1 << 8)
+	postMediaFieldThumbnailURL = big.NewInt(1 << 9)
+	postMediaFieldCreatedAt    = big.NewInt(1 << 10)
+	postMediaFieldUpdatedAt    = big.NewInt(1 << 11)
+)
+
+// postMediaNullableFields maps the wire names of PostMedia's nullable fields (required or optional) to their field bits.
+var postMediaNullableFields = map[string]*big.Int{
+	"width":        postMediaFieldWidth,
+	"height":       postMediaFieldHeight,
+	"duration":     postMediaFieldDuration,
+	"size":         postMediaFieldSize,
+	"alt":          postMediaFieldAlt,
+	"thumbnailUrl": postMediaFieldThumbnailURL,
+}
+
+type PostMedia struct {
+	ID           string    `json:"id" url:"id"`
+	URL          string    `json:"url" url:"url"`
+	Name         string    `json:"name" url:"name"`
+	MimeType     string    `json:"mimeType" url:"mimeType"`
+	Width        *int      `json:"width,omitempty" url:"width,omitempty"`
+	Height       *int      `json:"height,omitempty" url:"height,omitempty"`
+	Duration     *int      `json:"duration,omitempty" url:"duration,omitempty"`
+	Size         *int      `json:"size,omitempty" url:"size,omitempty"`
+	Alt          *string   `json:"alt,omitempty" url:"alt,omitempty"`
+	ThumbnailURL *string   `json:"thumbnailUrl,omitempty" url:"thumbnailUrl,omitempty"`
+	CreatedAt    time.Time `json:"createdAt" url:"createdAt"`
+	UpdatedAt    time.Time `json:"updatedAt" url:"updatedAt"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostMedia) GetID() string {
+	if p == nil {
+		return ""
+	}
+	return p.ID
+}
+
+func (p *PostMedia) GetURL() string {
+	if p == nil {
+		return ""
+	}
+	return p.URL
+}
+
+func (p *PostMedia) GetName() string {
+	if p == nil {
+		return ""
+	}
+	return p.Name
+}
+
+func (p *PostMedia) GetMimeType() string {
+	if p == nil {
+		return ""
+	}
+	return p.MimeType
+}
+
+func (p *PostMedia) GetWidth() *int {
+	if p == nil {
+		return nil
+	}
+	return p.Width
+}
+
+func (p *PostMedia) GetHeight() *int {
+	if p == nil {
+		return nil
+	}
+	return p.Height
+}
+
+func (p *PostMedia) GetDuration() *int {
+	if p == nil {
+		return nil
+	}
+	return p.Duration
+}
+
+func (p *PostMedia) GetSize() *int {
+	if p == nil {
+		return nil
+	}
+	return p.Size
+}
+
+func (p *PostMedia) GetAlt() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Alt
+}
+
+func (p *PostMedia) GetThumbnailURL() *string {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailURL
+}
+
+func (p *PostMedia) GetCreatedAt() time.Time {
+	if p == nil {
+		return time.Time{}
+	}
+	return p.CreatedAt
+}
+
+func (p *PostMedia) GetUpdatedAt() time.Time {
+	if p == nil {
+		return time.Time{}
+	}
+	return p.UpdatedAt
+}
+
+func (p *PostMedia) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostMedia) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetID(id string) {
+	p.ID = id
+	p.require(postMediaFieldID)
+}
+
+// SetURL sets the URL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetURL(url string) {
+	p.URL = url
+	p.require(postMediaFieldURL)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetName(name string) {
+	p.Name = name
+	p.require(postMediaFieldName)
+}
+
+// SetMimeType sets the MimeType field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetMimeType(mimeType string) {
+	p.MimeType = mimeType
+	p.require(postMediaFieldMimeType)
+}
+
+// SetWidth sets the Width field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetWidth(width *int) {
+	p.Width = width
+	p.require(postMediaFieldWidth)
+}
+
+// SetHeight sets the Height field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetHeight(height *int) {
+	p.Height = height
+	p.require(postMediaFieldHeight)
+}
+
+// SetDuration sets the Duration field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetDuration(duration *int) {
+	p.Duration = duration
+	p.require(postMediaFieldDuration)
+}
+
+// SetSize sets the Size field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetSize(size *int) {
+	p.Size = size
+	p.require(postMediaFieldSize)
+}
+
+// SetAlt sets the Alt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetAlt(alt *string) {
+	p.Alt = alt
+	p.require(postMediaFieldAlt)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetThumbnailURL(thumbnailURL *string) {
+	p.ThumbnailURL = thumbnailURL
+	p.require(postMediaFieldThumbnailURL)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetCreatedAt(createdAt time.Time) {
+	p.CreatedAt = createdAt
+	p.require(postMediaFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetUpdatedAt(updatedAt time.Time) {
+	p.UpdatedAt = updatedAt
+	p.require(postMediaFieldUpdatedAt)
+}
+
+func (p *PostMedia) UnmarshalJSON(data []byte) error {
+	type embed PostMedia
+	var unmarshaler = struct {
+		embed
+		CreatedAt *internal.DateTime `json:"createdAt"`
+		UpdatedAt *internal.DateTime `json:"updatedAt"`
+	}{
+		embed: embed(*p),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*p = PostMedia(unmarshaler.embed)
+	p.CreatedAt = unmarshaler.CreatedAt.Time()
+	p.UpdatedAt = unmarshaler.UpdatedAt.Time()
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postMediaNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostMedia) MarshalJSON() ([]byte, error) {
+	type embed PostMedia
+	var marshaler = struct {
+		embed
+		CreatedAt *internal.DateTime `json:"createdAt"`
+		UpdatedAt *internal.DateTime `json:"updatedAt"`
+	}{
+		embed:     embed(*p),
+		CreatedAt: internal.NewDateTime(p.CreatedAt),
+		UpdatedAt: internal.NewDateTime(p.UpdatedAt),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostMedia) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
 type PostStatus string
 
 const (
@@ -1050,11 +1396,15 @@ var (
 	postWithRelationsFieldPlatformConfiguration = big.NewInt(1 << 11)
 	postWithRelationsFieldSocialAccountID       = big.NewInt(1 << 12)
 	postWithRelationsFieldURL                   = big.NewInt(1 << 13)
-	postWithRelationsFieldCreatedAt             = big.NewInt(1 << 14)
-	postWithRelationsFieldUpdatedAt             = big.NewInt(1 << 15)
-	postWithRelationsFieldSocialAccount         = big.NewInt(1 << 16)
-	postWithRelationsFieldMedia                 = big.NewInt(1 << 17)
-	postWithRelationsFieldTags                  = big.NewInt(1 << 18)
+	postWithRelationsFieldTitle                 = big.NewInt(1 << 14)
+	postWithRelationsFieldPostedAt              = big.NewInt(1 << 15)
+	postWithRelationsFieldErrorMessage          = big.NewInt(1 << 16)
+	postWithRelationsFieldCreatedAt             = big.NewInt(1 << 17)
+	postWithRelationsFieldUpdatedAt             = big.NewInt(1 << 18)
+	postWithRelationsFieldSocialAccount         = big.NewInt(1 << 19)
+	postWithRelationsFieldMedia                 = big.NewInt(1 << 20)
+	postWithRelationsFieldThumbnail             = big.NewInt(1 << 21)
+	postWithRelationsFieldTags                  = big.NewInt(1 << 22)
 )
 
 // postWithRelationsNullableFields maps the wire names of PostWithRelations's nullable fields (required or optional) to their field bits.
@@ -1068,28 +1418,36 @@ var postWithRelationsNullableFields = map[string]*big.Int{
 	"scheduledAt":           postWithRelationsFieldScheduledAt,
 	"platformConfiguration": postWithRelationsFieldPlatformConfiguration,
 	"url":                   postWithRelationsFieldURL,
+	"title":                 postWithRelationsFieldTitle,
+	"postedAt":              postWithRelationsFieldPostedAt,
+	"errorMessage":          postWithRelationsFieldErrorMessage,
+	"thumbnail":             postWithRelationsFieldThumbnail,
 }
 
 type PostWithRelations struct {
-	ID                    string                        `json:"id" url:"id"`
-	ExternalID            *string                       `json:"externalId,omitempty" url:"externalId,omitempty"`
-	Caption               string                        `json:"caption" url:"caption"`
-	Status                PostStatus                    `json:"status" url:"status"`
-	ApprovalStatus        PostApprovalStatus            `json:"approvalStatus" url:"approvalStatus"`
-	ApprovalRequestedAt   *time.Time                    `json:"approvalRequestedAt,omitempty" url:"approvalRequestedAt,omitempty"`
-	ApprovalRequestedBy   *string                       `json:"approvalRequestedBy,omitempty" url:"approvalRequestedBy,omitempty"`
-	ApprovedAt            *time.Time                    `json:"approvedAt,omitempty" url:"approvedAt,omitempty"`
-	ApprovedBy            *string                       `json:"approvedBy,omitempty" url:"approvedBy,omitempty"`
-	RejectionReason       *string                       `json:"rejectionReason,omitempty" url:"rejectionReason,omitempty"`
-	ScheduledAt           *time.Time                    `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
-	PlatformConfiguration map[string]any                `json:"platformConfiguration,omitempty" url:"platformConfiguration,omitempty"`
-	SocialAccountID       string                        `json:"socialAccountId" url:"socialAccountId"`
-	URL                   *string                       `json:"url,omitempty" url:"url,omitempty"`
-	CreatedAt             time.Time                     `json:"createdAt" url:"createdAt"`
-	UpdatedAt             time.Time                     `json:"updatedAt" url:"updatedAt"`
-	SocialAccount         *SocialAccount                `json:"socialAccount" url:"socialAccount"`
-	Media                 []*PostWithRelationsMediaItem `json:"media" url:"media"`
-	Tags                  []*Tag                        `json:"tags" url:"tags"`
+	ID                    string             `json:"id" url:"id"`
+	ExternalID            *string            `json:"externalId,omitempty" url:"externalId,omitempty"`
+	Caption               string             `json:"caption" url:"caption"`
+	Status                PostStatus         `json:"status" url:"status"`
+	ApprovalStatus        PostApprovalStatus `json:"approvalStatus" url:"approvalStatus"`
+	ApprovalRequestedAt   *time.Time         `json:"approvalRequestedAt,omitempty" url:"approvalRequestedAt,omitempty"`
+	ApprovalRequestedBy   *string            `json:"approvalRequestedBy,omitempty" url:"approvalRequestedBy,omitempty"`
+	ApprovedAt            *time.Time         `json:"approvedAt,omitempty" url:"approvedAt,omitempty"`
+	ApprovedBy            *string            `json:"approvedBy,omitempty" url:"approvedBy,omitempty"`
+	RejectionReason       *string            `json:"rejectionReason,omitempty" url:"rejectionReason,omitempty"`
+	ScheduledAt           *time.Time         `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
+	PlatformConfiguration map[string]any     `json:"platformConfiguration,omitempty" url:"platformConfiguration,omitempty"`
+	SocialAccountID       string             `json:"socialAccountId" url:"socialAccountId"`
+	URL                   *string            `json:"url,omitempty" url:"url,omitempty"`
+	Title                 *string            `json:"title,omitempty" url:"title,omitempty"`
+	PostedAt              *time.Time         `json:"postedAt,omitempty" url:"postedAt,omitempty"`
+	ErrorMessage          *string            `json:"errorMessage,omitempty" url:"errorMessage,omitempty"`
+	CreatedAt             time.Time          `json:"createdAt" url:"createdAt"`
+	UpdatedAt             time.Time          `json:"updatedAt" url:"updatedAt"`
+	SocialAccount         *SocialAccount     `json:"socialAccount" url:"socialAccount"`
+	Media                 []*PostMedia       `json:"media" url:"media"`
+	Thumbnail             *PostMedia         `json:"thumbnail,omitempty" url:"thumbnail,omitempty"`
+	Tags                  []*Tag             `json:"tags" url:"tags"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1196,6 +1554,27 @@ func (p *PostWithRelations) GetURL() *string {
 	return p.URL
 }
 
+func (p *PostWithRelations) GetTitle() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Title
+}
+
+func (p *PostWithRelations) GetPostedAt() *time.Time {
+	if p == nil {
+		return nil
+	}
+	return p.PostedAt
+}
+
+func (p *PostWithRelations) GetErrorMessage() *string {
+	if p == nil {
+		return nil
+	}
+	return p.ErrorMessage
+}
+
 func (p *PostWithRelations) GetCreatedAt() time.Time {
 	if p == nil {
 		return time.Time{}
@@ -1217,11 +1596,18 @@ func (p *PostWithRelations) GetSocialAccount() *SocialAccount {
 	return p.SocialAccount
 }
 
-func (p *PostWithRelations) GetMedia() []*PostWithRelationsMediaItem {
+func (p *PostWithRelations) GetMedia() []*PostMedia {
 	if p == nil {
 		return nil
 	}
 	return p.Media
+}
+
+func (p *PostWithRelations) GetThumbnail() *PostMedia {
+	if p == nil {
+		return nil
+	}
+	return p.Thumbnail
 }
 
 func (p *PostWithRelations) GetTags() []*Tag {
@@ -1345,6 +1731,27 @@ func (p *PostWithRelations) SetURL(url *string) {
 	p.require(postWithRelationsFieldURL)
 }
 
+// SetTitle sets the Title field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostWithRelations) SetTitle(title *string) {
+	p.Title = title
+	p.require(postWithRelationsFieldTitle)
+}
+
+// SetPostedAt sets the PostedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostWithRelations) SetPostedAt(postedAt *time.Time) {
+	p.PostedAt = postedAt
+	p.require(postWithRelationsFieldPostedAt)
+}
+
+// SetErrorMessage sets the ErrorMessage field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostWithRelations) SetErrorMessage(errorMessage *string) {
+	p.ErrorMessage = errorMessage
+	p.require(postWithRelationsFieldErrorMessage)
+}
+
 // SetCreatedAt sets the CreatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (p *PostWithRelations) SetCreatedAt(createdAt time.Time) {
@@ -1368,9 +1775,16 @@ func (p *PostWithRelations) SetSocialAccount(socialAccount *SocialAccount) {
 
 // SetMedia sets the Media field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelations) SetMedia(media []*PostWithRelationsMediaItem) {
+func (p *PostWithRelations) SetMedia(media []*PostMedia) {
 	p.Media = media
 	p.require(postWithRelationsFieldMedia)
+}
+
+// SetThumbnail sets the Thumbnail field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostWithRelations) SetThumbnail(thumbnail *PostMedia) {
+	p.Thumbnail = thumbnail
+	p.require(postWithRelationsFieldThumbnail)
 }
 
 // SetTags sets the Tags field and marks it as non-optional;
@@ -1387,6 +1801,7 @@ func (p *PostWithRelations) UnmarshalJSON(data []byte) error {
 		ApprovalRequestedAt *internal.DateTime `json:"approvalRequestedAt,omitempty"`
 		ApprovedAt          *internal.DateTime `json:"approvedAt,omitempty"`
 		ScheduledAt         *internal.DateTime `json:"scheduledAt,omitempty"`
+		PostedAt            *internal.DateTime `json:"postedAt,omitempty"`
 		CreatedAt           *internal.DateTime `json:"createdAt"`
 		UpdatedAt           *internal.DateTime `json:"updatedAt"`
 	}{
@@ -1399,6 +1814,7 @@ func (p *PostWithRelations) UnmarshalJSON(data []byte) error {
 	p.ApprovalRequestedAt = unmarshaler.ApprovalRequestedAt.TimePtr()
 	p.ApprovedAt = unmarshaler.ApprovedAt.TimePtr()
 	p.ScheduledAt = unmarshaler.ScheduledAt.TimePtr()
+	p.PostedAt = unmarshaler.PostedAt.TimePtr()
 	p.CreatedAt = unmarshaler.CreatedAt.Time()
 	p.UpdatedAt = unmarshaler.UpdatedAt.Time()
 	extraProperties, err := internal.ExtractExtraProperties(data, *p)
@@ -1424,6 +1840,7 @@ func (p *PostWithRelations) MarshalJSON() ([]byte, error) {
 		ApprovalRequestedAt *internal.DateTime `json:"approvalRequestedAt,omitempty"`
 		ApprovedAt          *internal.DateTime `json:"approvedAt,omitempty"`
 		ScheduledAt         *internal.DateTime `json:"scheduledAt,omitempty"`
+		PostedAt            *internal.DateTime `json:"postedAt,omitempty"`
 		CreatedAt           *internal.DateTime `json:"createdAt"`
 		UpdatedAt           *internal.DateTime `json:"updatedAt"`
 	}{
@@ -1431,6 +1848,7 @@ func (p *PostWithRelations) MarshalJSON() ([]byte, error) {
 		ApprovalRequestedAt: internal.NewOptionalDateTime(p.ApprovalRequestedAt),
 		ApprovedAt:          internal.NewOptionalDateTime(p.ApprovedAt),
 		ScheduledAt:         internal.NewOptionalDateTime(p.ScheduledAt),
+		PostedAt:            internal.NewOptionalDateTime(p.PostedAt),
 		CreatedAt:           internal.NewDateTime(p.CreatedAt),
 		UpdatedAt:           internal.NewDateTime(p.UpdatedAt),
 	}
@@ -1451,470 +1869,6 @@ func (p *PostWithRelations) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
-}
-
-var (
-	postWithRelationsMediaItemFieldURL                  = big.NewInt(1 << 0)
-	postWithRelationsMediaItemFieldThumbnailURL         = big.NewInt(1 << 1)
-	postWithRelationsMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 2)
-	postWithRelationsMediaItemFieldTags                 = big.NewInt(1 << 3)
-	postWithRelationsMediaItemFieldAlt                  = big.NewInt(1 << 4)
-	postWithRelationsMediaItemFieldSkipProcessing       = big.NewInt(1 << 5)
-)
-
-// postWithRelationsMediaItemNullableFields maps the wire names of PostWithRelationsMediaItem's nullable fields (required or optional) to their field bits.
-var postWithRelationsMediaItemNullableFields = map[string]*big.Int{
-	"thumbnail_url":          postWithRelationsMediaItemFieldThumbnailURL,
-	"thumbnail_timestamp_ms": postWithRelationsMediaItemFieldThumbnailTimestampMs,
-	"alt":                    postWithRelationsMediaItemFieldAlt,
-}
-
-type PostWithRelationsMediaItem struct {
-	URL                  string                                `json:"url" url:"url"`
-	ThumbnailURL         *string                               `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
-	ThumbnailTimestampMs *float64                              `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
-	Tags                 []*PostWithRelationsMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
-	Alt                  *string                               `json:"alt,omitempty" url:"alt,omitempty"`
-	SkipProcessing       *bool                                 `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (p *PostWithRelationsMediaItem) GetURL() string {
-	if p == nil {
-		return ""
-	}
-	return p.URL
-}
-
-func (p *PostWithRelationsMediaItem) GetThumbnailURL() *string {
-	if p == nil {
-		return nil
-	}
-	return p.ThumbnailURL
-}
-
-func (p *PostWithRelationsMediaItem) GetThumbnailTimestampMs() *float64 {
-	if p == nil {
-		return nil
-	}
-	return p.ThumbnailTimestampMs
-}
-
-func (p *PostWithRelationsMediaItem) GetTags() []*PostWithRelationsMediaItemTagsItem {
-	if p == nil {
-		return nil
-	}
-	return p.Tags
-}
-
-func (p *PostWithRelationsMediaItem) GetAlt() *string {
-	if p == nil {
-		return nil
-	}
-	return p.Alt
-}
-
-func (p *PostWithRelationsMediaItem) GetSkipProcessing() *bool {
-	if p == nil {
-		return nil
-	}
-	return p.SkipProcessing
-}
-
-func (p *PostWithRelationsMediaItem) GetExtraProperties() map[string]interface{} {
-	if p == nil {
-		return nil
-	}
-	return p.extraProperties
-}
-
-func (p *PostWithRelationsMediaItem) require(field *big.Int) {
-	next := new(big.Int)
-	if p.explicitFields != nil {
-		next.Set(p.explicitFields)
-	}
-	next.Or(next, field)
-	p.explicitFields = next
-}
-
-// SetURL sets the URL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItem) SetURL(url string) {
-	p.URL = url
-	p.require(postWithRelationsMediaItemFieldURL)
-}
-
-// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItem) SetThumbnailURL(thumbnailURL *string) {
-	p.ThumbnailURL = thumbnailURL
-	p.require(postWithRelationsMediaItemFieldThumbnailURL)
-}
-
-// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
-	p.ThumbnailTimestampMs = thumbnailTimestampMs
-	p.require(postWithRelationsMediaItemFieldThumbnailTimestampMs)
-}
-
-// SetTags sets the Tags field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItem) SetTags(tags []*PostWithRelationsMediaItemTagsItem) {
-	p.Tags = tags
-	p.require(postWithRelationsMediaItemFieldTags)
-}
-
-// SetAlt sets the Alt field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItem) SetAlt(alt *string) {
-	p.Alt = alt
-	p.require(postWithRelationsMediaItemFieldAlt)
-}
-
-// SetSkipProcessing sets the SkipProcessing field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItem) SetSkipProcessing(skipProcessing *bool) {
-	p.SkipProcessing = skipProcessing
-	p.require(postWithRelationsMediaItemFieldSkipProcessing)
-}
-
-func (p *PostWithRelationsMediaItem) UnmarshalJSON(data []byte) error {
-	type unmarshaler PostWithRelationsMediaItem
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*p = PostWithRelationsMediaItem(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *p)
-	if err != nil {
-		return err
-	}
-	p.extraProperties = extraProperties
-	presentFields, err := internal.ExplicitFieldsFromJSON(data, postWithRelationsMediaItemNullableFields)
-	if err != nil {
-		return err
-	}
-	if presentFields != nil {
-		p.require(presentFields)
-	}
-	p.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (p *PostWithRelationsMediaItem) MarshalJSON() ([]byte, error) {
-	type embed PostWithRelationsMediaItem
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*p),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (p *PostWithRelationsMediaItem) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	if len(p.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(p); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", p)
-}
-
-var (
-	postWithRelationsMediaItemTagsItemFieldID       = big.NewInt(1 << 0)
-	postWithRelationsMediaItemTagsItemFieldType     = big.NewInt(1 << 1)
-	postWithRelationsMediaItemTagsItemFieldPlatform = big.NewInt(1 << 2)
-	postWithRelationsMediaItemTagsItemFieldX        = big.NewInt(1 << 3)
-	postWithRelationsMediaItemTagsItemFieldY        = big.NewInt(1 << 4)
-)
-
-type PostWithRelationsMediaItemTagsItem struct {
-	ID       string                                     `json:"id" url:"id"`
-	Type     PostWithRelationsMediaItemTagsItemType     `json:"type" url:"type"`
-	Platform PostWithRelationsMediaItemTagsItemPlatform `json:"platform" url:"platform"`
-	X        *float64                                   `json:"x,omitempty" url:"x,omitempty"`
-	Y        *float64                                   `json:"y,omitempty" url:"y,omitempty"`
-
-	// Private bitmask of fields set to an explicit value and therefore not to be omitted
-	explicitFields *big.Int `json:"-" url:"-"`
-
-	extraProperties map[string]interface{}
-	rawJSON         json.RawMessage
-}
-
-func (p *PostWithRelationsMediaItemTagsItem) GetID() string {
-	if p == nil {
-		return ""
-	}
-	return p.ID
-}
-
-func (p *PostWithRelationsMediaItemTagsItem) GetType() PostWithRelationsMediaItemTagsItemType {
-	if p == nil {
-		return ""
-	}
-	return p.Type
-}
-
-func (p *PostWithRelationsMediaItemTagsItem) GetPlatform() PostWithRelationsMediaItemTagsItemPlatform {
-	if p == nil {
-		return ""
-	}
-	return p.Platform
-}
-
-func (p *PostWithRelationsMediaItemTagsItem) GetX() *float64 {
-	if p == nil {
-		return nil
-	}
-	return p.X
-}
-
-func (p *PostWithRelationsMediaItemTagsItem) GetY() *float64 {
-	if p == nil {
-		return nil
-	}
-	return p.Y
-}
-
-func (p *PostWithRelationsMediaItemTagsItem) GetExtraProperties() map[string]interface{} {
-	if p == nil {
-		return nil
-	}
-	return p.extraProperties
-}
-
-func (p *PostWithRelationsMediaItemTagsItem) require(field *big.Int) {
-	next := new(big.Int)
-	if p.explicitFields != nil {
-		next.Set(p.explicitFields)
-	}
-	next.Or(next, field)
-	p.explicitFields = next
-}
-
-// SetID sets the ID field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItemTagsItem) SetID(id string) {
-	p.ID = id
-	p.require(postWithRelationsMediaItemTagsItemFieldID)
-}
-
-// SetType sets the Type field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItemTagsItem) SetType(type_ PostWithRelationsMediaItemTagsItemType) {
-	p.Type = type_
-	p.require(postWithRelationsMediaItemTagsItemFieldType)
-}
-
-// SetPlatform sets the Platform field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItemTagsItem) SetPlatform(platform PostWithRelationsMediaItemTagsItemPlatform) {
-	p.Platform = platform
-	p.require(postWithRelationsMediaItemTagsItemFieldPlatform)
-}
-
-// SetX sets the X field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItemTagsItem) SetX(x *float64) {
-	p.X = x
-	p.require(postWithRelationsMediaItemTagsItemFieldX)
-}
-
-// SetY sets the Y field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostWithRelationsMediaItemTagsItem) SetY(y *float64) {
-	p.Y = y
-	p.require(postWithRelationsMediaItemTagsItemFieldY)
-}
-
-func (p *PostWithRelationsMediaItemTagsItem) UnmarshalJSON(data []byte) error {
-	type unmarshaler PostWithRelationsMediaItemTagsItem
-	var value unmarshaler
-	if err := json.Unmarshal(data, &value); err != nil {
-		return err
-	}
-	*p = PostWithRelationsMediaItemTagsItem(value)
-	extraProperties, err := internal.ExtractExtraProperties(data, *p)
-	if err != nil {
-		return err
-	}
-	p.extraProperties = extraProperties
-	p.rawJSON = json.RawMessage(data)
-	return nil
-}
-
-func (p *PostWithRelationsMediaItemTagsItem) MarshalJSON() ([]byte, error) {
-	type embed PostWithRelationsMediaItemTagsItem
-	var marshaler = struct {
-		embed
-	}{
-		embed: embed(*p),
-	}
-	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
-	return json.Marshal(explicitMarshaler)
-}
-
-func (p *PostWithRelationsMediaItemTagsItem) String() string {
-	if p == nil {
-		return "<nil>"
-	}
-	if len(p.rawJSON) > 0 {
-		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
-			return value
-		}
-	}
-	if value, err := internal.StringifyJSON(p); err == nil {
-		return value
-	}
-	return fmt.Sprintf("%#v", p)
-}
-
-type PostWithRelationsMediaItemTagsItemPlatform string
-
-const (
-	PostWithRelationsMediaItemTagsItemPlatformBluesky               PostWithRelationsMediaItemTagsItemPlatform = "bluesky"
-	PostWithRelationsMediaItemTagsItemPlatformFacebook              PostWithRelationsMediaItemTagsItemPlatform = "facebook"
-	PostWithRelationsMediaItemTagsItemPlatformGoogleBusinessProfile PostWithRelationsMediaItemTagsItemPlatform = "google_business_profile"
-	PostWithRelationsMediaItemTagsItemPlatformInstagram             PostWithRelationsMediaItemTagsItemPlatform = "instagram"
-	PostWithRelationsMediaItemTagsItemPlatformLinkedin              PostWithRelationsMediaItemTagsItemPlatform = "linkedin"
-	PostWithRelationsMediaItemTagsItemPlatformPinterest             PostWithRelationsMediaItemTagsItemPlatform = "pinterest"
-	PostWithRelationsMediaItemTagsItemPlatformReddit                PostWithRelationsMediaItemTagsItemPlatform = "reddit"
-	PostWithRelationsMediaItemTagsItemPlatformSnapchat              PostWithRelationsMediaItemTagsItemPlatform = "snapchat"
-	PostWithRelationsMediaItemTagsItemPlatformThreads               PostWithRelationsMediaItemTagsItemPlatform = "threads"
-	PostWithRelationsMediaItemTagsItemPlatformTiktok                PostWithRelationsMediaItemTagsItemPlatform = "tiktok"
-	PostWithRelationsMediaItemTagsItemPlatformTwitter               PostWithRelationsMediaItemTagsItemPlatform = "twitter"
-	PostWithRelationsMediaItemTagsItemPlatformYoutube               PostWithRelationsMediaItemTagsItemPlatform = "youtube"
-	PostWithRelationsMediaItemTagsItemPlatformMastodon              PostWithRelationsMediaItemTagsItemPlatform = "mastodon"
-	PostWithRelationsMediaItemTagsItemPlatformTelegram              PostWithRelationsMediaItemTagsItemPlatform = "telegram"
-	PostWithRelationsMediaItemTagsItemPlatformDevto                 PostWithRelationsMediaItemTagsItemPlatform = "devto"
-	PostWithRelationsMediaItemTagsItemPlatformHashnode              PostWithRelationsMediaItemTagsItemPlatform = "hashnode"
-	PostWithRelationsMediaItemTagsItemPlatformMedium                PostWithRelationsMediaItemTagsItemPlatform = "medium"
-	PostWithRelationsMediaItemTagsItemPlatformWordpress             PostWithRelationsMediaItemTagsItemPlatform = "wordpress"
-	PostWithRelationsMediaItemTagsItemPlatformLemmy                 PostWithRelationsMediaItemTagsItemPlatform = "lemmy"
-	PostWithRelationsMediaItemTagsItemPlatformNostr                 PostWithRelationsMediaItemTagsItemPlatform = "nostr"
-	PostWithRelationsMediaItemTagsItemPlatformDiscord               PostWithRelationsMediaItemTagsItemPlatform = "discord"
-	PostWithRelationsMediaItemTagsItemPlatformDribbble              PostWithRelationsMediaItemTagsItemPlatform = "dribbble"
-	PostWithRelationsMediaItemTagsItemPlatformFarcaster             PostWithRelationsMediaItemTagsItemPlatform = "farcaster"
-	PostWithRelationsMediaItemTagsItemPlatformKick                  PostWithRelationsMediaItemTagsItemPlatform = "kick"
-	PostWithRelationsMediaItemTagsItemPlatformListmonk              PostWithRelationsMediaItemTagsItemPlatform = "listmonk"
-	PostWithRelationsMediaItemTagsItemPlatformMewe                  PostWithRelationsMediaItemTagsItemPlatform = "mewe"
-	PostWithRelationsMediaItemTagsItemPlatformMoltbook              PostWithRelationsMediaItemTagsItemPlatform = "moltbook"
-	PostWithRelationsMediaItemTagsItemPlatformSkool                 PostWithRelationsMediaItemTagsItemPlatform = "skool"
-	PostWithRelationsMediaItemTagsItemPlatformSlack                 PostWithRelationsMediaItemTagsItemPlatform = "slack"
-	PostWithRelationsMediaItemTagsItemPlatformTwitch                PostWithRelationsMediaItemTagsItemPlatform = "twitch"
-	PostWithRelationsMediaItemTagsItemPlatformVk                    PostWithRelationsMediaItemTagsItemPlatform = "vk"
-	PostWithRelationsMediaItemTagsItemPlatformWhop                  PostWithRelationsMediaItemTagsItemPlatform = "whop"
-)
-
-func NewPostWithRelationsMediaItemTagsItemPlatformFromString(s string) (PostWithRelationsMediaItemTagsItemPlatform, error) {
-	switch s {
-	case "bluesky":
-		return PostWithRelationsMediaItemTagsItemPlatformBluesky, nil
-	case "facebook":
-		return PostWithRelationsMediaItemTagsItemPlatformFacebook, nil
-	case "google_business_profile":
-		return PostWithRelationsMediaItemTagsItemPlatformGoogleBusinessProfile, nil
-	case "instagram":
-		return PostWithRelationsMediaItemTagsItemPlatformInstagram, nil
-	case "linkedin":
-		return PostWithRelationsMediaItemTagsItemPlatformLinkedin, nil
-	case "pinterest":
-		return PostWithRelationsMediaItemTagsItemPlatformPinterest, nil
-	case "reddit":
-		return PostWithRelationsMediaItemTagsItemPlatformReddit, nil
-	case "snapchat":
-		return PostWithRelationsMediaItemTagsItemPlatformSnapchat, nil
-	case "threads":
-		return PostWithRelationsMediaItemTagsItemPlatformThreads, nil
-	case "tiktok":
-		return PostWithRelationsMediaItemTagsItemPlatformTiktok, nil
-	case "twitter":
-		return PostWithRelationsMediaItemTagsItemPlatformTwitter, nil
-	case "youtube":
-		return PostWithRelationsMediaItemTagsItemPlatformYoutube, nil
-	case "mastodon":
-		return PostWithRelationsMediaItemTagsItemPlatformMastodon, nil
-	case "telegram":
-		return PostWithRelationsMediaItemTagsItemPlatformTelegram, nil
-	case "devto":
-		return PostWithRelationsMediaItemTagsItemPlatformDevto, nil
-	case "hashnode":
-		return PostWithRelationsMediaItemTagsItemPlatformHashnode, nil
-	case "medium":
-		return PostWithRelationsMediaItemTagsItemPlatformMedium, nil
-	case "wordpress":
-		return PostWithRelationsMediaItemTagsItemPlatformWordpress, nil
-	case "lemmy":
-		return PostWithRelationsMediaItemTagsItemPlatformLemmy, nil
-	case "nostr":
-		return PostWithRelationsMediaItemTagsItemPlatformNostr, nil
-	case "discord":
-		return PostWithRelationsMediaItemTagsItemPlatformDiscord, nil
-	case "dribbble":
-		return PostWithRelationsMediaItemTagsItemPlatformDribbble, nil
-	case "farcaster":
-		return PostWithRelationsMediaItemTagsItemPlatformFarcaster, nil
-	case "kick":
-		return PostWithRelationsMediaItemTagsItemPlatformKick, nil
-	case "listmonk":
-		return PostWithRelationsMediaItemTagsItemPlatformListmonk, nil
-	case "mewe":
-		return PostWithRelationsMediaItemTagsItemPlatformMewe, nil
-	case "moltbook":
-		return PostWithRelationsMediaItemTagsItemPlatformMoltbook, nil
-	case "skool":
-		return PostWithRelationsMediaItemTagsItemPlatformSkool, nil
-	case "slack":
-		return PostWithRelationsMediaItemTagsItemPlatformSlack, nil
-	case "twitch":
-		return PostWithRelationsMediaItemTagsItemPlatformTwitch, nil
-	case "vk":
-		return PostWithRelationsMediaItemTagsItemPlatformVk, nil
-	case "whop":
-		return PostWithRelationsMediaItemTagsItemPlatformWhop, nil
-	}
-	var t PostWithRelationsMediaItemTagsItemPlatform
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (p PostWithRelationsMediaItemTagsItemPlatform) Ptr() *PostWithRelationsMediaItemTagsItemPlatform {
-	return &p
-}
-
-type PostWithRelationsMediaItemTagsItemType string
-
-const (
-	PostWithRelationsMediaItemTagsItemTypeUser     PostWithRelationsMediaItemTagsItemType = "user"
-	PostWithRelationsMediaItemTagsItemTypeBusiness PostWithRelationsMediaItemTagsItemType = "business"
-)
-
-func NewPostWithRelationsMediaItemTagsItemTypeFromString(s string) (PostWithRelationsMediaItemTagsItemType, error) {
-	switch s {
-	case "user":
-		return PostWithRelationsMediaItemTagsItemTypeUser, nil
-	case "business":
-		return PostWithRelationsMediaItemTagsItemTypeBusiness, nil
-	}
-	var t PostWithRelationsMediaItemTagsItemType
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (p PostWithRelationsMediaItemTagsItemType) Ptr() *PostWithRelationsMediaItemTagsItemType {
-	return &p
 }
 
 var (
@@ -2967,6 +2921,156 @@ func (a *AnalyticsSummaryPostsResponse) String() string {
 }
 
 var (
+	countByTabPostsResponseFieldQueue     = big.NewInt(1 << 0)
+	countByTabPostsResponseFieldDrafts    = big.NewInt(1 << 1)
+	countByTabPostsResponseFieldApprovals = big.NewInt(1 << 2)
+	countByTabPostsResponseFieldSent      = big.NewInt(1 << 3)
+	countByTabPostsResponseFieldFailed    = big.NewInt(1 << 4)
+)
+
+type CountByTabPostsResponse struct {
+	Queue     int `json:"queue" url:"queue"`
+	Drafts    int `json:"drafts" url:"drafts"`
+	Approvals int `json:"approvals" url:"approvals"`
+	Sent      int `json:"sent" url:"sent"`
+	Failed    int `json:"failed" url:"failed"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CountByTabPostsResponse) GetQueue() int {
+	if c == nil {
+		return 0
+	}
+	return c.Queue
+}
+
+func (c *CountByTabPostsResponse) GetDrafts() int {
+	if c == nil {
+		return 0
+	}
+	return c.Drafts
+}
+
+func (c *CountByTabPostsResponse) GetApprovals() int {
+	if c == nil {
+		return 0
+	}
+	return c.Approvals
+}
+
+func (c *CountByTabPostsResponse) GetSent() int {
+	if c == nil {
+		return 0
+	}
+	return c.Sent
+}
+
+func (c *CountByTabPostsResponse) GetFailed() int {
+	if c == nil {
+		return 0
+	}
+	return c.Failed
+}
+
+func (c *CountByTabPostsResponse) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CountByTabPostsResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if c.explicitFields != nil {
+		next.Set(c.explicitFields)
+	}
+	next.Or(next, field)
+	c.explicitFields = next
+}
+
+// SetQueue sets the Queue field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CountByTabPostsResponse) SetQueue(queue int) {
+	c.Queue = queue
+	c.require(countByTabPostsResponseFieldQueue)
+}
+
+// SetDrafts sets the Drafts field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CountByTabPostsResponse) SetDrafts(drafts int) {
+	c.Drafts = drafts
+	c.require(countByTabPostsResponseFieldDrafts)
+}
+
+// SetApprovals sets the Approvals field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CountByTabPostsResponse) SetApprovals(approvals int) {
+	c.Approvals = approvals
+	c.require(countByTabPostsResponseFieldApprovals)
+}
+
+// SetSent sets the Sent field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CountByTabPostsResponse) SetSent(sent int) {
+	c.Sent = sent
+	c.require(countByTabPostsResponseFieldSent)
+}
+
+// SetFailed sets the Failed field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CountByTabPostsResponse) SetFailed(failed int) {
+	c.Failed = failed
+	c.require(countByTabPostsResponseFieldFailed)
+}
+
+func (c *CountByTabPostsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler CountByTabPostsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = CountByTabPostsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CountByTabPostsResponse) MarshalJSON() ([]byte, error) {
+	type embed CountByTabPostsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CountByTabPostsResponse) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
 	createPostsResponseFieldID                    = big.NewInt(1 << 0)
 	createPostsResponseFieldExternalID            = big.NewInt(1 << 1)
 	createPostsResponseFieldCaption               = big.NewInt(1 << 2)
@@ -2974,9 +3078,10 @@ var (
 	createPostsResponseFieldScheduledAt           = big.NewInt(1 << 4)
 	createPostsResponseFieldPlatformConfiguration = big.NewInt(1 << 5)
 	createPostsResponseFieldMedia                 = big.NewInt(1 << 6)
-	createPostsResponseFieldSocialAccounts        = big.NewInt(1 << 7)
-	createPostsResponseFieldCreatedAt             = big.NewInt(1 << 8)
-	createPostsResponseFieldUpdatedAt             = big.NewInt(1 << 9)
+	createPostsResponseFieldSocialAccountID       = big.NewInt(1 << 7)
+	createPostsResponseFieldSocialAccounts        = big.NewInt(1 << 8)
+	createPostsResponseFieldCreatedAt             = big.NewInt(1 << 9)
+	createPostsResponseFieldUpdatedAt             = big.NewInt(1 << 10)
 )
 
 // createPostsResponseNullableFields maps the wire names of CreatePostsResponse's nullable fields (required or optional) to their field bits.
@@ -2994,6 +3099,7 @@ type CreatePostsResponse struct {
 	ScheduledAt           *time.Time                      `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
 	PlatformConfiguration map[string]any                  `json:"platformConfiguration,omitempty" url:"platformConfiguration,omitempty"`
 	Media                 []*CreatePostsResponseMediaItem `json:"media" url:"media"`
+	SocialAccountID       string                          `json:"socialAccountId" url:"socialAccountId"`
 	SocialAccounts        []*SocialAccountPublic          `json:"socialAccounts" url:"socialAccounts"`
 	CreatedAt             time.Time                       `json:"createdAt" url:"createdAt"`
 	UpdatedAt             time.Time                       `json:"updatedAt" url:"updatedAt"`
@@ -3052,6 +3158,13 @@ func (c *CreatePostsResponse) GetMedia() []*CreatePostsResponseMediaItem {
 		return nil
 	}
 	return c.Media
+}
+
+func (c *CreatePostsResponse) GetSocialAccountID() string {
+	if c == nil {
+		return ""
+	}
+	return c.SocialAccountID
 }
 
 func (c *CreatePostsResponse) GetSocialAccounts() []*SocialAccountPublic {
@@ -3138,6 +3251,13 @@ func (c *CreatePostsResponse) SetPlatformConfiguration(platformConfiguration map
 func (c *CreatePostsResponse) SetMedia(media []*CreatePostsResponseMediaItem) {
 	c.Media = media
 	c.require(createPostsResponseFieldMedia)
+}
+
+// SetSocialAccountID sets the SocialAccountID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreatePostsResponse) SetSocialAccountID(socialAccountID string) {
+	c.SocialAccountID = socialAccountID
+	c.require(createPostsResponseFieldSocialAccountID)
 }
 
 // SetSocialAccounts sets the SocialAccounts field and marks it as non-optional;
@@ -3811,9 +3931,9 @@ var (
 
 type ListPostsResponse struct {
 	Posts      []*PostWithRelations `json:"posts" url:"posts"`
-	Page       float64              `json:"page" url:"page"`
-	TotalPages float64              `json:"totalPages" url:"totalPages"`
-	Total      float64              `json:"total" url:"total"`
+	Page       int                  `json:"page" url:"page"`
+	TotalPages int                  `json:"totalPages" url:"totalPages"`
+	Total      int                  `json:"total" url:"total"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -3829,21 +3949,21 @@ func (l *ListPostsResponse) GetPosts() []*PostWithRelations {
 	return l.Posts
 }
 
-func (l *ListPostsResponse) GetPage() float64 {
+func (l *ListPostsResponse) GetPage() int {
 	if l == nil {
 		return 0
 	}
 	return l.Page
 }
 
-func (l *ListPostsResponse) GetTotalPages() float64 {
+func (l *ListPostsResponse) GetTotalPages() int {
 	if l == nil {
 		return 0
 	}
 	return l.TotalPages
 }
 
-func (l *ListPostsResponse) GetTotal() float64 {
+func (l *ListPostsResponse) GetTotal() int {
 	if l == nil {
 		return 0
 	}
@@ -3875,21 +3995,21 @@ func (l *ListPostsResponse) SetPosts(posts []*PostWithRelations) {
 
 // SetPage sets the Page field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListPostsResponse) SetPage(page float64) {
+func (l *ListPostsResponse) SetPage(page int) {
 	l.Page = page
 	l.require(listPostsResponseFieldPage)
 }
 
 // SetTotalPages sets the TotalPages field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListPostsResponse) SetTotalPages(totalPages float64) {
+func (l *ListPostsResponse) SetTotalPages(totalPages int) {
 	l.TotalPages = totalPages
 	l.require(listPostsResponseFieldTotalPages)
 }
 
 // SetTotal sets the Total field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListPostsResponse) SetTotal(total float64) {
+func (l *ListPostsResponse) SetTotal(total int) {
 	l.Total = total
 	l.require(listPostsResponseFieldTotal)
 }

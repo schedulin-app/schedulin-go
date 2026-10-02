@@ -44,7 +44,7 @@ func NewClient(options *core.RequestOptions) *Client {
 func (c *Client) List(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.ListWebhooksResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
 		opts...,
@@ -73,7 +73,7 @@ func (c *Client) Create(
 	ctx context.Context,
 	request *schedulingo.CreateWebhooksRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.WebhookEndpoint, error) {
 	response, err := c.WithRawResponse.Create(
 		ctx,
 		request,
@@ -100,7 +100,7 @@ func (c *Client) Retrieve(
 	ctx context.Context,
 	request *schedulingo.RetrieveWebhooksRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.WebhookEndpoint, error) {
 	response, err := c.WithRawResponse.Retrieve(
 		ctx,
 		request,
@@ -127,7 +127,7 @@ func (c *Client) Delete(
 	ctx context.Context,
 	request *schedulingo.DeleteWebhooksRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.DeleteWebhooksResponse, error) {
 	response, err := c.WithRawResponse.Delete(
 		ctx,
 		request,
@@ -154,7 +154,7 @@ func (c *Client) Update(
 	ctx context.Context,
 	request *schedulingo.UpdateWebhooksRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.WebhookEndpoint, error) {
 	response, err := c.WithRawResponse.Update(
 		ctx,
 		request,
@@ -181,7 +181,7 @@ func (c *Client) RotateSecret(
 	ctx context.Context,
 	request *schedulingo.RotateSecretWebhooksRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.WebhookEndpoint, error) {
 	response, err := c.WithRawResponse.RotateSecret(
 		ctx,
 		request,
@@ -208,7 +208,7 @@ func (c *Client) Test(
 	ctx context.Context,
 	request *schedulingo.TestWebhooksRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.TestWebhooksResponse, error) {
 	response, err := c.WithRawResponse.Test(
 		ctx,
 		request,
@@ -235,7 +235,7 @@ func (c *Client) ListDeliveries(
 	ctx context.Context,
 	request *schedulingo.ListDeliveriesWebhooksRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.ListDeliveriesWebhooksResponse, error) {
 	response, err := c.WithRawResponse.ListDeliveries(
 		ctx,
 		request,

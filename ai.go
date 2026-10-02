@@ -7,6 +7,7 @@ import (
 	fmt "fmt"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	big "math/big"
+	time "time"
 )
 
 var (
@@ -111,6 +112,376 @@ func (g *GetGenerationAiRequest) SetID(id string) {
 	g.require(getGenerationAiRequestFieldID)
 }
 
+var (
+	aiGenerationFieldID                  = big.NewInt(1 << 0)
+	aiGenerationFieldType                = big.NewInt(1 << 1)
+	aiGenerationFieldStatus              = big.NewInt(1 << 2)
+	aiGenerationFieldModelKey            = big.NewInt(1 << 3)
+	aiGenerationFieldPrompt              = big.NewInt(1 << 4)
+	aiGenerationFieldImageURL            = big.NewInt(1 << 5)
+	aiGenerationFieldResultURL           = big.NewInt(1 << 6)
+	aiGenerationFieldWidth               = big.NewInt(1 << 7)
+	aiGenerationFieldHeight              = big.NewInt(1 << 8)
+	aiGenerationFieldDurationSeconds     = big.NewInt(1 << 9)
+	aiGenerationFieldCostMicros          = big.NewInt(1 << 10)
+	aiGenerationFieldEstimatedCostMicros = big.NewInt(1 << 11)
+	aiGenerationFieldErrorMessage        = big.NewInt(1 << 12)
+	aiGenerationFieldCreatedAt           = big.NewInt(1 << 13)
+	aiGenerationFieldUpdatedAt           = big.NewInt(1 << 14)
+)
+
+// aiGenerationNullableFields maps the wire names of AiGeneration's nullable fields (required or optional) to their field bits.
+var aiGenerationNullableFields = map[string]*big.Int{
+	"imageUrl":        aiGenerationFieldImageURL,
+	"resultUrl":       aiGenerationFieldResultURL,
+	"width":           aiGenerationFieldWidth,
+	"height":          aiGenerationFieldHeight,
+	"durationSeconds": aiGenerationFieldDurationSeconds,
+	"errorMessage":    aiGenerationFieldErrorMessage,
+}
+
+type AiGeneration struct {
+	ID                  string             `json:"id" url:"id"`
+	Type                string             `json:"type" url:"type"`
+	Status              AiGenerationStatus `json:"status" url:"status"`
+	ModelKey            string             `json:"modelKey" url:"modelKey"`
+	Prompt              string             `json:"prompt" url:"prompt"`
+	ImageURL            *string            `json:"imageUrl,omitempty" url:"imageUrl,omitempty"`
+	ResultURL           *string            `json:"resultUrl,omitempty" url:"resultUrl,omitempty"`
+	Width               *int               `json:"width,omitempty" url:"width,omitempty"`
+	Height              *int               `json:"height,omitempty" url:"height,omitempty"`
+	DurationSeconds     *int               `json:"durationSeconds,omitempty" url:"durationSeconds,omitempty"`
+	CostMicros          int                `json:"costMicros" url:"costMicros"`
+	EstimatedCostMicros int                `json:"estimatedCostMicros" url:"estimatedCostMicros"`
+	ErrorMessage        *string            `json:"errorMessage,omitempty" url:"errorMessage,omitempty"`
+	CreatedAt           time.Time          `json:"createdAt" url:"createdAt"`
+	UpdatedAt           time.Time          `json:"updatedAt" url:"updatedAt"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (a *AiGeneration) GetID() string {
+	if a == nil {
+		return ""
+	}
+	return a.ID
+}
+
+func (a *AiGeneration) GetType() string {
+	if a == nil {
+		return ""
+	}
+	return a.Type
+}
+
+func (a *AiGeneration) GetStatus() AiGenerationStatus {
+	if a == nil {
+		return ""
+	}
+	return a.Status
+}
+
+func (a *AiGeneration) GetModelKey() string {
+	if a == nil {
+		return ""
+	}
+	return a.ModelKey
+}
+
+func (a *AiGeneration) GetPrompt() string {
+	if a == nil {
+		return ""
+	}
+	return a.Prompt
+}
+
+func (a *AiGeneration) GetImageURL() *string {
+	if a == nil {
+		return nil
+	}
+	return a.ImageURL
+}
+
+func (a *AiGeneration) GetResultURL() *string {
+	if a == nil {
+		return nil
+	}
+	return a.ResultURL
+}
+
+func (a *AiGeneration) GetWidth() *int {
+	if a == nil {
+		return nil
+	}
+	return a.Width
+}
+
+func (a *AiGeneration) GetHeight() *int {
+	if a == nil {
+		return nil
+	}
+	return a.Height
+}
+
+func (a *AiGeneration) GetDurationSeconds() *int {
+	if a == nil {
+		return nil
+	}
+	return a.DurationSeconds
+}
+
+func (a *AiGeneration) GetCostMicros() int {
+	if a == nil {
+		return 0
+	}
+	return a.CostMicros
+}
+
+func (a *AiGeneration) GetEstimatedCostMicros() int {
+	if a == nil {
+		return 0
+	}
+	return a.EstimatedCostMicros
+}
+
+func (a *AiGeneration) GetErrorMessage() *string {
+	if a == nil {
+		return nil
+	}
+	return a.ErrorMessage
+}
+
+func (a *AiGeneration) GetCreatedAt() time.Time {
+	if a == nil {
+		return time.Time{}
+	}
+	return a.CreatedAt
+}
+
+func (a *AiGeneration) GetUpdatedAt() time.Time {
+	if a == nil {
+		return time.Time{}
+	}
+	return a.UpdatedAt
+}
+
+func (a *AiGeneration) GetExtraProperties() map[string]interface{} {
+	if a == nil {
+		return nil
+	}
+	return a.extraProperties
+}
+
+func (a *AiGeneration) require(field *big.Int) {
+	next := new(big.Int)
+	if a.explicitFields != nil {
+		next.Set(a.explicitFields)
+	}
+	next.Or(next, field)
+	a.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetID(id string) {
+	a.ID = id
+	a.require(aiGenerationFieldID)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetType(type_ string) {
+	a.Type = type_
+	a.require(aiGenerationFieldType)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetStatus(status AiGenerationStatus) {
+	a.Status = status
+	a.require(aiGenerationFieldStatus)
+}
+
+// SetModelKey sets the ModelKey field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetModelKey(modelKey string) {
+	a.ModelKey = modelKey
+	a.require(aiGenerationFieldModelKey)
+}
+
+// SetPrompt sets the Prompt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetPrompt(prompt string) {
+	a.Prompt = prompt
+	a.require(aiGenerationFieldPrompt)
+}
+
+// SetImageURL sets the ImageURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetImageURL(imageURL *string) {
+	a.ImageURL = imageURL
+	a.require(aiGenerationFieldImageURL)
+}
+
+// SetResultURL sets the ResultURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetResultURL(resultURL *string) {
+	a.ResultURL = resultURL
+	a.require(aiGenerationFieldResultURL)
+}
+
+// SetWidth sets the Width field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetWidth(width *int) {
+	a.Width = width
+	a.require(aiGenerationFieldWidth)
+}
+
+// SetHeight sets the Height field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetHeight(height *int) {
+	a.Height = height
+	a.require(aiGenerationFieldHeight)
+}
+
+// SetDurationSeconds sets the DurationSeconds field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetDurationSeconds(durationSeconds *int) {
+	a.DurationSeconds = durationSeconds
+	a.require(aiGenerationFieldDurationSeconds)
+}
+
+// SetCostMicros sets the CostMicros field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetCostMicros(costMicros int) {
+	a.CostMicros = costMicros
+	a.require(aiGenerationFieldCostMicros)
+}
+
+// SetEstimatedCostMicros sets the EstimatedCostMicros field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetEstimatedCostMicros(estimatedCostMicros int) {
+	a.EstimatedCostMicros = estimatedCostMicros
+	a.require(aiGenerationFieldEstimatedCostMicros)
+}
+
+// SetErrorMessage sets the ErrorMessage field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetErrorMessage(errorMessage *string) {
+	a.ErrorMessage = errorMessage
+	a.require(aiGenerationFieldErrorMessage)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetCreatedAt(createdAt time.Time) {
+	a.CreatedAt = createdAt
+	a.require(aiGenerationFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (a *AiGeneration) SetUpdatedAt(updatedAt time.Time) {
+	a.UpdatedAt = updatedAt
+	a.require(aiGenerationFieldUpdatedAt)
+}
+
+func (a *AiGeneration) UnmarshalJSON(data []byte) error {
+	type embed AiGeneration
+	var unmarshaler = struct {
+		embed
+		CreatedAt *internal.DateTime `json:"createdAt"`
+		UpdatedAt *internal.DateTime `json:"updatedAt"`
+	}{
+		embed: embed(*a),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*a = AiGeneration(unmarshaler.embed)
+	a.CreatedAt = unmarshaler.CreatedAt.Time()
+	a.UpdatedAt = unmarshaler.UpdatedAt.Time()
+	extraProperties, err := internal.ExtractExtraProperties(data, *a)
+	if err != nil {
+		return err
+	}
+	a.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, aiGenerationNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		a.require(presentFields)
+	}
+	a.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (a *AiGeneration) MarshalJSON() ([]byte, error) {
+	type embed AiGeneration
+	var marshaler = struct {
+		embed
+		CreatedAt *internal.DateTime `json:"createdAt"`
+		UpdatedAt *internal.DateTime `json:"updatedAt"`
+	}{
+		embed:     embed(*a),
+		CreatedAt: internal.NewDateTime(a.CreatedAt),
+		UpdatedAt: internal.NewDateTime(a.UpdatedAt),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, a.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (a *AiGeneration) String() string {
+	if a == nil {
+		return "<nil>"
+	}
+	if len(a.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(a.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(a); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", a)
+}
+
+type AiGenerationStatus string
+
+const (
+	AiGenerationStatusPending    AiGenerationStatus = "PENDING"
+	AiGenerationStatusProcessing AiGenerationStatus = "PROCESSING"
+	AiGenerationStatusCompleted  AiGenerationStatus = "COMPLETED"
+	AiGenerationStatusFailed     AiGenerationStatus = "FAILED"
+	AiGenerationStatusCancelled  AiGenerationStatus = "CANCELLED"
+)
+
+func NewAiGenerationStatusFromString(s string) (AiGenerationStatus, error) {
+	switch s {
+	case "PENDING":
+		return AiGenerationStatusPending, nil
+	case "PROCESSING":
+		return AiGenerationStatusProcessing, nil
+	case "COMPLETED":
+		return AiGenerationStatusCompleted, nil
+	case "FAILED":
+		return AiGenerationStatusFailed, nil
+	case "CANCELLED":
+		return AiGenerationStatusCancelled, nil
+	}
+	var t AiGenerationStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (a AiGenerationStatus) Ptr() *AiGenerationStatus {
+	return &a
+}
+
 type GenerateImageAiRequestModelKey string
 
 const (
@@ -134,4 +505,90 @@ func NewGenerateImageAiRequestModelKeyFromString(s string) (GenerateImageAiReque
 
 func (g GenerateImageAiRequestModelKey) Ptr() *GenerateImageAiRequestModelKey {
 	return &g
+}
+
+var (
+	generateImageAiResponseFieldGenerationID = big.NewInt(1 << 0)
+)
+
+type GenerateImageAiResponse struct {
+	GenerationID string `json:"generationId" url:"generationId"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (g *GenerateImageAiResponse) GetGenerationID() string {
+	if g == nil {
+		return ""
+	}
+	return g.GenerationID
+}
+
+func (g *GenerateImageAiResponse) GetExtraProperties() map[string]interface{} {
+	if g == nil {
+		return nil
+	}
+	return g.extraProperties
+}
+
+func (g *GenerateImageAiResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if g.explicitFields != nil {
+		next.Set(g.explicitFields)
+	}
+	next.Or(next, field)
+	g.explicitFields = next
+}
+
+// SetGenerationID sets the GenerationID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GenerateImageAiResponse) SetGenerationID(generationID string) {
+	g.GenerationID = generationID
+	g.require(generateImageAiResponseFieldGenerationID)
+}
+
+func (g *GenerateImageAiResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler GenerateImageAiResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GenerateImageAiResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+	g.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GenerateImageAiResponse) MarshalJSON() ([]byte, error) {
+	type embed GenerateImageAiResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*g),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (g *GenerateImageAiResponse) String() string {
+	if g == nil {
+		return "<nil>"
+	}
+	if len(g.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
 }

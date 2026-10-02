@@ -7,6 +7,99 @@ import (
 	core "github.com/schedulin-app/schedulin-go/core"
 )
 
+// Bad Request — the request isn't allowed in the resource's current state (e.g. editing a published post).
+type BadRequestError struct {
+	*core.APIError
+	Body *ErrorResponse
+}
+
+func (b *BadRequestError) UnmarshalJSON(data []byte) error {
+	var body *ErrorResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	b.StatusCode = 400
+	b.Body = body
+	return nil
+}
+
+func (b *BadRequestError) MarshalJSON() ([]byte, error) {
+	return json.Marshal(b.Body)
+}
+
+func (b *BadRequestError) Unwrap() error {
+	return b.APIError
+}
+
+func (b *BadRequestError) GetBody() *ErrorResponse {
+	if b == nil {
+		return nil
+	}
+	return b.Body
+}
+
+// Conflict
+type ConflictError struct {
+	*core.APIError
+	Body *ErrorResponse
+}
+
+func (c *ConflictError) UnmarshalJSON(data []byte) error {
+	var body *ErrorResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	c.StatusCode = 409
+	c.Body = body
+	return nil
+}
+
+func (c *ConflictError) MarshalJSON() ([]byte, error) {
+	return json.Marshal(c.Body)
+}
+
+func (c *ConflictError) Unwrap() error {
+	return c.APIError
+}
+
+func (c *ConflictError) GetBody() *ErrorResponse {
+	if c == nil {
+		return nil
+	}
+	return c.Body
+}
+
+// Forbidden — the credential lacks the required scope or access.
+type ForbiddenError struct {
+	*core.APIError
+	Body *ErrorResponse
+}
+
+func (f *ForbiddenError) UnmarshalJSON(data []byte) error {
+	var body *ErrorResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	f.StatusCode = 403
+	f.Body = body
+	return nil
+}
+
+func (f *ForbiddenError) MarshalJSON() ([]byte, error) {
+	return json.Marshal(f.Body)
+}
+
+func (f *ForbiddenError) Unwrap() error {
+	return f.APIError
+}
+
+func (f *ForbiddenError) GetBody() *ErrorResponse {
+	if f == nil {
+		return nil
+	}
+	return f.Body
+}
+
 // Internal Server Error
 type InternalServerError struct {
 	*core.APIError
@@ -38,7 +131,100 @@ func (i *InternalServerError) GetBody() *ErrorResponse {
 	return i.Body
 }
 
-// Unauthorized
+// Not Found
+type NotFoundError struct {
+	*core.APIError
+	Body *ErrorResponse
+}
+
+func (n *NotFoundError) UnmarshalJSON(data []byte) error {
+	var body *ErrorResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	n.StatusCode = 404
+	n.Body = body
+	return nil
+}
+
+func (n *NotFoundError) MarshalJSON() ([]byte, error) {
+	return json.Marshal(n.Body)
+}
+
+func (n *NotFoundError) Unwrap() error {
+	return n.APIError
+}
+
+func (n *NotFoundError) GetBody() *ErrorResponse {
+	if n == nil {
+		return nil
+	}
+	return n.Body
+}
+
+// Payment Required — an active plan (and a connected social account) is required.
+type PaymentRequiredError struct {
+	*core.APIError
+	Body *ErrorResponse
+}
+
+func (p *PaymentRequiredError) UnmarshalJSON(data []byte) error {
+	var body *ErrorResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	p.StatusCode = 402
+	p.Body = body
+	return nil
+}
+
+func (p *PaymentRequiredError) MarshalJSON() ([]byte, error) {
+	return json.Marshal(p.Body)
+}
+
+func (p *PaymentRequiredError) Unwrap() error {
+	return p.APIError
+}
+
+func (p *PaymentRequiredError) GetBody() *ErrorResponse {
+	if p == nil {
+		return nil
+	}
+	return p.Body
+}
+
+// Rate limit exceeded. Wait `Retry-After` seconds before retrying.
+type TooManyRequestsError struct {
+	*core.APIError
+	Body *RateLimitErrorResponse
+}
+
+func (t *TooManyRequestsError) UnmarshalJSON(data []byte) error {
+	var body *RateLimitErrorResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	t.StatusCode = 429
+	t.Body = body
+	return nil
+}
+
+func (t *TooManyRequestsError) MarshalJSON() ([]byte, error) {
+	return json.Marshal(t.Body)
+}
+
+func (t *TooManyRequestsError) Unwrap() error {
+	return t.APIError
+}
+
+func (t *TooManyRequestsError) GetBody() *RateLimitErrorResponse {
+	if t == nil {
+		return nil
+	}
+	return t.Body
+}
+
+// Unauthorized — missing or invalid API key / access token.
 type UnauthorizedError struct {
 	*core.APIError
 	Body *ErrorResponse
@@ -63,6 +249,37 @@ func (u *UnauthorizedError) Unwrap() error {
 }
 
 func (u *UnauthorizedError) GetBody() *ErrorResponse {
+	if u == nil {
+		return nil
+	}
+	return u.Body
+}
+
+// Input validation failed. `data.fieldErrors` maps each invalid field to its messages.
+type UnprocessableEntityError struct {
+	*core.APIError
+	Body *ValidationErrorResponse
+}
+
+func (u *UnprocessableEntityError) UnmarshalJSON(data []byte) error {
+	var body *ValidationErrorResponse
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	u.StatusCode = 422
+	u.Body = body
+	return nil
+}
+
+func (u *UnprocessableEntityError) MarshalJSON() ([]byte, error) {
+	return json.Marshal(u.Body)
+}
+
+func (u *UnprocessableEntityError) Unwrap() error {
+	return u.APIError
+}
+
+func (u *UnprocessableEntityError) GetBody() *ValidationErrorResponse {
 	if u == nil {
 		return nil
 	}

@@ -117,7 +117,7 @@ func TestSettersListPlatformsResponseDataItem(t *testing.T) {
 
 	t.Run("SetCaptionMaxLength", func(t *testing.T) {
 		obj := &ListPlatformsResponseDataItem{}
-		var fernTestValueCaptionMaxLength *float64
+		var fernTestValueCaptionMaxLength *int
 		obj.SetCaptionMaxLength(fernTestValueCaptionMaxLength)
 		assert.Equal(t, fernTestValueCaptionMaxLength, obj.CaptionMaxLength)
 		assert.NotNil(t, obj.explicitFields)
@@ -233,7 +233,7 @@ func TestGettersListPlatformsResponseDataItem(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &ListPlatformsResponseDataItem{}
-		var expected *float64
+		var expected *int
 		obj.CaptionMaxLength = expected
 
 		// Act & Assert
@@ -461,7 +461,7 @@ func TestSettersMarkExplicitListPlatformsResponseDataItem(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &ListPlatformsResponseDataItem{}
-		var fernTestValueCaptionMaxLength *float64
+		var fernTestValueCaptionMaxLength *int
 
 		// Act
 		obj.SetCaptionMaxLength(fernTestValueCaptionMaxLength)
@@ -781,7 +781,7 @@ func TestSettersMarkExplicitListPlatformsResponseDataItemHelperEndpointsItem(t *
 func TestSettersListPlatformsResponseDataItemMediaRules(t *testing.T) {
 	t.Run("SetMin", func(t *testing.T) {
 		obj := &ListPlatformsResponseDataItemMediaRules{}
-		var fernTestValueMin *float64
+		var fernTestValueMin *int
 		obj.SetMin(fernTestValueMin)
 		assert.Equal(t, fernTestValueMin, obj.Min)
 		assert.NotNil(t, obj.explicitFields)
@@ -789,7 +789,7 @@ func TestSettersListPlatformsResponseDataItemMediaRules(t *testing.T) {
 
 	t.Run("SetMax", func(t *testing.T) {
 		obj := &ListPlatformsResponseDataItemMediaRules{}
-		var fernTestValueMax float64
+		var fernTestValueMax int
 		obj.SetMax(fernTestValueMax)
 		assert.Equal(t, fernTestValueMax, obj.Max)
 		assert.NotNil(t, obj.explicitFields)
@@ -818,7 +818,7 @@ func TestGettersListPlatformsResponseDataItemMediaRules(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &ListPlatformsResponseDataItemMediaRules{}
-		var expected *float64
+		var expected *int
 		obj.Min = expected
 
 		// Act & Assert
@@ -851,7 +851,7 @@ func TestGettersListPlatformsResponseDataItemMediaRules(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &ListPlatformsResponseDataItemMediaRules{}
-		var expected float64
+		var expected int
 		obj.Max = expected
 
 		// Act & Assert
@@ -943,7 +943,7 @@ func TestSettersMarkExplicitListPlatformsResponseDataItemMediaRules(t *testing.T
 		t.Parallel()
 		// Arrange
 		obj := &ListPlatformsResponseDataItemMediaRules{}
-		var fernTestValueMin *float64
+		var fernTestValueMin *int
 
 		// Act
 		obj.SetMin(fernTestValueMin)
@@ -974,7 +974,7 @@ func TestSettersMarkExplicitListPlatformsResponseDataItemMediaRules(t *testing.T
 		t.Parallel()
 		// Arrange
 		obj := &ListPlatformsResponseDataItemMediaRules{}
-		var fernTestValueMax float64
+		var fernTestValueMax int
 
 		// Act
 		obj.SetMax(fernTestValueMax)
@@ -1068,7 +1068,7 @@ func TestSettersMarkExplicitListPlatformsResponseDataItemMediaRules(t *testing.T
 func TestSettersListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(t *testing.T) {
 	t.Run("SetWidth", func(t *testing.T) {
 		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
-		var fernTestValueWidth float64
+		var fernTestValueWidth int
 		obj.SetWidth(fernTestValueWidth)
 		assert.Equal(t, fernTestValueWidth, obj.Width)
 		assert.NotNil(t, obj.explicitFields)
@@ -1076,7 +1076,7 @@ func TestSettersListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(t *
 
 	t.Run("SetHeight", func(t *testing.T) {
 		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
-		var fernTestValueHeight float64
+		var fernTestValueHeight int
 		obj.SetHeight(fernTestValueHeight)
 		assert.Equal(t, fernTestValueHeight, obj.Height)
 		assert.NotNil(t, obj.explicitFields)
@@ -1089,7 +1089,7 @@ func TestGettersListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(t *
 		t.Parallel()
 		// Arrange
 		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
-		var expected float64
+		var expected int
 		obj.Width = expected
 
 		// Act & Assert
@@ -1112,7 +1112,7 @@ func TestGettersListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem(t *
 		t.Parallel()
 		// Arrange
 		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
-		var expected float64
+		var expected int
 		obj.Height = expected
 
 		// Act & Assert
@@ -1138,7 +1138,7 @@ func TestSettersMarkExplicitListPlatformsResponseDataItemMediaRulesAllowedDimens
 		t.Parallel()
 		// Arrange
 		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
-		var fernTestValueWidth float64
+		var fernTestValueWidth int
 
 		// Act
 		obj.SetWidth(fernTestValueWidth)
@@ -1169,7 +1169,7 @@ func TestSettersMarkExplicitListPlatformsResponseDataItemMediaRulesAllowedDimens
 		t.Parallel()
 		// Arrange
 		obj := &ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem{}
-		var fernTestValueHeight float64
+		var fernTestValueHeight int
 
 		// Act
 		obj.SetHeight(fernTestValueHeight)

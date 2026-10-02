@@ -2815,7 +2815,7 @@ func TestSettersTiktokCreatorInfoSocialAccountsResponseData(t *testing.T) {
 
 	t.Run("SetMaxVideoPostDurationSec", func(t *testing.T) {
 		obj := &TiktokCreatorInfoSocialAccountsResponseData{}
-		var fernTestValueMaxVideoPostDurationSec float64
+		var fernTestValueMaxVideoPostDurationSec int
 		obj.SetMaxVideoPostDurationSec(fernTestValueMaxVideoPostDurationSec)
 		assert.Equal(t, fernTestValueMaxVideoPostDurationSec, obj.MaxVideoPostDurationSec)
 		assert.NotNil(t, obj.explicitFields)
@@ -2999,7 +2999,7 @@ func TestGettersTiktokCreatorInfoSocialAccountsResponseData(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &TiktokCreatorInfoSocialAccountsResponseData{}
-		var expected float64
+		var expected int
 		obj.MaxVideoPostDurationSec = expected
 
 		// Act & Assert
@@ -3242,7 +3242,7 @@ func TestSettersMarkExplicitTiktokCreatorInfoSocialAccountsResponseData(t *testi
 		t.Parallel()
 		// Arrange
 		obj := &TiktokCreatorInfoSocialAccountsResponseData{}
-		var fernTestValueMaxVideoPostDurationSec float64
+		var fernTestValueMaxVideoPostDurationSec int
 
 		// Act
 		obj.SetMaxVideoPostDurationSec(fernTestValueMaxVideoPostDurationSec)

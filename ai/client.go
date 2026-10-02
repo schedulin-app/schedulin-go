@@ -49,7 +49,7 @@ func (c *Client) GenerateImage(
 	ctx context.Context,
 	request *schedulingo.GenerateImageAiRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.GenerateImageAiResponse, error) {
 	response, err := c.WithRawResponse.GenerateImage(
 		ctx,
 		request,
@@ -76,7 +76,7 @@ func (c *Client) GetGeneration(
 	ctx context.Context,
 	request *schedulingo.GetGenerationAiRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.AiGeneration, error) {
 	response, err := c.WithRawResponse.GetGeneration(
 		ctx,
 		request,

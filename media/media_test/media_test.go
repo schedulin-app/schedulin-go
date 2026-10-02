@@ -194,8 +194,7 @@ func TestMediaUpdateWithWireMock(
 		option.WithAPIKey("test-value"),
 	)
 	request := &schedulingo.UpdateMediaRequest{
-		ID:  "id",
-		URL: "url",
+		ID: "id",
 	}
 	_, invocationErr := client.Media.Update(
 		context.TODO(),

@@ -39,16 +39,18 @@ var (
 	errorResponseFieldCode    = big.NewInt(1 << 0)
 	errorResponseFieldStatus  = big.NewInt(1 << 1)
 	errorResponseFieldMessage = big.NewInt(1 << 2)
-	errorResponseFieldData    = big.NewInt(1 << 3)
+	errorResponseFieldDefined = big.NewInt(1 << 3)
+	errorResponseFieldData    = big.NewInt(1 << 4)
 )
 
-// Error envelope. The machine-readable `code` and HTTP `status` are always present; the human-readable reason is in `data.message` (or `data.fieldErrors` for 422 validation errors).
+// Error envelope. The machine-readable `code` and HTTP `status` are always present; the human-readable reason is in `message` / `data.message`.
 type ErrorResponse struct {
 	// e.g. "BAD_REQUEST", "UNAUTHORIZED", "NOT_FOUND".
-	Code    string         `json:"code" url:"code"`
-	Status  int            `json:"status" url:"status"`
-	Message *string        `json:"message,omitempty" url:"message,omitempty"`
-	Data    map[string]any `json:"data,omitempty" url:"data,omitempty"`
+	Code    string             `json:"code" url:"code"`
+	Status  int                `json:"status" url:"status"`
+	Message *string            `json:"message,omitempty" url:"message,omitempty"`
+	Defined *bool              `json:"defined,omitempty" url:"defined,omitempty"`
+	Data    *ErrorResponseData `json:"data,omitempty" url:"data,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -78,7 +80,14 @@ func (e *ErrorResponse) GetMessage() *string {
 	return e.Message
 }
 
-func (e *ErrorResponse) GetData() map[string]any {
+func (e *ErrorResponse) GetDefined() *bool {
+	if e == nil {
+		return nil
+	}
+	return e.Defined
+}
+
+func (e *ErrorResponse) GetData() *ErrorResponseData {
 	if e == nil {
 		return nil
 	}
@@ -122,9 +131,16 @@ func (e *ErrorResponse) SetMessage(message *string) {
 	e.require(errorResponseFieldMessage)
 }
 
+// SetDefined sets the Defined field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *ErrorResponse) SetDefined(defined *bool) {
+	e.Defined = defined
+	e.require(errorResponseFieldDefined)
+}
+
 // SetData sets the Data field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (e *ErrorResponse) SetData(data map[string]any) {
+func (e *ErrorResponse) SetData(data *ErrorResponseData) {
 	e.Data = data
 	e.require(errorResponseFieldData)
 }
@@ -172,6 +188,146 @@ func (e *ErrorResponse) String() string {
 }
 
 var (
+	errorResponseDataFieldMessage     = big.NewInt(1 << 0)
+	errorResponseDataFieldUserMessage = big.NewInt(1 << 1)
+	errorResponseDataFieldErrorTag    = big.NewInt(1 << 2)
+	errorResponseDataFieldIsRetryable = big.NewInt(1 << 3)
+)
+
+type ErrorResponseData struct {
+	Message *string `json:"message,omitempty" url:"message,omitempty"`
+	// End-user-safe explanation, when available.
+	UserMessage *string `json:"userMessage,omitempty" url:"userMessage,omitempty"`
+	ErrorTag    *string `json:"errorTag,omitempty" url:"errorTag,omitempty"`
+	IsRetryable *bool   `json:"isRetryable,omitempty" url:"isRetryable,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	ExtraProperties map[string]interface{} `json:"-" url:"-"`
+
+	rawJSON json.RawMessage
+}
+
+func (e *ErrorResponseData) GetMessage() *string {
+	if e == nil {
+		return nil
+	}
+	return e.Message
+}
+
+func (e *ErrorResponseData) GetUserMessage() *string {
+	if e == nil {
+		return nil
+	}
+	return e.UserMessage
+}
+
+func (e *ErrorResponseData) GetErrorTag() *string {
+	if e == nil {
+		return nil
+	}
+	return e.ErrorTag
+}
+
+func (e *ErrorResponseData) GetIsRetryable() *bool {
+	if e == nil {
+		return nil
+	}
+	return e.IsRetryable
+}
+
+func (e *ErrorResponseData) GetExtraProperties() map[string]interface{} {
+	if e == nil {
+		return nil
+	}
+	return e.ExtraProperties
+}
+
+func (e *ErrorResponseData) require(field *big.Int) {
+	next := new(big.Int)
+	if e.explicitFields != nil {
+		next.Set(e.explicitFields)
+	}
+	next.Or(next, field)
+	e.explicitFields = next
+}
+
+// SetMessage sets the Message field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *ErrorResponseData) SetMessage(message *string) {
+	e.Message = message
+	e.require(errorResponseDataFieldMessage)
+}
+
+// SetUserMessage sets the UserMessage field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *ErrorResponseData) SetUserMessage(userMessage *string) {
+	e.UserMessage = userMessage
+	e.require(errorResponseDataFieldUserMessage)
+}
+
+// SetErrorTag sets the ErrorTag field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *ErrorResponseData) SetErrorTag(errorTag *string) {
+	e.ErrorTag = errorTag
+	e.require(errorResponseDataFieldErrorTag)
+}
+
+// SetIsRetryable sets the IsRetryable field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (e *ErrorResponseData) SetIsRetryable(isRetryable *bool) {
+	e.IsRetryable = isRetryable
+	e.require(errorResponseDataFieldIsRetryable)
+}
+
+func (e *ErrorResponseData) UnmarshalJSON(data []byte) error {
+	type embed ErrorResponseData
+	var unmarshaler = struct {
+		embed
+	}{
+		embed: embed(*e),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*e = ErrorResponseData(unmarshaler.embed)
+	extraProperties, err := internal.ExtractExtraProperties(data, *e)
+	if err != nil {
+		return err
+	}
+	e.ExtraProperties = extraProperties
+	e.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (e *ErrorResponseData) MarshalJSON() ([]byte, error) {
+	type embed ErrorResponseData
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*e),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, e.explicitFields)
+	return internal.MarshalJSONWithExtraProperties(explicitMarshaler, e.ExtraProperties)
+}
+
+func (e *ErrorResponseData) String() string {
+	if e == nil {
+		return "<nil>"
+	}
+	if len(e.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(e.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(e); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", e)
+}
+
+var (
 	mediaSearchFieldPage    = big.NewInt(1 << 0)
 	mediaSearchFieldLimit   = big.NewInt(1 << 1)
 	mediaSearchFieldQ       = big.NewInt(1 << 2)
@@ -182,7 +338,7 @@ var (
 
 type MediaSearch struct {
 	Page    *int                `json:"page,omitempty" url:"page,omitempty"`
-	Limit   *float64            `json:"limit,omitempty" url:"limit,omitempty"`
+	Limit   *int                `json:"limit,omitempty" url:"limit,omitempty"`
 	Q       *string             `json:"q,omitempty" url:"q,omitempty"`
 	Type    *MediaSearchType    `json:"type,omitempty" url:"type,omitempty"`
 	TagIDs  []string            `json:"tagIds,omitempty" url:"tagIds,omitempty"`
@@ -202,7 +358,7 @@ func (m *MediaSearch) GetPage() *int {
 	return m.Page
 }
 
-func (m *MediaSearch) GetLimit() *float64 {
+func (m *MediaSearch) GetLimit() *int {
 	if m == nil {
 		return nil
 	}
@@ -262,7 +418,7 @@ func (m *MediaSearch) SetPage(page *int) {
 
 // SetLimit sets the Limit field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *MediaSearch) SetLimit(limit *float64) {
+func (m *MediaSearch) SetLimit(limit *int) {
 	m.Limit = limit
 	m.require(mediaSearchFieldLimit)
 }
@@ -498,7 +654,7 @@ var (
 
 type MediaUpdate struct {
 	ID       string   `json:"id" url:"id"`
-	URL      string   `json:"url" url:"url"`
+	URL      *string  `json:"url,omitempty" url:"url,omitempty"`
 	MimeType *string  `json:"mimeType,omitempty" url:"mimeType,omitempty"`
 	Width    *int     `json:"width,omitempty" url:"width,omitempty"`
 	Height   *int     `json:"height,omitempty" url:"height,omitempty"`
@@ -519,9 +675,9 @@ func (m *MediaUpdate) GetID() string {
 	return m.ID
 }
 
-func (m *MediaUpdate) GetURL() string {
+func (m *MediaUpdate) GetURL() *string {
 	if m == nil {
-		return ""
+		return nil
 	}
 	return m.URL
 }
@@ -586,7 +742,7 @@ func (m *MediaUpdate) SetID(id string) {
 
 // SetURL sets the URL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *MediaUpdate) SetURL(url string) {
+func (m *MediaUpdate) SetURL(url *string) {
 	m.URL = url
 	m.require(mediaUpdateFieldURL)
 }
@@ -887,7 +1043,7 @@ type PostSearch struct {
 	TagIDs           []string                  `json:"tagIds,omitempty" url:"tagIds,omitempty"`
 	TagMode          *PostSearchTagMode        `json:"tagMode,omitempty" url:"tagMode,omitempty"`
 	SocialAccountIDs []string                  `json:"socialAccountIds,omitempty" url:"socialAccountIds,omitempty"`
-	Limit            *float64                  `json:"limit,omitempty" url:"limit,omitempty"`
+	Limit            *int                      `json:"limit,omitempty" url:"limit,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -952,7 +1108,7 @@ func (p *PostSearch) GetSocialAccountIDs() []string {
 	return p.SocialAccountIDs
 }
 
-func (p *PostSearch) GetLimit() *float64 {
+func (p *PostSearch) GetLimit() *int {
 	if p == nil {
 		return nil
 	}
@@ -1033,7 +1189,7 @@ func (p *PostSearch) SetSocialAccountIDs(socialAccountIDs []string) {
 
 // SetLimit sets the Limit field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostSearch) SetLimit(limit *float64) {
+func (p *PostSearch) SetLimit(limit *int) {
 	p.Limit = limit
 	p.require(postSearchFieldLimit)
 }
@@ -1292,6 +1448,275 @@ func NewPostSearchTagModeFromString(s string) (PostSearchTagMode, error) {
 
 func (p PostSearchTagMode) Ptr() *PostSearchTagMode {
 	return &p
+}
+
+var (
+	rateLimitErrorResponseFieldCode    = big.NewInt(1 << 0)
+	rateLimitErrorResponseFieldStatus  = big.NewInt(1 << 1)
+	rateLimitErrorResponseFieldMessage = big.NewInt(1 << 2)
+	rateLimitErrorResponseFieldDefined = big.NewInt(1 << 3)
+	rateLimitErrorResponseFieldData    = big.NewInt(1 << 4)
+	rateLimitErrorResponseFieldError   = big.NewInt(1 << 5)
+)
+
+// 429 rate-limit error. Per-key request limits return `code: "RATE_LIMITED"` (also mirrored under `error`); the per-user limiter returns `code: "TOO_MANY_REQUESTS"`. Honor the `Retry-After` header.
+type RateLimitErrorResponse struct {
+	Code    string                       `json:"code" url:"code"`
+	Status  int                          `json:"status" url:"status"`
+	Message *string                      `json:"message,omitempty" url:"message,omitempty"`
+	Defined *bool                        `json:"defined,omitempty" url:"defined,omitempty"`
+	Data    map[string]any               `json:"data,omitempty" url:"data,omitempty"`
+	Error   *RateLimitErrorResponseError `json:"error,omitempty" url:"error,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (r *RateLimitErrorResponse) GetCode() string {
+	if r == nil {
+		return ""
+	}
+	return r.Code
+}
+
+func (r *RateLimitErrorResponse) GetStatus() int {
+	if r == nil {
+		return 0
+	}
+	return r.Status
+}
+
+func (r *RateLimitErrorResponse) GetMessage() *string {
+	if r == nil {
+		return nil
+	}
+	return r.Message
+}
+
+func (r *RateLimitErrorResponse) GetDefined() *bool {
+	if r == nil {
+		return nil
+	}
+	return r.Defined
+}
+
+func (r *RateLimitErrorResponse) GetData() map[string]any {
+	if r == nil {
+		return nil
+	}
+	return r.Data
+}
+
+func (r *RateLimitErrorResponse) GetError() *RateLimitErrorResponseError {
+	if r == nil {
+		return nil
+	}
+	return r.Error
+}
+
+func (r *RateLimitErrorResponse) GetExtraProperties() map[string]interface{} {
+	if r == nil {
+		return nil
+	}
+	return r.extraProperties
+}
+
+func (r *RateLimitErrorResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if r.explicitFields != nil {
+		next.Set(r.explicitFields)
+	}
+	next.Or(next, field)
+	r.explicitFields = next
+}
+
+// SetCode sets the Code field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RateLimitErrorResponse) SetCode(code string) {
+	r.Code = code
+	r.require(rateLimitErrorResponseFieldCode)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RateLimitErrorResponse) SetStatus(status int) {
+	r.Status = status
+	r.require(rateLimitErrorResponseFieldStatus)
+}
+
+// SetMessage sets the Message field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RateLimitErrorResponse) SetMessage(message *string) {
+	r.Message = message
+	r.require(rateLimitErrorResponseFieldMessage)
+}
+
+// SetDefined sets the Defined field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RateLimitErrorResponse) SetDefined(defined *bool) {
+	r.Defined = defined
+	r.require(rateLimitErrorResponseFieldDefined)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RateLimitErrorResponse) SetData(data map[string]any) {
+	r.Data = data
+	r.require(rateLimitErrorResponseFieldData)
+}
+
+// SetError sets the Error field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RateLimitErrorResponse) SetError(error_ *RateLimitErrorResponseError) {
+	r.Error = error_
+	r.require(rateLimitErrorResponseFieldError)
+}
+
+func (r *RateLimitErrorResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler RateLimitErrorResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RateLimitErrorResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+	r.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RateLimitErrorResponse) MarshalJSON() ([]byte, error) {
+	type embed RateLimitErrorResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*r),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (r *RateLimitErrorResponse) String() string {
+	if r == nil {
+		return "<nil>"
+	}
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+var (
+	rateLimitErrorResponseErrorFieldCode    = big.NewInt(1 << 0)
+	rateLimitErrorResponseErrorFieldMessage = big.NewInt(1 << 1)
+)
+
+type RateLimitErrorResponseError struct {
+	Code    string `json:"code" url:"code"`
+	Message string `json:"message" url:"message"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (r *RateLimitErrorResponseError) GetCode() string {
+	if r == nil {
+		return ""
+	}
+	return r.Code
+}
+
+func (r *RateLimitErrorResponseError) GetMessage() string {
+	if r == nil {
+		return ""
+	}
+	return r.Message
+}
+
+func (r *RateLimitErrorResponseError) GetExtraProperties() map[string]interface{} {
+	if r == nil {
+		return nil
+	}
+	return r.extraProperties
+}
+
+func (r *RateLimitErrorResponseError) require(field *big.Int) {
+	next := new(big.Int)
+	if r.explicitFields != nil {
+		next.Set(r.explicitFields)
+	}
+	next.Or(next, field)
+	r.explicitFields = next
+}
+
+// SetCode sets the Code field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RateLimitErrorResponseError) SetCode(code string) {
+	r.Code = code
+	r.require(rateLimitErrorResponseErrorFieldCode)
+}
+
+// SetMessage sets the Message field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RateLimitErrorResponseError) SetMessage(message string) {
+	r.Message = message
+	r.require(rateLimitErrorResponseErrorFieldMessage)
+}
+
+func (r *RateLimitErrorResponseError) UnmarshalJSON(data []byte) error {
+	type unmarshaler RateLimitErrorResponseError
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = RateLimitErrorResponseError(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+	r.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *RateLimitErrorResponseError) MarshalJSON() ([]byte, error) {
+	type embed RateLimitErrorResponseError
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*r),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (r *RateLimitErrorResponseError) String() string {
+	if r == nil {
+		return "<nil>"
+	}
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 var (
@@ -1586,8 +2011,8 @@ var (
 )
 
 type TagSearch struct {
-	Q     *string  `json:"q,omitempty" url:"q,omitempty"`
-	Limit *float64 `json:"limit,omitempty" url:"limit,omitempty"`
+	Q     *string `json:"q,omitempty" url:"q,omitempty"`
+	Limit *int    `json:"limit,omitempty" url:"limit,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1603,7 +2028,7 @@ func (t *TagSearch) GetQ() *string {
 	return t.Q
 }
 
-func (t *TagSearch) GetLimit() *float64 {
+func (t *TagSearch) GetLimit() *int {
 	if t == nil {
 		return nil
 	}
@@ -1635,7 +2060,7 @@ func (t *TagSearch) SetQ(q *string) {
 
 // SetLimit sets the Limit field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (t *TagSearch) SetLimit(limit *float64) {
+func (t *TagSearch) SetLimit(limit *int) {
 	t.Limit = limit
 	t.require(tagSearchFieldLimit)
 }
@@ -1798,4 +2223,258 @@ func (t *TagUpsert) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", t)
+}
+
+var (
+	validationErrorResponseFieldCode    = big.NewInt(1 << 0)
+	validationErrorResponseFieldStatus  = big.NewInt(1 << 1)
+	validationErrorResponseFieldMessage = big.NewInt(1 << 2)
+	validationErrorResponseFieldDefined = big.NewInt(1 << 3)
+	validationErrorResponseFieldData    = big.NewInt(1 << 4)
+)
+
+// 422 input validation error. `data.fieldErrors` maps each invalid field to its messages; `data.formErrors` holds errors not tied to one field.
+type ValidationErrorResponse struct {
+	// "INPUT_VALIDATION_FAILED"
+	Code    string                       `json:"code" url:"code"`
+	Status  int                          `json:"status" url:"status"`
+	Message *string                      `json:"message,omitempty" url:"message,omitempty"`
+	Defined *bool                        `json:"defined,omitempty" url:"defined,omitempty"`
+	Data    *ValidationErrorResponseData `json:"data" url:"data"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (v *ValidationErrorResponse) GetCode() string {
+	if v == nil {
+		return ""
+	}
+	return v.Code
+}
+
+func (v *ValidationErrorResponse) GetStatus() int {
+	if v == nil {
+		return 0
+	}
+	return v.Status
+}
+
+func (v *ValidationErrorResponse) GetMessage() *string {
+	if v == nil {
+		return nil
+	}
+	return v.Message
+}
+
+func (v *ValidationErrorResponse) GetDefined() *bool {
+	if v == nil {
+		return nil
+	}
+	return v.Defined
+}
+
+func (v *ValidationErrorResponse) GetData() *ValidationErrorResponseData {
+	if v == nil {
+		return nil
+	}
+	return v.Data
+}
+
+func (v *ValidationErrorResponse) GetExtraProperties() map[string]interface{} {
+	if v == nil {
+		return nil
+	}
+	return v.extraProperties
+}
+
+func (v *ValidationErrorResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if v.explicitFields != nil {
+		next.Set(v.explicitFields)
+	}
+	next.Or(next, field)
+	v.explicitFields = next
+}
+
+// SetCode sets the Code field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (v *ValidationErrorResponse) SetCode(code string) {
+	v.Code = code
+	v.require(validationErrorResponseFieldCode)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (v *ValidationErrorResponse) SetStatus(status int) {
+	v.Status = status
+	v.require(validationErrorResponseFieldStatus)
+}
+
+// SetMessage sets the Message field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (v *ValidationErrorResponse) SetMessage(message *string) {
+	v.Message = message
+	v.require(validationErrorResponseFieldMessage)
+}
+
+// SetDefined sets the Defined field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (v *ValidationErrorResponse) SetDefined(defined *bool) {
+	v.Defined = defined
+	v.require(validationErrorResponseFieldDefined)
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (v *ValidationErrorResponse) SetData(data *ValidationErrorResponseData) {
+	v.Data = data
+	v.require(validationErrorResponseFieldData)
+}
+
+func (v *ValidationErrorResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ValidationErrorResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*v = ValidationErrorResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *v)
+	if err != nil {
+		return err
+	}
+	v.extraProperties = extraProperties
+	v.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (v *ValidationErrorResponse) MarshalJSON() ([]byte, error) {
+	type embed ValidationErrorResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*v),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, v.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (v *ValidationErrorResponse) String() string {
+	if v == nil {
+		return "<nil>"
+	}
+	if len(v.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(v.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(v); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", v)
+}
+
+var (
+	validationErrorResponseDataFieldFormErrors  = big.NewInt(1 << 0)
+	validationErrorResponseDataFieldFieldErrors = big.NewInt(1 << 1)
+)
+
+type ValidationErrorResponseData struct {
+	FormErrors  []string            `json:"formErrors,omitempty" url:"formErrors,omitempty"`
+	FieldErrors map[string][]string `json:"fieldErrors,omitempty" url:"fieldErrors,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (v *ValidationErrorResponseData) GetFormErrors() []string {
+	if v == nil {
+		return nil
+	}
+	return v.FormErrors
+}
+
+func (v *ValidationErrorResponseData) GetFieldErrors() map[string][]string {
+	if v == nil {
+		return nil
+	}
+	return v.FieldErrors
+}
+
+func (v *ValidationErrorResponseData) GetExtraProperties() map[string]interface{} {
+	if v == nil {
+		return nil
+	}
+	return v.extraProperties
+}
+
+func (v *ValidationErrorResponseData) require(field *big.Int) {
+	next := new(big.Int)
+	if v.explicitFields != nil {
+		next.Set(v.explicitFields)
+	}
+	next.Or(next, field)
+	v.explicitFields = next
+}
+
+// SetFormErrors sets the FormErrors field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (v *ValidationErrorResponseData) SetFormErrors(formErrors []string) {
+	v.FormErrors = formErrors
+	v.require(validationErrorResponseDataFieldFormErrors)
+}
+
+// SetFieldErrors sets the FieldErrors field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (v *ValidationErrorResponseData) SetFieldErrors(fieldErrors map[string][]string) {
+	v.FieldErrors = fieldErrors
+	v.require(validationErrorResponseDataFieldFieldErrors)
+}
+
+func (v *ValidationErrorResponseData) UnmarshalJSON(data []byte) error {
+	type unmarshaler ValidationErrorResponseData
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*v = ValidationErrorResponseData(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *v)
+	if err != nil {
+		return err
+	}
+	v.extraProperties = extraProperties
+	v.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (v *ValidationErrorResponseData) MarshalJSON() ([]byte, error) {
+	type embed ValidationErrorResponseData
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*v),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, v.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (v *ValidationErrorResponseData) String() string {
+	if v == nil {
+		return "<nil>"
+	}
+	if len(v.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(v.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(v); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", v)
 }

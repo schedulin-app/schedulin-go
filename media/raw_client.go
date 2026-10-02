@@ -36,7 +36,7 @@ func (r *RawClient) CreateFromURL(
 	ctx context.Context,
 	request *schedulingo.CreateFromURLMediaRequest,
 	opts ...option.RequestOption,
-) (*core.Response[any], error) {
+) (*core.Response[*schedulingo.Media], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -49,7 +49,7 @@ func (r *RawClient) CreateFromURL(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response any
+	var response *schedulingo.Media
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -69,7 +69,7 @@ func (r *RawClient) CreateFromURL(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[any]{
+	return &core.Response[*schedulingo.Media]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -80,7 +80,7 @@ func (r *RawClient) CreateUploadLink(
 	ctx context.Context,
 	request *schedulingo.CreateUploadLinkMediaRequest,
 	opts ...option.RequestOption,
-) (*core.Response[any], error) {
+) (*core.Response[*schedulingo.CreateUploadLinkMediaResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -93,7 +93,7 @@ func (r *RawClient) CreateUploadLink(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response any
+	var response *schedulingo.CreateUploadLinkMediaResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -113,7 +113,7 @@ func (r *RawClient) CreateUploadLink(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[any]{
+	return &core.Response[*schedulingo.CreateUploadLinkMediaResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -124,7 +124,7 @@ func (r *RawClient) Upload(
 	ctx context.Context,
 	request *schedulingo.UploadMediaRequest,
 	opts ...option.RequestOption,
-) (*core.Response[any], error) {
+) (*core.Response[*schedulingo.Media], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -160,7 +160,7 @@ func (r *RawClient) Upload(
 	}
 	headers.Set("Content-Type", writer.ContentType())
 
-	var response any
+	var response *schedulingo.Media
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -180,7 +180,7 @@ func (r *RawClient) Upload(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[any]{
+	return &core.Response[*schedulingo.Media]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -210,17 +210,16 @@ func (r *RawClient) Retrieve(
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
-			URL:                endpointURL,
-			Method:             http.MethodGet,
-			Headers:            headers,
-			MaxAttempts:        options.MaxAttempts,
-			DisableRetries:     options.DisableRetries,
-			BodyProperties:     options.BodyProperties,
-			QueryParameters:    options.QueryParameters,
-			Client:             options.HTTPClient,
-			Response:           &response,
-			ResponseIsOptional: true,
-			ErrorDecoder:       internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			URL:             endpointURL,
+			Method:          http.MethodGet,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
 		},
 	)
 	if err != nil {
@@ -284,7 +283,7 @@ func (r *RawClient) Delete(
 	ctx context.Context,
 	request *schedulingo.DeleteMediaRequest,
 	opts ...option.RequestOption,
-) (*core.Response[any], error) {
+) (*core.Response[*schedulingo.DeleteMediaResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -300,7 +299,7 @@ func (r *RawClient) Delete(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response any
+	var response *schedulingo.DeleteMediaResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -320,7 +319,7 @@ func (r *RawClient) Delete(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[any]{
+	return &core.Response[*schedulingo.DeleteMediaResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -380,7 +379,7 @@ func (r *RawClient) SetTags(
 	ctx context.Context,
 	request *schedulingo.SetTagsMediaRequest,
 	opts ...option.RequestOption,
-) (*core.Response[any], error) {
+) (*core.Response[*schedulingo.SetTagsMediaResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -396,7 +395,7 @@ func (r *RawClient) SetTags(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response any
+	var response *schedulingo.SetTagsMediaResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -416,7 +415,7 @@ func (r *RawClient) SetTags(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[any]{
+	return &core.Response[*schedulingo.SetTagsMediaResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

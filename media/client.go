@@ -49,7 +49,7 @@ func (c *Client) CreateFromURL(
 	ctx context.Context,
 	request *schedulingo.CreateFromURLMediaRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.Media, error) {
 	response, err := c.WithRawResponse.CreateFromURL(
 		ctx,
 		request,
@@ -74,7 +74,7 @@ func (c *Client) CreateUploadLink(
 	ctx context.Context,
 	request *schedulingo.CreateUploadLinkMediaRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.CreateUploadLinkMediaResponse, error) {
 	response, err := c.WithRawResponse.CreateUploadLink(
 		ctx,
 		request,
@@ -103,7 +103,7 @@ func (c *Client) Upload(
 	ctx context.Context,
 	request *schedulingo.UploadMediaRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.Media, error) {
 	response, err := c.WithRawResponse.Upload(
 		ctx,
 		request,
@@ -148,7 +148,6 @@ func (c *Client) Retrieve(
 //
 //	request := &schedulingo.UpdateMediaRequest{
 //	    ID: "id",
-//	    URL: "url",
 //	}
 //	client.Media.Update(
 //	    context.TODO(),
@@ -185,7 +184,7 @@ func (c *Client) Delete(
 	ctx context.Context,
 	request *schedulingo.DeleteMediaRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.DeleteMediaResponse, error) {
 	response, err := c.WithRawResponse.Delete(
 		ctx,
 		request,
@@ -240,7 +239,7 @@ func (c *Client) SetTags(
 	ctx context.Context,
 	request *schedulingo.SetTagsMediaRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.SetTagsMediaResponse, error) {
 	response, err := c.WithRawResponse.SetTags(
 		ctx,
 		request,

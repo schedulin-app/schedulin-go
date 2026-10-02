@@ -100,7 +100,7 @@ func (c *Client) CountByTab(
 	ctx context.Context,
 	request *schedulingo.CountByTabPostsRequest,
 	opts ...option.RequestOption,
-) (any, error) {
+) (*schedulingo.CountByTabPostsResponse, error) {
 	response, err := c.WithRawResponse.CountByTab(
 		ctx,
 		request,

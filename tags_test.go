@@ -149,7 +149,7 @@ func TestSettersListTagsRequest(t *testing.T) {
 
 	t.Run("SetLimit", func(t *testing.T) {
 		obj := &ListTagsRequest{}
-		var fernTestValueLimit *float64
+		var fernTestValueLimit *int
 		obj.SetLimit(fernTestValueLimit)
 		assert.Equal(t, fernTestValueLimit, obj.Limit)
 		assert.NotNil(t, obj.explicitFields)
@@ -193,7 +193,7 @@ func TestSettersMarkExplicitListTagsRequest(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &ListTagsRequest{}
-		var fernTestValueLimit *float64
+		var fernTestValueLimit *int
 
 		// Act
 		obj.SetLimit(fernTestValueLimit)

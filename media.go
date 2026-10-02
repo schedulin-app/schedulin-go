@@ -268,7 +268,7 @@ var (
 
 type ListMediaRequest struct {
 	Page    *int                     `json:"-" url:"page,omitempty"`
-	Limit   *float64                 `json:"-" url:"limit,omitempty"`
+	Limit   *int                     `json:"-" url:"limit,omitempty"`
 	Q       *string                  `json:"-" url:"q,omitempty"`
 	Type    *ListMediaRequestType    `json:"-" url:"type,omitempty"`
 	TagIDs  []*string                `json:"-" url:"tagIds,omitempty"`
@@ -296,7 +296,7 @@ func (l *ListMediaRequest) SetPage(page *int) {
 
 // SetLimit sets the Limit field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListMediaRequest) SetLimit(limit *float64) {
+func (l *ListMediaRequest) SetLimit(limit *int) {
 	l.Limit = limit
 	l.require(listMediaRequestFieldLimit)
 }
@@ -414,41 +414,49 @@ func (s *SetTagsMediaRequest) MarshalJSON() ([]byte, error) {
 }
 
 var (
-	mediaFieldID        = big.NewInt(1 << 0)
-	mediaFieldURL       = big.NewInt(1 << 1)
-	mediaFieldName      = big.NewInt(1 << 2)
-	mediaFieldMimeType  = big.NewInt(1 << 3)
-	mediaFieldWidth     = big.NewInt(1 << 4)
-	mediaFieldHeight    = big.NewInt(1 << 5)
-	mediaFieldDuration  = big.NewInt(1 << 6)
-	mediaFieldCreatedAt = big.NewInt(1 << 7)
-	mediaFieldUpdatedAt = big.NewInt(1 << 8)
-	mediaFieldBucket    = big.NewInt(1 << 9)
-	mediaFieldKey       = big.NewInt(1 << 10)
-	mediaFieldSize      = big.NewInt(1 << 11)
+	mediaFieldID           = big.NewInt(1 << 0)
+	mediaFieldURL          = big.NewInt(1 << 1)
+	mediaFieldName         = big.NewInt(1 << 2)
+	mediaFieldMimeType     = big.NewInt(1 << 3)
+	mediaFieldWidth        = big.NewInt(1 << 4)
+	mediaFieldHeight       = big.NewInt(1 << 5)
+	mediaFieldDuration     = big.NewInt(1 << 6)
+	mediaFieldCreatedAt    = big.NewInt(1 << 7)
+	mediaFieldUpdatedAt    = big.NewInt(1 << 8)
+	mediaFieldBucket       = big.NewInt(1 << 9)
+	mediaFieldKey          = big.NewInt(1 << 10)
+	mediaFieldSize         = big.NewInt(1 << 11)
+	mediaFieldAlt          = big.NewInt(1 << 12)
+	mediaFieldThumbnailURL = big.NewInt(1 << 13)
+	mediaFieldTags         = big.NewInt(1 << 14)
 )
 
 // mediaNullableFields maps the wire names of Media's nullable fields (required or optional) to their field bits.
 var mediaNullableFields = map[string]*big.Int{
-	"width":    mediaFieldWidth,
-	"height":   mediaFieldHeight,
-	"duration": mediaFieldDuration,
-	"size":     mediaFieldSize,
+	"width":        mediaFieldWidth,
+	"height":       mediaFieldHeight,
+	"duration":     mediaFieldDuration,
+	"size":         mediaFieldSize,
+	"alt":          mediaFieldAlt,
+	"thumbnailUrl": mediaFieldThumbnailURL,
 }
 
 type Media struct {
-	ID        string    `json:"id" url:"id"`
-	URL       string    `json:"url" url:"url"`
-	Name      string    `json:"name" url:"name"`
-	MimeType  string    `json:"mimeType" url:"mimeType"`
-	Width     *float64  `json:"width,omitempty" url:"width,omitempty"`
-	Height    *float64  `json:"height,omitempty" url:"height,omitempty"`
-	Duration  *float64  `json:"duration,omitempty" url:"duration,omitempty"`
-	CreatedAt time.Time `json:"createdAt" url:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt" url:"updatedAt"`
-	Bucket    string    `json:"bucket" url:"bucket"`
-	Key       string    `json:"key" url:"key"`
-	Size      *float64  `json:"size,omitempty" url:"size,omitempty"`
+	ID           string    `json:"id" url:"id"`
+	URL          string    `json:"url" url:"url"`
+	Name         string    `json:"name" url:"name"`
+	MimeType     string    `json:"mimeType" url:"mimeType"`
+	Width        *int      `json:"width,omitempty" url:"width,omitempty"`
+	Height       *int      `json:"height,omitempty" url:"height,omitempty"`
+	Duration     *int      `json:"duration,omitempty" url:"duration,omitempty"`
+	CreatedAt    time.Time `json:"createdAt" url:"createdAt"`
+	UpdatedAt    time.Time `json:"updatedAt" url:"updatedAt"`
+	Bucket       string    `json:"bucket" url:"bucket"`
+	Key          string    `json:"key" url:"key"`
+	Size         *int      `json:"size,omitempty" url:"size,omitempty"`
+	Alt          *string   `json:"alt,omitempty" url:"alt,omitempty"`
+	ThumbnailURL *string   `json:"thumbnailUrl,omitempty" url:"thumbnailUrl,omitempty"`
+	Tags         []*Tag    `json:"tags,omitempty" url:"tags,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -485,21 +493,21 @@ func (m *Media) GetMimeType() string {
 	return m.MimeType
 }
 
-func (m *Media) GetWidth() *float64 {
+func (m *Media) GetWidth() *int {
 	if m == nil {
 		return nil
 	}
 	return m.Width
 }
 
-func (m *Media) GetHeight() *float64 {
+func (m *Media) GetHeight() *int {
 	if m == nil {
 		return nil
 	}
 	return m.Height
 }
 
-func (m *Media) GetDuration() *float64 {
+func (m *Media) GetDuration() *int {
 	if m == nil {
 		return nil
 	}
@@ -534,11 +542,32 @@ func (m *Media) GetKey() string {
 	return m.Key
 }
 
-func (m *Media) GetSize() *float64 {
+func (m *Media) GetSize() *int {
 	if m == nil {
 		return nil
 	}
 	return m.Size
+}
+
+func (m *Media) GetAlt() *string {
+	if m == nil {
+		return nil
+	}
+	return m.Alt
+}
+
+func (m *Media) GetThumbnailURL() *string {
+	if m == nil {
+		return nil
+	}
+	return m.ThumbnailURL
+}
+
+func (m *Media) GetTags() []*Tag {
+	if m == nil {
+		return nil
+	}
+	return m.Tags
 }
 
 func (m *Media) GetExtraProperties() map[string]interface{} {
@@ -587,21 +616,21 @@ func (m *Media) SetMimeType(mimeType string) {
 
 // SetWidth sets the Width field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *Media) SetWidth(width *float64) {
+func (m *Media) SetWidth(width *int) {
 	m.Width = width
 	m.require(mediaFieldWidth)
 }
 
 // SetHeight sets the Height field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *Media) SetHeight(height *float64) {
+func (m *Media) SetHeight(height *int) {
 	m.Height = height
 	m.require(mediaFieldHeight)
 }
 
 // SetDuration sets the Duration field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *Media) SetDuration(duration *float64) {
+func (m *Media) SetDuration(duration *int) {
 	m.Duration = duration
 	m.require(mediaFieldDuration)
 }
@@ -636,9 +665,30 @@ func (m *Media) SetKey(key string) {
 
 // SetSize sets the Size field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (m *Media) SetSize(size *float64) {
+func (m *Media) SetSize(size *int) {
 	m.Size = size
 	m.require(mediaFieldSize)
+}
+
+// SetAlt sets the Alt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *Media) SetAlt(alt *string) {
+	m.Alt = alt
+	m.require(mediaFieldAlt)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *Media) SetThumbnailURL(thumbnailURL *string) {
+	m.ThumbnailURL = thumbnailURL
+	m.require(mediaFieldThumbnailURL)
+}
+
+// SetTags sets the Tags field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *Media) SetTags(tags []*Tag) {
+	m.Tags = tags
+	m.require(mediaFieldTags)
 }
 
 func (m *Media) UnmarshalJSON(data []byte) error {
@@ -931,8 +981,8 @@ var (
 )
 
 type CountByTagMediaResponseDataItem struct {
-	TagID string  `json:"tagId" url:"tagId"`
-	Count float64 `json:"count" url:"count"`
+	TagID string `json:"tagId" url:"tagId"`
+	Count int    `json:"count" url:"count"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -948,7 +998,7 @@ func (c *CountByTagMediaResponseDataItem) GetTagID() string {
 	return c.TagID
 }
 
-func (c *CountByTagMediaResponseDataItem) GetCount() float64 {
+func (c *CountByTagMediaResponseDataItem) GetCount() int {
 	if c == nil {
 		return 0
 	}
@@ -980,7 +1030,7 @@ func (c *CountByTagMediaResponseDataItem) SetTagID(tagID string) {
 
 // SetCount sets the Count field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CountByTagMediaResponseDataItem) SetCount(count float64) {
+func (c *CountByTagMediaResponseDataItem) SetCount(count int) {
 	c.Count = count
 	c.require(countByTagMediaResponseDataItemFieldCount)
 }
@@ -1052,6 +1102,218 @@ func (c CreatePresignedPostIntent) Ptr() *CreatePresignedPostIntent {
 	return &c
 }
 
+var (
+	createUploadLinkMediaResponseFieldURL       = big.NewInt(1 << 0)
+	createUploadLinkMediaResponseFieldExpiresAt = big.NewInt(1 << 1)
+)
+
+type CreateUploadLinkMediaResponse struct {
+	URL       string    `json:"url" url:"url"`
+	ExpiresAt time.Time `json:"expiresAt" url:"expiresAt"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *CreateUploadLinkMediaResponse) GetURL() string {
+	if c == nil {
+		return ""
+	}
+	return c.URL
+}
+
+func (c *CreateUploadLinkMediaResponse) GetExpiresAt() time.Time {
+	if c == nil {
+		return time.Time{}
+	}
+	return c.ExpiresAt
+}
+
+func (c *CreateUploadLinkMediaResponse) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *CreateUploadLinkMediaResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if c.explicitFields != nil {
+		next.Set(c.explicitFields)
+	}
+	next.Or(next, field)
+	c.explicitFields = next
+}
+
+// SetURL sets the URL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateUploadLinkMediaResponse) SetURL(url string) {
+	c.URL = url
+	c.require(createUploadLinkMediaResponseFieldURL)
+}
+
+// SetExpiresAt sets the ExpiresAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateUploadLinkMediaResponse) SetExpiresAt(expiresAt time.Time) {
+	c.ExpiresAt = expiresAt
+	c.require(createUploadLinkMediaResponseFieldExpiresAt)
+}
+
+func (c *CreateUploadLinkMediaResponse) UnmarshalJSON(data []byte) error {
+	type embed CreateUploadLinkMediaResponse
+	var unmarshaler = struct {
+		embed
+		ExpiresAt *internal.DateTime `json:"expiresAt"`
+	}{
+		embed: embed(*c),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*c = CreateUploadLinkMediaResponse(unmarshaler.embed)
+	c.ExpiresAt = unmarshaler.ExpiresAt.Time()
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *CreateUploadLinkMediaResponse) MarshalJSON() ([]byte, error) {
+	type embed CreateUploadLinkMediaResponse
+	var marshaler = struct {
+		embed
+		ExpiresAt *internal.DateTime `json:"expiresAt"`
+	}{
+		embed:     embed(*c),
+		ExpiresAt: internal.NewDateTime(c.ExpiresAt),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *CreateUploadLinkMediaResponse) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
+	deleteMediaResponseFieldID      = big.NewInt(1 << 0)
+	deleteMediaResponseFieldDeleted = big.NewInt(1 << 1)
+)
+
+type DeleteMediaResponse struct {
+	ID      string `json:"id" url:"id"`
+	Deleted string `json:"deleted" url:"deleted"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (d *DeleteMediaResponse) GetID() string {
+	if d == nil {
+		return ""
+	}
+	return d.ID
+}
+
+func (d *DeleteMediaResponse) GetDeleted() string {
+	if d == nil {
+		return ""
+	}
+	return d.Deleted
+}
+
+func (d *DeleteMediaResponse) GetExtraProperties() map[string]interface{} {
+	if d == nil {
+		return nil
+	}
+	return d.extraProperties
+}
+
+func (d *DeleteMediaResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if d.explicitFields != nil {
+		next.Set(d.explicitFields)
+	}
+	next.Or(next, field)
+	d.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (d *DeleteMediaResponse) SetID(id string) {
+	d.ID = id
+	d.require(deleteMediaResponseFieldID)
+}
+
+// SetDeleted sets the Deleted field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (d *DeleteMediaResponse) SetDeleted(deleted string) {
+	d.Deleted = deleted
+	d.require(deleteMediaResponseFieldDeleted)
+}
+
+func (d *DeleteMediaResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler DeleteMediaResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*d = DeleteMediaResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+	d.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (d *DeleteMediaResponse) MarshalJSON() ([]byte, error) {
+	type embed DeleteMediaResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*d),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, d.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (d *DeleteMediaResponse) String() string {
+	if d == nil {
+		return "<nil>"
+	}
+	if len(d.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(d.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(d); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", d)
+}
+
 type ListMediaRequestTagMode string
 
 const (
@@ -1108,9 +1370,9 @@ var (
 
 type ListMediaResponse struct {
 	Items      []*Media `json:"items" url:"items"`
-	Page       float64  `json:"page" url:"page"`
-	Total      float64  `json:"total" url:"total"`
-	TotalPages float64  `json:"totalPages" url:"totalPages"`
+	Page       int      `json:"page" url:"page"`
+	Total      int      `json:"total" url:"total"`
+	TotalPages int      `json:"totalPages" url:"totalPages"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1126,21 +1388,21 @@ func (l *ListMediaResponse) GetItems() []*Media {
 	return l.Items
 }
 
-func (l *ListMediaResponse) GetPage() float64 {
+func (l *ListMediaResponse) GetPage() int {
 	if l == nil {
 		return 0
 	}
 	return l.Page
 }
 
-func (l *ListMediaResponse) GetTotal() float64 {
+func (l *ListMediaResponse) GetTotal() int {
 	if l == nil {
 		return 0
 	}
 	return l.Total
 }
 
-func (l *ListMediaResponse) GetTotalPages() float64 {
+func (l *ListMediaResponse) GetTotalPages() int {
 	if l == nil {
 		return 0
 	}
@@ -1172,21 +1434,21 @@ func (l *ListMediaResponse) SetItems(items []*Media) {
 
 // SetPage sets the Page field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListMediaResponse) SetPage(page float64) {
+func (l *ListMediaResponse) SetPage(page int) {
 	l.Page = page
 	l.require(listMediaResponseFieldPage)
 }
 
 // SetTotal sets the Total field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListMediaResponse) SetTotal(total float64) {
+func (l *ListMediaResponse) SetTotal(total int) {
 	l.Total = total
 	l.require(listMediaResponseFieldTotal)
 }
 
 // SetTotalPages sets the TotalPages field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListMediaResponse) SetTotalPages(totalPages float64) {
+func (l *ListMediaResponse) SetTotalPages(totalPages int) {
 	l.TotalPages = totalPages
 	l.require(listMediaResponseFieldTotalPages)
 }
@@ -1234,6 +1496,108 @@ func (l *ListMediaResponse) String() string {
 }
 
 var (
+	setTagsMediaResponseFieldMediaID = big.NewInt(1 << 0)
+	setTagsMediaResponseFieldTagIDs  = big.NewInt(1 << 1)
+)
+
+type SetTagsMediaResponse struct {
+	MediaID string   `json:"mediaId" url:"mediaId"`
+	TagIDs  []string `json:"tagIds" url:"tagIds"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SetTagsMediaResponse) GetMediaID() string {
+	if s == nil {
+		return ""
+	}
+	return s.MediaID
+}
+
+func (s *SetTagsMediaResponse) GetTagIDs() []string {
+	if s == nil {
+		return nil
+	}
+	return s.TagIDs
+}
+
+func (s *SetTagsMediaResponse) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SetTagsMediaResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if s.explicitFields != nil {
+		next.Set(s.explicitFields)
+	}
+	next.Or(next, field)
+	s.explicitFields = next
+}
+
+// SetMediaID sets the MediaID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SetTagsMediaResponse) SetMediaID(mediaID string) {
+	s.MediaID = mediaID
+	s.require(setTagsMediaResponseFieldMediaID)
+}
+
+// SetTagIDs sets the TagIDs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SetTagsMediaResponse) SetTagIDs(tagIDs []string) {
+	s.TagIDs = tagIDs
+	s.require(setTagsMediaResponseFieldTagIDs)
+}
+
+func (s *SetTagsMediaResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler SetTagsMediaResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SetTagsMediaResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SetTagsMediaResponse) MarshalJSON() ([]byte, error) {
+	type embed SetTagsMediaResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SetTagsMediaResponse) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+var (
 	updateMediaRequestFieldID       = big.NewInt(1 << 0)
 	updateMediaRequestFieldURL      = big.NewInt(1 << 1)
 	updateMediaRequestFieldMimeType = big.NewInt(1 << 2)
@@ -1245,7 +1609,7 @@ var (
 
 type UpdateMediaRequest struct {
 	ID       string   `json:"-" url:"-"`
-	URL      string   `json:"url" url:"-"`
+	URL      *string  `json:"url,omitempty" url:"-"`
 	MimeType *string  `json:"mimeType,omitempty" url:"-"`
 	Width    *int     `json:"width,omitempty" url:"-"`
 	Height   *int     `json:"height,omitempty" url:"-"`
@@ -1274,7 +1638,7 @@ func (u *UpdateMediaRequest) SetID(id string) {
 
 // SetURL sets the URL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdateMediaRequest) SetURL(url string) {
+func (u *UpdateMediaRequest) SetURL(url *string) {
 	u.URL = url
 	u.require(updateMediaRequestFieldURL)
 }

@@ -120,8 +120,8 @@ var (
 )
 
 type ListTagsRequest struct {
-	Q     *string  `json:"-" url:"q,omitempty"`
-	Limit *float64 `json:"-" url:"limit,omitempty"`
+	Q     *string `json:"-" url:"q,omitempty"`
+	Limit *int    `json:"-" url:"limit,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -145,7 +145,7 @@ func (l *ListTagsRequest) SetQ(q *string) {
 
 // SetLimit sets the Limit field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListTagsRequest) SetLimit(limit *float64) {
+func (l *ListTagsRequest) SetLimit(limit *int) {
 	l.Limit = limit
 	l.require(listTagsRequestFieldLimit)
 }

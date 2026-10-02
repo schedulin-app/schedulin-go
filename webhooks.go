@@ -7,6 +7,7 @@ import (
 	fmt "fmt"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	big "math/big"
+	time "time"
 )
 
 var (
@@ -291,6 +292,616 @@ func (t *TestWebhooksRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(explicitMarshaler)
 }
 
+var (
+	webhookDeliveryFieldID             = big.NewInt(1 << 0)
+	webhookDeliveryFieldEndpointID     = big.NewInt(1 << 1)
+	webhookDeliveryFieldEvent          = big.NewInt(1 << 2)
+	webhookDeliveryFieldPayload        = big.NewInt(1 << 3)
+	webhookDeliveryFieldStatus         = big.NewInt(1 << 4)
+	webhookDeliveryFieldAttempts       = big.NewInt(1 << 5)
+	webhookDeliveryFieldResponseStatus = big.NewInt(1 << 6)
+	webhookDeliveryFieldLastError      = big.NewInt(1 << 7)
+	webhookDeliveryFieldDeliveredAt    = big.NewInt(1 << 8)
+	webhookDeliveryFieldCreatedAt      = big.NewInt(1 << 9)
+)
+
+// webhookDeliveryNullableFields maps the wire names of WebhookDelivery's nullable fields (required or optional) to their field bits.
+var webhookDeliveryNullableFields = map[string]*big.Int{
+	"responseStatus": webhookDeliveryFieldResponseStatus,
+	"lastError":      webhookDeliveryFieldLastError,
+	"deliveredAt":    webhookDeliveryFieldDeliveredAt,
+}
+
+type WebhookDelivery struct {
+	ID             string                `json:"id" url:"id"`
+	EndpointID     string                `json:"endpointId" url:"endpointId"`
+	Event          string                `json:"event" url:"event"`
+	Payload        map[string]any        `json:"payload" url:"payload"`
+	Status         WebhookDeliveryStatus `json:"status" url:"status"`
+	Attempts       int                   `json:"attempts" url:"attempts"`
+	ResponseStatus *int                  `json:"responseStatus,omitempty" url:"responseStatus,omitempty"`
+	LastError      *string               `json:"lastError,omitempty" url:"lastError,omitempty"`
+	DeliveredAt    *time.Time            `json:"deliveredAt,omitempty" url:"deliveredAt,omitempty"`
+	CreatedAt      time.Time             `json:"createdAt" url:"createdAt"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (w *WebhookDelivery) GetID() string {
+	if w == nil {
+		return ""
+	}
+	return w.ID
+}
+
+func (w *WebhookDelivery) GetEndpointID() string {
+	if w == nil {
+		return ""
+	}
+	return w.EndpointID
+}
+
+func (w *WebhookDelivery) GetEvent() string {
+	if w == nil {
+		return ""
+	}
+	return w.Event
+}
+
+func (w *WebhookDelivery) GetPayload() map[string]any {
+	if w == nil {
+		return nil
+	}
+	return w.Payload
+}
+
+func (w *WebhookDelivery) GetStatus() WebhookDeliveryStatus {
+	if w == nil {
+		return ""
+	}
+	return w.Status
+}
+
+func (w *WebhookDelivery) GetAttempts() int {
+	if w == nil {
+		return 0
+	}
+	return w.Attempts
+}
+
+func (w *WebhookDelivery) GetResponseStatus() *int {
+	if w == nil {
+		return nil
+	}
+	return w.ResponseStatus
+}
+
+func (w *WebhookDelivery) GetLastError() *string {
+	if w == nil {
+		return nil
+	}
+	return w.LastError
+}
+
+func (w *WebhookDelivery) GetDeliveredAt() *time.Time {
+	if w == nil {
+		return nil
+	}
+	return w.DeliveredAt
+}
+
+func (w *WebhookDelivery) GetCreatedAt() time.Time {
+	if w == nil {
+		return time.Time{}
+	}
+	return w.CreatedAt
+}
+
+func (w *WebhookDelivery) GetExtraProperties() map[string]interface{} {
+	if w == nil {
+		return nil
+	}
+	return w.extraProperties
+}
+
+func (w *WebhookDelivery) require(field *big.Int) {
+	next := new(big.Int)
+	if w.explicitFields != nil {
+		next.Set(w.explicitFields)
+	}
+	next.Or(next, field)
+	w.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookDelivery) SetID(id string) {
+	w.ID = id
+	w.require(webhookDeliveryFieldID)
+}
+
+// SetEndpointID sets the EndpointID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookDelivery) SetEndpointID(endpointID string) {
+	w.EndpointID = endpointID
+	w.require(webhookDeliveryFieldEndpointID)
+}
+
+// SetEvent sets the Event field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookDelivery) SetEvent(event string) {
+	w.Event = event
+	w.require(webhookDeliveryFieldEvent)
+}
+
+// SetPayload sets the Payload field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookDelivery) SetPayload(payload map[string]any) {
+	w.Payload = payload
+	w.require(webhookDeliveryFieldPayload)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookDelivery) SetStatus(status WebhookDeliveryStatus) {
+	w.Status = status
+	w.require(webhookDeliveryFieldStatus)
+}
+
+// SetAttempts sets the Attempts field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookDelivery) SetAttempts(attempts int) {
+	w.Attempts = attempts
+	w.require(webhookDeliveryFieldAttempts)
+}
+
+// SetResponseStatus sets the ResponseStatus field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookDelivery) SetResponseStatus(responseStatus *int) {
+	w.ResponseStatus = responseStatus
+	w.require(webhookDeliveryFieldResponseStatus)
+}
+
+// SetLastError sets the LastError field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookDelivery) SetLastError(lastError *string) {
+	w.LastError = lastError
+	w.require(webhookDeliveryFieldLastError)
+}
+
+// SetDeliveredAt sets the DeliveredAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookDelivery) SetDeliveredAt(deliveredAt *time.Time) {
+	w.DeliveredAt = deliveredAt
+	w.require(webhookDeliveryFieldDeliveredAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookDelivery) SetCreatedAt(createdAt time.Time) {
+	w.CreatedAt = createdAt
+	w.require(webhookDeliveryFieldCreatedAt)
+}
+
+func (w *WebhookDelivery) UnmarshalJSON(data []byte) error {
+	type embed WebhookDelivery
+	var unmarshaler = struct {
+		embed
+		DeliveredAt *internal.DateTime `json:"deliveredAt,omitempty"`
+		CreatedAt   *internal.DateTime `json:"createdAt"`
+	}{
+		embed: embed(*w),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*w = WebhookDelivery(unmarshaler.embed)
+	w.DeliveredAt = unmarshaler.DeliveredAt.TimePtr()
+	w.CreatedAt = unmarshaler.CreatedAt.Time()
+	extraProperties, err := internal.ExtractExtraProperties(data, *w)
+	if err != nil {
+		return err
+	}
+	w.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, webhookDeliveryNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		w.require(presentFields)
+	}
+	w.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (w *WebhookDelivery) MarshalJSON() ([]byte, error) {
+	type embed WebhookDelivery
+	var marshaler = struct {
+		embed
+		DeliveredAt *internal.DateTime `json:"deliveredAt,omitempty"`
+		CreatedAt   *internal.DateTime `json:"createdAt"`
+	}{
+		embed:       embed(*w),
+		DeliveredAt: internal.NewOptionalDateTime(w.DeliveredAt),
+		CreatedAt:   internal.NewDateTime(w.CreatedAt),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, w.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (w *WebhookDelivery) String() string {
+	if w == nil {
+		return "<nil>"
+	}
+	if len(w.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(w.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(w); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", w)
+}
+
+type WebhookDeliveryStatus string
+
+const (
+	WebhookDeliveryStatusPending WebhookDeliveryStatus = "PENDING"
+	WebhookDeliveryStatusSuccess WebhookDeliveryStatus = "SUCCESS"
+	WebhookDeliveryStatusFailed  WebhookDeliveryStatus = "FAILED"
+)
+
+func NewWebhookDeliveryStatusFromString(s string) (WebhookDeliveryStatus, error) {
+	switch s {
+	case "PENDING":
+		return WebhookDeliveryStatusPending, nil
+	case "SUCCESS":
+		return WebhookDeliveryStatusSuccess, nil
+	case "FAILED":
+		return WebhookDeliveryStatusFailed, nil
+	}
+	var t WebhookDeliveryStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (w WebhookDeliveryStatus) Ptr() *WebhookDeliveryStatus {
+	return &w
+}
+
+var (
+	webhookEndpointFieldID                  = big.NewInt(1 << 0)
+	webhookEndpointFieldURL                 = big.NewInt(1 << 1)
+	webhookEndpointFieldSecret              = big.NewInt(1 << 2)
+	webhookEndpointFieldEvents              = big.NewInt(1 << 3)
+	webhookEndpointFieldDescription         = big.NewInt(1 << 4)
+	webhookEndpointFieldEnabled             = big.NewInt(1 << 5)
+	webhookEndpointFieldConsecutiveFailures = big.NewInt(1 << 6)
+	webhookEndpointFieldLastSuccessAt       = big.NewInt(1 << 7)
+	webhookEndpointFieldLastFailureAt       = big.NewInt(1 << 8)
+	webhookEndpointFieldDisabledAt          = big.NewInt(1 << 9)
+	webhookEndpointFieldCreatedAt           = big.NewInt(1 << 10)
+	webhookEndpointFieldUpdatedAt           = big.NewInt(1 << 11)
+)
+
+// webhookEndpointNullableFields maps the wire names of WebhookEndpoint's nullable fields (required or optional) to their field bits.
+var webhookEndpointNullableFields = map[string]*big.Int{
+	"description":   webhookEndpointFieldDescription,
+	"lastSuccessAt": webhookEndpointFieldLastSuccessAt,
+	"lastFailureAt": webhookEndpointFieldLastFailureAt,
+	"disabledAt":    webhookEndpointFieldDisabledAt,
+}
+
+type WebhookEndpoint struct {
+	ID                  string                      `json:"id" url:"id"`
+	URL                 string                      `json:"url" url:"url"`
+	Secret              string                      `json:"secret" url:"secret"`
+	Events              []WebhookEndpointEventsItem `json:"events" url:"events"`
+	Description         *string                     `json:"description,omitempty" url:"description,omitempty"`
+	Enabled             bool                        `json:"enabled" url:"enabled"`
+	ConsecutiveFailures int                         `json:"consecutiveFailures" url:"consecutiveFailures"`
+	LastSuccessAt       *time.Time                  `json:"lastSuccessAt,omitempty" url:"lastSuccessAt,omitempty"`
+	LastFailureAt       *time.Time                  `json:"lastFailureAt,omitempty" url:"lastFailureAt,omitempty"`
+	DisabledAt          *time.Time                  `json:"disabledAt,omitempty" url:"disabledAt,omitempty"`
+	CreatedAt           time.Time                   `json:"createdAt" url:"createdAt"`
+	UpdatedAt           time.Time                   `json:"updatedAt" url:"updatedAt"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (w *WebhookEndpoint) GetID() string {
+	if w == nil {
+		return ""
+	}
+	return w.ID
+}
+
+func (w *WebhookEndpoint) GetURL() string {
+	if w == nil {
+		return ""
+	}
+	return w.URL
+}
+
+func (w *WebhookEndpoint) GetSecret() string {
+	if w == nil {
+		return ""
+	}
+	return w.Secret
+}
+
+func (w *WebhookEndpoint) GetEvents() []WebhookEndpointEventsItem {
+	if w == nil {
+		return nil
+	}
+	return w.Events
+}
+
+func (w *WebhookEndpoint) GetDescription() *string {
+	if w == nil {
+		return nil
+	}
+	return w.Description
+}
+
+func (w *WebhookEndpoint) GetEnabled() bool {
+	if w == nil {
+		return false
+	}
+	return w.Enabled
+}
+
+func (w *WebhookEndpoint) GetConsecutiveFailures() int {
+	if w == nil {
+		return 0
+	}
+	return w.ConsecutiveFailures
+}
+
+func (w *WebhookEndpoint) GetLastSuccessAt() *time.Time {
+	if w == nil {
+		return nil
+	}
+	return w.LastSuccessAt
+}
+
+func (w *WebhookEndpoint) GetLastFailureAt() *time.Time {
+	if w == nil {
+		return nil
+	}
+	return w.LastFailureAt
+}
+
+func (w *WebhookEndpoint) GetDisabledAt() *time.Time {
+	if w == nil {
+		return nil
+	}
+	return w.DisabledAt
+}
+
+func (w *WebhookEndpoint) GetCreatedAt() time.Time {
+	if w == nil {
+		return time.Time{}
+	}
+	return w.CreatedAt
+}
+
+func (w *WebhookEndpoint) GetUpdatedAt() time.Time {
+	if w == nil {
+		return time.Time{}
+	}
+	return w.UpdatedAt
+}
+
+func (w *WebhookEndpoint) GetExtraProperties() map[string]interface{} {
+	if w == nil {
+		return nil
+	}
+	return w.extraProperties
+}
+
+func (w *WebhookEndpoint) require(field *big.Int) {
+	next := new(big.Int)
+	if w.explicitFields != nil {
+		next.Set(w.explicitFields)
+	}
+	next.Or(next, field)
+	w.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetID(id string) {
+	w.ID = id
+	w.require(webhookEndpointFieldID)
+}
+
+// SetURL sets the URL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetURL(url string) {
+	w.URL = url
+	w.require(webhookEndpointFieldURL)
+}
+
+// SetSecret sets the Secret field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetSecret(secret string) {
+	w.Secret = secret
+	w.require(webhookEndpointFieldSecret)
+}
+
+// SetEvents sets the Events field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetEvents(events []WebhookEndpointEventsItem) {
+	w.Events = events
+	w.require(webhookEndpointFieldEvents)
+}
+
+// SetDescription sets the Description field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetDescription(description *string) {
+	w.Description = description
+	w.require(webhookEndpointFieldDescription)
+}
+
+// SetEnabled sets the Enabled field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetEnabled(enabled bool) {
+	w.Enabled = enabled
+	w.require(webhookEndpointFieldEnabled)
+}
+
+// SetConsecutiveFailures sets the ConsecutiveFailures field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetConsecutiveFailures(consecutiveFailures int) {
+	w.ConsecutiveFailures = consecutiveFailures
+	w.require(webhookEndpointFieldConsecutiveFailures)
+}
+
+// SetLastSuccessAt sets the LastSuccessAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetLastSuccessAt(lastSuccessAt *time.Time) {
+	w.LastSuccessAt = lastSuccessAt
+	w.require(webhookEndpointFieldLastSuccessAt)
+}
+
+// SetLastFailureAt sets the LastFailureAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetLastFailureAt(lastFailureAt *time.Time) {
+	w.LastFailureAt = lastFailureAt
+	w.require(webhookEndpointFieldLastFailureAt)
+}
+
+// SetDisabledAt sets the DisabledAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetDisabledAt(disabledAt *time.Time) {
+	w.DisabledAt = disabledAt
+	w.require(webhookEndpointFieldDisabledAt)
+}
+
+// SetCreatedAt sets the CreatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetCreatedAt(createdAt time.Time) {
+	w.CreatedAt = createdAt
+	w.require(webhookEndpointFieldCreatedAt)
+}
+
+// SetUpdatedAt sets the UpdatedAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (w *WebhookEndpoint) SetUpdatedAt(updatedAt time.Time) {
+	w.UpdatedAt = updatedAt
+	w.require(webhookEndpointFieldUpdatedAt)
+}
+
+func (w *WebhookEndpoint) UnmarshalJSON(data []byte) error {
+	type embed WebhookEndpoint
+	var unmarshaler = struct {
+		embed
+		LastSuccessAt *internal.DateTime `json:"lastSuccessAt,omitempty"`
+		LastFailureAt *internal.DateTime `json:"lastFailureAt,omitempty"`
+		DisabledAt    *internal.DateTime `json:"disabledAt,omitempty"`
+		CreatedAt     *internal.DateTime `json:"createdAt"`
+		UpdatedAt     *internal.DateTime `json:"updatedAt"`
+	}{
+		embed: embed(*w),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*w = WebhookEndpoint(unmarshaler.embed)
+	w.LastSuccessAt = unmarshaler.LastSuccessAt.TimePtr()
+	w.LastFailureAt = unmarshaler.LastFailureAt.TimePtr()
+	w.DisabledAt = unmarshaler.DisabledAt.TimePtr()
+	w.CreatedAt = unmarshaler.CreatedAt.Time()
+	w.UpdatedAt = unmarshaler.UpdatedAt.Time()
+	extraProperties, err := internal.ExtractExtraProperties(data, *w)
+	if err != nil {
+		return err
+	}
+	w.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, webhookEndpointNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		w.require(presentFields)
+	}
+	w.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (w *WebhookEndpoint) MarshalJSON() ([]byte, error) {
+	type embed WebhookEndpoint
+	var marshaler = struct {
+		embed
+		LastSuccessAt *internal.DateTime `json:"lastSuccessAt,omitempty"`
+		LastFailureAt *internal.DateTime `json:"lastFailureAt,omitempty"`
+		DisabledAt    *internal.DateTime `json:"disabledAt,omitempty"`
+		CreatedAt     *internal.DateTime `json:"createdAt"`
+		UpdatedAt     *internal.DateTime `json:"updatedAt"`
+	}{
+		embed:         embed(*w),
+		LastSuccessAt: internal.NewOptionalDateTime(w.LastSuccessAt),
+		LastFailureAt: internal.NewOptionalDateTime(w.LastFailureAt),
+		DisabledAt:    internal.NewOptionalDateTime(w.DisabledAt),
+		CreatedAt:     internal.NewDateTime(w.CreatedAt),
+		UpdatedAt:     internal.NewDateTime(w.UpdatedAt),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, w.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (w *WebhookEndpoint) String() string {
+	if w == nil {
+		return "<nil>"
+	}
+	if len(w.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(w.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(w); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", w)
+}
+
+type WebhookEndpointEventsItem string
+
+const (
+	WebhookEndpointEventsItemPostPublished       WebhookEndpointEventsItem = "post.published"
+	WebhookEndpointEventsItemPostFailed          WebhookEndpointEventsItem = "post.failed"
+	WebhookEndpointEventsItemGenerationCompleted WebhookEndpointEventsItem = "generation.completed"
+	WebhookEndpointEventsItemGenerationFailed    WebhookEndpointEventsItem = "generation.failed"
+)
+
+func NewWebhookEndpointEventsItemFromString(s string) (WebhookEndpointEventsItem, error) {
+	switch s {
+	case "post.published":
+		return WebhookEndpointEventsItemPostPublished, nil
+	case "post.failed":
+		return WebhookEndpointEventsItemPostFailed, nil
+	case "generation.completed":
+		return WebhookEndpointEventsItemGenerationCompleted, nil
+	case "generation.failed":
+		return WebhookEndpointEventsItemGenerationFailed, nil
+	}
+	var t WebhookEndpointEventsItem
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (w WebhookEndpointEventsItem) Ptr() *WebhookEndpointEventsItem {
+	return &w
+}
+
 type CreateWebhooksRequestEventsItem string
 
 const (
@@ -317,6 +928,350 @@ func NewCreateWebhooksRequestEventsItemFromString(s string) (CreateWebhooksReque
 
 func (c CreateWebhooksRequestEventsItem) Ptr() *CreateWebhooksRequestEventsItem {
 	return &c
+}
+
+var (
+	deleteWebhooksResponseFieldSuccess = big.NewInt(1 << 0)
+)
+
+type DeleteWebhooksResponse struct {
+	Success bool `json:"success" url:"success"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (d *DeleteWebhooksResponse) GetSuccess() bool {
+	if d == nil {
+		return false
+	}
+	return d.Success
+}
+
+func (d *DeleteWebhooksResponse) GetExtraProperties() map[string]interface{} {
+	if d == nil {
+		return nil
+	}
+	return d.extraProperties
+}
+
+func (d *DeleteWebhooksResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if d.explicitFields != nil {
+		next.Set(d.explicitFields)
+	}
+	next.Or(next, field)
+	d.explicitFields = next
+}
+
+// SetSuccess sets the Success field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (d *DeleteWebhooksResponse) SetSuccess(success bool) {
+	d.Success = success
+	d.require(deleteWebhooksResponseFieldSuccess)
+}
+
+func (d *DeleteWebhooksResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler DeleteWebhooksResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*d = DeleteWebhooksResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *d)
+	if err != nil {
+		return err
+	}
+	d.extraProperties = extraProperties
+	d.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (d *DeleteWebhooksResponse) MarshalJSON() ([]byte, error) {
+	type embed DeleteWebhooksResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*d),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, d.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (d *DeleteWebhooksResponse) String() string {
+	if d == nil {
+		return "<nil>"
+	}
+	if len(d.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(d.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(d); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", d)
+}
+
+var (
+	listDeliveriesWebhooksResponseFieldData = big.NewInt(1 << 0)
+)
+
+type ListDeliveriesWebhooksResponse struct {
+	Data []*WebhookDelivery `json:"data" url:"data"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListDeliveriesWebhooksResponse) GetData() []*WebhookDelivery {
+	if l == nil {
+		return nil
+	}
+	return l.Data
+}
+
+func (l *ListDeliveriesWebhooksResponse) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListDeliveriesWebhooksResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListDeliveriesWebhooksResponse) SetData(data []*WebhookDelivery) {
+	l.Data = data
+	l.require(listDeliveriesWebhooksResponseFieldData)
+}
+
+func (l *ListDeliveriesWebhooksResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListDeliveriesWebhooksResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListDeliveriesWebhooksResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListDeliveriesWebhooksResponse) MarshalJSON() ([]byte, error) {
+	type embed ListDeliveriesWebhooksResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListDeliveriesWebhooksResponse) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	listWebhooksResponseFieldData = big.NewInt(1 << 0)
+)
+
+type ListWebhooksResponse struct {
+	Data []*WebhookEndpoint `json:"data" url:"data"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListWebhooksResponse) GetData() []*WebhookEndpoint {
+	if l == nil {
+		return nil
+	}
+	return l.Data
+}
+
+func (l *ListWebhooksResponse) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListWebhooksResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetData sets the Data field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListWebhooksResponse) SetData(data []*WebhookEndpoint) {
+	l.Data = data
+	l.require(listWebhooksResponseFieldData)
+}
+
+func (l *ListWebhooksResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListWebhooksResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListWebhooksResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListWebhooksResponse) MarshalJSON() ([]byte, error) {
+	type embed ListWebhooksResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListWebhooksResponse) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	testWebhooksResponseFieldDeliveryID = big.NewInt(1 << 0)
+)
+
+type TestWebhooksResponse struct {
+	DeliveryID string `json:"deliveryId" url:"deliveryId"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (t *TestWebhooksResponse) GetDeliveryID() string {
+	if t == nil {
+		return ""
+	}
+	return t.DeliveryID
+}
+
+func (t *TestWebhooksResponse) GetExtraProperties() map[string]interface{} {
+	if t == nil {
+		return nil
+	}
+	return t.extraProperties
+}
+
+func (t *TestWebhooksResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if t.explicitFields != nil {
+		next.Set(t.explicitFields)
+	}
+	next.Or(next, field)
+	t.explicitFields = next
+}
+
+// SetDeliveryID sets the DeliveryID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (t *TestWebhooksResponse) SetDeliveryID(deliveryID string) {
+	t.DeliveryID = deliveryID
+	t.require(testWebhooksResponseFieldDeliveryID)
+}
+
+func (t *TestWebhooksResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler TestWebhooksResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*t = TestWebhooksResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *t)
+	if err != nil {
+		return err
+	}
+	t.extraProperties = extraProperties
+	t.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (t *TestWebhooksResponse) MarshalJSON() ([]byte, error) {
+	type embed TestWebhooksResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*t),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, t.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (t *TestWebhooksResponse) String() string {
+	if t == nil {
+		return "<nil>"
+	}
+	if len(t.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(t.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(t); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", t)
 }
 
 type UpdateWebhooksRequestEventsItem string

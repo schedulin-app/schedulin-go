@@ -109,7 +109,7 @@ type ListPlatformsResponseDataItem struct {
 	Platform              string                                              `json:"platform" url:"platform"`
 	Name                  string                                              `json:"name" url:"name"`
 	ComingSoon            *bool                                               `json:"comingSoon,omitempty" url:"comingSoon,omitempty"`
-	CaptionMaxLength      *float64                                            `json:"captionMaxLength,omitempty" url:"captionMaxLength,omitempty"`
+	CaptionMaxLength      *int                                                `json:"captionMaxLength,omitempty" url:"captionMaxLength,omitempty"`
 	MediaRules            *ListPlatformsResponseDataItemMediaRules            `json:"mediaRules,omitempty" url:"mediaRules,omitempty"`
 	PlatformConfiguration *ListPlatformsResponseDataItemPlatformConfiguration `json:"platformConfiguration" url:"platformConfiguration"`
 	HelperEndpoints       []*ListPlatformsResponseDataItemHelperEndpointsItem `json:"helperEndpoints,omitempty" url:"helperEndpoints,omitempty"`
@@ -142,7 +142,7 @@ func (l *ListPlatformsResponseDataItem) GetComingSoon() *bool {
 	return l.ComingSoon
 }
 
-func (l *ListPlatformsResponseDataItem) GetCaptionMaxLength() *float64 {
+func (l *ListPlatformsResponseDataItem) GetCaptionMaxLength() *int {
 	if l == nil {
 		return nil
 	}
@@ -209,7 +209,7 @@ func (l *ListPlatformsResponseDataItem) SetComingSoon(comingSoon *bool) {
 
 // SetCaptionMaxLength sets the CaptionMaxLength field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListPlatformsResponseDataItem) SetCaptionMaxLength(captionMaxLength *float64) {
+func (l *ListPlatformsResponseDataItem) SetCaptionMaxLength(captionMaxLength *int) {
 	l.CaptionMaxLength = captionMaxLength
 	l.require(listPlatformsResponseDataItemFieldCaptionMaxLength)
 }
@@ -403,8 +403,8 @@ var (
 )
 
 type ListPlatformsResponseDataItemMediaRules struct {
-	Min               *float64                                                        `json:"min,omitempty" url:"min,omitempty"`
-	Max               float64                                                         `json:"max" url:"max"`
+	Min               *int                                                            `json:"min,omitempty" url:"min,omitempty"`
+	Max               int                                                             `json:"max" url:"max"`
 	AllowedTypes      []ListPlatformsResponseDataItemMediaRulesAllowedTypesItem       `json:"allowedTypes,omitempty" url:"allowedTypes,omitempty"`
 	AllowedDimensions []*ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem `json:"allowedDimensions,omitempty" url:"allowedDimensions,omitempty"`
 
@@ -415,14 +415,14 @@ type ListPlatformsResponseDataItemMediaRules struct {
 	rawJSON         json.RawMessage
 }
 
-func (l *ListPlatformsResponseDataItemMediaRules) GetMin() *float64 {
+func (l *ListPlatformsResponseDataItemMediaRules) GetMin() *int {
 	if l == nil {
 		return nil
 	}
 	return l.Min
 }
 
-func (l *ListPlatformsResponseDataItemMediaRules) GetMax() float64 {
+func (l *ListPlatformsResponseDataItemMediaRules) GetMax() int {
 	if l == nil {
 		return 0
 	}
@@ -461,14 +461,14 @@ func (l *ListPlatformsResponseDataItemMediaRules) require(field *big.Int) {
 
 // SetMin sets the Min field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListPlatformsResponseDataItemMediaRules) SetMin(min *float64) {
+func (l *ListPlatformsResponseDataItemMediaRules) SetMin(min *int) {
 	l.Min = min
 	l.require(listPlatformsResponseDataItemMediaRulesFieldMin)
 }
 
 // SetMax sets the Max field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListPlatformsResponseDataItemMediaRules) SetMax(max float64) {
+func (l *ListPlatformsResponseDataItemMediaRules) SetMax(max int) {
 	l.Max = max
 	l.require(listPlatformsResponseDataItemMediaRulesFieldMax)
 }
@@ -535,8 +535,8 @@ var (
 )
 
 type ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem struct {
-	Width  float64 `json:"width" url:"width"`
-	Height float64 `json:"height" url:"height"`
+	Width  int `json:"width" url:"width"`
+	Height int `json:"height" url:"height"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -545,14 +545,14 @@ type ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem struct {
 	rawJSON         json.RawMessage
 }
 
-func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) GetWidth() float64 {
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) GetWidth() int {
 	if l == nil {
 		return 0
 	}
 	return l.Width
 }
 
-func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) GetHeight() float64 {
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) GetHeight() int {
 	if l == nil {
 		return 0
 	}
@@ -577,14 +577,14 @@ func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) require(f
 
 // SetWidth sets the Width field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) SetWidth(width float64) {
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) SetWidth(width int) {
 	l.Width = width
 	l.require(listPlatformsResponseDataItemMediaRulesAllowedDimensionsItemFieldWidth)
 }
 
 // SetHeight sets the Height field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) SetHeight(height float64) {
+func (l *ListPlatformsResponseDataItemMediaRulesAllowedDimensionsItem) SetHeight(height int) {
 	l.Height = height
 	l.require(listPlatformsResponseDataItemMediaRulesAllowedDimensionsItemFieldHeight)
 }

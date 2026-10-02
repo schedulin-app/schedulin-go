@@ -36,7 +36,7 @@ func (r *RawClient) GenerateImage(
 	ctx context.Context,
 	request *schedulingo.GenerateImageAiRequest,
 	opts ...option.RequestOption,
-) (*core.Response[any], error) {
+) (*core.Response[*schedulingo.GenerateImageAiResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -49,7 +49,7 @@ func (r *RawClient) GenerateImage(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response any
+	var response *schedulingo.GenerateImageAiResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -69,7 +69,7 @@ func (r *RawClient) GenerateImage(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[any]{
+	return &core.Response[*schedulingo.GenerateImageAiResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -80,7 +80,7 @@ func (r *RawClient) GetGeneration(
 	ctx context.Context,
 	request *schedulingo.GetGenerationAiRequest,
 	opts ...option.RequestOption,
-) (*core.Response[any], error) {
+) (*core.Response[*schedulingo.AiGeneration], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -99,7 +99,7 @@ func (r *RawClient) GetGeneration(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response any
+	var response *schedulingo.AiGeneration
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -118,7 +118,7 @@ func (r *RawClient) GetGeneration(
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[any]{
+	return &core.Response[*schedulingo.AiGeneration]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

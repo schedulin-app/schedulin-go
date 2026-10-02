@@ -8,13 +8,48 @@ import (
 )
 
 var ErrorCodes internal.ErrorCodes = internal.ErrorCodes{
+	400: func(apiError *core.APIError) error {
+		return &BadRequestError{
+			APIError: apiError,
+		}
+	},
 	401: func(apiError *core.APIError) error {
 		return &UnauthorizedError{
 			APIError: apiError,
 		}
 	},
+	403: func(apiError *core.APIError) error {
+		return &ForbiddenError{
+			APIError: apiError,
+		}
+	},
+	422: func(apiError *core.APIError) error {
+		return &UnprocessableEntityError{
+			APIError: apiError,
+		}
+	},
+	429: func(apiError *core.APIError) error {
+		return &TooManyRequestsError{
+			APIError: apiError,
+		}
+	},
 	500: func(apiError *core.APIError) error {
 		return &InternalServerError{
+			APIError: apiError,
+		}
+	},
+	402: func(apiError *core.APIError) error {
+		return &PaymentRequiredError{
+			APIError: apiError,
+		}
+	},
+	409: func(apiError *core.APIError) error {
+		return &ConflictError{
+			APIError: apiError,
+		}
+	},
+	404: func(apiError *core.APIError) error {
+		return &NotFoundError{
 			APIError: apiError,
 		}
 	},
