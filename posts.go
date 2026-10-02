@@ -1382,6 +1382,108 @@ func (p PostStatus) Ptr() *PostStatus {
 }
 
 var (
+	postThreadPartFieldCaption = big.NewInt(1 << 0)
+	postThreadPartFieldMedia   = big.NewInt(1 << 1)
+)
+
+type PostThreadPart struct {
+	Caption string       `json:"caption" url:"caption"`
+	Media   []*PostMedia `json:"media" url:"media"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostThreadPart) GetCaption() string {
+	if p == nil {
+		return ""
+	}
+	return p.Caption
+}
+
+func (p *PostThreadPart) GetMedia() []*PostMedia {
+	if p == nil {
+		return nil
+	}
+	return p.Media
+}
+
+func (p *PostThreadPart) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostThreadPart) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetCaption sets the Caption field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostThreadPart) SetCaption(caption string) {
+	p.Caption = caption
+	p.require(postThreadPartFieldCaption)
+}
+
+// SetMedia sets the Media field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostThreadPart) SetMedia(media []*PostMedia) {
+	p.Media = media
+	p.require(postThreadPartFieldMedia)
+}
+
+func (p *PostThreadPart) UnmarshalJSON(data []byte) error {
+	type unmarshaler PostThreadPart
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PostThreadPart(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostThreadPart) MarshalJSON() ([]byte, error) {
+	type embed PostThreadPart
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostThreadPart) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+var (
 	postWithRelationsFieldID                    = big.NewInt(1 << 0)
 	postWithRelationsFieldExternalID            = big.NewInt(1 << 1)
 	postWithRelationsFieldCaption               = big.NewInt(1 << 2)
@@ -1405,6 +1507,7 @@ var (
 	postWithRelationsFieldMedia                 = big.NewInt(1 << 20)
 	postWithRelationsFieldThumbnail             = big.NewInt(1 << 21)
 	postWithRelationsFieldTags                  = big.NewInt(1 << 22)
+	postWithRelationsFieldParts                 = big.NewInt(1 << 23)
 )
 
 // postWithRelationsNullableFields maps the wire names of PostWithRelations's nullable fields (required or optional) to their field bits.
@@ -1448,6 +1551,7 @@ type PostWithRelations struct {
 	Media                 []*PostMedia       `json:"media" url:"media"`
 	Thumbnail             *PostMedia         `json:"thumbnail,omitempty" url:"thumbnail,omitempty"`
 	Tags                  []*Tag             `json:"tags" url:"tags"`
+	Parts                 []*PostThreadPart  `json:"parts" url:"parts"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1615,6 +1719,13 @@ func (p *PostWithRelations) GetTags() []*Tag {
 		return nil
 	}
 	return p.Tags
+}
+
+func (p *PostWithRelations) GetParts() []*PostThreadPart {
+	if p == nil {
+		return nil
+	}
+	return p.Parts
 }
 
 func (p *PostWithRelations) GetExtraProperties() map[string]interface{} {
@@ -1792,6 +1903,13 @@ func (p *PostWithRelations) SetThumbnail(thumbnail *PostMedia) {
 func (p *PostWithRelations) SetTags(tags []*Tag) {
 	p.Tags = tags
 	p.require(postWithRelationsFieldTags)
+}
+
+// SetParts sets the Parts field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostWithRelations) SetParts(parts []*PostThreadPart) {
+	p.Parts = parts
+	p.require(postWithRelationsFieldParts)
 }
 
 func (p *PostWithRelations) UnmarshalJSON(data []byte) error {
@@ -6091,6 +6209,370 @@ func (u *UpdatePostsRequestMediaItem) String() string {
 	return fmt.Sprintf("%#v", u)
 }
 
+var (
+	updatePostsRequestPartsItemFieldCaption = big.NewInt(1 << 0)
+	updatePostsRequestPartsItemFieldMedia   = big.NewInt(1 << 1)
+)
+
+type UpdatePostsRequestPartsItem struct {
+	Caption string                                  `json:"caption" url:"caption"`
+	Media   []*UpdatePostsRequestPartsItemMediaItem `json:"media,omitempty" url:"media,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdatePostsRequestPartsItem) GetCaption() string {
+	if u == nil {
+		return ""
+	}
+	return u.Caption
+}
+
+func (u *UpdatePostsRequestPartsItem) GetMedia() []*UpdatePostsRequestPartsItemMediaItem {
+	if u == nil {
+		return nil
+	}
+	return u.Media
+}
+
+func (u *UpdatePostsRequestPartsItem) GetExtraProperties() map[string]interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.extraProperties
+}
+
+func (u *UpdatePostsRequestPartsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
+	}
+	next.Or(next, field)
+	u.explicitFields = next
+}
+
+// SetCaption sets the Caption field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItem) SetCaption(caption string) {
+	u.Caption = caption
+	u.require(updatePostsRequestPartsItemFieldCaption)
+}
+
+// SetMedia sets the Media field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItem) SetMedia(media []*UpdatePostsRequestPartsItemMediaItem) {
+	u.Media = media
+	u.require(updatePostsRequestPartsItemFieldMedia)
+}
+
+func (u *UpdatePostsRequestPartsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdatePostsRequestPartsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdatePostsRequestPartsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdatePostsRequestPartsItem) MarshalJSON() ([]byte, error) {
+	type embed UpdatePostsRequestPartsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (u *UpdatePostsRequestPartsItem) String() string {
+	if u == nil {
+		return "<nil>"
+	}
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+var (
+	updatePostsRequestPartsItemMediaItemFieldID       = big.NewInt(1 << 0)
+	updatePostsRequestPartsItemMediaItemFieldURL      = big.NewInt(1 << 1)
+	updatePostsRequestPartsItemMediaItemFieldName     = big.NewInt(1 << 2)
+	updatePostsRequestPartsItemMediaItemFieldMimeType = big.NewInt(1 << 3)
+	updatePostsRequestPartsItemMediaItemFieldWidth    = big.NewInt(1 << 4)
+	updatePostsRequestPartsItemMediaItemFieldHeight   = big.NewInt(1 << 5)
+	updatePostsRequestPartsItemMediaItemFieldSize     = big.NewInt(1 << 6)
+	updatePostsRequestPartsItemMediaItemFieldDuration = big.NewInt(1 << 7)
+	updatePostsRequestPartsItemMediaItemFieldAlt      = big.NewInt(1 << 8)
+	updatePostsRequestPartsItemMediaItemFieldBucket   = big.NewInt(1 << 9)
+	updatePostsRequestPartsItemMediaItemFieldKey      = big.NewInt(1 << 10)
+)
+
+// updatePostsRequestPartsItemMediaItemNullableFields maps the wire names of UpdatePostsRequestPartsItemMediaItem's nullable fields (required or optional) to their field bits.
+var updatePostsRequestPartsItemMediaItemNullableFields = map[string]*big.Int{
+	"width":    updatePostsRequestPartsItemMediaItemFieldWidth,
+	"height":   updatePostsRequestPartsItemMediaItemFieldHeight,
+	"size":     updatePostsRequestPartsItemMediaItemFieldSize,
+	"duration": updatePostsRequestPartsItemMediaItemFieldDuration,
+	"alt":      updatePostsRequestPartsItemMediaItemFieldAlt,
+}
+
+type UpdatePostsRequestPartsItemMediaItem struct {
+	ID       *string  `json:"id,omitempty" url:"id,omitempty"`
+	URL      *string  `json:"url,omitempty" url:"url,omitempty"`
+	Name     *string  `json:"name,omitempty" url:"name,omitempty"`
+	MimeType *string  `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width    *float64 `json:"width,omitempty" url:"width,omitempty"`
+	Height   *float64 `json:"height,omitempty" url:"height,omitempty"`
+	Size     *float64 `json:"size,omitempty" url:"size,omitempty"`
+	Duration *float64 `json:"duration,omitempty" url:"duration,omitempty"`
+	Alt      *string  `json:"alt,omitempty" url:"alt,omitempty"`
+	Bucket   *string  `json:"bucket,omitempty" url:"bucket,omitempty"`
+	Key      *string  `json:"key,omitempty" url:"key,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetID() *string {
+	if u == nil {
+		return nil
+	}
+	return u.ID
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetURL() *string {
+	if u == nil {
+		return nil
+	}
+	return u.URL
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetName() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Name
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetMimeType() *string {
+	if u == nil {
+		return nil
+	}
+	return u.MimeType
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetWidth() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Width
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetHeight() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Height
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetSize() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Size
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetDuration() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Duration
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetAlt() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Alt
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetBucket() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Bucket
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetKey() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Key
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetExtraProperties() map[string]interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.extraProperties
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) require(field *big.Int) {
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
+	}
+	next.Or(next, field)
+	u.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetID(id *string) {
+	u.ID = id
+	u.require(updatePostsRequestPartsItemMediaItemFieldID)
+}
+
+// SetURL sets the URL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetURL(url *string) {
+	u.URL = url
+	u.require(updatePostsRequestPartsItemMediaItemFieldURL)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetName(name *string) {
+	u.Name = name
+	u.require(updatePostsRequestPartsItemMediaItemFieldName)
+}
+
+// SetMimeType sets the MimeType field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetMimeType(mimeType *string) {
+	u.MimeType = mimeType
+	u.require(updatePostsRequestPartsItemMediaItemFieldMimeType)
+}
+
+// SetWidth sets the Width field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetWidth(width *float64) {
+	u.Width = width
+	u.require(updatePostsRequestPartsItemMediaItemFieldWidth)
+}
+
+// SetHeight sets the Height field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetHeight(height *float64) {
+	u.Height = height
+	u.require(updatePostsRequestPartsItemMediaItemFieldHeight)
+}
+
+// SetSize sets the Size field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetSize(size *float64) {
+	u.Size = size
+	u.require(updatePostsRequestPartsItemMediaItemFieldSize)
+}
+
+// SetDuration sets the Duration field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetDuration(duration *float64) {
+	u.Duration = duration
+	u.require(updatePostsRequestPartsItemMediaItemFieldDuration)
+}
+
+// SetAlt sets the Alt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetAlt(alt *string) {
+	u.Alt = alt
+	u.require(updatePostsRequestPartsItemMediaItemFieldAlt)
+}
+
+// SetBucket sets the Bucket field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetBucket(bucket *string) {
+	u.Bucket = bucket
+	u.require(updatePostsRequestPartsItemMediaItemFieldBucket)
+}
+
+// SetKey sets the Key field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetKey(key *string) {
+	u.Key = key
+	u.require(updatePostsRequestPartsItemMediaItemFieldKey)
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdatePostsRequestPartsItemMediaItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdatePostsRequestPartsItemMediaItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, updatePostsRequestPartsItemMediaItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		u.require(presentFields)
+	}
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) MarshalJSON() ([]byte, error) {
+	type embed UpdatePostsRequestPartsItemMediaItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) String() string {
+	if u == nil {
+		return "<nil>"
+	}
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
 type UpdatePostsRequestStatus string
 
 const (
@@ -6124,6 +6606,7 @@ var (
 	updatePostsRequestFieldPlatformConfiguration = big.NewInt(1 << 4)
 	updatePostsRequestFieldStatus                = big.NewInt(1 << 5)
 	updatePostsRequestFieldTagIDs                = big.NewInt(1 << 6)
+	updatePostsRequestFieldParts                 = big.NewInt(1 << 7)
 )
 
 type UpdatePostsRequest struct {
@@ -6134,6 +6617,7 @@ type UpdatePostsRequest struct {
 	PlatformConfiguration map[string]any                 `json:"platformConfiguration,omitempty" url:"-"`
 	Status                *UpdatePostsRequestStatus      `json:"status,omitempty" url:"-"`
 	TagIDs                []string                       `json:"tagIds,omitempty" url:"-"`
+	Parts                 []*UpdatePostsRequestPartsItem `json:"parts,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -6195,6 +6679,13 @@ func (u *UpdatePostsRequest) SetStatus(status *UpdatePostsRequestStatus) {
 func (u *UpdatePostsRequest) SetTagIDs(tagIDs []string) {
 	u.TagIDs = tagIDs
 	u.require(updatePostsRequestFieldTagIDs)
+}
+
+// SetParts sets the Parts field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequest) SetParts(parts []*UpdatePostsRequestPartsItem) {
+	u.Parts = parts
+	u.require(updatePostsRequestFieldParts)
 }
 
 func (u *UpdatePostsRequest) UnmarshalJSON(data []byte) error {
