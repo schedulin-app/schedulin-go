@@ -1,4 +1,4 @@
-package api
+package schedulin
 
 import (
 	"time"

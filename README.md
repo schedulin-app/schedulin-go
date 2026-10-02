@@ -32,7 +32,7 @@ package example
 import (
     context "context"
 
-    schedulingo "github.com/schedulin-app/schedulin-go"
+    schedulin "github.com/schedulin-app/schedulin-go"
     client "github.com/schedulin-app/schedulin-go/client"
     option "github.com/schedulin-app/schedulin-go/option"
 )
@@ -43,7 +43,7 @@ func do() {
             "<value>",
         ),
     )
-    request := &schedulingo.PostCreate{
+    request := &schedulin.PostCreate{
         Caption: "caption",
         SocialAccountID: "socialAccountId",
     }
@@ -61,7 +61,7 @@ URL, which is particularly useful in test environments.
 
 ```go
 client := client.NewClient(
-    option.WithBaseURL(api.Environments.Default),
+    option.WithBaseURL(schedulin.Environments.Default),
 )
 ```
 

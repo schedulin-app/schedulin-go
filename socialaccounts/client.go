@@ -5,7 +5,7 @@ package socialaccounts
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -44,7 +44,7 @@ func NewClient(options *core.RequestOptions) *Client {
 func (c *Client) List(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (*schedulingo.ListSocialAccountsResponse, error) {
+) (*schedulin.ListSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
 		opts...,
@@ -59,7 +59,7 @@ func (c *Client) List(
 //
 // Example:
 //
-//	request := &schedulingo.ListWhopCompaniesSocialAccountsRequest{
+//	request := &schedulin.ListWhopCompaniesSocialAccountsRequest{
 //	    ID: "id",
 //	}
 //	client.SocialAccounts.ListWhopCompanies(
@@ -68,9 +68,9 @@ func (c *Client) List(
 //	)
 func (c *Client) ListWhopCompanies(
 	ctx context.Context,
-	request *schedulingo.ListWhopCompaniesSocialAccountsRequest,
+	request *schedulin.ListWhopCompaniesSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.ListWhopCompaniesSocialAccountsResponse, error) {
+) (*schedulin.ListWhopCompaniesSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.ListWhopCompanies(
 		ctx,
 		request,
@@ -86,7 +86,7 @@ func (c *Client) ListWhopCompanies(
 //
 // Example:
 //
-//	request := &schedulingo.ListWhopForumsSocialAccountsRequest{
+//	request := &schedulin.ListWhopForumsSocialAccountsRequest{
 //	    ID: "id",
 //	    CompanyID: "companyId",
 //	}
@@ -96,9 +96,9 @@ func (c *Client) ListWhopCompanies(
 //	)
 func (c *Client) ListWhopForums(
 	ctx context.Context,
-	request *schedulingo.ListWhopForumsSocialAccountsRequest,
+	request *schedulin.ListWhopForumsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.ListWhopForumsSocialAccountsResponse, error) {
+) (*schedulin.ListWhopForumsSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.ListWhopForums(
 		ctx,
 		request,
@@ -114,7 +114,7 @@ func (c *Client) ListWhopForums(
 //
 // Example:
 //
-//	request := &schedulingo.ListDiscordChannelsSocialAccountsRequest{
+//	request := &schedulin.ListDiscordChannelsSocialAccountsRequest{
 //	    ID: "id",
 //	}
 //	client.SocialAccounts.ListDiscordChannels(
@@ -123,9 +123,9 @@ func (c *Client) ListWhopForums(
 //	)
 func (c *Client) ListDiscordChannels(
 	ctx context.Context,
-	request *schedulingo.ListDiscordChannelsSocialAccountsRequest,
+	request *schedulin.ListDiscordChannelsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.ListDiscordChannelsSocialAccountsResponse, error) {
+) (*schedulin.ListDiscordChannelsSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.ListDiscordChannels(
 		ctx,
 		request,
@@ -141,7 +141,7 @@ func (c *Client) ListDiscordChannels(
 //
 // Example:
 //
-//	request := &schedulingo.ListSlackChannelsSocialAccountsRequest{
+//	request := &schedulin.ListSlackChannelsSocialAccountsRequest{
 //	    ID: "id",
 //	}
 //	client.SocialAccounts.ListSlackChannels(
@@ -150,9 +150,9 @@ func (c *Client) ListDiscordChannels(
 //	)
 func (c *Client) ListSlackChannels(
 	ctx context.Context,
-	request *schedulingo.ListSlackChannelsSocialAccountsRequest,
+	request *schedulin.ListSlackChannelsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.ListSlackChannelsSocialAccountsResponse, error) {
+) (*schedulin.ListSlackChannelsSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.ListSlackChannels(
 		ctx,
 		request,
@@ -168,7 +168,7 @@ func (c *Client) ListSlackChannels(
 //
 // Example:
 //
-//	request := &schedulingo.UpdateSocialAccountsRequest{
+//	request := &schedulin.UpdateSocialAccountsRequest{
 //	    ID: "id",
 //	}
 //	client.SocialAccounts.Update(
@@ -177,9 +177,9 @@ func (c *Client) ListSlackChannels(
 //	)
 func (c *Client) Update(
 	ctx context.Context,
-	request *schedulingo.UpdateSocialAccountsRequest,
+	request *schedulin.UpdateSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.UpdateSocialAccountsResponse, error) {
+) (*schedulin.UpdateSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.Update(
 		ctx,
 		request,
@@ -195,7 +195,7 @@ func (c *Client) Update(
 //
 // Example:
 //
-//	request := &schedulingo.DeleteSocialAccountsRequest{
+//	request := &schedulin.DeleteSocialAccountsRequest{
 //	    ID: "id",
 //	}
 //	client.SocialAccounts.Delete(
@@ -204,9 +204,9 @@ func (c *Client) Update(
 //	)
 func (c *Client) Delete(
 	ctx context.Context,
-	request *schedulingo.DeleteSocialAccountsRequest,
+	request *schedulin.DeleteSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.DeleteSocialAccountsResponse, error) {
+) (*schedulin.DeleteSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.Delete(
 		ctx,
 		request,
@@ -222,7 +222,7 @@ func (c *Client) Delete(
 //
 // Example:
 //
-//	request := &schedulingo.UpdateTimezoneSocialAccountsRequest{
+//	request := &schedulin.UpdateTimezoneSocialAccountsRequest{
 //	    ID: "id",
 //	    Timezone: "timezone",
 //	}
@@ -232,9 +232,9 @@ func (c *Client) Delete(
 //	)
 func (c *Client) UpdateTimezone(
 	ctx context.Context,
-	request *schedulingo.UpdateTimezoneSocialAccountsRequest,
+	request *schedulin.UpdateTimezoneSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.UpdateTimezoneSocialAccountsResponse, error) {
+) (*schedulin.UpdateTimezoneSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.UpdateTimezone(
 		ctx,
 		request,
@@ -250,7 +250,7 @@ func (c *Client) UpdateTimezone(
 //
 // Example:
 //
-//	request := &schedulingo.NextSlotsSocialAccountsRequest{
+//	request := &schedulin.NextSlotsSocialAccountsRequest{
 //	    ID: "id",
 //	}
 //	client.SocialAccounts.NextSlots(
@@ -259,9 +259,9 @@ func (c *Client) UpdateTimezone(
 //	)
 func (c *Client) NextSlots(
 	ctx context.Context,
-	request *schedulingo.NextSlotsSocialAccountsRequest,
+	request *schedulin.NextSlotsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.NextSlotsSocialAccountsResponse, error) {
+) (*schedulin.NextSlotsSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.NextSlots(
 		ctx,
 		request,
@@ -277,7 +277,7 @@ func (c *Client) NextSlots(
 //
 // Example:
 //
-//	request := &schedulingo.PinterestBoardsSocialAccountsRequest{
+//	request := &schedulin.PinterestBoardsSocialAccountsRequest{
 //	    ID: "id",
 //	}
 //	client.SocialAccounts.PinterestBoards(
@@ -286,9 +286,9 @@ func (c *Client) NextSlots(
 //	)
 func (c *Client) PinterestBoards(
 	ctx context.Context,
-	request *schedulingo.PinterestBoardsSocialAccountsRequest,
+	request *schedulin.PinterestBoardsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.PinterestBoardsSocialAccountsResponse, error) {
+) (*schedulin.PinterestBoardsSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.PinterestBoards(
 		ctx,
 		request,
@@ -304,7 +304,7 @@ func (c *Client) PinterestBoards(
 //
 // Example:
 //
-//	request := &schedulingo.TiktokCreatorInfoSocialAccountsRequest{
+//	request := &schedulin.TiktokCreatorInfoSocialAccountsRequest{
 //	    ID: "id",
 //	}
 //	client.SocialAccounts.TiktokCreatorInfo(
@@ -313,9 +313,9 @@ func (c *Client) PinterestBoards(
 //	)
 func (c *Client) TiktokCreatorInfo(
 	ctx context.Context,
-	request *schedulingo.TiktokCreatorInfoSocialAccountsRequest,
+	request *schedulin.TiktokCreatorInfoSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.TiktokCreatorInfoSocialAccountsResponse, error) {
+) (*schedulin.TiktokCreatorInfoSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.TiktokCreatorInfo(
 		ctx,
 		request,

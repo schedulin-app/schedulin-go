@@ -5,7 +5,7 @@ package ai
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -38,7 +38,7 @@ func NewClient(options *core.RequestOptions) *Client {
 //
 // Example:
 //
-//	request := &schedulingo.GenerateImageAiRequest{
+//	request := &schedulin.GenerateImageAiRequest{
 //	    Prompt: "prompt",
 //	}
 //	client.Ai.GenerateImage(
@@ -47,9 +47,9 @@ func NewClient(options *core.RequestOptions) *Client {
 //	)
 func (c *Client) GenerateImage(
 	ctx context.Context,
-	request *schedulingo.GenerateImageAiRequest,
+	request *schedulin.GenerateImageAiRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.GenerateImageAiResponse, error) {
+) (*schedulin.GenerateImageAiResponse, error) {
 	response, err := c.WithRawResponse.GenerateImage(
 		ctx,
 		request,
@@ -65,7 +65,7 @@ func (c *Client) GenerateImage(
 //
 // Example:
 //
-//	request := &schedulingo.GetGenerationAiRequest{
+//	request := &schedulin.GetGenerationAiRequest{
 //	    ID: "id",
 //	}
 //	client.Ai.GetGeneration(
@@ -74,9 +74,9 @@ func (c *Client) GenerateImage(
 //	)
 func (c *Client) GetGeneration(
 	ctx context.Context,
-	request *schedulingo.GetGenerationAiRequest,
+	request *schedulin.GetGenerationAiRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.AiGeneration, error) {
+) (*schedulin.AiGeneration, error) {
 	response, err := c.WithRawResponse.GetGeneration(
 		ctx,
 		request,

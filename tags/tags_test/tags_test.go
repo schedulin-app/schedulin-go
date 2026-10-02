@@ -10,7 +10,7 @@ import (
 	os "os"
 	testing "testing"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	client "github.com/schedulin-app/schedulin-go/client"
 	option "github.com/schedulin-app/schedulin-go/option"
 	require "github.com/stretchr/testify/require"
@@ -88,7 +88,7 @@ func TestTagsListWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.ListTagsRequest{}
+	request := &schedulin.ListTagsRequest{}
 	_, invocationErr := client.Tags.List(
 		context.TODO(),
 		request,
@@ -112,7 +112,7 @@ func TestTagsCreateWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.CreateTagsRequest{
+	request := &schedulin.CreateTagsRequest{
 		Name:  "name",
 		Color: "color",
 	}
@@ -139,7 +139,7 @@ func TestTagsUpdateWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.UpdateTagsRequest{
+	request := &schedulin.UpdateTagsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Tags.Update(
@@ -165,7 +165,7 @@ func TestTagsDeleteWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.DeleteTagsRequest{
+	request := &schedulin.DeleteTagsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Tags.Delete(

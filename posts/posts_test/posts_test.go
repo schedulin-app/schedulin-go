@@ -10,7 +10,7 @@ import (
 	os "os"
 	testing "testing"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	client "github.com/schedulin-app/schedulin-go/client"
 	option "github.com/schedulin-app/schedulin-go/option"
 	require "github.com/stretchr/testify/require"
@@ -88,7 +88,7 @@ func TestPostsListWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.ListPostsRequest{}
+	request := &schedulin.ListPostsRequest{}
 	_, invocationErr := client.Posts.List(
 		context.TODO(),
 		request,
@@ -112,7 +112,7 @@ func TestPostsCreateWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.PostCreate{
+	request := &schedulin.PostCreate{
 		Caption:         "caption",
 		SocialAccountID: "socialAccountId",
 	}
@@ -139,7 +139,7 @@ func TestPostsCountByTabWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.CountByTabPostsRequest{}
+	request := &schedulin.CountByTabPostsRequest{}
 	_, invocationErr := client.Posts.CountByTab(
 		context.TODO(),
 		request,
@@ -163,7 +163,7 @@ func TestPostsRetrieveWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.RetrievePostsRequest{
+	request := &schedulin.RetrievePostsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Posts.Retrieve(
@@ -189,7 +189,7 @@ func TestPostsUpdateWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.UpdatePostsRequest{
+	request := &schedulin.UpdatePostsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Posts.Update(
@@ -215,7 +215,7 @@ func TestPostsDeleteWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.DeletePostsRequest{
+	request := &schedulin.DeletePostsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Posts.Delete(
@@ -241,7 +241,7 @@ func TestPostsAnalyticsSummaryWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.AnalyticsSummaryPostsRequest{
+	request := &schedulin.AnalyticsSummaryPostsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Posts.AnalyticsSummary(
@@ -267,7 +267,7 @@ func TestPostsAnalyticsSeriesWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.AnalyticsSeriesPostsRequest{
+	request := &schedulin.AnalyticsSeriesPostsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Posts.AnalyticsSeries(
@@ -293,7 +293,7 @@ func TestPostsPublishDraftWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.PublishDraftPostsRequest{
+	request := &schedulin.PublishDraftPostsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Posts.PublishDraft(
@@ -319,7 +319,7 @@ func TestPostsUpdateTagsWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.UpdateTagsPostsRequest{
+	request := &schedulin.UpdateTagsPostsRequest{
 		ID: "id",
 		TagIDs: []string{
 			"tagIds",

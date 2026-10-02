@@ -5,7 +5,7 @@ package posts
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -38,16 +38,16 @@ func NewClient(options *core.RequestOptions) *Client {
 //
 // Example:
 //
-//	request := &schedulingo.ListPostsRequest{}
+//	request := &schedulin.ListPostsRequest{}
 //	client.Posts.List(
 //	    context.TODO(),
 //	    request,
 //	)
 func (c *Client) List(
 	ctx context.Context,
-	request *schedulingo.ListPostsRequest,
+	request *schedulin.ListPostsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.ListPostsResponse, error) {
+) (*schedulin.ListPostsResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
 		request,
@@ -63,7 +63,7 @@ func (c *Client) List(
 //
 // Example:
 //
-//	request := &schedulingo.PostCreate{
+//	request := &schedulin.PostCreate{
 //	    Caption: "caption",
 //	    SocialAccountID: "socialAccountId",
 //	}
@@ -73,9 +73,9 @@ func (c *Client) List(
 //	)
 func (c *Client) Create(
 	ctx context.Context,
-	request *schedulingo.PostCreate,
+	request *schedulin.PostCreate,
 	opts ...option.RequestOption,
-) (*schedulingo.CreatePostsResponse, error) {
+) (*schedulin.CreatePostsResponse, error) {
 	response, err := c.WithRawResponse.Create(
 		ctx,
 		request,
@@ -91,16 +91,16 @@ func (c *Client) Create(
 //
 // Example:
 //
-//	request := &schedulingo.CountByTabPostsRequest{}
+//	request := &schedulin.CountByTabPostsRequest{}
 //	client.Posts.CountByTab(
 //	    context.TODO(),
 //	    request,
 //	)
 func (c *Client) CountByTab(
 	ctx context.Context,
-	request *schedulingo.CountByTabPostsRequest,
+	request *schedulin.CountByTabPostsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.CountByTabPostsResponse, error) {
+) (*schedulin.CountByTabPostsResponse, error) {
 	response, err := c.WithRawResponse.CountByTab(
 		ctx,
 		request,
@@ -116,7 +116,7 @@ func (c *Client) CountByTab(
 //
 // Example:
 //
-//	request := &schedulingo.RetrievePostsRequest{
+//	request := &schedulin.RetrievePostsRequest{
 //	    ID: "id",
 //	}
 //	client.Posts.Retrieve(
@@ -125,9 +125,9 @@ func (c *Client) CountByTab(
 //	)
 func (c *Client) Retrieve(
 	ctx context.Context,
-	request *schedulingo.RetrievePostsRequest,
+	request *schedulin.RetrievePostsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.PostWithRelations, error) {
+) (*schedulin.PostWithRelations, error) {
 	response, err := c.WithRawResponse.Retrieve(
 		ctx,
 		request,
@@ -143,7 +143,7 @@ func (c *Client) Retrieve(
 //
 // Example:
 //
-//	request := &schedulingo.UpdatePostsRequest{
+//	request := &schedulin.UpdatePostsRequest{
 //	    ID: "id",
 //	}
 //	client.Posts.Update(
@@ -152,9 +152,9 @@ func (c *Client) Retrieve(
 //	)
 func (c *Client) Update(
 	ctx context.Context,
-	request *schedulingo.UpdatePostsRequest,
+	request *schedulin.UpdatePostsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Post, error) {
+) (*schedulin.Post, error) {
 	response, err := c.WithRawResponse.Update(
 		ctx,
 		request,
@@ -170,7 +170,7 @@ func (c *Client) Update(
 //
 // Example:
 //
-//	request := &schedulingo.DeletePostsRequest{
+//	request := &schedulin.DeletePostsRequest{
 //	    ID: "id",
 //	}
 //	client.Posts.Delete(
@@ -179,9 +179,9 @@ func (c *Client) Update(
 //	)
 func (c *Client) Delete(
 	ctx context.Context,
-	request *schedulingo.DeletePostsRequest,
+	request *schedulin.DeletePostsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Post, error) {
+) (*schedulin.Post, error) {
 	response, err := c.WithRawResponse.Delete(
 		ctx,
 		request,
@@ -197,7 +197,7 @@ func (c *Client) Delete(
 //
 // Example:
 //
-//	request := &schedulingo.AnalyticsSummaryPostsRequest{
+//	request := &schedulin.AnalyticsSummaryPostsRequest{
 //	    ID: "id",
 //	}
 //	client.Posts.AnalyticsSummary(
@@ -206,9 +206,9 @@ func (c *Client) Delete(
 //	)
 func (c *Client) AnalyticsSummary(
 	ctx context.Context,
-	request *schedulingo.AnalyticsSummaryPostsRequest,
+	request *schedulin.AnalyticsSummaryPostsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.AnalyticsSummaryPostsResponse, error) {
+) (*schedulin.AnalyticsSummaryPostsResponse, error) {
 	response, err := c.WithRawResponse.AnalyticsSummary(
 		ctx,
 		request,
@@ -224,7 +224,7 @@ func (c *Client) AnalyticsSummary(
 //
 // Example:
 //
-//	request := &schedulingo.AnalyticsSeriesPostsRequest{
+//	request := &schedulin.AnalyticsSeriesPostsRequest{
 //	    ID: "id",
 //	}
 //	client.Posts.AnalyticsSeries(
@@ -233,9 +233,9 @@ func (c *Client) AnalyticsSummary(
 //	)
 func (c *Client) AnalyticsSeries(
 	ctx context.Context,
-	request *schedulingo.AnalyticsSeriesPostsRequest,
+	request *schedulin.AnalyticsSeriesPostsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.AnalyticsSeriesPostsResponse, error) {
+) (*schedulin.AnalyticsSeriesPostsResponse, error) {
 	response, err := c.WithRawResponse.AnalyticsSeries(
 		ctx,
 		request,
@@ -251,7 +251,7 @@ func (c *Client) AnalyticsSeries(
 //
 // Example:
 //
-//	request := &schedulingo.PublishDraftPostsRequest{
+//	request := &schedulin.PublishDraftPostsRequest{
 //	    ID: "id",
 //	}
 //	client.Posts.PublishDraft(
@@ -260,9 +260,9 @@ func (c *Client) AnalyticsSeries(
 //	)
 func (c *Client) PublishDraft(
 	ctx context.Context,
-	request *schedulingo.PublishDraftPostsRequest,
+	request *schedulin.PublishDraftPostsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Post, error) {
+) (*schedulin.Post, error) {
 	response, err := c.WithRawResponse.PublishDraft(
 		ctx,
 		request,
@@ -278,7 +278,7 @@ func (c *Client) PublishDraft(
 //
 // Example:
 //
-//	request := &schedulingo.UpdateTagsPostsRequest{
+//	request := &schedulin.UpdateTagsPostsRequest{
 //	    ID: "id",
 //	    TagIDs: []string{
 //	        "tagIds",
@@ -290,9 +290,9 @@ func (c *Client) PublishDraft(
 //	)
 func (c *Client) UpdateTags(
 	ctx context.Context,
-	request *schedulingo.UpdateTagsPostsRequest,
+	request *schedulin.UpdateTagsPostsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Post, error) {
+) (*schedulin.Post, error) {
 	response, err := c.WithRawResponse.UpdateTags(
 		ctx,
 		request,

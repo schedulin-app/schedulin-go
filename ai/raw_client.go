@@ -6,7 +6,7 @@ import (
 	context "context"
 	http "net/http"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -34,9 +34,9 @@ func NewRawClient(options *core.RequestOptions) *RawClient {
 
 func (r *RawClient) GenerateImage(
 	ctx context.Context,
-	request *schedulingo.GenerateImageAiRequest,
+	request *schedulin.GenerateImageAiRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.GenerateImageAiResponse], error) {
+) (*core.Response[*schedulin.GenerateImageAiResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -49,7 +49,7 @@ func (r *RawClient) GenerateImage(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.GenerateImageAiResponse
+	var response *schedulin.GenerateImageAiResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -63,13 +63,13 @@ func (r *RawClient) GenerateImage(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.GenerateImageAiResponse]{
+	return &core.Response[*schedulin.GenerateImageAiResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -78,9 +78,9 @@ func (r *RawClient) GenerateImage(
 
 func (r *RawClient) GetGeneration(
 	ctx context.Context,
-	request *schedulingo.GetGenerationAiRequest,
+	request *schedulin.GetGenerationAiRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.AiGeneration], error) {
+) (*core.Response[*schedulin.AiGeneration], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -99,7 +99,7 @@ func (r *RawClient) GetGeneration(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.AiGeneration
+	var response *schedulin.AiGeneration
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -112,13 +112,13 @@ func (r *RawClient) GetGeneration(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.AiGeneration]{
+	return &core.Response[*schedulin.AiGeneration]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

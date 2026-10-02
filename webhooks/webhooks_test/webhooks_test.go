@@ -10,7 +10,7 @@ import (
 	os "os"
 	testing "testing"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	client "github.com/schedulin-app/schedulin-go/client"
 	option "github.com/schedulin-app/schedulin-go/option"
 	require "github.com/stretchr/testify/require"
@@ -110,10 +110,10 @@ func TestWebhooksCreateWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.CreateWebhooksRequest{
+	request := &schedulin.CreateWebhooksRequest{
 		URL: "url",
-		Events: []schedulingo.CreateWebhooksRequestEventsItem{
-			schedulingo.CreateWebhooksRequestEventsItemPostPublished,
+		Events: []schedulin.CreateWebhooksRequestEventsItem{
+			schedulin.CreateWebhooksRequestEventsItemPostPublished,
 		},
 	}
 	_, invocationErr := client.Webhooks.Create(
@@ -139,7 +139,7 @@ func TestWebhooksRetrieveWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.RetrieveWebhooksRequest{
+	request := &schedulin.RetrieveWebhooksRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Webhooks.Retrieve(
@@ -165,7 +165,7 @@ func TestWebhooksDeleteWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.DeleteWebhooksRequest{
+	request := &schedulin.DeleteWebhooksRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Webhooks.Delete(
@@ -191,7 +191,7 @@ func TestWebhooksUpdateWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.UpdateWebhooksRequest{
+	request := &schedulin.UpdateWebhooksRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Webhooks.Update(
@@ -217,7 +217,7 @@ func TestWebhooksRotateSecretWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.RotateSecretWebhooksRequest{
+	request := &schedulin.RotateSecretWebhooksRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Webhooks.RotateSecret(
@@ -243,7 +243,7 @@ func TestWebhooksTestWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.TestWebhooksRequest{
+	request := &schedulin.TestWebhooksRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Webhooks.Test(
@@ -269,7 +269,7 @@ func TestWebhooksListDeliveriesWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.ListDeliveriesWebhooksRequest{
+	request := &schedulin.ListDeliveriesWebhooksRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Webhooks.ListDeliveries(

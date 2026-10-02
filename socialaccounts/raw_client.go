@@ -6,7 +6,7 @@ import (
 	context "context"
 	http "net/http"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -35,7 +35,7 @@ func NewRawClient(options *core.RequestOptions) *RawClient {
 func (r *RawClient) List(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.ListSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.ListSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -47,7 +47,7 @@ func (r *RawClient) List(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.ListSocialAccountsResponse
+	var response *schedulin.ListSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -60,13 +60,13 @@ func (r *RawClient) List(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.ListSocialAccountsResponse]{
+	return &core.Response[*schedulin.ListSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -75,9 +75,9 @@ func (r *RawClient) List(
 
 func (r *RawClient) ListWhopCompanies(
 	ctx context.Context,
-	request *schedulingo.ListWhopCompaniesSocialAccountsRequest,
+	request *schedulin.ListWhopCompaniesSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.ListWhopCompaniesSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.ListWhopCompaniesSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -92,7 +92,7 @@ func (r *RawClient) ListWhopCompanies(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.ListWhopCompaniesSocialAccountsResponse
+	var response *schedulin.ListWhopCompaniesSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -105,13 +105,13 @@ func (r *RawClient) ListWhopCompanies(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.ListWhopCompaniesSocialAccountsResponse]{
+	return &core.Response[*schedulin.ListWhopCompaniesSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -120,9 +120,9 @@ func (r *RawClient) ListWhopCompanies(
 
 func (r *RawClient) ListWhopForums(
 	ctx context.Context,
-	request *schedulingo.ListWhopForumsSocialAccountsRequest,
+	request *schedulin.ListWhopForumsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.ListWhopForumsSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.ListWhopForumsSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -144,7 +144,7 @@ func (r *RawClient) ListWhopForums(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.ListWhopForumsSocialAccountsResponse
+	var response *schedulin.ListWhopForumsSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -157,13 +157,13 @@ func (r *RawClient) ListWhopForums(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.ListWhopForumsSocialAccountsResponse]{
+	return &core.Response[*schedulin.ListWhopForumsSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -172,9 +172,9 @@ func (r *RawClient) ListWhopForums(
 
 func (r *RawClient) ListDiscordChannels(
 	ctx context.Context,
-	request *schedulingo.ListDiscordChannelsSocialAccountsRequest,
+	request *schedulin.ListDiscordChannelsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.ListDiscordChannelsSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.ListDiscordChannelsSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -189,7 +189,7 @@ func (r *RawClient) ListDiscordChannels(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.ListDiscordChannelsSocialAccountsResponse
+	var response *schedulin.ListDiscordChannelsSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -202,13 +202,13 @@ func (r *RawClient) ListDiscordChannels(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.ListDiscordChannelsSocialAccountsResponse]{
+	return &core.Response[*schedulin.ListDiscordChannelsSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -217,9 +217,9 @@ func (r *RawClient) ListDiscordChannels(
 
 func (r *RawClient) ListSlackChannels(
 	ctx context.Context,
-	request *schedulingo.ListSlackChannelsSocialAccountsRequest,
+	request *schedulin.ListSlackChannelsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.ListSlackChannelsSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.ListSlackChannelsSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -234,7 +234,7 @@ func (r *RawClient) ListSlackChannels(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.ListSlackChannelsSocialAccountsResponse
+	var response *schedulin.ListSlackChannelsSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -247,13 +247,13 @@ func (r *RawClient) ListSlackChannels(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.ListSlackChannelsSocialAccountsResponse]{
+	return &core.Response[*schedulin.ListSlackChannelsSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -262,9 +262,9 @@ func (r *RawClient) ListSlackChannels(
 
 func (r *RawClient) Update(
 	ctx context.Context,
-	request *schedulingo.UpdateSocialAccountsRequest,
+	request *schedulin.UpdateSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.UpdateSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.UpdateSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -280,7 +280,7 @@ func (r *RawClient) Update(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.UpdateSocialAccountsResponse
+	var response *schedulin.UpdateSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -294,13 +294,13 @@ func (r *RawClient) Update(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.UpdateSocialAccountsResponse]{
+	return &core.Response[*schedulin.UpdateSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -309,9 +309,9 @@ func (r *RawClient) Update(
 
 func (r *RawClient) Delete(
 	ctx context.Context,
-	request *schedulingo.DeleteSocialAccountsRequest,
+	request *schedulin.DeleteSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.DeleteSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.DeleteSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -327,7 +327,7 @@ func (r *RawClient) Delete(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.DeleteSocialAccountsResponse
+	var response *schedulin.DeleteSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -341,13 +341,13 @@ func (r *RawClient) Delete(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.DeleteSocialAccountsResponse]{
+	return &core.Response[*schedulin.DeleteSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -356,9 +356,9 @@ func (r *RawClient) Delete(
 
 func (r *RawClient) UpdateTimezone(
 	ctx context.Context,
-	request *schedulingo.UpdateTimezoneSocialAccountsRequest,
+	request *schedulin.UpdateTimezoneSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.UpdateTimezoneSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.UpdateTimezoneSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -374,7 +374,7 @@ func (r *RawClient) UpdateTimezone(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.UpdateTimezoneSocialAccountsResponse
+	var response *schedulin.UpdateTimezoneSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -388,13 +388,13 @@ func (r *RawClient) UpdateTimezone(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.UpdateTimezoneSocialAccountsResponse]{
+	return &core.Response[*schedulin.UpdateTimezoneSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -403,9 +403,9 @@ func (r *RawClient) UpdateTimezone(
 
 func (r *RawClient) NextSlots(
 	ctx context.Context,
-	request *schedulingo.NextSlotsSocialAccountsRequest,
+	request *schedulin.NextSlotsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.NextSlotsSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.NextSlotsSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -427,7 +427,7 @@ func (r *RawClient) NextSlots(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.NextSlotsSocialAccountsResponse
+	var response *schedulin.NextSlotsSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -440,13 +440,13 @@ func (r *RawClient) NextSlots(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.NextSlotsSocialAccountsResponse]{
+	return &core.Response[*schedulin.NextSlotsSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -455,9 +455,9 @@ func (r *RawClient) NextSlots(
 
 func (r *RawClient) PinterestBoards(
 	ctx context.Context,
-	request *schedulingo.PinterestBoardsSocialAccountsRequest,
+	request *schedulin.PinterestBoardsSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.PinterestBoardsSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.PinterestBoardsSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -472,7 +472,7 @@ func (r *RawClient) PinterestBoards(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.PinterestBoardsSocialAccountsResponse
+	var response *schedulin.PinterestBoardsSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -485,13 +485,13 @@ func (r *RawClient) PinterestBoards(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.PinterestBoardsSocialAccountsResponse]{
+	return &core.Response[*schedulin.PinterestBoardsSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -500,9 +500,9 @@ func (r *RawClient) PinterestBoards(
 
 func (r *RawClient) TiktokCreatorInfo(
 	ctx context.Context,
-	request *schedulingo.TiktokCreatorInfoSocialAccountsRequest,
+	request *schedulin.TiktokCreatorInfoSocialAccountsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.TiktokCreatorInfoSocialAccountsResponse], error) {
+) (*core.Response[*schedulin.TiktokCreatorInfoSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -517,7 +517,7 @@ func (r *RawClient) TiktokCreatorInfo(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.TiktokCreatorInfoSocialAccountsResponse
+	var response *schedulin.TiktokCreatorInfoSocialAccountsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -530,13 +530,13 @@ func (r *RawClient) TiktokCreatorInfo(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.TiktokCreatorInfoSocialAccountsResponse]{
+	return &core.Response[*schedulin.TiktokCreatorInfoSocialAccountsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

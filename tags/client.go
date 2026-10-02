@@ -5,7 +5,7 @@ package tags
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -38,16 +38,16 @@ func NewClient(options *core.RequestOptions) *Client {
 //
 // Example:
 //
-//	request := &schedulingo.ListTagsRequest{}
+//	request := &schedulin.ListTagsRequest{}
 //	client.Tags.List(
 //	    context.TODO(),
 //	    request,
 //	)
 func (c *Client) List(
 	ctx context.Context,
-	request *schedulingo.ListTagsRequest,
+	request *schedulin.ListTagsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.ListTagsResponse, error) {
+) (*schedulin.ListTagsResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
 		request,
@@ -63,7 +63,7 @@ func (c *Client) List(
 //
 // Example:
 //
-//	request := &schedulingo.CreateTagsRequest{
+//	request := &schedulin.CreateTagsRequest{
 //	    Name: "name",
 //	    Color: "color",
 //	}
@@ -73,9 +73,9 @@ func (c *Client) List(
 //	)
 func (c *Client) Create(
 	ctx context.Context,
-	request *schedulingo.CreateTagsRequest,
+	request *schedulin.CreateTagsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Tag, error) {
+) (*schedulin.Tag, error) {
 	response, err := c.WithRawResponse.Create(
 		ctx,
 		request,
@@ -91,7 +91,7 @@ func (c *Client) Create(
 //
 // Example:
 //
-//	request := &schedulingo.UpdateTagsRequest{
+//	request := &schedulin.UpdateTagsRequest{
 //	    ID: "id",
 //	}
 //	client.Tags.Update(
@@ -100,9 +100,9 @@ func (c *Client) Create(
 //	)
 func (c *Client) Update(
 	ctx context.Context,
-	request *schedulingo.UpdateTagsRequest,
+	request *schedulin.UpdateTagsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Tag, error) {
+) (*schedulin.Tag, error) {
 	response, err := c.WithRawResponse.Update(
 		ctx,
 		request,
@@ -118,7 +118,7 @@ func (c *Client) Update(
 //
 // Example:
 //
-//	request := &schedulingo.DeleteTagsRequest{
+//	request := &schedulin.DeleteTagsRequest{
 //	    ID: "id",
 //	}
 //	client.Tags.Delete(
@@ -127,9 +127,9 @@ func (c *Client) Update(
 //	)
 func (c *Client) Delete(
 	ctx context.Context,
-	request *schedulingo.DeleteTagsRequest,
+	request *schedulin.DeleteTagsRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Tag, error) {
+) (*schedulin.Tag, error) {
 	response, err := c.WithRawResponse.Delete(
 		ctx,
 		request,

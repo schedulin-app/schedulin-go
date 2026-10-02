@@ -11,7 +11,7 @@ import (
 	strings "strings"
 	testing "testing"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	client "github.com/schedulin-app/schedulin-go/client"
 	option "github.com/schedulin-app/schedulin-go/option"
 	require "github.com/stretchr/testify/require"
@@ -89,7 +89,7 @@ func TestMediaCreateFromURLWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.CreateFromURLMediaRequest{
+	request := &schedulin.CreateFromURLMediaRequest{
 		URL: "url",
 	}
 	_, invocationErr := client.Media.CreateFromURL(
@@ -115,7 +115,7 @@ func TestMediaCreateUploadLinkWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.CreateUploadLinkMediaRequest{}
+	request := &schedulin.CreateUploadLinkMediaRequest{}
 	_, invocationErr := client.Media.CreateUploadLink(
 		context.TODO(),
 		request,
@@ -139,7 +139,7 @@ func TestMediaUploadWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.UploadMediaRequest{
+	request := &schedulin.UploadMediaRequest{
 		File: strings.NewReader(
 			"",
 		),
@@ -167,7 +167,7 @@ func TestMediaRetrieveWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.RetrieveMediaRequest{
+	request := &schedulin.RetrieveMediaRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Media.Retrieve(
@@ -193,7 +193,7 @@ func TestMediaUpdateWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.UpdateMediaRequest{
+	request := &schedulin.UpdateMediaRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Media.Update(
@@ -219,7 +219,7 @@ func TestMediaDeleteWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.DeleteMediaRequest{
+	request := &schedulin.DeleteMediaRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Media.Delete(
@@ -245,7 +245,7 @@ func TestMediaListWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.ListMediaRequest{}
+	request := &schedulin.ListMediaRequest{}
 	_, invocationErr := client.Media.List(
 		context.TODO(),
 		request,
@@ -269,7 +269,7 @@ func TestMediaSetTagsWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.SetTagsMediaRequest{
+	request := &schedulin.SetTagsMediaRequest{
 		MediaID: "mediaId",
 		TagIDs: []string{
 			"tagIds",
@@ -320,7 +320,7 @@ func TestMediaCreatePresignedPostWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.CreatePresignedPost{
+	request := &schedulin.CreatePresignedPost{
 		ContentType: "contentType",
 		Key:         "key",
 	}

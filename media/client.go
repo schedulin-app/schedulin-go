@@ -5,7 +5,7 @@ package media
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -38,7 +38,7 @@ func NewClient(options *core.RequestOptions) *Client {
 //
 // Example:
 //
-//	request := &schedulingo.CreateFromURLMediaRequest{
+//	request := &schedulin.CreateFromURLMediaRequest{
 //	    URL: "url",
 //	}
 //	client.Media.CreateFromURL(
@@ -47,9 +47,9 @@ func NewClient(options *core.RequestOptions) *Client {
 //	)
 func (c *Client) CreateFromURL(
 	ctx context.Context,
-	request *schedulingo.CreateFromURLMediaRequest,
+	request *schedulin.CreateFromURLMediaRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Media, error) {
+) (*schedulin.Media, error) {
 	response, err := c.WithRawResponse.CreateFromURL(
 		ctx,
 		request,
@@ -65,16 +65,16 @@ func (c *Client) CreateFromURL(
 //
 // Example:
 //
-//	request := &schedulingo.CreateUploadLinkMediaRequest{}
+//	request := &schedulin.CreateUploadLinkMediaRequest{}
 //	client.Media.CreateUploadLink(
 //	    context.TODO(),
 //	    request,
 //	)
 func (c *Client) CreateUploadLink(
 	ctx context.Context,
-	request *schedulingo.CreateUploadLinkMediaRequest,
+	request *schedulin.CreateUploadLinkMediaRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.CreateUploadLinkMediaResponse, error) {
+) (*schedulin.CreateUploadLinkMediaResponse, error) {
 	response, err := c.WithRawResponse.CreateUploadLink(
 		ctx,
 		request,
@@ -90,7 +90,7 @@ func (c *Client) CreateUploadLink(
 //
 // Example:
 //
-//	request := &schedulingo.UploadMediaRequest{
+//	request := &schedulin.UploadMediaRequest{
 //	    File: strings.NewReader(
 //	        "",
 //	    ),
@@ -101,9 +101,9 @@ func (c *Client) CreateUploadLink(
 //	)
 func (c *Client) Upload(
 	ctx context.Context,
-	request *schedulingo.UploadMediaRequest,
+	request *schedulin.UploadMediaRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Media, error) {
+) (*schedulin.Media, error) {
 	response, err := c.WithRawResponse.Upload(
 		ctx,
 		request,
@@ -119,7 +119,7 @@ func (c *Client) Upload(
 //
 // Example:
 //
-//	request := &schedulingo.RetrieveMediaRequest{
+//	request := &schedulin.RetrieveMediaRequest{
 //	    ID: "id",
 //	}
 //	client.Media.Retrieve(
@@ -128,9 +128,9 @@ func (c *Client) Upload(
 //	)
 func (c *Client) Retrieve(
 	ctx context.Context,
-	request *schedulingo.RetrieveMediaRequest,
+	request *schedulin.RetrieveMediaRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Media, error) {
+) (*schedulin.Media, error) {
 	response, err := c.WithRawResponse.Retrieve(
 		ctx,
 		request,
@@ -146,7 +146,7 @@ func (c *Client) Retrieve(
 //
 // Example:
 //
-//	request := &schedulingo.UpdateMediaRequest{
+//	request := &schedulin.UpdateMediaRequest{
 //	    ID: "id",
 //	}
 //	client.Media.Update(
@@ -155,9 +155,9 @@ func (c *Client) Retrieve(
 //	)
 func (c *Client) Update(
 	ctx context.Context,
-	request *schedulingo.UpdateMediaRequest,
+	request *schedulin.UpdateMediaRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.Media, error) {
+) (*schedulin.Media, error) {
 	response, err := c.WithRawResponse.Update(
 		ctx,
 		request,
@@ -173,7 +173,7 @@ func (c *Client) Update(
 //
 // Example:
 //
-//	request := &schedulingo.DeleteMediaRequest{
+//	request := &schedulin.DeleteMediaRequest{
 //	    ID: "id",
 //	}
 //	client.Media.Delete(
@@ -182,9 +182,9 @@ func (c *Client) Update(
 //	)
 func (c *Client) Delete(
 	ctx context.Context,
-	request *schedulingo.DeleteMediaRequest,
+	request *schedulin.DeleteMediaRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.DeleteMediaResponse, error) {
+) (*schedulin.DeleteMediaResponse, error) {
 	response, err := c.WithRawResponse.Delete(
 		ctx,
 		request,
@@ -200,16 +200,16 @@ func (c *Client) Delete(
 //
 // Example:
 //
-//	request := &schedulingo.ListMediaRequest{}
+//	request := &schedulin.ListMediaRequest{}
 //	client.Media.List(
 //	    context.TODO(),
 //	    request,
 //	)
 func (c *Client) List(
 	ctx context.Context,
-	request *schedulingo.ListMediaRequest,
+	request *schedulin.ListMediaRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.ListMediaResponse, error) {
+) (*schedulin.ListMediaResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
 		request,
@@ -225,7 +225,7 @@ func (c *Client) List(
 //
 // Example:
 //
-//	request := &schedulingo.SetTagsMediaRequest{
+//	request := &schedulin.SetTagsMediaRequest{
 //	    MediaID: "mediaId",
 //	    TagIDs: []string{
 //	        "tagIds",
@@ -237,9 +237,9 @@ func (c *Client) List(
 //	)
 func (c *Client) SetTags(
 	ctx context.Context,
-	request *schedulingo.SetTagsMediaRequest,
+	request *schedulin.SetTagsMediaRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.SetTagsMediaResponse, error) {
+) (*schedulin.SetTagsMediaResponse, error) {
 	response, err := c.WithRawResponse.SetTags(
 		ctx,
 		request,
@@ -261,7 +261,7 @@ func (c *Client) SetTags(
 func (c *Client) CountByTag(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (*schedulingo.CountByTagMediaResponse, error) {
+) (*schedulin.CountByTagMediaResponse, error) {
 	response, err := c.WithRawResponse.CountByTag(
 		ctx,
 		opts...,
@@ -276,7 +276,7 @@ func (c *Client) CountByTag(
 //
 // Example:
 //
-//	request := &schedulingo.CreatePresignedPost{
+//	request := &schedulin.CreatePresignedPost{
 //	    ContentType: "contentType",
 //	    Key: "key",
 //	}
@@ -286,9 +286,9 @@ func (c *Client) CountByTag(
 //	)
 func (c *Client) CreatePresignedPost(
 	ctx context.Context,
-	request *schedulingo.CreatePresignedPost,
+	request *schedulin.CreatePresignedPost,
 	opts ...option.RequestOption,
-) (*schedulingo.PresignedPost, error) {
+) (*schedulin.PresignedPost, error) {
 	response, err := c.WithRawResponse.CreatePresignedPost(
 		ctx,
 		request,

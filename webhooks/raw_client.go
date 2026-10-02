@@ -6,7 +6,7 @@ import (
 	context "context"
 	http "net/http"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -35,7 +35,7 @@ func NewRawClient(options *core.RequestOptions) *RawClient {
 func (r *RawClient) List(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.ListWebhooksResponse], error) {
+) (*core.Response[*schedulin.ListWebhooksResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -47,7 +47,7 @@ func (r *RawClient) List(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.ListWebhooksResponse
+	var response *schedulin.ListWebhooksResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -60,13 +60,13 @@ func (r *RawClient) List(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.ListWebhooksResponse]{
+	return &core.Response[*schedulin.ListWebhooksResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -75,9 +75,9 @@ func (r *RawClient) List(
 
 func (r *RawClient) Create(
 	ctx context.Context,
-	request *schedulingo.CreateWebhooksRequest,
+	request *schedulin.CreateWebhooksRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.WebhookEndpoint], error) {
+) (*core.Response[*schedulin.WebhookEndpoint], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -90,7 +90,7 @@ func (r *RawClient) Create(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.WebhookEndpoint
+	var response *schedulin.WebhookEndpoint
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -104,13 +104,13 @@ func (r *RawClient) Create(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.WebhookEndpoint]{
+	return &core.Response[*schedulin.WebhookEndpoint]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -119,9 +119,9 @@ func (r *RawClient) Create(
 
 func (r *RawClient) Retrieve(
 	ctx context.Context,
-	request *schedulingo.RetrieveWebhooksRequest,
+	request *schedulin.RetrieveWebhooksRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.WebhookEndpoint], error) {
+) (*core.Response[*schedulin.WebhookEndpoint], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -136,7 +136,7 @@ func (r *RawClient) Retrieve(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.WebhookEndpoint
+	var response *schedulin.WebhookEndpoint
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -149,13 +149,13 @@ func (r *RawClient) Retrieve(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.WebhookEndpoint]{
+	return &core.Response[*schedulin.WebhookEndpoint]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -164,9 +164,9 @@ func (r *RawClient) Retrieve(
 
 func (r *RawClient) Delete(
 	ctx context.Context,
-	request *schedulingo.DeleteWebhooksRequest,
+	request *schedulin.DeleteWebhooksRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.DeleteWebhooksResponse], error) {
+) (*core.Response[*schedulin.DeleteWebhooksResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -182,7 +182,7 @@ func (r *RawClient) Delete(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.DeleteWebhooksResponse
+	var response *schedulin.DeleteWebhooksResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -196,13 +196,13 @@ func (r *RawClient) Delete(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.DeleteWebhooksResponse]{
+	return &core.Response[*schedulin.DeleteWebhooksResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -211,9 +211,9 @@ func (r *RawClient) Delete(
 
 func (r *RawClient) Update(
 	ctx context.Context,
-	request *schedulingo.UpdateWebhooksRequest,
+	request *schedulin.UpdateWebhooksRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.WebhookEndpoint], error) {
+) (*core.Response[*schedulin.WebhookEndpoint], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -229,7 +229,7 @@ func (r *RawClient) Update(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.WebhookEndpoint
+	var response *schedulin.WebhookEndpoint
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -243,13 +243,13 @@ func (r *RawClient) Update(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.WebhookEndpoint]{
+	return &core.Response[*schedulin.WebhookEndpoint]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -258,9 +258,9 @@ func (r *RawClient) Update(
 
 func (r *RawClient) RotateSecret(
 	ctx context.Context,
-	request *schedulingo.RotateSecretWebhooksRequest,
+	request *schedulin.RotateSecretWebhooksRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.WebhookEndpoint], error) {
+) (*core.Response[*schedulin.WebhookEndpoint], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -276,7 +276,7 @@ func (r *RawClient) RotateSecret(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.WebhookEndpoint
+	var response *schedulin.WebhookEndpoint
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -290,13 +290,13 @@ func (r *RawClient) RotateSecret(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.WebhookEndpoint]{
+	return &core.Response[*schedulin.WebhookEndpoint]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -305,9 +305,9 @@ func (r *RawClient) RotateSecret(
 
 func (r *RawClient) Test(
 	ctx context.Context,
-	request *schedulingo.TestWebhooksRequest,
+	request *schedulin.TestWebhooksRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.TestWebhooksResponse], error) {
+) (*core.Response[*schedulin.TestWebhooksResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -323,7 +323,7 @@ func (r *RawClient) Test(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.TestWebhooksResponse
+	var response *schedulin.TestWebhooksResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -337,13 +337,13 @@ func (r *RawClient) Test(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.TestWebhooksResponse]{
+	return &core.Response[*schedulin.TestWebhooksResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -352,9 +352,9 @@ func (r *RawClient) Test(
 
 func (r *RawClient) ListDeliveries(
 	ctx context.Context,
-	request *schedulingo.ListDeliveriesWebhooksRequest,
+	request *schedulin.ListDeliveriesWebhooksRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.ListDeliveriesWebhooksResponse], error) {
+) (*core.Response[*schedulin.ListDeliveriesWebhooksResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -376,7 +376,7 @@ func (r *RawClient) ListDeliveries(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.ListDeliveriesWebhooksResponse
+	var response *schedulin.ListDeliveriesWebhooksResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -389,13 +389,13 @@ func (r *RawClient) ListDeliveries(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.ListDeliveriesWebhooksResponse]{
+	return &core.Response[*schedulin.ListDeliveriesWebhooksResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

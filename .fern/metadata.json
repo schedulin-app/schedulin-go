@@ -3,12 +3,13 @@
   "generatorName": "fernapi/fern-go-sdk",
   "generatorVersion": "1.64.2",
   "generatorConfig": {
+    "packageName": "schedulin",
     "module": {
       "path": "github.com/schedulin-app/schedulin-go",
       "version": "1.21"
     }
   },
-  "originGitCommit": "96a2f295df83bfac814b72a522a52c583ed7afa9",
+  "originGitCommit": "534338e0adf26fed7a08850c2d21fd080c9cffe5",
   "originGitCommitIsDirty": false,
   "invokedBy": "ci",
   "ciProvider": "github"

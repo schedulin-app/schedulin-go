@@ -5,7 +5,7 @@ package platforms
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -44,7 +44,7 @@ func NewClient(options *core.RequestOptions) *Client {
 func (c *Client) List(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (*schedulingo.ListPlatformsResponse, error) {
+) (*schedulin.ListPlatformsResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
 		opts...,

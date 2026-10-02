@@ -5,7 +5,7 @@ package webhooks
 import (
 	context "context"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -44,7 +44,7 @@ func NewClient(options *core.RequestOptions) *Client {
 func (c *Client) List(
 	ctx context.Context,
 	opts ...option.RequestOption,
-) (*schedulingo.ListWebhooksResponse, error) {
+) (*schedulin.ListWebhooksResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
 		opts...,
@@ -59,10 +59,10 @@ func (c *Client) List(
 //
 // Example:
 //
-//	request := &schedulingo.CreateWebhooksRequest{
+//	request := &schedulin.CreateWebhooksRequest{
 //	    URL: "url",
-//	    Events: []schedulingo.CreateWebhooksRequestEventsItem{
-//	        schedulingo.CreateWebhooksRequestEventsItemPostPublished,
+//	    Events: []schedulin.CreateWebhooksRequestEventsItem{
+//	        schedulin.CreateWebhooksRequestEventsItemPostPublished,
 //	    },
 //	}
 //	client.Webhooks.Create(
@@ -71,9 +71,9 @@ func (c *Client) List(
 //	)
 func (c *Client) Create(
 	ctx context.Context,
-	request *schedulingo.CreateWebhooksRequest,
+	request *schedulin.CreateWebhooksRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.WebhookEndpoint, error) {
+) (*schedulin.WebhookEndpoint, error) {
 	response, err := c.WithRawResponse.Create(
 		ctx,
 		request,
@@ -89,7 +89,7 @@ func (c *Client) Create(
 //
 // Example:
 //
-//	request := &schedulingo.RetrieveWebhooksRequest{
+//	request := &schedulin.RetrieveWebhooksRequest{
 //	    ID: "id",
 //	}
 //	client.Webhooks.Retrieve(
@@ -98,9 +98,9 @@ func (c *Client) Create(
 //	)
 func (c *Client) Retrieve(
 	ctx context.Context,
-	request *schedulingo.RetrieveWebhooksRequest,
+	request *schedulin.RetrieveWebhooksRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.WebhookEndpoint, error) {
+) (*schedulin.WebhookEndpoint, error) {
 	response, err := c.WithRawResponse.Retrieve(
 		ctx,
 		request,
@@ -116,7 +116,7 @@ func (c *Client) Retrieve(
 //
 // Example:
 //
-//	request := &schedulingo.DeleteWebhooksRequest{
+//	request := &schedulin.DeleteWebhooksRequest{
 //	    ID: "id",
 //	}
 //	client.Webhooks.Delete(
@@ -125,9 +125,9 @@ func (c *Client) Retrieve(
 //	)
 func (c *Client) Delete(
 	ctx context.Context,
-	request *schedulingo.DeleteWebhooksRequest,
+	request *schedulin.DeleteWebhooksRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.DeleteWebhooksResponse, error) {
+) (*schedulin.DeleteWebhooksResponse, error) {
 	response, err := c.WithRawResponse.Delete(
 		ctx,
 		request,
@@ -143,7 +143,7 @@ func (c *Client) Delete(
 //
 // Example:
 //
-//	request := &schedulingo.UpdateWebhooksRequest{
+//	request := &schedulin.UpdateWebhooksRequest{
 //	    ID: "id",
 //	}
 //	client.Webhooks.Update(
@@ -152,9 +152,9 @@ func (c *Client) Delete(
 //	)
 func (c *Client) Update(
 	ctx context.Context,
-	request *schedulingo.UpdateWebhooksRequest,
+	request *schedulin.UpdateWebhooksRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.WebhookEndpoint, error) {
+) (*schedulin.WebhookEndpoint, error) {
 	response, err := c.WithRawResponse.Update(
 		ctx,
 		request,
@@ -170,7 +170,7 @@ func (c *Client) Update(
 //
 // Example:
 //
-//	request := &schedulingo.RotateSecretWebhooksRequest{
+//	request := &schedulin.RotateSecretWebhooksRequest{
 //	    ID: "id",
 //	}
 //	client.Webhooks.RotateSecret(
@@ -179,9 +179,9 @@ func (c *Client) Update(
 //	)
 func (c *Client) RotateSecret(
 	ctx context.Context,
-	request *schedulingo.RotateSecretWebhooksRequest,
+	request *schedulin.RotateSecretWebhooksRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.WebhookEndpoint, error) {
+) (*schedulin.WebhookEndpoint, error) {
 	response, err := c.WithRawResponse.RotateSecret(
 		ctx,
 		request,
@@ -197,7 +197,7 @@ func (c *Client) RotateSecret(
 //
 // Example:
 //
-//	request := &schedulingo.TestWebhooksRequest{
+//	request := &schedulin.TestWebhooksRequest{
 //	    ID: "id",
 //	}
 //	client.Webhooks.Test(
@@ -206,9 +206,9 @@ func (c *Client) RotateSecret(
 //	)
 func (c *Client) Test(
 	ctx context.Context,
-	request *schedulingo.TestWebhooksRequest,
+	request *schedulin.TestWebhooksRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.TestWebhooksResponse, error) {
+) (*schedulin.TestWebhooksResponse, error) {
 	response, err := c.WithRawResponse.Test(
 		ctx,
 		request,
@@ -224,7 +224,7 @@ func (c *Client) Test(
 //
 // Example:
 //
-//	request := &schedulingo.ListDeliveriesWebhooksRequest{
+//	request := &schedulin.ListDeliveriesWebhooksRequest{
 //	    ID: "id",
 //	}
 //	client.Webhooks.ListDeliveries(
@@ -233,9 +233,9 @@ func (c *Client) Test(
 //	)
 func (c *Client) ListDeliveries(
 	ctx context.Context,
-	request *schedulingo.ListDeliveriesWebhooksRequest,
+	request *schedulin.ListDeliveriesWebhooksRequest,
 	opts ...option.RequestOption,
-) (*schedulingo.ListDeliveriesWebhooksResponse, error) {
+) (*schedulin.ListDeliveriesWebhooksResponse, error) {
 	response, err := c.WithRawResponse.ListDeliveries(
 		ctx,
 		request,

@@ -10,7 +10,7 @@ import (
 	os "os"
 	testing "testing"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	client "github.com/schedulin-app/schedulin-go/client"
 	option "github.com/schedulin-app/schedulin-go/option"
 	require "github.com/stretchr/testify/require"
@@ -110,7 +110,7 @@ func TestSocialAccountsListWhopCompaniesWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.ListWhopCompaniesSocialAccountsRequest{
+	request := &schedulin.ListWhopCompaniesSocialAccountsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.SocialAccounts.ListWhopCompanies(
@@ -136,7 +136,7 @@ func TestSocialAccountsListWhopForumsWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.ListWhopForumsSocialAccountsRequest{
+	request := &schedulin.ListWhopForumsSocialAccountsRequest{
 		ID:        "id",
 		CompanyID: "companyId",
 	}
@@ -163,7 +163,7 @@ func TestSocialAccountsListDiscordChannelsWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.ListDiscordChannelsSocialAccountsRequest{
+	request := &schedulin.ListDiscordChannelsSocialAccountsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.SocialAccounts.ListDiscordChannels(
@@ -189,7 +189,7 @@ func TestSocialAccountsListSlackChannelsWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.ListSlackChannelsSocialAccountsRequest{
+	request := &schedulin.ListSlackChannelsSocialAccountsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.SocialAccounts.ListSlackChannels(
@@ -215,7 +215,7 @@ func TestSocialAccountsUpdateWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.UpdateSocialAccountsRequest{
+	request := &schedulin.UpdateSocialAccountsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.SocialAccounts.Update(
@@ -241,7 +241,7 @@ func TestSocialAccountsDeleteWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.DeleteSocialAccountsRequest{
+	request := &schedulin.DeleteSocialAccountsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.SocialAccounts.Delete(
@@ -267,7 +267,7 @@ func TestSocialAccountsUpdateTimezoneWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.UpdateTimezoneSocialAccountsRequest{
+	request := &schedulin.UpdateTimezoneSocialAccountsRequest{
 		ID:       "id",
 		Timezone: "timezone",
 	}
@@ -294,7 +294,7 @@ func TestSocialAccountsNextSlotsWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.NextSlotsSocialAccountsRequest{
+	request := &schedulin.NextSlotsSocialAccountsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.SocialAccounts.NextSlots(
@@ -320,7 +320,7 @@ func TestSocialAccountsPinterestBoardsWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.PinterestBoardsSocialAccountsRequest{
+	request := &schedulin.PinterestBoardsSocialAccountsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.SocialAccounts.PinterestBoards(
@@ -346,7 +346,7 @@ func TestSocialAccountsTiktokCreatorInfoWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.TiktokCreatorInfoSocialAccountsRequest{
+	request := &schedulin.TiktokCreatorInfoSocialAccountsRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.SocialAccounts.TiktokCreatorInfo(

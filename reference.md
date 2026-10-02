@@ -1,6 +1,6 @@
 # Reference
 ## Posts
-<details><summary><code>client.Posts.List() -> *schedulingo.ListPostsResponse</code></summary>
+<details><summary><code>client.Posts.List() -> *schedulin.ListPostsResponse</code></summary>
 <dl>
 <dd>
 
@@ -27,7 +27,7 @@ Search and filter posts with various criteria including status, date range, soci
 <dd>
 
 ```go
-request := &schedulingo.ListPostsRequest{}
+request := &schedulin.ListPostsRequest{}
 client.Posts.List(
     context.TODO(),
     request,
@@ -54,7 +54,7 @@ client.Posts.List(
 <dl>
 <dd>
 
-**status:** `*schedulingo.ListPostsRequestStatus` 
+**status:** `*schedulin.ListPostsRequestStatus` 
     
 </dd>
 </dl>
@@ -62,7 +62,7 @@ client.Posts.List(
 <dl>
 <dd>
 
-**statuses:** `*schedulingo.ListPostsRequestStatusesItem` 
+**statuses:** `*schedulin.ListPostsRequestStatusesItem` 
     
 </dd>
 </dl>
@@ -70,7 +70,7 @@ client.Posts.List(
 <dl>
 <dd>
 
-**approvalStatus:** `*schedulingo.ListPostsRequestApprovalStatus` 
+**approvalStatus:** `*schedulin.ListPostsRequestApprovalStatus` 
     
 </dd>
 </dl>
@@ -78,7 +78,7 @@ client.Posts.List(
 <dl>
 <dd>
 
-**scheduledAt:** `*schedulingo.ListPostsRequestScheduledAt` 
+**scheduledAt:** `*schedulin.ListPostsRequestScheduledAt` 
     
 </dd>
 </dl>
@@ -94,7 +94,7 @@ client.Posts.List(
 <dl>
 <dd>
 
-**tagMode:** `*schedulingo.ListPostsRequestTagMode` 
+**tagMode:** `*schedulin.ListPostsRequestTagMode` 
     
 </dd>
 </dl>
@@ -122,7 +122,7 @@ client.Posts.List(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.Create(request) -> *schedulingo.CreatePostsResponse</code></summary>
+<details><summary><code>client.Posts.Create(request) -> *schedulin.CreatePostsResponse</code></summary>
 <dl>
 <dd>
 
@@ -149,7 +149,7 @@ Create a new post with media, tags, and scheduling options. Media items may refe
 <dd>
 
 ```go
-request := &schedulingo.PostCreate{
+request := &schedulin.PostCreate{
     Caption: "caption",
     SocialAccountID: "socialAccountId",
 }
@@ -203,7 +203,7 @@ client.Posts.Create(
 <dl>
 <dd>
 
-**media:** `[]*schedulingo.PostCreateMediaItem` 
+**media:** `[]*schedulin.PostCreateMediaItem` 
     
 </dd>
 </dl>
@@ -211,7 +211,7 @@ client.Posts.Create(
 <dl>
 <dd>
 
-**thumbnail:** `*schedulingo.PostCreateThumbnail` 
+**thumbnail:** `*schedulin.PostCreateThumbnail` 
     
 </dd>
 </dl>
@@ -235,7 +235,7 @@ client.Posts.Create(
 <dl>
 <dd>
 
-**action:** `*schedulingo.PostCreateAction` 
+**action:** `*schedulin.PostCreateAction` 
     
 </dd>
 </dl>
@@ -243,7 +243,7 @@ client.Posts.Create(
 <dl>
 <dd>
 
-**parts:** `[]*schedulingo.PostCreatePartsItem` 
+**parts:** `[]*schedulin.PostCreatePartsItem` 
     
 </dd>
 </dl>
@@ -255,7 +255,7 @@ client.Posts.Create(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.CountByTab() -> *schedulingo.CountByTabPostsResponse</code></summary>
+<details><summary><code>client.Posts.CountByTab() -> *schedulin.CountByTabPostsResponse</code></summary>
 <dl>
 <dd>
 
@@ -282,7 +282,7 @@ Returns counts of posts for the Queue, Drafts, Approvals, and Sent tabs
 <dd>
 
 ```go
-request := &schedulingo.CountByTabPostsRequest{}
+request := &schedulin.CountByTabPostsRequest{}
 client.Posts.CountByTab(
     context.TODO(),
     request,
@@ -313,7 +313,7 @@ client.Posts.CountByTab(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.Retrieve(ID) -> *schedulingo.PostWithRelations</code></summary>
+<details><summary><code>client.Posts.Retrieve(ID) -> *schedulin.PostWithRelations</code></summary>
 <dl>
 <dd>
 
@@ -340,7 +340,7 @@ Retrieve a single post by its ID with all relations
 <dd>
 
 ```go
-request := &schedulingo.RetrievePostsRequest{
+request := &schedulin.RetrievePostsRequest{
     ID: "id",
 }
 client.Posts.Retrieve(
@@ -373,7 +373,7 @@ client.Posts.Retrieve(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.Update(ID, request) -> *schedulingo.Post</code></summary>
+<details><summary><code>client.Posts.Update(ID, request) -> *schedulin.Post</code></summary>
 <dl>
 <dd>
 
@@ -400,7 +400,7 @@ Update an existing draft or scheduled post by its ID. `status` may be DRAFT, SCH
 <dd>
 
 ```go
-request := &schedulingo.UpdatePostsRequest{
+request := &schedulin.UpdatePostsRequest{
     ID: "id",
 }
 client.Posts.Update(
@@ -445,7 +445,7 @@ client.Posts.Update(
 <dl>
 <dd>
 
-**media:** `[]*schedulingo.UpdatePostsRequestMediaItem` 
+**media:** `[]*schedulin.UpdatePostsRequestMediaItem` 
     
 </dd>
 </dl>
@@ -461,7 +461,7 @@ client.Posts.Update(
 <dl>
 <dd>
 
-**status:** `*schedulingo.UpdatePostsRequestStatus` 
+**status:** `*schedulin.UpdatePostsRequestStatus` 
     
 </dd>
 </dl>
@@ -481,7 +481,7 @@ client.Posts.Update(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.Delete(ID, request) -> *schedulingo.Post</code></summary>
+<details><summary><code>client.Posts.Delete(ID, request) -> *schedulin.Post</code></summary>
 <dl>
 <dd>
 
@@ -508,7 +508,7 @@ Delete a post by its ID
 <dd>
 
 ```go
-request := &schedulingo.DeletePostsRequest{
+request := &schedulin.DeletePostsRequest{
     ID: "id",
 }
 client.Posts.Delete(
@@ -541,7 +541,7 @@ client.Posts.Delete(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.AnalyticsSummary(ID) -> *schedulingo.AnalyticsSummaryPostsResponse</code></summary>
+<details><summary><code>client.Posts.AnalyticsSummary(ID) -> *schedulin.AnalyticsSummaryPostsResponse</code></summary>
 <dl>
 <dd>
 
@@ -568,7 +568,7 @@ Retrieve the latest analytics snapshot for a post
 <dd>
 
 ```go
-request := &schedulingo.AnalyticsSummaryPostsRequest{
+request := &schedulin.AnalyticsSummaryPostsRequest{
     ID: "id",
 }
 client.Posts.AnalyticsSummary(
@@ -601,7 +601,7 @@ client.Posts.AnalyticsSummary(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.AnalyticsSeries(ID) -> *schedulingo.AnalyticsSeriesPostsResponse</code></summary>
+<details><summary><code>client.Posts.AnalyticsSeries(ID) -> *schedulin.AnalyticsSeriesPostsResponse</code></summary>
 <dl>
 <dd>
 
@@ -628,7 +628,7 @@ Retrieve time series analytics metrics for a post
 <dd>
 
 ```go
-request := &schedulingo.AnalyticsSeriesPostsRequest{
+request := &schedulin.AnalyticsSeriesPostsRequest{
     ID: "id",
 }
 client.Posts.AnalyticsSeries(
@@ -669,7 +669,7 @@ client.Posts.AnalyticsSeries(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.PublishDraft(ID, request) -> *schedulingo.Post</code></summary>
+<details><summary><code>client.Posts.PublishDraft(ID, request) -> *schedulin.Post</code></summary>
 <dl>
 <dd>
 
@@ -696,7 +696,7 @@ Publish a draft post to connected social media accounts
 <dd>
 
 ```go
-request := &schedulingo.PublishDraftPostsRequest{
+request := &schedulin.PublishDraftPostsRequest{
     ID: "id",
 }
 client.Posts.PublishDraft(
@@ -737,7 +737,7 @@ client.Posts.PublishDraft(
 </dl>
 </details>
 
-<details><summary><code>client.Posts.UpdateTags(ID, request) -> *schedulingo.Post</code></summary>
+<details><summary><code>client.Posts.UpdateTags(ID, request) -> *schedulin.Post</code></summary>
 <dl>
 <dd>
 
@@ -764,7 +764,7 @@ Replace all tags on a post. No status restrictions apply.
 <dd>
 
 ```go
-request := &schedulingo.UpdateTagsPostsRequest{
+request := &schedulin.UpdateTagsPostsRequest{
     ID: "id",
     TagIDs: []string{
         "tagIds",
@@ -809,7 +809,7 @@ client.Posts.UpdateTags(
 </details>
 
 ## SocialAccounts
-<details><summary><code>client.SocialAccounts.List() -> *schedulingo.ListSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.List() -> *schedulin.ListSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -850,7 +850,7 @@ client.SocialAccounts.List(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.ListWhopCompanies(ID) -> *schedulingo.ListWhopCompaniesSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.ListWhopCompanies(ID) -> *schedulin.ListWhopCompaniesSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -877,7 +877,7 @@ List companies available to a connected Whop account. Select one before requesti
 <dd>
 
 ```go
-request := &schedulingo.ListWhopCompaniesSocialAccountsRequest{
+request := &schedulin.ListWhopCompaniesSocialAccountsRequest{
     ID: "id",
 }
 client.SocialAccounts.ListWhopCompanies(
@@ -910,7 +910,7 @@ client.SocialAccounts.ListWhopCompanies(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.ListWhopForums(ID) -> *schedulingo.ListWhopForumsSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.ListWhopForums(ID) -> *schedulin.ListWhopForumsSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -937,7 +937,7 @@ List forum experiences for a Whop company. Use an item id as platformConfigurati
 <dd>
 
 ```go
-request := &schedulingo.ListWhopForumsSocialAccountsRequest{
+request := &schedulin.ListWhopForumsSocialAccountsRequest{
     ID: "id",
     CompanyID: "companyId",
 }
@@ -979,7 +979,7 @@ client.SocialAccounts.ListWhopForums(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.ListDiscordChannels(ID) -> *schedulingo.ListDiscordChannelsSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.ListDiscordChannels(ID) -> *schedulin.ListDiscordChannelsSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1006,7 +1006,7 @@ List the text and announcement channels the Schedulin bot can post into for a co
 <dd>
 
 ```go
-request := &schedulingo.ListDiscordChannelsSocialAccountsRequest{
+request := &schedulin.ListDiscordChannelsSocialAccountsRequest{
     ID: "id",
 }
 client.SocialAccounts.ListDiscordChannels(
@@ -1039,7 +1039,7 @@ client.SocialAccounts.ListDiscordChannels(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.ListSlackChannels(ID) -> *schedulingo.ListSlackChannelsSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.ListSlackChannels(ID) -> *schedulin.ListSlackChannelsSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1066,7 +1066,7 @@ List the channels in a connected Slack workspace that the Schedulin bot can post
 <dd>
 
 ```go
-request := &schedulingo.ListSlackChannelsSocialAccountsRequest{
+request := &schedulin.ListSlackChannelsSocialAccountsRequest{
     ID: "id",
 }
 client.SocialAccounts.ListSlackChannels(
@@ -1099,7 +1099,7 @@ client.SocialAccounts.ListSlackChannels(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.Update(ID, request) -> *schedulingo.UpdateSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.Update(ID, request) -> *schedulin.UpdateSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1126,7 +1126,7 @@ Update social media account settings and information
 <dd>
 
 ```go
-request := &schedulingo.UpdateSocialAccountsRequest{
+request := &schedulin.UpdateSocialAccountsRequest{
     ID: "id",
 }
 client.SocialAccounts.Update(
@@ -1155,7 +1155,7 @@ client.SocialAccounts.Update(
 <dl>
 <dd>
 
-**status:** `*schedulingo.UpdateSocialAccountsRequestStatus` 
+**status:** `*schedulin.UpdateSocialAccountsRequestStatus` 
     
 </dd>
 </dl>
@@ -1167,7 +1167,7 @@ client.SocialAccounts.Update(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.Delete(ID, request) -> *schedulingo.DeleteSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.Delete(ID, request) -> *schedulin.DeleteSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1194,7 +1194,7 @@ Remove a connected social media account. This permanently deletes ALL of the acc
 <dd>
 
 ```go
-request := &schedulingo.DeleteSocialAccountsRequest{
+request := &schedulin.DeleteSocialAccountsRequest{
     ID: "id",
 }
 client.SocialAccounts.Delete(
@@ -1227,7 +1227,7 @@ client.SocialAccounts.Delete(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.UpdateTimezone(ID, request) -> *schedulingo.UpdateTimezoneSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.UpdateTimezone(ID, request) -> *schedulin.UpdateTimezoneSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1254,7 +1254,7 @@ Set the IANA timezone (e.g. 'America/Los_Angeles') used to interpret queue times
 <dd>
 
 ```go
-request := &schedulingo.UpdateTimezoneSocialAccountsRequest{
+request := &schedulin.UpdateTimezoneSocialAccountsRequest{
     ID: "id",
     Timezone: "timezone",
 }
@@ -1296,7 +1296,7 @@ client.SocialAccounts.UpdateTimezone(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.NextSlots(ID) -> *schedulingo.NextSlotsSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.NextSlots(ID) -> *schedulin.NextSlotsSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1323,7 +1323,7 @@ Return the next available queue slot times (UTC) for a social account, computed 
 <dd>
 
 ```go
-request := &schedulingo.NextSlotsSocialAccountsRequest{
+request := &schedulin.NextSlotsSocialAccountsRequest{
     ID: "id",
 }
 client.SocialAccounts.NextSlots(
@@ -1372,7 +1372,7 @@ client.SocialAccounts.NextSlots(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.PinterestBoards(ID) -> *schedulingo.PinterestBoardsSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.PinterestBoards(ID) -> *schedulin.PinterestBoardsSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1399,7 +1399,7 @@ List the boards for a connected Pinterest account. Use a board id in `platformCo
 <dd>
 
 ```go
-request := &schedulingo.PinterestBoardsSocialAccountsRequest{
+request := &schedulin.PinterestBoardsSocialAccountsRequest{
     ID: "id",
 }
 client.SocialAccounts.PinterestBoards(
@@ -1432,7 +1432,7 @@ client.SocialAccounts.PinterestBoards(
 </dl>
 </details>
 
-<details><summary><code>client.SocialAccounts.TiktokCreatorInfo(ID) -> *schedulingo.TiktokCreatorInfoSocialAccountsResponse</code></summary>
+<details><summary><code>client.SocialAccounts.TiktokCreatorInfo(ID) -> *schedulin.TiktokCreatorInfoSocialAccountsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1459,7 +1459,7 @@ Fetch the privacy-level options, duration limits, and interaction settings for a
 <dd>
 
 ```go
-request := &schedulingo.TiktokCreatorInfoSocialAccountsRequest{
+request := &schedulin.TiktokCreatorInfoSocialAccountsRequest{
     ID: "id",
 }
 client.SocialAccounts.TiktokCreatorInfo(
@@ -1493,7 +1493,7 @@ client.SocialAccounts.TiktokCreatorInfo(
 </details>
 
 ## Tags
-<details><summary><code>client.Tags.List() -> *schedulingo.ListTagsResponse</code></summary>
+<details><summary><code>client.Tags.List() -> *schedulin.ListTagsResponse</code></summary>
 <dl>
 <dd>
 
@@ -1520,7 +1520,7 @@ Retrieve a list of tags for the authenticated user with optional search filterin
 <dd>
 
 ```go
-request := &schedulingo.ListTagsRequest{}
+request := &schedulin.ListTagsRequest{}
 client.Tags.List(
     context.TODO(),
     request,
@@ -1559,7 +1559,7 @@ client.Tags.List(
 </dl>
 </details>
 
-<details><summary><code>client.Tags.Create(request) -> *schedulingo.Tag</code></summary>
+<details><summary><code>client.Tags.Create(request) -> *schedulin.Tag</code></summary>
 <dl>
 <dd>
 
@@ -1586,7 +1586,7 @@ Create a new tag. Users can have up to 5 tags.
 <dd>
 
 ```go
-request := &schedulingo.CreateTagsRequest{
+request := &schedulin.CreateTagsRequest{
     Name: "name",
     Color: "color",
 }
@@ -1628,7 +1628,7 @@ client.Tags.Create(
 </dl>
 </details>
 
-<details><summary><code>client.Tags.Update(ID, request) -> *schedulingo.Tag</code></summary>
+<details><summary><code>client.Tags.Update(ID, request) -> *schedulin.Tag</code></summary>
 <dl>
 <dd>
 
@@ -1655,7 +1655,7 @@ Update an existing tag by its ID. Only the tag owner can update their tags.
 <dd>
 
 ```go
-request := &schedulingo.UpdateTagsRequest{
+request := &schedulin.UpdateTagsRequest{
     ID: "id",
 }
 client.Tags.Update(
@@ -1704,7 +1704,7 @@ client.Tags.Update(
 </dl>
 </details>
 
-<details><summary><code>client.Tags.Delete(ID, request) -> *schedulingo.Tag</code></summary>
+<details><summary><code>client.Tags.Delete(ID, request) -> *schedulin.Tag</code></summary>
 <dl>
 <dd>
 
@@ -1731,7 +1731,7 @@ Delete a tag by its ID. Only the tag owner can delete their tags.
 <dd>
 
 ```go
-request := &schedulingo.DeleteTagsRequest{
+request := &schedulin.DeleteTagsRequest{
     ID: "id",
 }
 client.Tags.Delete(
@@ -1765,7 +1765,7 @@ client.Tags.Delete(
 </details>
 
 ## Media
-<details><summary><code>client.Media.CreateFromURL(request) -> *schedulingo.Media</code></summary>
+<details><summary><code>client.Media.CreateFromURL(request) -> *schedulin.Media</code></summary>
 <dl>
 <dd>
 
@@ -1792,7 +1792,7 @@ Downloads a publicly reachable image or video into the media library and returns
 <dd>
 
 ```go
-request := &schedulingo.CreateFromURLMediaRequest{
+request := &schedulin.CreateFromURLMediaRequest{
     URL: "url",
 }
 client.Media.CreateFromURL(
@@ -1849,7 +1849,7 @@ client.Media.CreateFromURL(
 </dl>
 </details>
 
-<details><summary><code>client.Media.CreateUploadLink(request) -> *schedulingo.CreateUploadLinkMediaResponse</code></summary>
+<details><summary><code>client.Media.CreateUploadLink(request) -> *schedulin.CreateUploadLinkMediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -1876,7 +1876,7 @@ Returns a short-lived URL to a page where the user uploads files from their devi
 <dd>
 
 ```go
-request := &schedulingo.CreateUploadLinkMediaRequest{}
+request := &schedulin.CreateUploadLinkMediaRequest{}
 client.Media.CreateUploadLink(
     context.TODO(),
     request,
@@ -1907,7 +1907,7 @@ client.Media.CreateUploadLink(
 </dl>
 </details>
 
-<details><summary><code>client.Media.Upload(request) -> *schedulingo.Media</code></summary>
+<details><summary><code>client.Media.Upload(request) -> *schedulin.Media</code></summary>
 <dl>
 <dd>
 
@@ -1934,7 +1934,7 @@ Upload raw image, video, or audio bytes directly as multipart/form-data. The fil
 <dd>
 
 ```go
-request := &schedulingo.UploadMediaRequest{
+request := &schedulin.UploadMediaRequest{
     File: strings.NewReader(
         "",
     ),
@@ -1954,7 +1954,7 @@ client.Media.Upload(
 </dl>
 </details>
 
-<details><summary><code>client.Media.Retrieve(ID) -> *schedulingo.Media</code></summary>
+<details><summary><code>client.Media.Retrieve(ID) -> *schedulin.Media</code></summary>
 <dl>
 <dd>
 
@@ -1981,7 +1981,7 @@ Retrieve media information by its ID
 <dd>
 
 ```go
-request := &schedulingo.RetrieveMediaRequest{
+request := &schedulin.RetrieveMediaRequest{
     ID: "id",
 }
 client.Media.Retrieve(
@@ -2014,7 +2014,7 @@ client.Media.Retrieve(
 </dl>
 </details>
 
-<details><summary><code>client.Media.Update(ID, request) -> *schedulingo.Media</code></summary>
+<details><summary><code>client.Media.Update(ID, request) -> *schedulin.Media</code></summary>
 <dl>
 <dd>
 
@@ -2041,7 +2041,7 @@ Update media information and metadata
 <dd>
 
 ```go
-request := &schedulingo.UpdateMediaRequest{
+request := &schedulin.UpdateMediaRequest{
     ID: "id",
 }
 client.Media.Update(
@@ -2122,7 +2122,7 @@ client.Media.Update(
 </dl>
 </details>
 
-<details><summary><code>client.Media.Delete(ID, request) -> *schedulingo.DeleteMediaResponse</code></summary>
+<details><summary><code>client.Media.Delete(ID, request) -> *schedulin.DeleteMediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -2149,7 +2149,7 @@ Delete a media object and remove its files from storage. Fails with a conflict w
 <dd>
 
 ```go
-request := &schedulingo.DeleteMediaRequest{
+request := &schedulin.DeleteMediaRequest{
     ID: "id",
 }
 client.Media.Delete(
@@ -2182,7 +2182,7 @@ client.Media.Delete(
 </dl>
 </details>
 
-<details><summary><code>client.Media.List() -> *schedulingo.ListMediaResponse</code></summary>
+<details><summary><code>client.Media.List() -> *schedulin.ListMediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -2209,7 +2209,7 @@ List media for the organization with page pagination, search, type and tag filte
 <dd>
 
 ```go
-request := &schedulingo.ListMediaRequest{}
+request := &schedulin.ListMediaRequest{}
 client.Media.List(
     context.TODO(),
     request,
@@ -2252,7 +2252,7 @@ client.Media.List(
 <dl>
 <dd>
 
-**type_:** `*schedulingo.ListMediaRequestType` 
+**type_:** `*schedulin.ListMediaRequestType` 
     
 </dd>
 </dl>
@@ -2268,7 +2268,7 @@ client.Media.List(
 <dl>
 <dd>
 
-**tagMode:** `*schedulingo.ListMediaRequestTagMode` 
+**tagMode:** `*schedulin.ListMediaRequestTagMode` 
     
 </dd>
 </dl>
@@ -2280,7 +2280,7 @@ client.Media.List(
 </dl>
 </details>
 
-<details><summary><code>client.Media.SetTags(MediaID, request) -> *schedulingo.SetTagsMediaResponse</code></summary>
+<details><summary><code>client.Media.SetTags(MediaID, request) -> *schedulin.SetTagsMediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -2307,7 +2307,7 @@ Replace the set of tags attached to a media item with the provided tag IDs
 <dd>
 
 ```go
-request := &schedulingo.SetTagsMediaRequest{
+request := &schedulin.SetTagsMediaRequest{
     MediaID: "mediaId",
     TagIDs: []string{
         "tagIds",
@@ -2351,7 +2351,7 @@ client.Media.SetTags(
 </dl>
 </details>
 
-<details><summary><code>client.Media.CountByTag() -> *schedulingo.CountByTagMediaResponse</code></summary>
+<details><summary><code>client.Media.CountByTag() -> *schedulin.CountByTagMediaResponse</code></summary>
 <dl>
 <dd>
 
@@ -2392,7 +2392,7 @@ client.Media.CountByTag(
 </dl>
 </details>
 
-<details><summary><code>client.Media.CreatePresignedPost(request) -> *schedulingo.PresignedPost</code></summary>
+<details><summary><code>client.Media.CreatePresignedPost(request) -> *schedulin.PresignedPost</code></summary>
 <dl>
 <dd>
 
@@ -2419,7 +2419,7 @@ Returns a presigned PUT URL. Upload by issuing an HTTP PUT of the raw file bytes
 <dd>
 
 ```go
-request := &schedulingo.CreatePresignedPost{
+request := &schedulin.CreatePresignedPost{
     ContentType: "contentType",
     Key: "key",
 }
@@ -2465,7 +2465,7 @@ client.Media.CreatePresignedPost(
 <dl>
 <dd>
 
-**intent:** `*schedulingo.CreatePresignedPostIntent` 
+**intent:** `*schedulin.CreatePresignedPostIntent` 
     
 </dd>
 </dl>
@@ -2478,7 +2478,7 @@ client.Media.CreatePresignedPost(
 </details>
 
 ## Platforms
-<details><summary><code>client.Platforms.List() -> *schedulingo.ListPlatformsResponse</code></summary>
+<details><summary><code>client.Platforms.List() -> *schedulin.ListPlatformsResponse</code></summary>
 <dl>
 <dd>
 
@@ -2520,7 +2520,7 @@ client.Platforms.List(
 </details>
 
 ## Ai
-<details><summary><code>client.Ai.GenerateImage(request) -> *schedulingo.GenerateImageAiResponse</code></summary>
+<details><summary><code>client.Ai.GenerateImage(request) -> *schedulin.GenerateImageAiResponse</code></summary>
 <dl>
 <dd>
 
@@ -2547,7 +2547,7 @@ Submit an AI image generation job
 <dd>
 
 ```go
-request := &schedulingo.GenerateImageAiRequest{
+request := &schedulin.GenerateImageAiRequest{
     Prompt: "prompt",
 }
 client.Ai.GenerateImage(
@@ -2576,7 +2576,7 @@ client.Ai.GenerateImage(
 <dl>
 <dd>
 
-**modelKey:** `*schedulingo.GenerateImageAiRequestModelKey` 
+**modelKey:** `*schedulin.GenerateImageAiRequestModelKey` 
     
 </dd>
 </dl>
@@ -2604,7 +2604,7 @@ client.Ai.GenerateImage(
 </dl>
 </details>
 
-<details><summary><code>client.Ai.GetGeneration() -> *schedulingo.AiGeneration</code></summary>
+<details><summary><code>client.Ai.GetGeneration() -> *schedulin.AiGeneration</code></summary>
 <dl>
 <dd>
 
@@ -2631,7 +2631,7 @@ Get the status and details of a generation job
 <dd>
 
 ```go
-request := &schedulingo.GetGenerationAiRequest{
+request := &schedulin.GetGenerationAiRequest{
     ID: "id",
 }
 client.Ai.GetGeneration(
@@ -2665,7 +2665,7 @@ client.Ai.GetGeneration(
 </details>
 
 ## Webhooks
-<details><summary><code>client.Webhooks.List() -> *schedulingo.ListWebhooksResponse</code></summary>
+<details><summary><code>client.Webhooks.List() -> *schedulin.ListWebhooksResponse</code></summary>
 <dl>
 <dd>
 
@@ -2706,7 +2706,7 @@ client.Webhooks.List(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.Create(request) -> *schedulingo.WebhookEndpoint</code></summary>
+<details><summary><code>client.Webhooks.Create(request) -> *schedulin.WebhookEndpoint</code></summary>
 <dl>
 <dd>
 
@@ -2733,10 +2733,10 @@ Register an HTTPS endpoint for event deliveries. The response includes the signi
 <dd>
 
 ```go
-request := &schedulingo.CreateWebhooksRequest{
+request := &schedulin.CreateWebhooksRequest{
     URL: "url",
-    Events: []schedulingo.CreateWebhooksRequestEventsItem{
-        schedulingo.CreateWebhooksRequestEventsItemPostPublished,
+    Events: []schedulin.CreateWebhooksRequestEventsItem{
+        schedulin.CreateWebhooksRequestEventsItemPostPublished,
     },
 }
 client.Webhooks.Create(
@@ -2765,7 +2765,7 @@ client.Webhooks.Create(
 <dl>
 <dd>
 
-**events:** `[]schedulingo.CreateWebhooksRequestEventsItem` 
+**events:** `[]schedulin.CreateWebhooksRequestEventsItem` 
     
 </dd>
 </dl>
@@ -2785,7 +2785,7 @@ client.Webhooks.Create(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.Retrieve(ID) -> *schedulingo.WebhookEndpoint</code></summary>
+<details><summary><code>client.Webhooks.Retrieve(ID) -> *schedulin.WebhookEndpoint</code></summary>
 <dl>
 <dd>
 
@@ -2812,7 +2812,7 @@ Retrieve one webhook endpoint, including failure counters. The signing secret is
 <dd>
 
 ```go
-request := &schedulingo.RetrieveWebhooksRequest{
+request := &schedulin.RetrieveWebhooksRequest{
     ID: "id",
 }
 client.Webhooks.Retrieve(
@@ -2845,7 +2845,7 @@ client.Webhooks.Retrieve(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.Delete(ID, request) -> *schedulingo.DeleteWebhooksResponse</code></summary>
+<details><summary><code>client.Webhooks.Delete(ID, request) -> *schedulin.DeleteWebhooksResponse</code></summary>
 <dl>
 <dd>
 
@@ -2872,7 +2872,7 @@ Delete a webhook endpoint and its delivery history. Deliveries already in flight
 <dd>
 
 ```go
-request := &schedulingo.DeleteWebhooksRequest{
+request := &schedulin.DeleteWebhooksRequest{
     ID: "id",
 }
 client.Webhooks.Delete(
@@ -2905,7 +2905,7 @@ client.Webhooks.Delete(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.Update(ID, request) -> *schedulingo.WebhookEndpoint</code></summary>
+<details><summary><code>client.Webhooks.Update(ID, request) -> *schedulin.WebhookEndpoint</code></summary>
 <dl>
 <dd>
 
@@ -2932,7 +2932,7 @@ Update URL, subscribed events, description, or enabled state. Re-enabling resets
 <dd>
 
 ```go
-request := &schedulingo.UpdateWebhooksRequest{
+request := &schedulin.UpdateWebhooksRequest{
     ID: "id",
 }
 client.Webhooks.Update(
@@ -2969,7 +2969,7 @@ client.Webhooks.Update(
 <dl>
 <dd>
 
-**events:** `[]schedulingo.UpdateWebhooksRequestEventsItem` 
+**events:** `[]schedulin.UpdateWebhooksRequestEventsItem` 
     
 </dd>
 </dl>
@@ -2997,7 +2997,7 @@ client.Webhooks.Update(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.RotateSecret(ID, request) -> *schedulingo.WebhookEndpoint</code></summary>
+<details><summary><code>client.Webhooks.RotateSecret(ID, request) -> *schedulin.WebhookEndpoint</code></summary>
 <dl>
 <dd>
 
@@ -3024,7 +3024,7 @@ Generate a new signing secret for the endpoint and return it ONCE. The old secre
 <dd>
 
 ```go
-request := &schedulingo.RotateSecretWebhooksRequest{
+request := &schedulin.RotateSecretWebhooksRequest{
     ID: "id",
 }
 client.Webhooks.RotateSecret(
@@ -3057,7 +3057,7 @@ client.Webhooks.RotateSecret(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.Test(ID, request) -> *schedulingo.TestWebhooksResponse</code></summary>
+<details><summary><code>client.Webhooks.Test(ID, request) -> *schedulin.TestWebhooksResponse</code></summary>
 <dl>
 <dd>
 
@@ -3084,7 +3084,7 @@ Send a signed `ping` event to the endpoint URL and record it in the delivery his
 <dd>
 
 ```go
-request := &schedulingo.TestWebhooksRequest{
+request := &schedulin.TestWebhooksRequest{
     ID: "id",
 }
 client.Webhooks.Test(
@@ -3117,7 +3117,7 @@ client.Webhooks.Test(
 </dl>
 </details>
 
-<details><summary><code>client.Webhooks.ListDeliveries(ID) -> *schedulingo.ListDeliveriesWebhooksResponse</code></summary>
+<details><summary><code>client.Webhooks.ListDeliveries(ID) -> *schedulin.ListDeliveriesWebhooksResponse</code></summary>
 <dl>
 <dd>
 
@@ -3144,7 +3144,7 @@ Delivery history for a webhook endpoint: event, status, attempts, last response 
 <dd>
 
 ```go
-request := &schedulingo.ListDeliveriesWebhooksRequest{
+request := &schedulin.ListDeliveriesWebhooksRequest{
     ID: "id",
 }
 client.Webhooks.ListDeliveries(

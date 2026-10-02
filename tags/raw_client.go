@@ -6,7 +6,7 @@ import (
 	context "context"
 	http "net/http"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -34,9 +34,9 @@ func NewRawClient(options *core.RequestOptions) *RawClient {
 
 func (r *RawClient) List(
 	ctx context.Context,
-	request *schedulingo.ListTagsRequest,
+	request *schedulin.ListTagsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.ListTagsResponse], error) {
+) (*core.Response[*schedulin.ListTagsResponse], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -55,7 +55,7 @@ func (r *RawClient) List(
 		r.options.ToHeader(),
 		options.ToHeader(),
 	)
-	var response *schedulingo.ListTagsResponse
+	var response *schedulin.ListTagsResponse
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -68,13 +68,13 @@ func (r *RawClient) List(
 			QueryParameters: options.QueryParameters,
 			Client:          options.HTTPClient,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.ListTagsResponse]{
+	return &core.Response[*schedulin.ListTagsResponse]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -83,9 +83,9 @@ func (r *RawClient) List(
 
 func (r *RawClient) Create(
 	ctx context.Context,
-	request *schedulingo.CreateTagsRequest,
+	request *schedulin.CreateTagsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.Tag], error) {
+) (*core.Response[*schedulin.Tag], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -98,7 +98,7 @@ func (r *RawClient) Create(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.Tag
+	var response *schedulin.Tag
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -112,13 +112,13 @@ func (r *RawClient) Create(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.Tag]{
+	return &core.Response[*schedulin.Tag]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -127,9 +127,9 @@ func (r *RawClient) Create(
 
 func (r *RawClient) Update(
 	ctx context.Context,
-	request *schedulingo.UpdateTagsRequest,
+	request *schedulin.UpdateTagsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.Tag], error) {
+) (*core.Response[*schedulin.Tag], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -145,7 +145,7 @@ func (r *RawClient) Update(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.Tag
+	var response *schedulin.Tag
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -159,13 +159,13 @@ func (r *RawClient) Update(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.Tag]{
+	return &core.Response[*schedulin.Tag]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,
@@ -174,9 +174,9 @@ func (r *RawClient) Update(
 
 func (r *RawClient) Delete(
 	ctx context.Context,
-	request *schedulingo.DeleteTagsRequest,
+	request *schedulin.DeleteTagsRequest,
 	opts ...option.RequestOption,
-) (*core.Response[*schedulingo.Tag], error) {
+) (*core.Response[*schedulin.Tag], error) {
 	options := core.NewRequestOptions(opts...)
 	baseURL := internal.ResolveBaseURL(
 		options.BaseURL,
@@ -192,7 +192,7 @@ func (r *RawClient) Delete(
 		options.ToHeader(),
 	)
 	headers.Add("Content-Type", "application/json")
-	var response *schedulingo.Tag
+	var response *schedulin.Tag
 	raw, err := r.caller.Call(
 		ctx,
 		&internal.CallParams{
@@ -206,13 +206,13 @@ func (r *RawClient) Delete(
 			Client:          options.HTTPClient,
 			Request:         request,
 			Response:        &response,
-			ErrorDecoder:    internal.NewErrorDecoder(schedulingo.ErrorCodes),
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
 		},
 	)
 	if err != nil {
 		return nil, err
 	}
-	return &core.Response[*schedulingo.Tag]{
+	return &core.Response[*schedulin.Tag]{
 		StatusCode: raw.StatusCode,
 		Header:     raw.Header,
 		Body:       response,

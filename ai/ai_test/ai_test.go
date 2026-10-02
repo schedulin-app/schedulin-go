@@ -10,7 +10,7 @@ import (
 	os "os"
 	testing "testing"
 
-	schedulingo "github.com/schedulin-app/schedulin-go"
+	schedulin "github.com/schedulin-app/schedulin-go"
 	client "github.com/schedulin-app/schedulin-go/client"
 	option "github.com/schedulin-app/schedulin-go/option"
 	require "github.com/stretchr/testify/require"
@@ -88,7 +88,7 @@ func TestAiGenerateImageWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.GenerateImageAiRequest{
+	request := &schedulin.GenerateImageAiRequest{
 		Prompt: "prompt",
 	}
 	_, invocationErr := client.Ai.GenerateImage(
@@ -114,7 +114,7 @@ func TestAiGetGenerationWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
-	request := &schedulingo.GetGenerationAiRequest{
+	request := &schedulin.GetGenerationAiRequest{
 		ID: "id",
 	}
 	_, invocationErr := client.Ai.GetGeneration(
