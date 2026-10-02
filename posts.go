@@ -2127,43 +2127,6 @@ func (s *SocialAccount) String() string {
 	return fmt.Sprintf("%#v", s)
 }
 
-type SocialAccountDisconnectedReason string
-
-const (
-	SocialAccountDisconnectedReasonTokenExpired     SocialAccountDisconnectedReason = "TOKEN_EXPIRED"
-	SocialAccountDisconnectedReasonTokenInvalid     SocialAccountDisconnectedReason = "TOKEN_INVALID"
-	SocialAccountDisconnectedReasonTokenRevoked     SocialAccountDisconnectedReason = "TOKEN_REVOKED"
-	SocialAccountDisconnectedReasonRefreshFailed    SocialAccountDisconnectedReason = "REFRESH_FAILED"
-	SocialAccountDisconnectedReasonAccountSuspended SocialAccountDisconnectedReason = "ACCOUNT_SUSPENDED"
-	SocialAccountDisconnectedReasonPermissionDenied SocialAccountDisconnectedReason = "PERMISSION_DENIED"
-	SocialAccountDisconnectedReasonEmailUnconfirmed SocialAccountDisconnectedReason = "EMAIL_UNCONFIRMED"
-)
-
-func NewSocialAccountDisconnectedReasonFromString(s string) (SocialAccountDisconnectedReason, error) {
-	switch s {
-	case "TOKEN_EXPIRED":
-		return SocialAccountDisconnectedReasonTokenExpired, nil
-	case "TOKEN_INVALID":
-		return SocialAccountDisconnectedReasonTokenInvalid, nil
-	case "TOKEN_REVOKED":
-		return SocialAccountDisconnectedReasonTokenRevoked, nil
-	case "REFRESH_FAILED":
-		return SocialAccountDisconnectedReasonRefreshFailed, nil
-	case "ACCOUNT_SUSPENDED":
-		return SocialAccountDisconnectedReasonAccountSuspended, nil
-	case "PERMISSION_DENIED":
-		return SocialAccountDisconnectedReasonPermissionDenied, nil
-	case "EMAIL_UNCONFIRMED":
-		return SocialAccountDisconnectedReasonEmailUnconfirmed, nil
-	}
-	var t SocialAccountDisconnectedReason
-	return "", fmt.Errorf("%s is not a valid %T", s, t)
-}
-
-func (s SocialAccountDisconnectedReason) Ptr() *SocialAccountDisconnectedReason {
-	return &s
-}
-
 var (
 	socialAccountPublicFieldID              = big.NewInt(1 << 0)
 	socialAccountPublicFieldPlatform        = big.NewInt(1 << 1)
@@ -5868,20 +5831,39 @@ func (p PostCreateThumbnailTagsItemType) Ptr() *PostCreateThumbnailTagsItemType 
 
 var (
 	updatePostsRequestMediaItemFieldID       = big.NewInt(1 << 0)
-	updatePostsRequestMediaItemFieldName     = big.NewInt(1 << 1)
-	updatePostsRequestMediaItemFieldURL      = big.NewInt(1 << 2)
+	updatePostsRequestMediaItemFieldURL      = big.NewInt(1 << 1)
+	updatePostsRequestMediaItemFieldName     = big.NewInt(1 << 2)
 	updatePostsRequestMediaItemFieldMimeType = big.NewInt(1 << 3)
-	updatePostsRequestMediaItemFieldBucket   = big.NewInt(1 << 4)
-	updatePostsRequestMediaItemFieldKey      = big.NewInt(1 << 5)
+	updatePostsRequestMediaItemFieldWidth    = big.NewInt(1 << 4)
+	updatePostsRequestMediaItemFieldHeight   = big.NewInt(1 << 5)
+	updatePostsRequestMediaItemFieldSize     = big.NewInt(1 << 6)
+	updatePostsRequestMediaItemFieldDuration = big.NewInt(1 << 7)
+	updatePostsRequestMediaItemFieldAlt      = big.NewInt(1 << 8)
+	updatePostsRequestMediaItemFieldBucket   = big.NewInt(1 << 9)
+	updatePostsRequestMediaItemFieldKey      = big.NewInt(1 << 10)
 )
 
+// updatePostsRequestMediaItemNullableFields maps the wire names of UpdatePostsRequestMediaItem's nullable fields (required or optional) to their field bits.
+var updatePostsRequestMediaItemNullableFields = map[string]*big.Int{
+	"width":    updatePostsRequestMediaItemFieldWidth,
+	"height":   updatePostsRequestMediaItemFieldHeight,
+	"size":     updatePostsRequestMediaItemFieldSize,
+	"duration": updatePostsRequestMediaItemFieldDuration,
+	"alt":      updatePostsRequestMediaItemFieldAlt,
+}
+
 type UpdatePostsRequestMediaItem struct {
-	ID       string  `json:"id" url:"id"`
-	Name     string  `json:"name" url:"name"`
-	URL      string  `json:"url" url:"url"`
-	MimeType string  `json:"mimeType" url:"mimeType"`
-	Bucket   *string `json:"bucket,omitempty" url:"bucket,omitempty"`
-	Key      string  `json:"key" url:"key"`
+	ID       *string  `json:"id,omitempty" url:"id,omitempty"`
+	URL      *string  `json:"url,omitempty" url:"url,omitempty"`
+	Name     *string  `json:"name,omitempty" url:"name,omitempty"`
+	MimeType *string  `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width    *float64 `json:"width,omitempty" url:"width,omitempty"`
+	Height   *float64 `json:"height,omitempty" url:"height,omitempty"`
+	Size     *float64 `json:"size,omitempty" url:"size,omitempty"`
+	Duration *float64 `json:"duration,omitempty" url:"duration,omitempty"`
+	Alt      *string  `json:"alt,omitempty" url:"alt,omitempty"`
+	Bucket   *string  `json:"bucket,omitempty" url:"bucket,omitempty"`
+	Key      *string  `json:"key,omitempty" url:"key,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -5890,32 +5872,67 @@ type UpdatePostsRequestMediaItem struct {
 	rawJSON         json.RawMessage
 }
 
-func (u *UpdatePostsRequestMediaItem) GetID() string {
+func (u *UpdatePostsRequestMediaItem) GetID() *string {
 	if u == nil {
-		return ""
+		return nil
 	}
 	return u.ID
 }
 
-func (u *UpdatePostsRequestMediaItem) GetName() string {
+func (u *UpdatePostsRequestMediaItem) GetURL() *string {
 	if u == nil {
-		return ""
-	}
-	return u.Name
-}
-
-func (u *UpdatePostsRequestMediaItem) GetURL() string {
-	if u == nil {
-		return ""
+		return nil
 	}
 	return u.URL
 }
 
-func (u *UpdatePostsRequestMediaItem) GetMimeType() string {
+func (u *UpdatePostsRequestMediaItem) GetName() *string {
 	if u == nil {
-		return ""
+		return nil
+	}
+	return u.Name
+}
+
+func (u *UpdatePostsRequestMediaItem) GetMimeType() *string {
+	if u == nil {
+		return nil
 	}
 	return u.MimeType
+}
+
+func (u *UpdatePostsRequestMediaItem) GetWidth() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Width
+}
+
+func (u *UpdatePostsRequestMediaItem) GetHeight() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Height
+}
+
+func (u *UpdatePostsRequestMediaItem) GetSize() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Size
+}
+
+func (u *UpdatePostsRequestMediaItem) GetDuration() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Duration
+}
+
+func (u *UpdatePostsRequestMediaItem) GetAlt() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Alt
 }
 
 func (u *UpdatePostsRequestMediaItem) GetBucket() *string {
@@ -5925,9 +5942,9 @@ func (u *UpdatePostsRequestMediaItem) GetBucket() *string {
 	return u.Bucket
 }
 
-func (u *UpdatePostsRequestMediaItem) GetKey() string {
+func (u *UpdatePostsRequestMediaItem) GetKey() *string {
 	if u == nil {
-		return ""
+		return nil
 	}
 	return u.Key
 }
@@ -5950,30 +5967,65 @@ func (u *UpdatePostsRequestMediaItem) require(field *big.Int) {
 
 // SetID sets the ID field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdatePostsRequestMediaItem) SetID(id string) {
+func (u *UpdatePostsRequestMediaItem) SetID(id *string) {
 	u.ID = id
 	u.require(updatePostsRequestMediaItemFieldID)
 }
 
-// SetName sets the Name field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdatePostsRequestMediaItem) SetName(name string) {
-	u.Name = name
-	u.require(updatePostsRequestMediaItemFieldName)
-}
-
 // SetURL sets the URL field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdatePostsRequestMediaItem) SetURL(url string) {
+func (u *UpdatePostsRequestMediaItem) SetURL(url *string) {
 	u.URL = url
 	u.require(updatePostsRequestMediaItemFieldURL)
 }
 
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetName(name *string) {
+	u.Name = name
+	u.require(updatePostsRequestMediaItemFieldName)
+}
+
 // SetMimeType sets the MimeType field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdatePostsRequestMediaItem) SetMimeType(mimeType string) {
+func (u *UpdatePostsRequestMediaItem) SetMimeType(mimeType *string) {
 	u.MimeType = mimeType
 	u.require(updatePostsRequestMediaItemFieldMimeType)
+}
+
+// SetWidth sets the Width field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetWidth(width *float64) {
+	u.Width = width
+	u.require(updatePostsRequestMediaItemFieldWidth)
+}
+
+// SetHeight sets the Height field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetHeight(height *float64) {
+	u.Height = height
+	u.require(updatePostsRequestMediaItemFieldHeight)
+}
+
+// SetSize sets the Size field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetSize(size *float64) {
+	u.Size = size
+	u.require(updatePostsRequestMediaItemFieldSize)
+}
+
+// SetDuration sets the Duration field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetDuration(duration *float64) {
+	u.Duration = duration
+	u.require(updatePostsRequestMediaItemFieldDuration)
+}
+
+// SetAlt sets the Alt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetAlt(alt *string) {
+	u.Alt = alt
+	u.require(updatePostsRequestMediaItemFieldAlt)
 }
 
 // SetBucket sets the Bucket field and marks it as non-optional;
@@ -5985,7 +6037,7 @@ func (u *UpdatePostsRequestMediaItem) SetBucket(bucket *string) {
 
 // SetKey sets the Key field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (u *UpdatePostsRequestMediaItem) SetKey(key string) {
+func (u *UpdatePostsRequestMediaItem) SetKey(key *string) {
 	u.Key = key
 	u.require(updatePostsRequestMediaItemFieldKey)
 }
@@ -6002,6 +6054,13 @@ func (u *UpdatePostsRequestMediaItem) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	u.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, updatePostsRequestMediaItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		u.require(presentFields)
+	}
 	u.rawJSON = json.RawMessage(data)
 	return nil
 }

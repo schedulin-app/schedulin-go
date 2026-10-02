@@ -4420,6 +4420,14 @@ func TestSettersMarkExplicitValidationErrorResponse(t *testing.T) {
 }
 
 func TestSettersValidationErrorResponseData(t *testing.T) {
+	t.Run("SetMessage", func(t *testing.T) {
+		obj := &ValidationErrorResponseData{}
+		var fernTestValueMessage *string
+		obj.SetMessage(fernTestValueMessage)
+		assert.Equal(t, fernTestValueMessage, obj.Message)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetFormErrors", func(t *testing.T) {
 		obj := &ValidationErrorResponseData{}
 		var fernTestValueFormErrors []string
@@ -4439,6 +4447,39 @@ func TestSettersValidationErrorResponseData(t *testing.T) {
 }
 
 func TestGettersValidationErrorResponseData(t *testing.T) {
+	t.Run("GetMessage", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ValidationErrorResponseData{}
+		var expected *string
+		obj.Message = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetMessage(), "getter should return the property value")
+	})
+
+	t.Run("GetMessage_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ValidationErrorResponseData{}
+		obj.Message = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetMessage(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetMessage_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ValidationErrorResponseData
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetMessage() // Should return zero value
+	})
+
 	t.Run("GetFormErrors", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
@@ -4508,6 +4549,37 @@ func TestGettersValidationErrorResponseData(t *testing.T) {
 }
 
 func TestSettersMarkExplicitValidationErrorResponseData(t *testing.T) {
+	t.Run("SetMessage_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ValidationErrorResponseData{}
+		var fernTestValueMessage *string
+
+		// Act
+		obj.SetMessage(fernTestValueMessage)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
 	t.Run("SetFormErrors_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
@@ -5785,6 +5857,70 @@ func TestEnumPostSearchTagMode(t *testing.T) {
 
 	t.Run("Ptr", func(t *testing.T) {
 		val, err := NewPostSearchTagModeFromString("ANY")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
+func TestEnumSocialAccountDisconnectedReason(t *testing.T) {
+	t.Run("NewFromString_TOKEN_EXPIRED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialAccountDisconnectedReasonFromString("TOKEN_EXPIRED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialAccountDisconnectedReason("TOKEN_EXPIRED"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_TOKEN_INVALID", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialAccountDisconnectedReasonFromString("TOKEN_INVALID")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialAccountDisconnectedReason("TOKEN_INVALID"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_TOKEN_REVOKED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialAccountDisconnectedReasonFromString("TOKEN_REVOKED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialAccountDisconnectedReason("TOKEN_REVOKED"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_REFRESH_FAILED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialAccountDisconnectedReasonFromString("REFRESH_FAILED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialAccountDisconnectedReason("REFRESH_FAILED"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_ACCOUNT_SUSPENDED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialAccountDisconnectedReasonFromString("ACCOUNT_SUSPENDED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialAccountDisconnectedReason("ACCOUNT_SUSPENDED"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_PERMISSION_DENIED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialAccountDisconnectedReasonFromString("PERMISSION_DENIED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialAccountDisconnectedReason("PERMISSION_DENIED"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_EMAIL_UNCONFIRMED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewSocialAccountDisconnectedReasonFromString("EMAIL_UNCONFIRMED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, SocialAccountDisconnectedReason("EMAIL_UNCONFIRMED"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewSocialAccountDisconnectedReasonFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewSocialAccountDisconnectedReasonFromString("TOKEN_EXPIRED")
 		assert.NoError(t, err)
 		ptr := val.Ptr()
 		assert.NotNil(t, ptr)

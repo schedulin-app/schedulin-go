@@ -255,7 +255,7 @@ func (u *UnauthorizedError) GetBody() *ErrorResponse {
 	return u.Body
 }
 
-// Input validation failed. `data.fieldErrors` maps each invalid field to its messages.
+// Unprocessable request. Schema validation failures have `code: "INPUT_VALIDATION_FAILED"` and `data.fieldErrors` mapping each invalid field to its messages (nested issues name their full path, e.g. `media[0].url: ...`). Business-rule rejections (e.g. a `scheduledAt` in the past) have `code: "UNPROCESSABLE_CONTENT"` and carry the reason in `data.message` and `data.formErrors`.
 type UnprocessableEntityError struct {
 	*core.APIError
 	Body *ValidationErrorResponse

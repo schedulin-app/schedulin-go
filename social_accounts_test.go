@@ -19,6 +19,14 @@ func TestSettersDeleteSocialAccountsRequest(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetPermanent", func(t *testing.T) {
+		obj := &DeleteSocialAccountsRequest{}
+		var fernTestValuePermanent *bool
+		obj.SetPermanent(fernTestValuePermanent)
+		assert.Equal(t, fernTestValuePermanent, obj.Permanent)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 }
 
 func TestSettersMarkExplicitDeleteSocialAccountsRequest(t *testing.T) {
@@ -30,6 +38,37 @@ func TestSettersMarkExplicitDeleteSocialAccountsRequest(t *testing.T) {
 
 		// Act
 		obj.SetID(fernTestValueID)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetPermanent_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &DeleteSocialAccountsRequest{}
+		var fernTestValuePermanent *bool
+
+		// Act
+		obj.SetPermanent(fernTestValuePermanent)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -1092,6 +1131,14 @@ func TestSettersListSocialAccountsResponseDataItem(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetDisconnectedReason", func(t *testing.T) {
+		obj := &ListSocialAccountsResponseDataItem{}
+		var fernTestValueDisconnectedReason *SocialAccountDisconnectedReason
+		obj.SetDisconnectedReason(fernTestValueDisconnectedReason)
+		assert.Equal(t, fernTestValueDisconnectedReason, obj.DisconnectedReason)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetUsername", func(t *testing.T) {
 		obj := &ListSocialAccountsResponseDataItem{}
 		var fernTestValueUsername *string
@@ -1226,6 +1273,39 @@ func TestGettersListSocialAccountsResponseDataItem(t *testing.T) {
 			}
 		}()
 		_ = obj.GetStatus() // Should return zero value
+	})
+
+	t.Run("GetDisconnectedReason", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItem{}
+		var expected *SocialAccountDisconnectedReason
+		obj.DisconnectedReason = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetDisconnectedReason(), "getter should return the property value")
+	})
+
+	t.Run("GetDisconnectedReason_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItem{}
+		obj.DisconnectedReason = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetDisconnectedReason(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetDisconnectedReason_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListSocialAccountsResponseDataItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetDisconnectedReason() // Should return zero value
 	})
 
 	t.Run("GetUsername", func(t *testing.T) {
@@ -1535,6 +1615,37 @@ func TestSettersMarkExplicitListSocialAccountsResponseDataItem(t *testing.T) {
 
 		// Act
 		obj.SetStatus(fernTestValueStatus)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetDisconnectedReason_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItem{}
+		var fernTestValueDisconnectedReason *SocialAccountDisconnectedReason
+
+		// Act
+		obj.SetDisconnectedReason(fernTestValueDisconnectedReason)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -4405,6 +4516,7 @@ func TestJSONMarshalingUpdateTimezoneSocialAccountsResponse(t *testing.T) {
 
 func TestRequiredNullableRoundTripListSocialAccountsResponseDataItem(t *testing.T) {
 	requiredNullableKeys := []string{
+		"disconnectedReason",
 		"username",
 		"displayName",
 		"profileImageUrl",
@@ -4422,7 +4534,7 @@ func TestRequiredNullableRoundTripListSocialAccountsResponseDataItem(t *testing.
 	t.Run("NullPreserved", func(t *testing.T) {
 		t.Parallel()
 		var obj ListSocialAccountsResponseDataItem
-		require.NoError(t, json.Unmarshal([]byte(`{"username":null,"displayName":null,"profileImageUrl":null,"analyticsDisabledAt":null,"webhookSubscriptionFailedAt":null}`), &obj))
+		require.NoError(t, json.Unmarshal([]byte(`{"disconnectedReason":null,"username":null,"displayName":null,"profileImageUrl":null,"analyticsDisabledAt":null,"webhookSubscriptionFailedAt":null}`), &obj))
 		result := marshalToMap(t, &obj)
 		for _, key := range requiredNullableKeys {
 			value, ok := result[key]

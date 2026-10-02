@@ -361,7 +361,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"data\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
+        "body": "{\n  \"data\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -565,8 +565,8 @@
       }
     },
     {
-      "id": "3018cae6-5fa9-4ee6-ba02-d736cc0187be",
-      "name": "Delete social account - default",
+      "id": "afd370a2-bf7c-40c4-ab8b-e302a8ae0597",
+      "name": "Disconnect (or permanently delete) a social account - default",
       "request": {
         "urlPathTemplate": "/v0/social-accounts/{id}",
         "method": "DELETE",
@@ -588,7 +588,7 @@
           "Content-Type": "application/json"
         }
       },
-      "uuid": "3018cae6-5fa9-4ee6-ba02-d736cc0187be",
+      "uuid": "afd370a2-bf7c-40c4-ab8b-e302a8ae0597",
       "persistent": true,
       "priority": 3,
       "metadata": {
@@ -1063,7 +1063,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"deleted\": \"deleted\"\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"deleted\": true\n}",
         "headers": {
           "Content-Type": "application/json"
         }

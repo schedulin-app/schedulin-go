@@ -1719,6 +1719,43 @@ func (r *RateLimitErrorResponseError) String() string {
 	return fmt.Sprintf("%#v", r)
 }
 
+type SocialAccountDisconnectedReason string
+
+const (
+	SocialAccountDisconnectedReasonTokenExpired     SocialAccountDisconnectedReason = "TOKEN_EXPIRED"
+	SocialAccountDisconnectedReasonTokenInvalid     SocialAccountDisconnectedReason = "TOKEN_INVALID"
+	SocialAccountDisconnectedReasonTokenRevoked     SocialAccountDisconnectedReason = "TOKEN_REVOKED"
+	SocialAccountDisconnectedReasonRefreshFailed    SocialAccountDisconnectedReason = "REFRESH_FAILED"
+	SocialAccountDisconnectedReasonAccountSuspended SocialAccountDisconnectedReason = "ACCOUNT_SUSPENDED"
+	SocialAccountDisconnectedReasonPermissionDenied SocialAccountDisconnectedReason = "PERMISSION_DENIED"
+	SocialAccountDisconnectedReasonEmailUnconfirmed SocialAccountDisconnectedReason = "EMAIL_UNCONFIRMED"
+)
+
+func NewSocialAccountDisconnectedReasonFromString(s string) (SocialAccountDisconnectedReason, error) {
+	switch s {
+	case "TOKEN_EXPIRED":
+		return SocialAccountDisconnectedReasonTokenExpired, nil
+	case "TOKEN_INVALID":
+		return SocialAccountDisconnectedReasonTokenInvalid, nil
+	case "TOKEN_REVOKED":
+		return SocialAccountDisconnectedReasonTokenRevoked, nil
+	case "REFRESH_FAILED":
+		return SocialAccountDisconnectedReasonRefreshFailed, nil
+	case "ACCOUNT_SUSPENDED":
+		return SocialAccountDisconnectedReasonAccountSuspended, nil
+	case "PERMISSION_DENIED":
+		return SocialAccountDisconnectedReasonPermissionDenied, nil
+	case "EMAIL_UNCONFIRMED":
+		return SocialAccountDisconnectedReasonEmailUnconfirmed, nil
+	}
+	var t SocialAccountDisconnectedReason
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SocialAccountDisconnectedReason) Ptr() *SocialAccountDisconnectedReason {
+	return &s
+}
+
 var (
 	socialAccountUpdateFieldID     = big.NewInt(1 << 0)
 	socialAccountUpdateFieldStatus = big.NewInt(1 << 1)
@@ -2233,9 +2270,9 @@ var (
 	validationErrorResponseFieldData    = big.NewInt(1 << 4)
 )
 
-// 422 input validation error. `data.fieldErrors` maps each invalid field to its messages; `data.formErrors` holds errors not tied to one field.
+// 422 error. `data.fieldErrors` maps each invalid field to its messages; `data.formErrors` holds errors not tied to one field. `code` is "INPUT_VALIDATION_FAILED" for schema validation and "UNPROCESSABLE_CONTENT" for business-rule rejections, whose reason is also in `data.message`.
 type ValidationErrorResponse struct {
-	// "INPUT_VALIDATION_FAILED"
+	// "INPUT_VALIDATION_FAILED" or "UNPROCESSABLE_CONTENT"
 	Code    string                       `json:"code" url:"code"`
 	Status  int                          `json:"status" url:"status"`
 	Message *string                      `json:"message,omitempty" url:"message,omitempty"`
@@ -2378,11 +2415,14 @@ func (v *ValidationErrorResponse) String() string {
 }
 
 var (
-	validationErrorResponseDataFieldFormErrors  = big.NewInt(1 << 0)
-	validationErrorResponseDataFieldFieldErrors = big.NewInt(1 << 1)
+	validationErrorResponseDataFieldMessage     = big.NewInt(1 << 0)
+	validationErrorResponseDataFieldFormErrors  = big.NewInt(1 << 1)
+	validationErrorResponseDataFieldFieldErrors = big.NewInt(1 << 2)
 )
 
 type ValidationErrorResponseData struct {
+	// Human-readable reason (business-rule rejections only).
+	Message     *string             `json:"message,omitempty" url:"message,omitempty"`
 	FormErrors  []string            `json:"formErrors,omitempty" url:"formErrors,omitempty"`
 	FieldErrors map[string][]string `json:"fieldErrors,omitempty" url:"fieldErrors,omitempty"`
 
@@ -2391,6 +2431,13 @@ type ValidationErrorResponseData struct {
 
 	extraProperties map[string]interface{}
 	rawJSON         json.RawMessage
+}
+
+func (v *ValidationErrorResponseData) GetMessage() *string {
+	if v == nil {
+		return nil
+	}
+	return v.Message
 }
 
 func (v *ValidationErrorResponseData) GetFormErrors() []string {
@@ -2421,6 +2468,13 @@ func (v *ValidationErrorResponseData) require(field *big.Int) {
 	}
 	next.Or(next, field)
 	v.explicitFields = next
+}
+
+// SetMessage sets the Message field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (v *ValidationErrorResponseData) SetMessage(message *string) {
+	v.Message = message
+	v.require(validationErrorResponseDataFieldMessage)
 }
 
 // SetFormErrors sets the FormErrors field and marks it as non-optional;

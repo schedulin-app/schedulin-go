@@ -1219,7 +1219,7 @@ var (
 
 type DeleteMediaResponse struct {
 	ID      string `json:"id" url:"id"`
-	Deleted string `json:"deleted" url:"deleted"`
+	Deleted bool   `json:"deleted" url:"deleted"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1235,9 +1235,9 @@ func (d *DeleteMediaResponse) GetID() string {
 	return d.ID
 }
 
-func (d *DeleteMediaResponse) GetDeleted() string {
+func (d *DeleteMediaResponse) GetDeleted() bool {
 	if d == nil {
-		return ""
+		return false
 	}
 	return d.Deleted
 }
@@ -1267,7 +1267,7 @@ func (d *DeleteMediaResponse) SetID(id string) {
 
 // SetDeleted sets the Deleted field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (d *DeleteMediaResponse) SetDeleted(deleted string) {
+func (d *DeleteMediaResponse) SetDeleted(deleted bool) {
 	d.Deleted = deleted
 	d.require(deleteMediaResponseFieldDeleted)
 }

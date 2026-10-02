@@ -2355,7 +2355,7 @@ func TestSettersDeleteMediaResponse(t *testing.T) {
 
 	t.Run("SetDeleted", func(t *testing.T) {
 		obj := &DeleteMediaResponse{}
-		var fernTestValueDeleted string
+		var fernTestValueDeleted bool
 		obj.SetDeleted(fernTestValueDeleted)
 		assert.Equal(t, fernTestValueDeleted, obj.Deleted)
 		assert.NotNil(t, obj.explicitFields)
@@ -2391,7 +2391,7 @@ func TestGettersDeleteMediaResponse(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &DeleteMediaResponse{}
-		var expected string
+		var expected bool
 		obj.Deleted = expected
 
 		// Act & Assert
@@ -2448,7 +2448,7 @@ func TestSettersMarkExplicitDeleteMediaResponse(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &DeleteMediaResponse{}
-		var fernTestValueDeleted string
+		var fernTestValueDeleted bool
 
 		// Act
 		obj.SetDeleted(fernTestValueDeleted)

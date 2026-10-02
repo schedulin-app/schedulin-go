@@ -11,11 +11,13 @@ import (
 )
 
 var (
-	deleteSocialAccountsRequestFieldID = big.NewInt(1 << 0)
+	deleteSocialAccountsRequestFieldID        = big.NewInt(1 << 0)
+	deleteSocialAccountsRequestFieldPermanent = big.NewInt(1 << 1)
 )
 
 type DeleteSocialAccountsRequest struct {
-	ID string `json:"-" url:"-"`
+	ID        string `json:"-" url:"-"`
+	Permanent *bool  `json:"-" url:"permanent,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -35,6 +37,13 @@ func (d *DeleteSocialAccountsRequest) require(field *big.Int) {
 func (d *DeleteSocialAccountsRequest) SetID(id string) {
 	d.ID = id
 	d.require(deleteSocialAccountsRequestFieldID)
+}
+
+// SetPermanent sets the Permanent field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (d *DeleteSocialAccountsRequest) SetPermanent(permanent *bool) {
+	d.Permanent = permanent
+	d.require(deleteSocialAccountsRequestFieldPermanent)
 }
 
 func (d *DeleteSocialAccountsRequest) UnmarshalJSON(data []byte) error {
@@ -826,18 +835,20 @@ var (
 	listSocialAccountsResponseDataItemFieldID                          = big.NewInt(1 << 0)
 	listSocialAccountsResponseDataItemFieldPlatform                    = big.NewInt(1 << 1)
 	listSocialAccountsResponseDataItemFieldStatus                      = big.NewInt(1 << 2)
-	listSocialAccountsResponseDataItemFieldUsername                    = big.NewInt(1 << 3)
-	listSocialAccountsResponseDataItemFieldDisplayName                 = big.NewInt(1 << 4)
-	listSocialAccountsResponseDataItemFieldProfileImageURL             = big.NewInt(1 << 5)
-	listSocialAccountsResponseDataItemFieldRefreshTokenValid           = big.NewInt(1 << 6)
-	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 7)
-	listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 8)
-	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 9)
-	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 10)
+	listSocialAccountsResponseDataItemFieldDisconnectedReason          = big.NewInt(1 << 3)
+	listSocialAccountsResponseDataItemFieldUsername                    = big.NewInt(1 << 4)
+	listSocialAccountsResponseDataItemFieldDisplayName                 = big.NewInt(1 << 5)
+	listSocialAccountsResponseDataItemFieldProfileImageURL             = big.NewInt(1 << 6)
+	listSocialAccountsResponseDataItemFieldRefreshTokenValid           = big.NewInt(1 << 7)
+	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 8)
+	listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 9)
+	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 10)
+	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 11)
 )
 
 // listSocialAccountsResponseDataItemNullableFields maps the wire names of ListSocialAccountsResponseDataItem's nullable fields (required or optional) to their field bits.
 var listSocialAccountsResponseDataItemNullableFields = map[string]*big.Int{
+	"disconnectedReason":          listSocialAccountsResponseDataItemFieldDisconnectedReason,
 	"username":                    listSocialAccountsResponseDataItemFieldUsername,
 	"displayName":                 listSocialAccountsResponseDataItemFieldDisplayName,
 	"profileImageUrl":             listSocialAccountsResponseDataItemFieldProfileImageURL,
@@ -849,6 +860,7 @@ type ListSocialAccountsResponseDataItem struct {
 	ID                          string                                     `json:"id" url:"id"`
 	Platform                    ListSocialAccountsResponseDataItemPlatform `json:"platform" url:"platform"`
 	Status                      ListSocialAccountsResponseDataItemStatus   `json:"status" url:"status"`
+	DisconnectedReason          *SocialAccountDisconnectedReason           `json:"disconnectedReason,omitempty" url:"disconnectedReason,omitempty"`
 	Username                    *string                                    `json:"username,omitempty" url:"username,omitempty"`
 	DisplayName                 *string                                    `json:"displayName,omitempty" url:"displayName,omitempty"`
 	ProfileImageURL             *string                                    `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
@@ -884,6 +896,13 @@ func (l *ListSocialAccountsResponseDataItem) GetStatus() ListSocialAccountsRespo
 		return ""
 	}
 	return l.Status
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetDisconnectedReason() *SocialAccountDisconnectedReason {
+	if l == nil {
+		return nil
+	}
+	return l.DisconnectedReason
 }
 
 func (l *ListSocialAccountsResponseDataItem) GetUsername() *string {
@@ -977,6 +996,13 @@ func (l *ListSocialAccountsResponseDataItem) SetPlatform(platform ListSocialAcco
 func (l *ListSocialAccountsResponseDataItem) SetStatus(status ListSocialAccountsResponseDataItemStatus) {
 	l.Status = status
 	l.require(listSocialAccountsResponseDataItemFieldStatus)
+}
+
+// SetDisconnectedReason sets the DisconnectedReason field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSocialAccountsResponseDataItem) SetDisconnectedReason(disconnectedReason *SocialAccountDisconnectedReason) {
+	l.DisconnectedReason = disconnectedReason
+	l.require(listSocialAccountsResponseDataItemFieldDisconnectedReason)
 }
 
 // SetUsername sets the Username field and marks it as non-optional;
