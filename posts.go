@@ -1070,8 +1070,9 @@ var (
 	postMediaFieldSize         = big.NewInt(1 << 7)
 	postMediaFieldAlt          = big.NewInt(1 << 8)
 	postMediaFieldThumbnailURL = big.NewInt(1 << 9)
-	postMediaFieldCreatedAt    = big.NewInt(1 << 10)
-	postMediaFieldUpdatedAt    = big.NewInt(1 << 11)
+	postMediaFieldTags         = big.NewInt(1 << 10)
+	postMediaFieldCreatedAt    = big.NewInt(1 << 11)
+	postMediaFieldUpdatedAt    = big.NewInt(1 << 12)
 )
 
 // postMediaNullableFields maps the wire names of PostMedia's nullable fields (required or optional) to their field bits.
@@ -1085,18 +1086,19 @@ var postMediaNullableFields = map[string]*big.Int{
 }
 
 type PostMedia struct {
-	ID           string    `json:"id" url:"id"`
-	URL          string    `json:"url" url:"url"`
-	Name         string    `json:"name" url:"name"`
-	MimeType     string    `json:"mimeType" url:"mimeType"`
-	Width        *int      `json:"width,omitempty" url:"width,omitempty"`
-	Height       *int      `json:"height,omitempty" url:"height,omitempty"`
-	Duration     *int      `json:"duration,omitempty" url:"duration,omitempty"`
-	Size         *int      `json:"size,omitempty" url:"size,omitempty"`
-	Alt          *string   `json:"alt,omitempty" url:"alt,omitempty"`
-	ThumbnailURL *string   `json:"thumbnailUrl,omitempty" url:"thumbnailUrl,omitempty"`
-	CreatedAt    time.Time `json:"createdAt" url:"createdAt"`
-	UpdatedAt    time.Time `json:"updatedAt" url:"updatedAt"`
+	ID           string               `json:"id" url:"id"`
+	URL          string               `json:"url" url:"url"`
+	Name         string               `json:"name" url:"name"`
+	MimeType     string               `json:"mimeType" url:"mimeType"`
+	Width        *int                 `json:"width,omitempty" url:"width,omitempty"`
+	Height       *int                 `json:"height,omitempty" url:"height,omitempty"`
+	Duration     *int                 `json:"duration,omitempty" url:"duration,omitempty"`
+	Size         *int                 `json:"size,omitempty" url:"size,omitempty"`
+	Alt          *string              `json:"alt,omitempty" url:"alt,omitempty"`
+	ThumbnailURL *string              `json:"thumbnailUrl,omitempty" url:"thumbnailUrl,omitempty"`
+	Tags         []*PostMediaTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	CreatedAt    time.Time            `json:"createdAt" url:"createdAt"`
+	UpdatedAt    time.Time            `json:"updatedAt" url:"updatedAt"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1173,6 +1175,13 @@ func (p *PostMedia) GetThumbnailURL() *string {
 		return nil
 	}
 	return p.ThumbnailURL
+}
+
+func (p *PostMedia) GetTags() []*PostMediaTagsItem {
+	if p == nil {
+		return nil
+	}
+	return p.Tags
 }
 
 func (p *PostMedia) GetCreatedAt() time.Time {
@@ -1275,6 +1284,13 @@ func (p *PostMedia) SetThumbnailURL(thumbnailURL *string) {
 	p.require(postMediaFieldThumbnailURL)
 }
 
+// SetTags sets the Tags field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMedia) SetTags(tags []*PostMediaTagsItem) {
+	p.Tags = tags
+	p.require(postMediaFieldTags)
+}
+
 // SetCreatedAt sets the CreatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (p *PostMedia) SetCreatedAt(createdAt time.Time) {
@@ -1348,6 +1364,290 @@ func (p *PostMedia) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", p)
+}
+
+var (
+	postMediaTagsItemFieldID       = big.NewInt(1 << 0)
+	postMediaTagsItemFieldType     = big.NewInt(1 << 1)
+	postMediaTagsItemFieldPlatform = big.NewInt(1 << 2)
+	postMediaTagsItemFieldX        = big.NewInt(1 << 3)
+	postMediaTagsItemFieldY        = big.NewInt(1 << 4)
+)
+
+type PostMediaTagsItem struct {
+	ID       string                    `json:"id" url:"id"`
+	Type     PostMediaTagsItemType     `json:"type" url:"type"`
+	Platform PostMediaTagsItemPlatform `json:"platform" url:"platform"`
+	X        *float64                  `json:"x,omitempty" url:"x,omitempty"`
+	Y        *float64                  `json:"y,omitempty" url:"y,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostMediaTagsItem) GetID() string {
+	if p == nil {
+		return ""
+	}
+	return p.ID
+}
+
+func (p *PostMediaTagsItem) GetType() PostMediaTagsItemType {
+	if p == nil {
+		return ""
+	}
+	return p.Type
+}
+
+func (p *PostMediaTagsItem) GetPlatform() PostMediaTagsItemPlatform {
+	if p == nil {
+		return ""
+	}
+	return p.Platform
+}
+
+func (p *PostMediaTagsItem) GetX() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.X
+}
+
+func (p *PostMediaTagsItem) GetY() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Y
+}
+
+func (p *PostMediaTagsItem) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostMediaTagsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMediaTagsItem) SetID(id string) {
+	p.ID = id
+	p.require(postMediaTagsItemFieldID)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMediaTagsItem) SetType(type_ PostMediaTagsItemType) {
+	p.Type = type_
+	p.require(postMediaTagsItemFieldType)
+}
+
+// SetPlatform sets the Platform field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMediaTagsItem) SetPlatform(platform PostMediaTagsItemPlatform) {
+	p.Platform = platform
+	p.require(postMediaTagsItemFieldPlatform)
+}
+
+// SetX sets the X field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMediaTagsItem) SetX(x *float64) {
+	p.X = x
+	p.require(postMediaTagsItemFieldX)
+}
+
+// SetY sets the Y field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostMediaTagsItem) SetY(y *float64) {
+	p.Y = y
+	p.require(postMediaTagsItemFieldY)
+}
+
+func (p *PostMediaTagsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler PostMediaTagsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PostMediaTagsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostMediaTagsItem) MarshalJSON() ([]byte, error) {
+	type embed PostMediaTagsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostMediaTagsItem) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type PostMediaTagsItemPlatform string
+
+const (
+	PostMediaTagsItemPlatformBluesky               PostMediaTagsItemPlatform = "bluesky"
+	PostMediaTagsItemPlatformFacebook              PostMediaTagsItemPlatform = "facebook"
+	PostMediaTagsItemPlatformGoogleBusinessProfile PostMediaTagsItemPlatform = "google_business_profile"
+	PostMediaTagsItemPlatformInstagram             PostMediaTagsItemPlatform = "instagram"
+	PostMediaTagsItemPlatformLinkedin              PostMediaTagsItemPlatform = "linkedin"
+	PostMediaTagsItemPlatformPinterest             PostMediaTagsItemPlatform = "pinterest"
+	PostMediaTagsItemPlatformReddit                PostMediaTagsItemPlatform = "reddit"
+	PostMediaTagsItemPlatformSnapchat              PostMediaTagsItemPlatform = "snapchat"
+	PostMediaTagsItemPlatformThreads               PostMediaTagsItemPlatform = "threads"
+	PostMediaTagsItemPlatformTiktok                PostMediaTagsItemPlatform = "tiktok"
+	PostMediaTagsItemPlatformTwitter               PostMediaTagsItemPlatform = "twitter"
+	PostMediaTagsItemPlatformYoutube               PostMediaTagsItemPlatform = "youtube"
+	PostMediaTagsItemPlatformMastodon              PostMediaTagsItemPlatform = "mastodon"
+	PostMediaTagsItemPlatformTelegram              PostMediaTagsItemPlatform = "telegram"
+	PostMediaTagsItemPlatformDevto                 PostMediaTagsItemPlatform = "devto"
+	PostMediaTagsItemPlatformHashnode              PostMediaTagsItemPlatform = "hashnode"
+	PostMediaTagsItemPlatformMedium                PostMediaTagsItemPlatform = "medium"
+	PostMediaTagsItemPlatformWordpress             PostMediaTagsItemPlatform = "wordpress"
+	PostMediaTagsItemPlatformLemmy                 PostMediaTagsItemPlatform = "lemmy"
+	PostMediaTagsItemPlatformNostr                 PostMediaTagsItemPlatform = "nostr"
+	PostMediaTagsItemPlatformDiscord               PostMediaTagsItemPlatform = "discord"
+	PostMediaTagsItemPlatformDribbble              PostMediaTagsItemPlatform = "dribbble"
+	PostMediaTagsItemPlatformFarcaster             PostMediaTagsItemPlatform = "farcaster"
+	PostMediaTagsItemPlatformKick                  PostMediaTagsItemPlatform = "kick"
+	PostMediaTagsItemPlatformListmonk              PostMediaTagsItemPlatform = "listmonk"
+	PostMediaTagsItemPlatformMewe                  PostMediaTagsItemPlatform = "mewe"
+	PostMediaTagsItemPlatformMoltbook              PostMediaTagsItemPlatform = "moltbook"
+	PostMediaTagsItemPlatformSkool                 PostMediaTagsItemPlatform = "skool"
+	PostMediaTagsItemPlatformSlack                 PostMediaTagsItemPlatform = "slack"
+	PostMediaTagsItemPlatformTwitch                PostMediaTagsItemPlatform = "twitch"
+	PostMediaTagsItemPlatformVk                    PostMediaTagsItemPlatform = "vk"
+	PostMediaTagsItemPlatformWhop                  PostMediaTagsItemPlatform = "whop"
+)
+
+func NewPostMediaTagsItemPlatformFromString(s string) (PostMediaTagsItemPlatform, error) {
+	switch s {
+	case "bluesky":
+		return PostMediaTagsItemPlatformBluesky, nil
+	case "facebook":
+		return PostMediaTagsItemPlatformFacebook, nil
+	case "google_business_profile":
+		return PostMediaTagsItemPlatformGoogleBusinessProfile, nil
+	case "instagram":
+		return PostMediaTagsItemPlatformInstagram, nil
+	case "linkedin":
+		return PostMediaTagsItemPlatformLinkedin, nil
+	case "pinterest":
+		return PostMediaTagsItemPlatformPinterest, nil
+	case "reddit":
+		return PostMediaTagsItemPlatformReddit, nil
+	case "snapchat":
+		return PostMediaTagsItemPlatformSnapchat, nil
+	case "threads":
+		return PostMediaTagsItemPlatformThreads, nil
+	case "tiktok":
+		return PostMediaTagsItemPlatformTiktok, nil
+	case "twitter":
+		return PostMediaTagsItemPlatformTwitter, nil
+	case "youtube":
+		return PostMediaTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return PostMediaTagsItemPlatformMastodon, nil
+	case "telegram":
+		return PostMediaTagsItemPlatformTelegram, nil
+	case "devto":
+		return PostMediaTagsItemPlatformDevto, nil
+	case "hashnode":
+		return PostMediaTagsItemPlatformHashnode, nil
+	case "medium":
+		return PostMediaTagsItemPlatformMedium, nil
+	case "wordpress":
+		return PostMediaTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return PostMediaTagsItemPlatformLemmy, nil
+	case "nostr":
+		return PostMediaTagsItemPlatformNostr, nil
+	case "discord":
+		return PostMediaTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return PostMediaTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return PostMediaTagsItemPlatformFarcaster, nil
+	case "kick":
+		return PostMediaTagsItemPlatformKick, nil
+	case "listmonk":
+		return PostMediaTagsItemPlatformListmonk, nil
+	case "mewe":
+		return PostMediaTagsItemPlatformMewe, nil
+	case "moltbook":
+		return PostMediaTagsItemPlatformMoltbook, nil
+	case "skool":
+		return PostMediaTagsItemPlatformSkool, nil
+	case "slack":
+		return PostMediaTagsItemPlatformSlack, nil
+	case "twitch":
+		return PostMediaTagsItemPlatformTwitch, nil
+	case "vk":
+		return PostMediaTagsItemPlatformVk, nil
+	case "whop":
+		return PostMediaTagsItemPlatformWhop, nil
+	}
+	var t PostMediaTagsItemPlatform
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostMediaTagsItemPlatform) Ptr() *PostMediaTagsItemPlatform {
+	return &p
+}
+
+type PostMediaTagsItemType string
+
+const (
+	PostMediaTagsItemTypeUser     PostMediaTagsItemType = "user"
+	PostMediaTagsItemTypeBusiness PostMediaTagsItemType = "business"
+)
+
+func NewPostMediaTagsItemTypeFromString(s string) (PostMediaTagsItemType, error) {
+	switch s {
+	case "user":
+		return PostMediaTagsItemTypeUser, nil
+	case "business":
+		return PostMediaTagsItemTypeBusiness, nil
+	}
+	var t PostMediaTagsItemType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostMediaTagsItemType) Ptr() *PostMediaTagsItemType {
+	return &p
 }
 
 type PostStatus string
@@ -5957,8 +6257,9 @@ var (
 	updatePostsRequestMediaItemFieldSize     = big.NewInt(1 << 6)
 	updatePostsRequestMediaItemFieldDuration = big.NewInt(1 << 7)
 	updatePostsRequestMediaItemFieldAlt      = big.NewInt(1 << 8)
-	updatePostsRequestMediaItemFieldBucket   = big.NewInt(1 << 9)
-	updatePostsRequestMediaItemFieldKey      = big.NewInt(1 << 10)
+	updatePostsRequestMediaItemFieldTags     = big.NewInt(1 << 9)
+	updatePostsRequestMediaItemFieldBucket   = big.NewInt(1 << 10)
+	updatePostsRequestMediaItemFieldKey      = big.NewInt(1 << 11)
 )
 
 // updatePostsRequestMediaItemNullableFields maps the wire names of UpdatePostsRequestMediaItem's nullable fields (required or optional) to their field bits.
@@ -5968,20 +6269,22 @@ var updatePostsRequestMediaItemNullableFields = map[string]*big.Int{
 	"size":     updatePostsRequestMediaItemFieldSize,
 	"duration": updatePostsRequestMediaItemFieldDuration,
 	"alt":      updatePostsRequestMediaItemFieldAlt,
+	"tags":     updatePostsRequestMediaItemFieldTags,
 }
 
 type UpdatePostsRequestMediaItem struct {
-	ID       *string  `json:"id,omitempty" url:"id,omitempty"`
-	URL      *string  `json:"url,omitempty" url:"url,omitempty"`
-	Name     *string  `json:"name,omitempty" url:"name,omitempty"`
-	MimeType *string  `json:"mimeType,omitempty" url:"mimeType,omitempty"`
-	Width    *float64 `json:"width,omitempty" url:"width,omitempty"`
-	Height   *float64 `json:"height,omitempty" url:"height,omitempty"`
-	Size     *float64 `json:"size,omitempty" url:"size,omitempty"`
-	Duration *float64 `json:"duration,omitempty" url:"duration,omitempty"`
-	Alt      *string  `json:"alt,omitempty" url:"alt,omitempty"`
-	Bucket   *string  `json:"bucket,omitempty" url:"bucket,omitempty"`
-	Key      *string  `json:"key,omitempty" url:"key,omitempty"`
+	ID       *string                                `json:"id,omitempty" url:"id,omitempty"`
+	URL      *string                                `json:"url,omitempty" url:"url,omitempty"`
+	Name     *string                                `json:"name,omitempty" url:"name,omitempty"`
+	MimeType *string                                `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width    *float64                               `json:"width,omitempty" url:"width,omitempty"`
+	Height   *float64                               `json:"height,omitempty" url:"height,omitempty"`
+	Size     *float64                               `json:"size,omitempty" url:"size,omitempty"`
+	Duration *float64                               `json:"duration,omitempty" url:"duration,omitempty"`
+	Alt      *string                                `json:"alt,omitempty" url:"alt,omitempty"`
+	Tags     []*UpdatePostsRequestMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	Bucket   *string                                `json:"bucket,omitempty" url:"bucket,omitempty"`
+	Key      *string                                `json:"key,omitempty" url:"key,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -6051,6 +6354,13 @@ func (u *UpdatePostsRequestMediaItem) GetAlt() *string {
 		return nil
 	}
 	return u.Alt
+}
+
+func (u *UpdatePostsRequestMediaItem) GetTags() []*UpdatePostsRequestMediaItemTagsItem {
+	if u == nil {
+		return nil
+	}
+	return u.Tags
 }
 
 func (u *UpdatePostsRequestMediaItem) GetBucket() *string {
@@ -6146,6 +6456,13 @@ func (u *UpdatePostsRequestMediaItem) SetAlt(alt *string) {
 	u.require(updatePostsRequestMediaItemFieldAlt)
 }
 
+// SetTags sets the Tags field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetTags(tags []*UpdatePostsRequestMediaItemTagsItem) {
+	u.Tags = tags
+	u.require(updatePostsRequestMediaItemFieldTags)
+}
+
 // SetBucket sets the Bucket field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (u *UpdatePostsRequestMediaItem) SetBucket(bucket *string) {
@@ -6207,6 +6524,290 @@ func (u *UpdatePostsRequestMediaItem) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", u)
+}
+
+var (
+	updatePostsRequestMediaItemTagsItemFieldID       = big.NewInt(1 << 0)
+	updatePostsRequestMediaItemTagsItemFieldType     = big.NewInt(1 << 1)
+	updatePostsRequestMediaItemTagsItemFieldPlatform = big.NewInt(1 << 2)
+	updatePostsRequestMediaItemTagsItemFieldX        = big.NewInt(1 << 3)
+	updatePostsRequestMediaItemTagsItemFieldY        = big.NewInt(1 << 4)
+)
+
+type UpdatePostsRequestMediaItemTagsItem struct {
+	ID       string                                      `json:"id" url:"id"`
+	Type     UpdatePostsRequestMediaItemTagsItemType     `json:"type" url:"type"`
+	Platform UpdatePostsRequestMediaItemTagsItemPlatform `json:"platform" url:"platform"`
+	X        *float64                                    `json:"x,omitempty" url:"x,omitempty"`
+	Y        *float64                                    `json:"y,omitempty" url:"y,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdatePostsRequestMediaItemTagsItem) GetID() string {
+	if u == nil {
+		return ""
+	}
+	return u.ID
+}
+
+func (u *UpdatePostsRequestMediaItemTagsItem) GetType() UpdatePostsRequestMediaItemTagsItemType {
+	if u == nil {
+		return ""
+	}
+	return u.Type
+}
+
+func (u *UpdatePostsRequestMediaItemTagsItem) GetPlatform() UpdatePostsRequestMediaItemTagsItemPlatform {
+	if u == nil {
+		return ""
+	}
+	return u.Platform
+}
+
+func (u *UpdatePostsRequestMediaItemTagsItem) GetX() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.X
+}
+
+func (u *UpdatePostsRequestMediaItemTagsItem) GetY() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Y
+}
+
+func (u *UpdatePostsRequestMediaItemTagsItem) GetExtraProperties() map[string]interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.extraProperties
+}
+
+func (u *UpdatePostsRequestMediaItemTagsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
+	}
+	next.Or(next, field)
+	u.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItemTagsItem) SetID(id string) {
+	u.ID = id
+	u.require(updatePostsRequestMediaItemTagsItemFieldID)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItemTagsItem) SetType(type_ UpdatePostsRequestMediaItemTagsItemType) {
+	u.Type = type_
+	u.require(updatePostsRequestMediaItemTagsItemFieldType)
+}
+
+// SetPlatform sets the Platform field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItemTagsItem) SetPlatform(platform UpdatePostsRequestMediaItemTagsItemPlatform) {
+	u.Platform = platform
+	u.require(updatePostsRequestMediaItemTagsItemFieldPlatform)
+}
+
+// SetX sets the X field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItemTagsItem) SetX(x *float64) {
+	u.X = x
+	u.require(updatePostsRequestMediaItemTagsItemFieldX)
+}
+
+// SetY sets the Y field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItemTagsItem) SetY(y *float64) {
+	u.Y = y
+	u.require(updatePostsRequestMediaItemTagsItemFieldY)
+}
+
+func (u *UpdatePostsRequestMediaItemTagsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdatePostsRequestMediaItemTagsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdatePostsRequestMediaItemTagsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdatePostsRequestMediaItemTagsItem) MarshalJSON() ([]byte, error) {
+	type embed UpdatePostsRequestMediaItemTagsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (u *UpdatePostsRequestMediaItemTagsItem) String() string {
+	if u == nil {
+		return "<nil>"
+	}
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+type UpdatePostsRequestMediaItemTagsItemPlatform string
+
+const (
+	UpdatePostsRequestMediaItemTagsItemPlatformBluesky               UpdatePostsRequestMediaItemTagsItemPlatform = "bluesky"
+	UpdatePostsRequestMediaItemTagsItemPlatformFacebook              UpdatePostsRequestMediaItemTagsItemPlatform = "facebook"
+	UpdatePostsRequestMediaItemTagsItemPlatformGoogleBusinessProfile UpdatePostsRequestMediaItemTagsItemPlatform = "google_business_profile"
+	UpdatePostsRequestMediaItemTagsItemPlatformInstagram             UpdatePostsRequestMediaItemTagsItemPlatform = "instagram"
+	UpdatePostsRequestMediaItemTagsItemPlatformLinkedin              UpdatePostsRequestMediaItemTagsItemPlatform = "linkedin"
+	UpdatePostsRequestMediaItemTagsItemPlatformPinterest             UpdatePostsRequestMediaItemTagsItemPlatform = "pinterest"
+	UpdatePostsRequestMediaItemTagsItemPlatformReddit                UpdatePostsRequestMediaItemTagsItemPlatform = "reddit"
+	UpdatePostsRequestMediaItemTagsItemPlatformSnapchat              UpdatePostsRequestMediaItemTagsItemPlatform = "snapchat"
+	UpdatePostsRequestMediaItemTagsItemPlatformThreads               UpdatePostsRequestMediaItemTagsItemPlatform = "threads"
+	UpdatePostsRequestMediaItemTagsItemPlatformTiktok                UpdatePostsRequestMediaItemTagsItemPlatform = "tiktok"
+	UpdatePostsRequestMediaItemTagsItemPlatformTwitter               UpdatePostsRequestMediaItemTagsItemPlatform = "twitter"
+	UpdatePostsRequestMediaItemTagsItemPlatformYoutube               UpdatePostsRequestMediaItemTagsItemPlatform = "youtube"
+	UpdatePostsRequestMediaItemTagsItemPlatformMastodon              UpdatePostsRequestMediaItemTagsItemPlatform = "mastodon"
+	UpdatePostsRequestMediaItemTagsItemPlatformTelegram              UpdatePostsRequestMediaItemTagsItemPlatform = "telegram"
+	UpdatePostsRequestMediaItemTagsItemPlatformDevto                 UpdatePostsRequestMediaItemTagsItemPlatform = "devto"
+	UpdatePostsRequestMediaItemTagsItemPlatformHashnode              UpdatePostsRequestMediaItemTagsItemPlatform = "hashnode"
+	UpdatePostsRequestMediaItemTagsItemPlatformMedium                UpdatePostsRequestMediaItemTagsItemPlatform = "medium"
+	UpdatePostsRequestMediaItemTagsItemPlatformWordpress             UpdatePostsRequestMediaItemTagsItemPlatform = "wordpress"
+	UpdatePostsRequestMediaItemTagsItemPlatformLemmy                 UpdatePostsRequestMediaItemTagsItemPlatform = "lemmy"
+	UpdatePostsRequestMediaItemTagsItemPlatformNostr                 UpdatePostsRequestMediaItemTagsItemPlatform = "nostr"
+	UpdatePostsRequestMediaItemTagsItemPlatformDiscord               UpdatePostsRequestMediaItemTagsItemPlatform = "discord"
+	UpdatePostsRequestMediaItemTagsItemPlatformDribbble              UpdatePostsRequestMediaItemTagsItemPlatform = "dribbble"
+	UpdatePostsRequestMediaItemTagsItemPlatformFarcaster             UpdatePostsRequestMediaItemTagsItemPlatform = "farcaster"
+	UpdatePostsRequestMediaItemTagsItemPlatformKick                  UpdatePostsRequestMediaItemTagsItemPlatform = "kick"
+	UpdatePostsRequestMediaItemTagsItemPlatformListmonk              UpdatePostsRequestMediaItemTagsItemPlatform = "listmonk"
+	UpdatePostsRequestMediaItemTagsItemPlatformMewe                  UpdatePostsRequestMediaItemTagsItemPlatform = "mewe"
+	UpdatePostsRequestMediaItemTagsItemPlatformMoltbook              UpdatePostsRequestMediaItemTagsItemPlatform = "moltbook"
+	UpdatePostsRequestMediaItemTagsItemPlatformSkool                 UpdatePostsRequestMediaItemTagsItemPlatform = "skool"
+	UpdatePostsRequestMediaItemTagsItemPlatformSlack                 UpdatePostsRequestMediaItemTagsItemPlatform = "slack"
+	UpdatePostsRequestMediaItemTagsItemPlatformTwitch                UpdatePostsRequestMediaItemTagsItemPlatform = "twitch"
+	UpdatePostsRequestMediaItemTagsItemPlatformVk                    UpdatePostsRequestMediaItemTagsItemPlatform = "vk"
+	UpdatePostsRequestMediaItemTagsItemPlatformWhop                  UpdatePostsRequestMediaItemTagsItemPlatform = "whop"
+)
+
+func NewUpdatePostsRequestMediaItemTagsItemPlatformFromString(s string) (UpdatePostsRequestMediaItemTagsItemPlatform, error) {
+	switch s {
+	case "bluesky":
+		return UpdatePostsRequestMediaItemTagsItemPlatformBluesky, nil
+	case "facebook":
+		return UpdatePostsRequestMediaItemTagsItemPlatformFacebook, nil
+	case "google_business_profile":
+		return UpdatePostsRequestMediaItemTagsItemPlatformGoogleBusinessProfile, nil
+	case "instagram":
+		return UpdatePostsRequestMediaItemTagsItemPlatformInstagram, nil
+	case "linkedin":
+		return UpdatePostsRequestMediaItemTagsItemPlatformLinkedin, nil
+	case "pinterest":
+		return UpdatePostsRequestMediaItemTagsItemPlatformPinterest, nil
+	case "reddit":
+		return UpdatePostsRequestMediaItemTagsItemPlatformReddit, nil
+	case "snapchat":
+		return UpdatePostsRequestMediaItemTagsItemPlatformSnapchat, nil
+	case "threads":
+		return UpdatePostsRequestMediaItemTagsItemPlatformThreads, nil
+	case "tiktok":
+		return UpdatePostsRequestMediaItemTagsItemPlatformTiktok, nil
+	case "twitter":
+		return UpdatePostsRequestMediaItemTagsItemPlatformTwitter, nil
+	case "youtube":
+		return UpdatePostsRequestMediaItemTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return UpdatePostsRequestMediaItemTagsItemPlatformMastodon, nil
+	case "telegram":
+		return UpdatePostsRequestMediaItemTagsItemPlatformTelegram, nil
+	case "devto":
+		return UpdatePostsRequestMediaItemTagsItemPlatformDevto, nil
+	case "hashnode":
+		return UpdatePostsRequestMediaItemTagsItemPlatformHashnode, nil
+	case "medium":
+		return UpdatePostsRequestMediaItemTagsItemPlatformMedium, nil
+	case "wordpress":
+		return UpdatePostsRequestMediaItemTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return UpdatePostsRequestMediaItemTagsItemPlatformLemmy, nil
+	case "nostr":
+		return UpdatePostsRequestMediaItemTagsItemPlatformNostr, nil
+	case "discord":
+		return UpdatePostsRequestMediaItemTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return UpdatePostsRequestMediaItemTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return UpdatePostsRequestMediaItemTagsItemPlatformFarcaster, nil
+	case "kick":
+		return UpdatePostsRequestMediaItemTagsItemPlatformKick, nil
+	case "listmonk":
+		return UpdatePostsRequestMediaItemTagsItemPlatformListmonk, nil
+	case "mewe":
+		return UpdatePostsRequestMediaItemTagsItemPlatformMewe, nil
+	case "moltbook":
+		return UpdatePostsRequestMediaItemTagsItemPlatformMoltbook, nil
+	case "skool":
+		return UpdatePostsRequestMediaItemTagsItemPlatformSkool, nil
+	case "slack":
+		return UpdatePostsRequestMediaItemTagsItemPlatformSlack, nil
+	case "twitch":
+		return UpdatePostsRequestMediaItemTagsItemPlatformTwitch, nil
+	case "vk":
+		return UpdatePostsRequestMediaItemTagsItemPlatformVk, nil
+	case "whop":
+		return UpdatePostsRequestMediaItemTagsItemPlatformWhop, nil
+	}
+	var t UpdatePostsRequestMediaItemTagsItemPlatform
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdatePostsRequestMediaItemTagsItemPlatform) Ptr() *UpdatePostsRequestMediaItemTagsItemPlatform {
+	return &u
+}
+
+type UpdatePostsRequestMediaItemTagsItemType string
+
+const (
+	UpdatePostsRequestMediaItemTagsItemTypeUser     UpdatePostsRequestMediaItemTagsItemType = "user"
+	UpdatePostsRequestMediaItemTagsItemTypeBusiness UpdatePostsRequestMediaItemTagsItemType = "business"
+)
+
+func NewUpdatePostsRequestMediaItemTagsItemTypeFromString(s string) (UpdatePostsRequestMediaItemTagsItemType, error) {
+	switch s {
+	case "user":
+		return UpdatePostsRequestMediaItemTagsItemTypeUser, nil
+	case "business":
+		return UpdatePostsRequestMediaItemTagsItemTypeBusiness, nil
+	}
+	var t UpdatePostsRequestMediaItemTagsItemType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdatePostsRequestMediaItemTagsItemType) Ptr() *UpdatePostsRequestMediaItemTagsItemType {
+	return &u
 }
 
 var (
@@ -6321,8 +6922,9 @@ var (
 	updatePostsRequestPartsItemMediaItemFieldSize     = big.NewInt(1 << 6)
 	updatePostsRequestPartsItemMediaItemFieldDuration = big.NewInt(1 << 7)
 	updatePostsRequestPartsItemMediaItemFieldAlt      = big.NewInt(1 << 8)
-	updatePostsRequestPartsItemMediaItemFieldBucket   = big.NewInt(1 << 9)
-	updatePostsRequestPartsItemMediaItemFieldKey      = big.NewInt(1 << 10)
+	updatePostsRequestPartsItemMediaItemFieldTags     = big.NewInt(1 << 9)
+	updatePostsRequestPartsItemMediaItemFieldBucket   = big.NewInt(1 << 10)
+	updatePostsRequestPartsItemMediaItemFieldKey      = big.NewInt(1 << 11)
 )
 
 // updatePostsRequestPartsItemMediaItemNullableFields maps the wire names of UpdatePostsRequestPartsItemMediaItem's nullable fields (required or optional) to their field bits.
@@ -6332,20 +6934,22 @@ var updatePostsRequestPartsItemMediaItemNullableFields = map[string]*big.Int{
 	"size":     updatePostsRequestPartsItemMediaItemFieldSize,
 	"duration": updatePostsRequestPartsItemMediaItemFieldDuration,
 	"alt":      updatePostsRequestPartsItemMediaItemFieldAlt,
+	"tags":     updatePostsRequestPartsItemMediaItemFieldTags,
 }
 
 type UpdatePostsRequestPartsItemMediaItem struct {
-	ID       *string  `json:"id,omitempty" url:"id,omitempty"`
-	URL      *string  `json:"url,omitempty" url:"url,omitempty"`
-	Name     *string  `json:"name,omitempty" url:"name,omitempty"`
-	MimeType *string  `json:"mimeType,omitempty" url:"mimeType,omitempty"`
-	Width    *float64 `json:"width,omitempty" url:"width,omitempty"`
-	Height   *float64 `json:"height,omitempty" url:"height,omitempty"`
-	Size     *float64 `json:"size,omitempty" url:"size,omitempty"`
-	Duration *float64 `json:"duration,omitempty" url:"duration,omitempty"`
-	Alt      *string  `json:"alt,omitempty" url:"alt,omitempty"`
-	Bucket   *string  `json:"bucket,omitempty" url:"bucket,omitempty"`
-	Key      *string  `json:"key,omitempty" url:"key,omitempty"`
+	ID       *string                                         `json:"id,omitempty" url:"id,omitempty"`
+	URL      *string                                         `json:"url,omitempty" url:"url,omitempty"`
+	Name     *string                                         `json:"name,omitempty" url:"name,omitempty"`
+	MimeType *string                                         `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width    *float64                                        `json:"width,omitempty" url:"width,omitempty"`
+	Height   *float64                                        `json:"height,omitempty" url:"height,omitempty"`
+	Size     *float64                                        `json:"size,omitempty" url:"size,omitempty"`
+	Duration *float64                                        `json:"duration,omitempty" url:"duration,omitempty"`
+	Alt      *string                                         `json:"alt,omitempty" url:"alt,omitempty"`
+	Tags     []*UpdatePostsRequestPartsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	Bucket   *string                                         `json:"bucket,omitempty" url:"bucket,omitempty"`
+	Key      *string                                         `json:"key,omitempty" url:"key,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -6415,6 +7019,13 @@ func (u *UpdatePostsRequestPartsItemMediaItem) GetAlt() *string {
 		return nil
 	}
 	return u.Alt
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetTags() []*UpdatePostsRequestPartsItemMediaItemTagsItem {
+	if u == nil {
+		return nil
+	}
+	return u.Tags
 }
 
 func (u *UpdatePostsRequestPartsItemMediaItem) GetBucket() *string {
@@ -6510,6 +7121,13 @@ func (u *UpdatePostsRequestPartsItemMediaItem) SetAlt(alt *string) {
 	u.require(updatePostsRequestPartsItemMediaItemFieldAlt)
 }
 
+// SetTags sets the Tags field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetTags(tags []*UpdatePostsRequestPartsItemMediaItemTagsItem) {
+	u.Tags = tags
+	u.require(updatePostsRequestPartsItemMediaItemFieldTags)
+}
+
 // SetBucket sets the Bucket field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (u *UpdatePostsRequestPartsItemMediaItem) SetBucket(bucket *string) {
@@ -6571,6 +7189,290 @@ func (u *UpdatePostsRequestPartsItemMediaItem) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", u)
+}
+
+var (
+	updatePostsRequestPartsItemMediaItemTagsItemFieldID       = big.NewInt(1 << 0)
+	updatePostsRequestPartsItemMediaItemTagsItemFieldType     = big.NewInt(1 << 1)
+	updatePostsRequestPartsItemMediaItemTagsItemFieldPlatform = big.NewInt(1 << 2)
+	updatePostsRequestPartsItemMediaItemTagsItemFieldX        = big.NewInt(1 << 3)
+	updatePostsRequestPartsItemMediaItemTagsItemFieldY        = big.NewInt(1 << 4)
+)
+
+type UpdatePostsRequestPartsItemMediaItemTagsItem struct {
+	ID       string                                               `json:"id" url:"id"`
+	Type     UpdatePostsRequestPartsItemMediaItemTagsItemType     `json:"type" url:"type"`
+	Platform UpdatePostsRequestPartsItemMediaItemTagsItemPlatform `json:"platform" url:"platform"`
+	X        *float64                                             `json:"x,omitempty" url:"x,omitempty"`
+	Y        *float64                                             `json:"y,omitempty" url:"y,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) GetID() string {
+	if u == nil {
+		return ""
+	}
+	return u.ID
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) GetType() UpdatePostsRequestPartsItemMediaItemTagsItemType {
+	if u == nil {
+		return ""
+	}
+	return u.Type
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) GetPlatform() UpdatePostsRequestPartsItemMediaItemTagsItemPlatform {
+	if u == nil {
+		return ""
+	}
+	return u.Platform
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) GetX() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.X
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) GetY() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Y
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) GetExtraProperties() map[string]interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.extraProperties
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
+	}
+	next.Or(next, field)
+	u.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) SetID(id string) {
+	u.ID = id
+	u.require(updatePostsRequestPartsItemMediaItemTagsItemFieldID)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) SetType(type_ UpdatePostsRequestPartsItemMediaItemTagsItemType) {
+	u.Type = type_
+	u.require(updatePostsRequestPartsItemMediaItemTagsItemFieldType)
+}
+
+// SetPlatform sets the Platform field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) SetPlatform(platform UpdatePostsRequestPartsItemMediaItemTagsItemPlatform) {
+	u.Platform = platform
+	u.require(updatePostsRequestPartsItemMediaItemTagsItemFieldPlatform)
+}
+
+// SetX sets the X field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) SetX(x *float64) {
+	u.X = x
+	u.require(updatePostsRequestPartsItemMediaItemTagsItemFieldX)
+}
+
+// SetY sets the Y field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) SetY(y *float64) {
+	u.Y = y
+	u.require(updatePostsRequestPartsItemMediaItemTagsItemFieldY)
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdatePostsRequestPartsItemMediaItemTagsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdatePostsRequestPartsItemMediaItemTagsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) MarshalJSON() ([]byte, error) {
+	type embed UpdatePostsRequestPartsItemMediaItemTagsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItemTagsItem) String() string {
+	if u == nil {
+		return "<nil>"
+	}
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+type UpdatePostsRequestPartsItemMediaItemTagsItemPlatform string
+
+const (
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformBluesky               UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "bluesky"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformFacebook              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "facebook"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformGoogleBusinessProfile UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "google_business_profile"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformInstagram             UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "instagram"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformLinkedin              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "linkedin"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformPinterest             UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "pinterest"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformReddit                UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "reddit"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformSnapchat              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "snapchat"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformThreads               UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "threads"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTiktok                UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "tiktok"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTwitter               UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "twitter"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformYoutube               UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "youtube"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformMastodon              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "mastodon"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTelegram              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "telegram"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformDevto                 UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "devto"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformHashnode              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "hashnode"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformMedium                UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "medium"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformWordpress             UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "wordpress"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformLemmy                 UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "lemmy"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformNostr                 UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "nostr"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformDiscord               UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "discord"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformDribbble              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "dribbble"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformFarcaster             UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "farcaster"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformKick                  UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "kick"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformListmonk              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "listmonk"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformMewe                  UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "mewe"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformMoltbook              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "moltbook"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformSkool                 UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "skool"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformSlack                 UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "slack"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTwitch                UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "twitch"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformVk                    UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "vk"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformWhop                  UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "whop"
+)
+
+func NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString(s string) (UpdatePostsRequestPartsItemMediaItemTagsItemPlatform, error) {
+	switch s {
+	case "bluesky":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformBluesky, nil
+	case "facebook":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformFacebook, nil
+	case "google_business_profile":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformGoogleBusinessProfile, nil
+	case "instagram":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformInstagram, nil
+	case "linkedin":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformLinkedin, nil
+	case "pinterest":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformPinterest, nil
+	case "reddit":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformReddit, nil
+	case "snapchat":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformSnapchat, nil
+	case "threads":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformThreads, nil
+	case "tiktok":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTiktok, nil
+	case "twitter":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTwitter, nil
+	case "youtube":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformMastodon, nil
+	case "telegram":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTelegram, nil
+	case "devto":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformDevto, nil
+	case "hashnode":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformHashnode, nil
+	case "medium":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformMedium, nil
+	case "wordpress":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformLemmy, nil
+	case "nostr":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformNostr, nil
+	case "discord":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformFarcaster, nil
+	case "kick":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformKick, nil
+	case "listmonk":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformListmonk, nil
+	case "mewe":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformMewe, nil
+	case "moltbook":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformMoltbook, nil
+	case "skool":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformSkool, nil
+	case "slack":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformSlack, nil
+	case "twitch":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTwitch, nil
+	case "vk":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformVk, nil
+	case "whop":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformWhop, nil
+	}
+	var t UpdatePostsRequestPartsItemMediaItemTagsItemPlatform
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdatePostsRequestPartsItemMediaItemTagsItemPlatform) Ptr() *UpdatePostsRequestPartsItemMediaItemTagsItemPlatform {
+	return &u
+}
+
+type UpdatePostsRequestPartsItemMediaItemTagsItemType string
+
+const (
+	UpdatePostsRequestPartsItemMediaItemTagsItemTypeUser     UpdatePostsRequestPartsItemMediaItemTagsItemType = "user"
+	UpdatePostsRequestPartsItemMediaItemTagsItemTypeBusiness UpdatePostsRequestPartsItemMediaItemTagsItemType = "business"
+)
+
+func NewUpdatePostsRequestPartsItemMediaItemTagsItemTypeFromString(s string) (UpdatePostsRequestPartsItemMediaItemTagsItemType, error) {
+	switch s {
+	case "user":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemTypeUser, nil
+	case "business":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemTypeBusiness, nil
+	}
+	var t UpdatePostsRequestPartsItemMediaItemTagsItemType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdatePostsRequestPartsItemMediaItemTagsItemType) Ptr() *UpdatePostsRequestPartsItemMediaItemTagsItemType {
+	return &u
 }
 
 type UpdatePostsRequestStatus string

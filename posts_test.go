@@ -2652,6 +2652,14 @@ func TestSettersPostMedia(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetTags", func(t *testing.T) {
+		obj := &PostMedia{}
+		var fernTestValueTags []*PostMediaTagsItem
+		obj.SetTags(fernTestValueTags)
+		assert.Equal(t, fernTestValueTags, obj.Tags)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetCreatedAt", func(t *testing.T) {
 		obj := &PostMedia{}
 		var fernTestValueCreatedAt time.Time
@@ -2959,6 +2967,39 @@ func TestGettersPostMedia(t *testing.T) {
 			}
 		}()
 		_ = obj.GetThumbnailURL() // Should return zero value
+	})
+
+	t.Run("GetTags", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMedia{}
+		var expected []*PostMediaTagsItem
+		obj.Tags = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetTags(), "getter should return the property value")
+	})
+
+	t.Run("GetTags_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMedia{}
+		obj.Tags = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetTags(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetTags_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *PostMedia
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetTags() // Should return zero value
 	})
 
 	t.Run("GetCreatedAt", func(t *testing.T) {
@@ -3320,6 +3361,37 @@ func TestSettersMarkExplicitPostMedia(t *testing.T) {
 		// It verifies that setting a field via setter allows successful JSON round-trip
 	})
 
+	t.Run("SetTags_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMedia{}
+		var fernTestValueTags []*PostMediaTagsItem
+
+		// Act
+		obj.SetTags(fernTestValueTags)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
 	t.Run("SetCreatedAt_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
@@ -3359,6 +3431,345 @@ func TestSettersMarkExplicitPostMedia(t *testing.T) {
 
 		// Act
 		obj.SetUpdatedAt(fernTestValueUpdatedAt)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
+func TestSettersPostMediaTagsItem(t *testing.T) {
+	t.Run("SetID", func(t *testing.T) {
+		obj := &PostMediaTagsItem{}
+		var fernTestValueID string
+		obj.SetID(fernTestValueID)
+		assert.Equal(t, fernTestValueID, obj.ID)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetType", func(t *testing.T) {
+		obj := &PostMediaTagsItem{}
+		var fernTestValueType PostMediaTagsItemType
+		obj.SetType(fernTestValueType)
+		assert.Equal(t, fernTestValueType, obj.Type)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetPlatform", func(t *testing.T) {
+		obj := &PostMediaTagsItem{}
+		var fernTestValuePlatform PostMediaTagsItemPlatform
+		obj.SetPlatform(fernTestValuePlatform)
+		assert.Equal(t, fernTestValuePlatform, obj.Platform)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetX", func(t *testing.T) {
+		obj := &PostMediaTagsItem{}
+		var fernTestValueX *float64
+		obj.SetX(fernTestValueX)
+		assert.Equal(t, fernTestValueX, obj.X)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetY", func(t *testing.T) {
+		obj := &PostMediaTagsItem{}
+		var fernTestValueY *float64
+		obj.SetY(fernTestValueY)
+		assert.Equal(t, fernTestValueY, obj.Y)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestGettersPostMediaTagsItem(t *testing.T) {
+	t.Run("GetID", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		var expected string
+		obj.ID = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetID(), "getter should return the property value")
+	})
+
+	t.Run("GetID_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *PostMediaTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetID() // Should return zero value
+	})
+
+	t.Run("GetType", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		var expected PostMediaTagsItemType
+		obj.Type = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetType(), "getter should return the property value")
+	})
+
+	t.Run("GetType_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *PostMediaTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetType() // Should return zero value
+	})
+
+	t.Run("GetPlatform", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		var expected PostMediaTagsItemPlatform
+		obj.Platform = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetPlatform(), "getter should return the property value")
+	})
+
+	t.Run("GetPlatform_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *PostMediaTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetPlatform() // Should return zero value
+	})
+
+	t.Run("GetX", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		var expected *float64
+		obj.X = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetX(), "getter should return the property value")
+	})
+
+	t.Run("GetX_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		obj.X = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetX(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetX_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *PostMediaTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetX() // Should return zero value
+	})
+
+	t.Run("GetY", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		var expected *float64
+		obj.Y = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetY(), "getter should return the property value")
+	})
+
+	t.Run("GetY_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		obj.Y = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetY(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetY_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *PostMediaTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetY() // Should return zero value
+	})
+
+}
+
+func TestSettersMarkExplicitPostMediaTagsItem(t *testing.T) {
+	t.Run("SetID_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		var fernTestValueID string
+
+		// Act
+		obj.SetID(fernTestValueID)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetType_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		var fernTestValueType PostMediaTagsItemType
+
+		// Act
+		obj.SetType(fernTestValueType)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetPlatform_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		var fernTestValuePlatform PostMediaTagsItemPlatform
+
+		// Act
+		obj.SetPlatform(fernTestValuePlatform)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetX_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		var fernTestValueX *float64
+
+		// Act
+		obj.SetX(fernTestValueX)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetY_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+		var fernTestValueY *float64
+
+		// Act
+		obj.SetY(fernTestValueY)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -12860,6 +13271,14 @@ func TestSettersUpdatePostsRequestMediaItem(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetTags", func(t *testing.T) {
+		obj := &UpdatePostsRequestMediaItem{}
+		var fernTestValueTags []*UpdatePostsRequestMediaItemTagsItem
+		obj.SetTags(fernTestValueTags)
+		assert.Equal(t, fernTestValueTags, obj.Tags)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetBucket", func(t *testing.T) {
 		obj := &UpdatePostsRequestMediaItem{}
 		var fernTestValueBucket *string
@@ -13174,6 +13593,39 @@ func TestGettersUpdatePostsRequestMediaItem(t *testing.T) {
 			}
 		}()
 		_ = obj.GetAlt() // Should return zero value
+	})
+
+	t.Run("GetTags", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItem{}
+		var expected []*UpdatePostsRequestMediaItemTagsItem
+		obj.Tags = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetTags(), "getter should return the property value")
+	})
+
+	t.Run("GetTags_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItem{}
+		obj.Tags = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetTags(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetTags_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestMediaItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetTags() // Should return zero value
 	})
 
 	t.Run("GetBucket", func(t *testing.T) {
@@ -13524,6 +13976,37 @@ func TestSettersMarkExplicitUpdatePostsRequestMediaItem(t *testing.T) {
 		// It verifies that setting a field via setter allows successful JSON round-trip
 	})
 
+	t.Run("SetTags_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItem{}
+		var fernTestValueTags []*UpdatePostsRequestMediaItemTagsItem
+
+		// Act
+		obj.SetTags(fernTestValueTags)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
 	t.Run("SetBucket_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
@@ -13563,6 +14046,345 @@ func TestSettersMarkExplicitUpdatePostsRequestMediaItem(t *testing.T) {
 
 		// Act
 		obj.SetKey(fernTestValueKey)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
+func TestSettersUpdatePostsRequestMediaItemTagsItem(t *testing.T) {
+	t.Run("SetID", func(t *testing.T) {
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var fernTestValueID string
+		obj.SetID(fernTestValueID)
+		assert.Equal(t, fernTestValueID, obj.ID)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetType", func(t *testing.T) {
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var fernTestValueType UpdatePostsRequestMediaItemTagsItemType
+		obj.SetType(fernTestValueType)
+		assert.Equal(t, fernTestValueType, obj.Type)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetPlatform", func(t *testing.T) {
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var fernTestValuePlatform UpdatePostsRequestMediaItemTagsItemPlatform
+		obj.SetPlatform(fernTestValuePlatform)
+		assert.Equal(t, fernTestValuePlatform, obj.Platform)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetX", func(t *testing.T) {
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var fernTestValueX *float64
+		obj.SetX(fernTestValueX)
+		assert.Equal(t, fernTestValueX, obj.X)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetY", func(t *testing.T) {
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var fernTestValueY *float64
+		obj.SetY(fernTestValueY)
+		assert.Equal(t, fernTestValueY, obj.Y)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestGettersUpdatePostsRequestMediaItemTagsItem(t *testing.T) {
+	t.Run("GetID", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var expected string
+		obj.ID = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetID(), "getter should return the property value")
+	})
+
+	t.Run("GetID_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestMediaItemTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetID() // Should return zero value
+	})
+
+	t.Run("GetType", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var expected UpdatePostsRequestMediaItemTagsItemType
+		obj.Type = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetType(), "getter should return the property value")
+	})
+
+	t.Run("GetType_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestMediaItemTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetType() // Should return zero value
+	})
+
+	t.Run("GetPlatform", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var expected UpdatePostsRequestMediaItemTagsItemPlatform
+		obj.Platform = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetPlatform(), "getter should return the property value")
+	})
+
+	t.Run("GetPlatform_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestMediaItemTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetPlatform() // Should return zero value
+	})
+
+	t.Run("GetX", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var expected *float64
+		obj.X = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetX(), "getter should return the property value")
+	})
+
+	t.Run("GetX_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		obj.X = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetX(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetX_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestMediaItemTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetX() // Should return zero value
+	})
+
+	t.Run("GetY", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var expected *float64
+		obj.Y = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetY(), "getter should return the property value")
+	})
+
+	t.Run("GetY_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		obj.Y = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetY(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetY_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestMediaItemTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetY() // Should return zero value
+	})
+
+}
+
+func TestSettersMarkExplicitUpdatePostsRequestMediaItemTagsItem(t *testing.T) {
+	t.Run("SetID_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var fernTestValueID string
+
+		// Act
+		obj.SetID(fernTestValueID)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetType_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var fernTestValueType UpdatePostsRequestMediaItemTagsItemType
+
+		// Act
+		obj.SetType(fernTestValueType)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetPlatform_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var fernTestValuePlatform UpdatePostsRequestMediaItemTagsItemPlatform
+
+		// Act
+		obj.SetPlatform(fernTestValuePlatform)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetX_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var fernTestValueX *float64
+
+		// Act
+		obj.SetX(fernTestValueX)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetY_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		var fernTestValueY *float64
+
+		// Act
+		obj.SetY(fernTestValueY)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -13801,6 +14623,14 @@ func TestSettersUpdatePostsRequestPartsItemMediaItem(t *testing.T) {
 		var fernTestValueAlt *string
 		obj.SetAlt(fernTestValueAlt)
 		assert.Equal(t, fernTestValueAlt, obj.Alt)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetTags", func(t *testing.T) {
+		obj := &UpdatePostsRequestPartsItemMediaItem{}
+		var fernTestValueTags []*UpdatePostsRequestPartsItemMediaItemTagsItem
+		obj.SetTags(fernTestValueTags)
+		assert.Equal(t, fernTestValueTags, obj.Tags)
 		assert.NotNil(t, obj.explicitFields)
 	})
 
@@ -14118,6 +14948,39 @@ func TestGettersUpdatePostsRequestPartsItemMediaItem(t *testing.T) {
 			}
 		}()
 		_ = obj.GetAlt() // Should return zero value
+	})
+
+	t.Run("GetTags", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItem{}
+		var expected []*UpdatePostsRequestPartsItemMediaItemTagsItem
+		obj.Tags = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetTags(), "getter should return the property value")
+	})
+
+	t.Run("GetTags_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItem{}
+		obj.Tags = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetTags(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetTags_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestPartsItemMediaItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetTags() // Should return zero value
 	})
 
 	t.Run("GetBucket", func(t *testing.T) {
@@ -14468,6 +15331,37 @@ func TestSettersMarkExplicitUpdatePostsRequestPartsItemMediaItem(t *testing.T) {
 		// It verifies that setting a field via setter allows successful JSON round-trip
 	})
 
+	t.Run("SetTags_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItem{}
+		var fernTestValueTags []*UpdatePostsRequestPartsItemMediaItemTagsItem
+
+		// Act
+		obj.SetTags(fernTestValueTags)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
 	t.Run("SetBucket_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
@@ -14507,6 +15401,345 @@ func TestSettersMarkExplicitUpdatePostsRequestPartsItemMediaItem(t *testing.T) {
 
 		// Act
 		obj.SetKey(fernTestValueKey)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
+func TestSettersUpdatePostsRequestPartsItemMediaItemTagsItem(t *testing.T) {
+	t.Run("SetID", func(t *testing.T) {
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var fernTestValueID string
+		obj.SetID(fernTestValueID)
+		assert.Equal(t, fernTestValueID, obj.ID)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetType", func(t *testing.T) {
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var fernTestValueType UpdatePostsRequestPartsItemMediaItemTagsItemType
+		obj.SetType(fernTestValueType)
+		assert.Equal(t, fernTestValueType, obj.Type)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetPlatform", func(t *testing.T) {
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var fernTestValuePlatform UpdatePostsRequestPartsItemMediaItemTagsItemPlatform
+		obj.SetPlatform(fernTestValuePlatform)
+		assert.Equal(t, fernTestValuePlatform, obj.Platform)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetX", func(t *testing.T) {
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var fernTestValueX *float64
+		obj.SetX(fernTestValueX)
+		assert.Equal(t, fernTestValueX, obj.X)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetY", func(t *testing.T) {
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var fernTestValueY *float64
+		obj.SetY(fernTestValueY)
+		assert.Equal(t, fernTestValueY, obj.Y)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestGettersUpdatePostsRequestPartsItemMediaItemTagsItem(t *testing.T) {
+	t.Run("GetID", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var expected string
+		obj.ID = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetID(), "getter should return the property value")
+	})
+
+	t.Run("GetID_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestPartsItemMediaItemTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetID() // Should return zero value
+	})
+
+	t.Run("GetType", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var expected UpdatePostsRequestPartsItemMediaItemTagsItemType
+		obj.Type = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetType(), "getter should return the property value")
+	})
+
+	t.Run("GetType_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestPartsItemMediaItemTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetType() // Should return zero value
+	})
+
+	t.Run("GetPlatform", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var expected UpdatePostsRequestPartsItemMediaItemTagsItemPlatform
+		obj.Platform = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetPlatform(), "getter should return the property value")
+	})
+
+	t.Run("GetPlatform_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestPartsItemMediaItemTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetPlatform() // Should return zero value
+	})
+
+	t.Run("GetX", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var expected *float64
+		obj.X = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetX(), "getter should return the property value")
+	})
+
+	t.Run("GetX_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		obj.X = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetX(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetX_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestPartsItemMediaItemTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetX() // Should return zero value
+	})
+
+	t.Run("GetY", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var expected *float64
+		obj.Y = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetY(), "getter should return the property value")
+	})
+
+	t.Run("GetY_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		obj.Y = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetY(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetY_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestPartsItemMediaItemTagsItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetY() // Should return zero value
+	})
+
+}
+
+func TestSettersMarkExplicitUpdatePostsRequestPartsItemMediaItemTagsItem(t *testing.T) {
+	t.Run("SetID_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var fernTestValueID string
+
+		// Act
+		obj.SetID(fernTestValueID)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetType_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var fernTestValueType UpdatePostsRequestPartsItemMediaItemTagsItemType
+
+		// Act
+		obj.SetType(fernTestValueType)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetPlatform_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var fernTestValuePlatform UpdatePostsRequestPartsItemMediaItemTagsItemPlatform
+
+		// Act
+		obj.SetPlatform(fernTestValuePlatform)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetX_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var fernTestValueX *float64
+
+		// Act
+		obj.SetX(fernTestValueX)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetY_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		var fernTestValueY *float64
+
+		// Act
+		obj.SetY(fernTestValueY)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -15528,6 +16761,39 @@ func TestJSONMarshalingPostMedia(t *testing.T) {
 	})
 }
 
+func TestJSONMarshalingPostMediaTagsItem(t *testing.T) {
+	t.Run("MarshalUnmarshal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &PostMediaTagsItem{}
+
+		// Act - Marshal to JSON
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		assert.NotNil(t, data, "marshaled data should not be nil")
+		assert.NotEmpty(t, data, "marshaled data should not be empty")
+
+		// Unmarshal back and verify round-trip
+		var unmarshaled PostMediaTagsItem
+		err = json.Unmarshal(data, &unmarshaled)
+		assert.NoError(t, err, "round-trip unmarshal should succeed")
+	})
+
+	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
+		t.Parallel()
+		var obj PostMediaTagsItem
+		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
+		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
+	})
+
+	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
+		t.Parallel()
+		var obj PostMediaTagsItem
+		err := json.Unmarshal([]byte(`{}`), &obj)
+		assert.NoError(t, err, "unmarshaling empty object should succeed")
+	})
+}
+
 func TestJSONMarshalingPostThreadPart(t *testing.T) {
 	t.Run("MarshalUnmarshal", func(t *testing.T) {
 		t.Parallel()
@@ -15693,6 +16959,39 @@ func TestJSONMarshalingUpdatePostsRequestMediaItem(t *testing.T) {
 	})
 }
 
+func TestJSONMarshalingUpdatePostsRequestMediaItemTagsItem(t *testing.T) {
+	t.Run("MarshalUnmarshal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+
+		// Act - Marshal to JSON
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		assert.NotNil(t, data, "marshaled data should not be nil")
+		assert.NotEmpty(t, data, "marshaled data should not be empty")
+
+		// Unmarshal back and verify round-trip
+		var unmarshaled UpdatePostsRequestMediaItemTagsItem
+		err = json.Unmarshal(data, &unmarshaled)
+		assert.NoError(t, err, "round-trip unmarshal should succeed")
+	})
+
+	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
+		t.Parallel()
+		var obj UpdatePostsRequestMediaItemTagsItem
+		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
+		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
+	})
+
+	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
+		t.Parallel()
+		var obj UpdatePostsRequestMediaItemTagsItem
+		err := json.Unmarshal([]byte(`{}`), &obj)
+		assert.NoError(t, err, "unmarshaling empty object should succeed")
+	})
+}
+
 func TestJSONMarshalingUpdatePostsRequestPartsItem(t *testing.T) {
 	t.Run("MarshalUnmarshal", func(t *testing.T) {
 		t.Parallel()
@@ -15754,6 +17053,39 @@ func TestJSONMarshalingUpdatePostsRequestPartsItemMediaItem(t *testing.T) {
 	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
 		t.Parallel()
 		var obj UpdatePostsRequestPartsItemMediaItem
+		err := json.Unmarshal([]byte(`{}`), &obj)
+		assert.NoError(t, err, "unmarshaling empty object should succeed")
+	})
+}
+
+func TestJSONMarshalingUpdatePostsRequestPartsItemMediaItemTagsItem(t *testing.T) {
+	t.Run("MarshalUnmarshal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+
+		// Act - Marshal to JSON
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		assert.NotNil(t, data, "marshaled data should not be nil")
+		assert.NotEmpty(t, data, "marshaled data should not be empty")
+
+		// Unmarshal back and verify round-trip
+		var unmarshaled UpdatePostsRequestPartsItemMediaItemTagsItem
+		err = json.Unmarshal(data, &unmarshaled)
+		assert.NoError(t, err, "round-trip unmarshal should succeed")
+	})
+
+	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
+		t.Parallel()
+		var obj UpdatePostsRequestPartsItemMediaItemTagsItem
+		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
+		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
+	})
+
+	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
+		t.Parallel()
+		var obj UpdatePostsRequestPartsItemMediaItemTagsItem
 		err := json.Unmarshal([]byte(`{}`), &obj)
 		assert.NoError(t, err, "unmarshaling empty object should succeed")
 	})
@@ -16368,6 +17700,7 @@ func TestOptionalNullableRoundTripUpdatePostsRequestMediaItem(t *testing.T) {
 		"size",
 		"duration",
 		"alt",
+		"tags",
 	}
 	marshalToMap := func(t *testing.T, obj *UpdatePostsRequestMediaItem) map[string]json.RawMessage {
 		data, err := json.Marshal(obj)
@@ -16380,7 +17713,7 @@ func TestOptionalNullableRoundTripUpdatePostsRequestMediaItem(t *testing.T) {
 	t.Run("NullPreserved", func(t *testing.T) {
 		t.Parallel()
 		var obj UpdatePostsRequestMediaItem
-		require.NoError(t, json.Unmarshal([]byte(`{"width":null,"height":null,"size":null,"duration":null,"alt":null}`), &obj))
+		require.NoError(t, json.Unmarshal([]byte(`{"width":null,"height":null,"size":null,"duration":null,"alt":null,"tags":null}`), &obj))
 		result := marshalToMap(t, &obj)
 		for _, key := range optionalNullableKeys {
 			value, ok := result[key]
@@ -16415,6 +17748,7 @@ func TestOptionalNullableRoundTripUpdatePostsRequestPartsItemMediaItem(t *testin
 		"size",
 		"duration",
 		"alt",
+		"tags",
 	}
 	marshalToMap := func(t *testing.T, obj *UpdatePostsRequestPartsItemMediaItem) map[string]json.RawMessage {
 		data, err := json.Marshal(obj)
@@ -16427,7 +17761,7 @@ func TestOptionalNullableRoundTripUpdatePostsRequestPartsItemMediaItem(t *testin
 	t.Run("NullPreserved", func(t *testing.T) {
 		t.Parallel()
 		var obj UpdatePostsRequestPartsItemMediaItem
-		require.NoError(t, json.Unmarshal([]byte(`{"width":null,"height":null,"size":null,"duration":null,"alt":null}`), &obj))
+		require.NoError(t, json.Unmarshal([]byte(`{"width":null,"height":null,"size":null,"duration":null,"alt":null,"tags":null}`), &obj))
 		result := marshalToMap(t, &obj)
 		for _, key := range optionalNullableKeys {
 			value, ok := result[key]
@@ -16743,6 +18077,22 @@ func TestStringPostMedia(t *testing.T) {
 	})
 }
 
+func TestStringPostMediaTagsItem(t *testing.T) {
+	t.Run("StringMethod", func(t *testing.T) {
+		t.Parallel()
+		obj := &PostMediaTagsItem{}
+		result := obj.String()
+		assert.NotEmpty(t, result, "String() should return a non-empty representation")
+	})
+
+	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *PostMediaTagsItem
+		result := obj.String()
+		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
 func TestStringPostThreadPart(t *testing.T) {
 	t.Run("StringMethod", func(t *testing.T) {
 		t.Parallel()
@@ -16823,6 +18173,22 @@ func TestStringUpdatePostsRequestMediaItem(t *testing.T) {
 	})
 }
 
+func TestStringUpdatePostsRequestMediaItemTagsItem(t *testing.T) {
+	t.Run("StringMethod", func(t *testing.T) {
+		t.Parallel()
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		result := obj.String()
+		assert.NotEmpty(t, result, "String() should return a non-empty representation")
+	})
+
+	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestMediaItemTagsItem
+		result := obj.String()
+		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
 func TestStringUpdatePostsRequestPartsItem(t *testing.T) {
 	t.Run("StringMethod", func(t *testing.T) {
 		t.Parallel()
@@ -16850,6 +18216,22 @@ func TestStringUpdatePostsRequestPartsItemMediaItem(t *testing.T) {
 	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *UpdatePostsRequestPartsItemMediaItem
+		result := obj.String()
+		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestStringUpdatePostsRequestPartsItemMediaItemTagsItem(t *testing.T) {
+	t.Run("StringMethod", func(t *testing.T) {
+		t.Parallel()
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		result := obj.String()
+		assert.NotEmpty(t, result, "String() should return a non-empty representation")
+	})
+
+	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestPartsItemMediaItemTagsItem
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
 	})
@@ -18228,6 +19610,274 @@ func TestEnumPostCreateThumbnailTagsItemType(t *testing.T) {
 	})
 }
 
+func TestEnumPostMediaTagsItemPlatform(t *testing.T) {
+	t.Run("NewFromString_bluesky", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("bluesky")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("bluesky"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_facebook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("facebook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("facebook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_google_business_profile", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("google_business_profile")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("google_business_profile"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_instagram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("instagram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("instagram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_linkedin", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("linkedin")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("linkedin"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_pinterest", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("pinterest")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("pinterest"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_reddit", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("reddit")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("reddit"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_snapchat", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("snapchat")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("snapchat"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_threads", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("threads")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("threads"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_tiktok", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("tiktok")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("tiktok"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitter", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("twitter")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("twitter"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_youtube", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("youtube")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("youtube"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("whop"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewPostMediaTagsItemPlatformFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewPostMediaTagsItemPlatformFromString("bluesky")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
+func TestEnumPostMediaTagsItemType(t *testing.T) {
+	t.Run("NewFromString_user", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemTypeFromString("user")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemType("user"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_business", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemTypeFromString("business")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemType("business"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewPostMediaTagsItemTypeFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewPostMediaTagsItemTypeFromString("user")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
 func TestEnumPostStatus(t *testing.T) {
 	t.Run("NewFromString_SCHEDULED", func(t *testing.T) {
 		t.Parallel()
@@ -18568,6 +20218,542 @@ func TestEnumSocialPlatform(t *testing.T) {
 
 	t.Run("Ptr", func(t *testing.T) {
 		val, err := NewSocialPlatformFromString("bluesky")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
+func TestEnumUpdatePostsRequestMediaItemTagsItemPlatform(t *testing.T) {
+	t.Run("NewFromString_bluesky", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("bluesky")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("bluesky"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_facebook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("facebook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("facebook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_google_business_profile", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("google_business_profile")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("google_business_profile"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_instagram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("instagram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("instagram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_linkedin", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("linkedin")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("linkedin"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_pinterest", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("pinterest")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("pinterest"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_reddit", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("reddit")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("reddit"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_snapchat", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("snapchat")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("snapchat"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_threads", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("threads")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("threads"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_tiktok", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("tiktok")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("tiktok"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitter", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("twitter")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("twitter"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_youtube", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("youtube")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("youtube"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("whop"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("bluesky")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
+func TestEnumUpdatePostsRequestMediaItemTagsItemType(t *testing.T) {
+	t.Run("NewFromString_user", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemTypeFromString("user")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemType("user"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_business", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemTypeFromString("business")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemType("business"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewUpdatePostsRequestMediaItemTagsItemTypeFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewUpdatePostsRequestMediaItemTagsItemTypeFromString("user")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
+func TestEnumUpdatePostsRequestPartsItemMediaItemTagsItemPlatform(t *testing.T) {
+	t.Run("NewFromString_bluesky", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("bluesky")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("bluesky"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_facebook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("facebook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("facebook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_google_business_profile", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("google_business_profile")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("google_business_profile"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_instagram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("instagram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("instagram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_linkedin", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("linkedin")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("linkedin"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_pinterest", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("pinterest")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("pinterest"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_reddit", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("reddit")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("reddit"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_snapchat", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("snapchat")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("snapchat"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_threads", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("threads")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("threads"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_tiktok", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("tiktok")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("tiktok"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitter", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("twitter")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("twitter"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_youtube", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("youtube")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("youtube"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("whop"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("bluesky")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
+	})
+}
+
+func TestEnumUpdatePostsRequestPartsItemMediaItemTagsItemType(t *testing.T) {
+	t.Run("NewFromString_user", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemTypeFromString("user")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemType("user"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_business", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemTypeFromString("business")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemType("business"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemTypeFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemTypeFromString("user")
 		assert.NoError(t, err)
 		ptr := val.Ptr()
 		assert.NotNil(t, ptr)
@@ -19025,6 +21211,29 @@ func TestExtraPropertiesPostMedia(t *testing.T) {
 	})
 }
 
+func TestExtraPropertiesPostMediaTagsItem(t *testing.T) {
+	t.Run("GetExtraProperties", func(t *testing.T) {
+		t.Parallel()
+		obj := &PostMediaTagsItem{}
+		// Should not panic when calling GetExtraProperties()
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("GetExtraProperties() panicked: %v", r)
+			}
+		}()
+		extraProps := obj.GetExtraProperties()
+		// Result can be nil or an empty/non-empty map
+		_ = extraProps
+	})
+
+	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *PostMediaTagsItem
+		extraProps := obj.GetExtraProperties()
+		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
+	})
+}
+
 func TestExtraPropertiesPostThreadPart(t *testing.T) {
 	t.Run("GetExtraProperties", func(t *testing.T) {
 		t.Parallel()
@@ -19140,6 +21349,29 @@ func TestExtraPropertiesUpdatePostsRequestMediaItem(t *testing.T) {
 	})
 }
 
+func TestExtraPropertiesUpdatePostsRequestMediaItemTagsItem(t *testing.T) {
+	t.Run("GetExtraProperties", func(t *testing.T) {
+		t.Parallel()
+		obj := &UpdatePostsRequestMediaItemTagsItem{}
+		// Should not panic when calling GetExtraProperties()
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("GetExtraProperties() panicked: %v", r)
+			}
+		}()
+		extraProps := obj.GetExtraProperties()
+		// Result can be nil or an empty/non-empty map
+		_ = extraProps
+	})
+
+	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestMediaItemTagsItem
+		extraProps := obj.GetExtraProperties()
+		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
+	})
+}
+
 func TestExtraPropertiesUpdatePostsRequestPartsItem(t *testing.T) {
 	t.Run("GetExtraProperties", func(t *testing.T) {
 		t.Parallel()
@@ -19181,6 +21413,29 @@ func TestExtraPropertiesUpdatePostsRequestPartsItemMediaItem(t *testing.T) {
 	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *UpdatePostsRequestPartsItemMediaItem
+		extraProps := obj.GetExtraProperties()
+		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
+	})
+}
+
+func TestExtraPropertiesUpdatePostsRequestPartsItemMediaItemTagsItem(t *testing.T) {
+	t.Run("GetExtraProperties", func(t *testing.T) {
+		t.Parallel()
+		obj := &UpdatePostsRequestPartsItemMediaItemTagsItem{}
+		// Should not panic when calling GetExtraProperties()
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("GetExtraProperties() panicked: %v", r)
+			}
+		}()
+		extraProps := obj.GetExtraProperties()
+		// Result can be nil or an empty/non-empty map
+		_ = extraProps
+	})
+
+	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *UpdatePostsRequestPartsItemMediaItemTagsItem
 		extraProps := obj.GetExtraProperties()
 		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
 	})
