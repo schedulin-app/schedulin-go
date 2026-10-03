@@ -61,6 +61,33 @@ func (c *Client) CreateFromURL(
 	return response.Body, nil
 }
 
+// Adds a file you uploaded with POST /v0/media/presign (intent `post`) + HTTP PUT to the media library in place — no second copy is stored — and returns the media record. Pass the presign `key`. The object's type and size are read from storage and must be an allowed image/video/audio type within the post upload limit (250 MB). Idempotent: registering the same key again returns the existing record. Returns 404 when no uploaded object exists for the key in your workspace.
+//
+// Example:
+//
+//	request := &schedulin.MediaRegister{
+//	    Key: "key",
+//	}
+//	client.Media.Register(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) Register(
+	ctx context.Context,
+	request *schedulin.MediaRegister,
+	opts ...option.RequestOption,
+) (*schedulin.Media, error) {
+	response, err := c.WithRawResponse.Register(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // Returns a short-lived URL to a page where the user uploads files from their device (or a pasted attachment) straight into the media library. Hand the URL to the user; once they've uploaded, call GET /v0/media (list media, newest first) and reference the returned `url` when creating a post. Use this whenever the file isn't already at a public URL.
 //
 // Example:

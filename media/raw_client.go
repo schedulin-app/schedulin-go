@@ -76,6 +76,50 @@ func (r *RawClient) CreateFromURL(
 	}, nil
 }
 
+func (r *RawClient) Register(
+	ctx context.Context,
+	request *schedulin.MediaRegister,
+	opts ...option.RequestOption,
+) (*core.Response[*schedulin.Media], error) {
+	options := core.NewRequestOptions(opts...)
+	baseURL := internal.ResolveBaseURL(
+		options.BaseURL,
+		r.baseURL,
+		"https://api.schedulin.app",
+	)
+	endpointURL := baseURL + "/v0/media/register"
+	headers := internal.MergeHeaders(
+		r.options.ToHeader(),
+		options.ToHeader(),
+	)
+	headers.Add("Content-Type", "application/json")
+	var response *schedulin.Media
+	raw, err := r.caller.Call(
+		ctx,
+		&internal.CallParams{
+			URL:             endpointURL,
+			Method:          http.MethodPost,
+			Headers:         headers,
+			MaxAttempts:     options.MaxAttempts,
+			DisableRetries:  options.DisableRetries,
+			BodyProperties:  options.BodyProperties,
+			QueryParameters: options.QueryParameters,
+			Client:          options.HTTPClient,
+			Request:         request,
+			Response:        &response,
+			ErrorDecoder:    internal.NewErrorDecoder(schedulin.ErrorCodes),
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &core.Response[*schedulin.Media]{
+		StatusCode: raw.StatusCode,
+		Header:     raw.Header,
+		Body:       response,
+	}, nil
+}
+
 func (r *RawClient) CreateUploadLink(
 	ctx context.Context,
 	request *schedulin.CreateUploadLinkMediaRequest,

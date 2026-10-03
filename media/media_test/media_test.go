@@ -104,6 +104,32 @@ func TestMediaCreateFromURLWithWireMock(
 	VerifyRequestCount(t, "TestMediaCreateFromURLWithWireMock", "POST", "/v0/media/from-url", nil, 1)
 }
 
+func TestMediaRegisterWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulin.MediaRegister{
+		Key: "key",
+	}
+	_, invocationErr := client.Media.Register(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestMediaRegisterWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestMediaRegisterWithWireMock", "POST", "/v0/media/register", nil, 1)
+}
+
 func TestMediaCreateUploadLinkWithWireMock(
 	t *testing.T,
 ) {

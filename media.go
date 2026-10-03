@@ -330,6 +330,73 @@ func (l *ListMediaRequest) SetTagMode(tagMode *ListMediaRequestTagMode) {
 }
 
 var (
+	mediaRegisterFieldKey  = big.NewInt(1 << 0)
+	mediaRegisterFieldName = big.NewInt(1 << 1)
+	mediaRegisterFieldAlt  = big.NewInt(1 << 2)
+)
+
+type MediaRegister struct {
+	// The `key` returned by POST /v0/media/presign, after the bytes were PUT to its `url`. The stored media URL for that key is also accepted.
+	Key  string  `json:"key" url:"-"`
+	Name *string `json:"name,omitempty" url:"-"`
+	Alt  *string `json:"alt,omitempty" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (m *MediaRegister) require(field *big.Int) {
+	next := new(big.Int)
+	if m.explicitFields != nil {
+		next.Set(m.explicitFields)
+	}
+	next.Or(next, field)
+	m.explicitFields = next
+}
+
+// SetKey sets the Key field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MediaRegister) SetKey(key string) {
+	m.Key = key
+	m.require(mediaRegisterFieldKey)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MediaRegister) SetName(name *string) {
+	m.Name = name
+	m.require(mediaRegisterFieldName)
+}
+
+// SetAlt sets the Alt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (m *MediaRegister) SetAlt(alt *string) {
+	m.Alt = alt
+	m.require(mediaRegisterFieldAlt)
+}
+
+func (m *MediaRegister) UnmarshalJSON(data []byte) error {
+	type unmarshaler MediaRegister
+	var body unmarshaler
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	*m = MediaRegister(body)
+	return nil
+}
+
+func (m *MediaRegister) MarshalJSON() ([]byte, error) {
+	type embed MediaRegister
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*m),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, m.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+var (
 	retrieveMediaRequestFieldID = big.NewInt(1 << 0)
 )
 
