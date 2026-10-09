@@ -7503,17 +7503,19 @@ func (u UpdatePostsRequestStatus) Ptr() *UpdatePostsRequestStatus {
 var (
 	updatePostsRequestFieldID                    = big.NewInt(1 << 0)
 	updatePostsRequestFieldCaption               = big.NewInt(1 << 1)
-	updatePostsRequestFieldScheduledAt           = big.NewInt(1 << 2)
-	updatePostsRequestFieldMedia                 = big.NewInt(1 << 3)
-	updatePostsRequestFieldPlatformConfiguration = big.NewInt(1 << 4)
-	updatePostsRequestFieldStatus                = big.NewInt(1 << 5)
-	updatePostsRequestFieldTagIDs                = big.NewInt(1 << 6)
-	updatePostsRequestFieldParts                 = big.NewInt(1 << 7)
+	updatePostsRequestFieldTitle                 = big.NewInt(1 << 2)
+	updatePostsRequestFieldScheduledAt           = big.NewInt(1 << 3)
+	updatePostsRequestFieldMedia                 = big.NewInt(1 << 4)
+	updatePostsRequestFieldPlatformConfiguration = big.NewInt(1 << 5)
+	updatePostsRequestFieldStatus                = big.NewInt(1 << 6)
+	updatePostsRequestFieldTagIDs                = big.NewInt(1 << 7)
+	updatePostsRequestFieldParts                 = big.NewInt(1 << 8)
 )
 
 type UpdatePostsRequest struct {
 	ID                    string                         `json:"-" url:"-"`
 	Caption               *string                        `json:"caption,omitempty" url:"-"`
+	Title                 *string                        `json:"title,omitempty" url:"-"`
 	ScheduledAt           *time.Time                     `json:"scheduledAt,omitempty" url:"-"`
 	Media                 []*UpdatePostsRequestMediaItem `json:"media,omitempty" url:"-"`
 	PlatformConfiguration map[string]any                 `json:"platformConfiguration,omitempty" url:"-"`
@@ -7546,6 +7548,13 @@ func (u *UpdatePostsRequest) SetID(id string) {
 func (u *UpdatePostsRequest) SetCaption(caption *string) {
 	u.Caption = caption
 	u.require(updatePostsRequestFieldCaption)
+}
+
+// SetTitle sets the Title field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequest) SetTitle(title *string) {
+	u.Title = title
+	u.require(updatePostsRequestFieldTitle)
 }
 
 // SetScheduledAt sets the ScheduledAt field and marks it as non-optional;
