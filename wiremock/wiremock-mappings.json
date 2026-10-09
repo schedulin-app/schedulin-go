@@ -1256,7 +1256,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"data\": [\n    {\n      \"platform\": \"platform\",\n      \"name\": \"name\",\n      \"comingSoon\": true,\n      \"captionMaxLength\": 1,\n      \"mediaRules\": {\n        \"max\": 1\n      },\n      \"platformConfiguration\": {\n        \"required\": true,\n        \"validated\": true\n      },\n      \"helperEndpoints\": [\n        {\n          \"method\": \"method\",\n          \"path\": \"path\",\n          \"description\": \"description\"\n        }\n      ]\n    }\n  ]\n}",
+        "body": "{\n  \"data\": [\n    {\n      \"platform\": \"platform\",\n      \"name\": \"name\",\n      \"comingSoon\": true,\n      \"captionMaxLength\": 1,\n      \"captionLengthUnit\": \"characters\",\n      \"captionMaxLengthWithMedia\": 1,\n      \"mediaRules\": {\n        \"max\": 1\n      },\n      \"platformConfiguration\": {\n        \"required\": true,\n        \"validated\": true\n      },\n      \"helperEndpoints\": [\n        {\n          \"method\": \"method\",\n          \"path\": \"path\",\n          \"description\": \"description\"\n        }\n      ]\n    }\n  ]\n}",
         "headers": {
           "Content-Type": "application/json"
         }

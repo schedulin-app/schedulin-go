@@ -123,6 +123,22 @@ func TestSettersListPlatformsResponseDataItem(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetCaptionLengthUnit", func(t *testing.T) {
+		obj := &ListPlatformsResponseDataItem{}
+		var fernTestValueCaptionLengthUnit *ListPlatformsResponseDataItemCaptionLengthUnit
+		obj.SetCaptionLengthUnit(fernTestValueCaptionLengthUnit)
+		assert.Equal(t, fernTestValueCaptionLengthUnit, obj.CaptionLengthUnit)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetCaptionMaxLengthWithMedia", func(t *testing.T) {
+		obj := &ListPlatformsResponseDataItem{}
+		var fernTestValueCaptionMaxLengthWithMedia *int
+		obj.SetCaptionMaxLengthWithMedia(fernTestValueCaptionMaxLengthWithMedia)
+		assert.Equal(t, fernTestValueCaptionMaxLengthWithMedia, obj.CaptionMaxLengthWithMedia)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetMediaRules", func(t *testing.T) {
 		obj := &ListPlatformsResponseDataItem{}
 		var fernTestValueMediaRules *ListPlatformsResponseDataItemMediaRules
@@ -260,6 +276,72 @@ func TestGettersListPlatformsResponseDataItem(t *testing.T) {
 			}
 		}()
 		_ = obj.GetCaptionMaxLength() // Should return zero value
+	})
+
+	t.Run("GetCaptionLengthUnit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItem{}
+		var expected *ListPlatformsResponseDataItemCaptionLengthUnit
+		obj.CaptionLengthUnit = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetCaptionLengthUnit(), "getter should return the property value")
+	})
+
+	t.Run("GetCaptionLengthUnit_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItem{}
+		obj.CaptionLengthUnit = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetCaptionLengthUnit(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetCaptionLengthUnit_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListPlatformsResponseDataItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetCaptionLengthUnit() // Should return zero value
+	})
+
+	t.Run("GetCaptionMaxLengthWithMedia", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItem{}
+		var expected *int
+		obj.CaptionMaxLengthWithMedia = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetCaptionMaxLengthWithMedia(), "getter should return the property value")
+	})
+
+	t.Run("GetCaptionMaxLengthWithMedia_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItem{}
+		obj.CaptionMaxLengthWithMedia = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetCaptionMaxLengthWithMedia(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetCaptionMaxLengthWithMedia_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListPlatformsResponseDataItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetCaptionMaxLengthWithMedia() // Should return zero value
 	})
 
 	t.Run("GetMediaRules", func(t *testing.T) {
@@ -465,6 +547,68 @@ func TestSettersMarkExplicitListPlatformsResponseDataItem(t *testing.T) {
 
 		// Act
 		obj.SetCaptionMaxLength(fernTestValueCaptionMaxLength)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetCaptionLengthUnit_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItem{}
+		var fernTestValueCaptionLengthUnit *ListPlatformsResponseDataItemCaptionLengthUnit
+
+		// Act
+		obj.SetCaptionLengthUnit(fernTestValueCaptionLengthUnit)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetCaptionMaxLengthWithMedia_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListPlatformsResponseDataItem{}
+		var fernTestValueCaptionMaxLengthWithMedia *int
+
+		// Act
+		obj.SetCaptionMaxLengthWithMedia(fernTestValueCaptionMaxLengthWithMedia)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -1694,6 +1838,42 @@ func TestStringListPlatformsResponseDataItemPlatformConfiguration(t *testing.T) 
 		var obj *ListPlatformsResponseDataItemPlatformConfiguration
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestEnumListPlatformsResponseDataItemCaptionLengthUnit(t *testing.T) {
+	t.Run("NewFromString_characters", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListPlatformsResponseDataItemCaptionLengthUnitFromString("characters")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListPlatformsResponseDataItemCaptionLengthUnit("characters"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_graphemes", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListPlatformsResponseDataItemCaptionLengthUnitFromString("graphemes")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListPlatformsResponseDataItemCaptionLengthUnit("graphemes"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_characters_emoji_bytes", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewListPlatformsResponseDataItemCaptionLengthUnitFromString("characters_emoji_bytes")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ListPlatformsResponseDataItemCaptionLengthUnit("characters_emoji_bytes"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewListPlatformsResponseDataItemCaptionLengthUnitFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewListPlatformsResponseDataItemCaptionLengthUnitFromString("characters")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
 	})
 }
 

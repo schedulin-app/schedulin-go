@@ -96,23 +96,27 @@ func (l *ListPlatformsResponse) String() string {
 }
 
 var (
-	listPlatformsResponseDataItemFieldPlatform              = big.NewInt(1 << 0)
-	listPlatformsResponseDataItemFieldName                  = big.NewInt(1 << 1)
-	listPlatformsResponseDataItemFieldComingSoon            = big.NewInt(1 << 2)
-	listPlatformsResponseDataItemFieldCaptionMaxLength      = big.NewInt(1 << 3)
-	listPlatformsResponseDataItemFieldMediaRules            = big.NewInt(1 << 4)
-	listPlatformsResponseDataItemFieldPlatformConfiguration = big.NewInt(1 << 5)
-	listPlatformsResponseDataItemFieldHelperEndpoints       = big.NewInt(1 << 6)
+	listPlatformsResponseDataItemFieldPlatform                  = big.NewInt(1 << 0)
+	listPlatformsResponseDataItemFieldName                      = big.NewInt(1 << 1)
+	listPlatformsResponseDataItemFieldComingSoon                = big.NewInt(1 << 2)
+	listPlatformsResponseDataItemFieldCaptionMaxLength          = big.NewInt(1 << 3)
+	listPlatformsResponseDataItemFieldCaptionLengthUnit         = big.NewInt(1 << 4)
+	listPlatformsResponseDataItemFieldCaptionMaxLengthWithMedia = big.NewInt(1 << 5)
+	listPlatformsResponseDataItemFieldMediaRules                = big.NewInt(1 << 6)
+	listPlatformsResponseDataItemFieldPlatformConfiguration     = big.NewInt(1 << 7)
+	listPlatformsResponseDataItemFieldHelperEndpoints           = big.NewInt(1 << 8)
 )
 
 type ListPlatformsResponseDataItem struct {
-	Platform              string                                              `json:"platform" url:"platform"`
-	Name                  string                                              `json:"name" url:"name"`
-	ComingSoon            *bool                                               `json:"comingSoon,omitempty" url:"comingSoon,omitempty"`
-	CaptionMaxLength      *int                                                `json:"captionMaxLength,omitempty" url:"captionMaxLength,omitempty"`
-	MediaRules            *ListPlatformsResponseDataItemMediaRules            `json:"mediaRules,omitempty" url:"mediaRules,omitempty"`
-	PlatformConfiguration *ListPlatformsResponseDataItemPlatformConfiguration `json:"platformConfiguration" url:"platformConfiguration"`
-	HelperEndpoints       []*ListPlatformsResponseDataItemHelperEndpointsItem `json:"helperEndpoints,omitempty" url:"helperEndpoints,omitempty"`
+	Platform                  string                                              `json:"platform" url:"platform"`
+	Name                      string                                              `json:"name" url:"name"`
+	ComingSoon                *bool                                               `json:"comingSoon,omitempty" url:"comingSoon,omitempty"`
+	CaptionMaxLength          *int                                                `json:"captionMaxLength,omitempty" url:"captionMaxLength,omitempty"`
+	CaptionLengthUnit         *ListPlatformsResponseDataItemCaptionLengthUnit     `json:"captionLengthUnit,omitempty" url:"captionLengthUnit,omitempty"`
+	CaptionMaxLengthWithMedia *int                                                `json:"captionMaxLengthWithMedia,omitempty" url:"captionMaxLengthWithMedia,omitempty"`
+	MediaRules                *ListPlatformsResponseDataItemMediaRules            `json:"mediaRules,omitempty" url:"mediaRules,omitempty"`
+	PlatformConfiguration     *ListPlatformsResponseDataItemPlatformConfiguration `json:"platformConfiguration" url:"platformConfiguration"`
+	HelperEndpoints           []*ListPlatformsResponseDataItemHelperEndpointsItem `json:"helperEndpoints,omitempty" url:"helperEndpoints,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -147,6 +151,20 @@ func (l *ListPlatformsResponseDataItem) GetCaptionMaxLength() *int {
 		return nil
 	}
 	return l.CaptionMaxLength
+}
+
+func (l *ListPlatformsResponseDataItem) GetCaptionLengthUnit() *ListPlatformsResponseDataItemCaptionLengthUnit {
+	if l == nil {
+		return nil
+	}
+	return l.CaptionLengthUnit
+}
+
+func (l *ListPlatformsResponseDataItem) GetCaptionMaxLengthWithMedia() *int {
+	if l == nil {
+		return nil
+	}
+	return l.CaptionMaxLengthWithMedia
 }
 
 func (l *ListPlatformsResponseDataItem) GetMediaRules() *ListPlatformsResponseDataItemMediaRules {
@@ -214,6 +232,20 @@ func (l *ListPlatformsResponseDataItem) SetCaptionMaxLength(captionMaxLength *in
 	l.require(listPlatformsResponseDataItemFieldCaptionMaxLength)
 }
 
+// SetCaptionLengthUnit sets the CaptionLengthUnit field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListPlatformsResponseDataItem) SetCaptionLengthUnit(captionLengthUnit *ListPlatformsResponseDataItemCaptionLengthUnit) {
+	l.CaptionLengthUnit = captionLengthUnit
+	l.require(listPlatformsResponseDataItemFieldCaptionLengthUnit)
+}
+
+// SetCaptionMaxLengthWithMedia sets the CaptionMaxLengthWithMedia field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListPlatformsResponseDataItem) SetCaptionMaxLengthWithMedia(captionMaxLengthWithMedia *int) {
+	l.CaptionMaxLengthWithMedia = captionMaxLengthWithMedia
+	l.require(listPlatformsResponseDataItemFieldCaptionMaxLengthWithMedia)
+}
+
 // SetMediaRules sets the MediaRules field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (l *ListPlatformsResponseDataItem) SetMediaRules(mediaRules *ListPlatformsResponseDataItemMediaRules) {
@@ -275,6 +307,31 @@ func (l *ListPlatformsResponseDataItem) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", l)
+}
+
+type ListPlatformsResponseDataItemCaptionLengthUnit string
+
+const (
+	ListPlatformsResponseDataItemCaptionLengthUnitCharacters           ListPlatformsResponseDataItemCaptionLengthUnit = "characters"
+	ListPlatformsResponseDataItemCaptionLengthUnitGraphemes            ListPlatformsResponseDataItemCaptionLengthUnit = "graphemes"
+	ListPlatformsResponseDataItemCaptionLengthUnitCharactersEmojiBytes ListPlatformsResponseDataItemCaptionLengthUnit = "characters_emoji_bytes"
+)
+
+func NewListPlatformsResponseDataItemCaptionLengthUnitFromString(s string) (ListPlatformsResponseDataItemCaptionLengthUnit, error) {
+	switch s {
+	case "characters":
+		return ListPlatformsResponseDataItemCaptionLengthUnitCharacters, nil
+	case "graphemes":
+		return ListPlatformsResponseDataItemCaptionLengthUnitGraphemes, nil
+	case "characters_emoji_bytes":
+		return ListPlatformsResponseDataItemCaptionLengthUnitCharactersEmojiBytes, nil
+	}
+	var t ListPlatformsResponseDataItemCaptionLengthUnit
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (l ListPlatformsResponseDataItemCaptionLengthUnit) Ptr() *ListPlatformsResponseDataItemCaptionLengthUnit {
+	return &l
 }
 
 var (
