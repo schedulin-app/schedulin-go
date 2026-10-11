@@ -162,7 +162,7 @@ func (n *NotFoundError) GetBody() *ErrorResponse {
 	return n.Body
 }
 
-// Payment Required — an active plan (and a connected social account) is required.
+// Payment Required — an active plan (and a connected social account) is required, or a free trial has used its post allowance.
 type PaymentRequiredError struct {
 	*core.APIError
 	Body *ErrorResponse
