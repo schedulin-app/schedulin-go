@@ -1658,6 +1658,7 @@ const (
 	PostStatusCompleted  PostStatus = "COMPLETED"
 	PostStatusDraft      PostStatus = "DRAFT"
 	PostStatusFailed     PostStatus = "FAILED"
+	PostStatusDeleted    PostStatus = "DELETED"
 )
 
 func NewPostStatusFromString(s string) (PostStatus, error) {
@@ -1672,6 +1673,8 @@ func NewPostStatusFromString(s string) (PostStatus, error) {
 		return PostStatusDraft, nil
 	case "FAILED":
 		return PostStatusFailed, nil
+	case "DELETED":
+		return PostStatusDeleted, nil
 	}
 	var t PostStatus
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

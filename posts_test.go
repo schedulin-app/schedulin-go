@@ -19953,6 +19953,13 @@ func TestEnumPostStatus(t *testing.T) {
 		assert.Equal(t, PostStatus("FAILED"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_DELETED", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostStatusFromString("DELETED")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostStatus("DELETED"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewPostStatusFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)
