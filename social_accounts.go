@@ -2628,7 +2628,7 @@ var (
 type UpdateSocialAccountsRequest struct {
 	ID     string                             `json:"-" url:"-"`
 	Status *UpdateSocialAccountsRequestStatus `json:"status,omitempty" url:"-"`
-	// Move the account into a client profile (profile id or externalId), or null to remove it from its profile. Pro plan.
+	// Move the account into a client profile (profile id or externalId), or null to remove it from its profile.
 	ProfileID *string `json:"profileId,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted

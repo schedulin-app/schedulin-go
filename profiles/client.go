@@ -55,7 +55,7 @@ func (c *Client) List(
 	return response.Body, nil
 }
 
-// Create a profile for one of your clients. Their social accounts are grouped under it so you can post on their behalf. Requires the Pro plan.
+// Create a profile for one of your clients. Their social accounts are grouped under it so you can post on their behalf.
 //
 // Example:
 //
@@ -136,7 +136,7 @@ func (c *Client) Delete(
 	return response.Body, nil
 }
 
-// Rename a client profile or change its externalId. Requires the Pro plan.
+// Rename a client profile or change its externalId.
 //
 // Example:
 //
@@ -163,7 +163,7 @@ func (c *Client) Update(
 	return response.Body, nil
 }
 
-// Returns a hosted link to send your client. They open it, sign in to their social platforms (no Schedulin account needed), and the accounts connect to your organization under this profile, ready to post to via the API. Links expire; create a new one any time. Requires the Pro plan.
+// Returns a hosted link to send your client. They open it, sign in to their social platforms (no Schedulin account needed), and the accounts connect to your organization under this profile, ready to post to via the API. Links expire; create a new one any time. Accounts your client connects count toward your plan's channel limit.
 //
 // Example:
 //

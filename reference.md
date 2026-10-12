@@ -1272,7 +1272,7 @@ client.SocialAccounts.Update(
 <dl>
 <dd>
 
-**profileID:** `*string` — Move the account into a client profile (profile id or externalId), or null to remove it from its profile. Pro plan.
+**profileID:** `*string` — Move the account into a client profile (profile id or externalId), or null to remove it from its profile.
     
 </dd>
 </dl>
@@ -3448,7 +3448,7 @@ client.Profiles.List(
 <dl>
 <dd>
 
-Create a profile for one of your clients. Their social accounts are grouped under it so you can post on their behalf. Requires the Pro plan.
+Create a profile for one of your clients. Their social accounts are grouped under it so you can post on their behalf.
 </dd>
 </dl>
 </dd>
@@ -3636,7 +3636,7 @@ client.Profiles.Delete(
 <dl>
 <dd>
 
-Rename a client profile or change its externalId. Requires the Pro plan.
+Rename a client profile or change its externalId.
 </dd>
 </dl>
 </dd>
@@ -3712,7 +3712,7 @@ client.Profiles.Update(
 <dl>
 <dd>
 
-Returns a hosted link to send your client. They open it, sign in to their social platforms (no Schedulin account needed), and the accounts connect to your organization under this profile, ready to post to via the API. Links expire; create a new one any time. Requires the Pro plan.
+Returns a hosted link to send your client. They open it, sign in to their social platforms (no Schedulin account needed), and the accounts connect to your organization under this profile, ready to post to via the API. Links expire; create a new one any time. Accounts your client connects count toward your plan's channel limit.
 </dd>
 </dl>
 </dd>

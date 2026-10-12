@@ -1910,7 +1910,7 @@ var socialAccountUpdateNullableFields = map[string]*big.Int{
 type SocialAccountUpdate struct {
 	ID     string                     `json:"id" url:"id"`
 	Status *SocialAccountUpdateStatus `json:"status,omitempty" url:"status,omitempty"`
-	// Move the account into a client profile (profile id or externalId), or null to remove it from its profile. Pro plan.
+	// Move the account into a client profile (profile id or externalId), or null to remove it from its profile.
 	ProfileID *string `json:"profileId,omitempty" url:"profileId,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
