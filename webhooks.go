@@ -877,10 +877,11 @@ func (w *WebhookEndpoint) String() string {
 type WebhookEndpointEventsItem string
 
 const (
-	WebhookEndpointEventsItemPostPublished       WebhookEndpointEventsItem = "post.published"
-	WebhookEndpointEventsItemPostFailed          WebhookEndpointEventsItem = "post.failed"
-	WebhookEndpointEventsItemGenerationCompleted WebhookEndpointEventsItem = "generation.completed"
-	WebhookEndpointEventsItemGenerationFailed    WebhookEndpointEventsItem = "generation.failed"
+	WebhookEndpointEventsItemPostPublished          WebhookEndpointEventsItem = "post.published"
+	WebhookEndpointEventsItemPostFailed             WebhookEndpointEventsItem = "post.failed"
+	WebhookEndpointEventsItemGenerationCompleted    WebhookEndpointEventsItem = "generation.completed"
+	WebhookEndpointEventsItemGenerationFailed       WebhookEndpointEventsItem = "generation.failed"
+	WebhookEndpointEventsItemSocialAccountConnected WebhookEndpointEventsItem = "social_account.connected"
 )
 
 func NewWebhookEndpointEventsItemFromString(s string) (WebhookEndpointEventsItem, error) {
@@ -893,6 +894,8 @@ func NewWebhookEndpointEventsItemFromString(s string) (WebhookEndpointEventsItem
 		return WebhookEndpointEventsItemGenerationCompleted, nil
 	case "generation.failed":
 		return WebhookEndpointEventsItemGenerationFailed, nil
+	case "social_account.connected":
+		return WebhookEndpointEventsItemSocialAccountConnected, nil
 	}
 	var t WebhookEndpointEventsItem
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -905,10 +908,11 @@ func (w WebhookEndpointEventsItem) Ptr() *WebhookEndpointEventsItem {
 type CreateWebhooksRequestEventsItem string
 
 const (
-	CreateWebhooksRequestEventsItemPostPublished       CreateWebhooksRequestEventsItem = "post.published"
-	CreateWebhooksRequestEventsItemPostFailed          CreateWebhooksRequestEventsItem = "post.failed"
-	CreateWebhooksRequestEventsItemGenerationCompleted CreateWebhooksRequestEventsItem = "generation.completed"
-	CreateWebhooksRequestEventsItemGenerationFailed    CreateWebhooksRequestEventsItem = "generation.failed"
+	CreateWebhooksRequestEventsItemPostPublished          CreateWebhooksRequestEventsItem = "post.published"
+	CreateWebhooksRequestEventsItemPostFailed             CreateWebhooksRequestEventsItem = "post.failed"
+	CreateWebhooksRequestEventsItemGenerationCompleted    CreateWebhooksRequestEventsItem = "generation.completed"
+	CreateWebhooksRequestEventsItemGenerationFailed       CreateWebhooksRequestEventsItem = "generation.failed"
+	CreateWebhooksRequestEventsItemSocialAccountConnected CreateWebhooksRequestEventsItem = "social_account.connected"
 )
 
 func NewCreateWebhooksRequestEventsItemFromString(s string) (CreateWebhooksRequestEventsItem, error) {
@@ -921,6 +925,8 @@ func NewCreateWebhooksRequestEventsItemFromString(s string) (CreateWebhooksReque
 		return CreateWebhooksRequestEventsItemGenerationCompleted, nil
 	case "generation.failed":
 		return CreateWebhooksRequestEventsItemGenerationFailed, nil
+	case "social_account.connected":
+		return CreateWebhooksRequestEventsItemSocialAccountConnected, nil
 	}
 	var t CreateWebhooksRequestEventsItem
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
@@ -1277,10 +1283,11 @@ func (t *TestWebhooksResponse) String() string {
 type UpdateWebhooksRequestEventsItem string
 
 const (
-	UpdateWebhooksRequestEventsItemPostPublished       UpdateWebhooksRequestEventsItem = "post.published"
-	UpdateWebhooksRequestEventsItemPostFailed          UpdateWebhooksRequestEventsItem = "post.failed"
-	UpdateWebhooksRequestEventsItemGenerationCompleted UpdateWebhooksRequestEventsItem = "generation.completed"
-	UpdateWebhooksRequestEventsItemGenerationFailed    UpdateWebhooksRequestEventsItem = "generation.failed"
+	UpdateWebhooksRequestEventsItemPostPublished          UpdateWebhooksRequestEventsItem = "post.published"
+	UpdateWebhooksRequestEventsItemPostFailed             UpdateWebhooksRequestEventsItem = "post.failed"
+	UpdateWebhooksRequestEventsItemGenerationCompleted    UpdateWebhooksRequestEventsItem = "generation.completed"
+	UpdateWebhooksRequestEventsItemGenerationFailed       UpdateWebhooksRequestEventsItem = "generation.failed"
+	UpdateWebhooksRequestEventsItemSocialAccountConnected UpdateWebhooksRequestEventsItem = "social_account.connected"
 )
 
 func NewUpdateWebhooksRequestEventsItemFromString(s string) (UpdateWebhooksRequestEventsItem, error) {
@@ -1293,6 +1300,8 @@ func NewUpdateWebhooksRequestEventsItemFromString(s string) (UpdateWebhooksReque
 		return UpdateWebhooksRequestEventsItemGenerationCompleted, nil
 	case "generation.failed":
 		return UpdateWebhooksRequestEventsItemGenerationFailed, nil
+	case "social_account.connected":
+		return UpdateWebhooksRequestEventsItemSocialAccountConnected, nil
 	}
 	var t UpdateWebhooksRequestEventsItem
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

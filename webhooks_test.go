@@ -2827,6 +2827,13 @@ func TestEnumCreateWebhooksRequestEventsItem(t *testing.T) {
 		assert.Equal(t, CreateWebhooksRequestEventsItem("generation.failed"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_social_account_connected", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateWebhooksRequestEventsItemFromString("social_account.connected")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateWebhooksRequestEventsItem("social_account.connected"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewCreateWebhooksRequestEventsItemFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)
@@ -2868,6 +2875,13 @@ func TestEnumUpdateWebhooksRequestEventsItem(t *testing.T) {
 		val, err := NewUpdateWebhooksRequestEventsItemFromString("generation.failed")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, UpdateWebhooksRequestEventsItem("generation.failed"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_social_account_connected", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdateWebhooksRequestEventsItemFromString("social_account.connected")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdateWebhooksRequestEventsItem("social_account.connected"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
@@ -2947,6 +2961,13 @@ func TestEnumWebhookEndpointEventsItem(t *testing.T) {
 		val, err := NewWebhookEndpointEventsItemFromString("generation.failed")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, WebhookEndpointEventsItem("generation.failed"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_social_account_connected", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewWebhookEndpointEventsItemFromString("social_account.connected")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, WebhookEndpointEventsItem("social_account.connected"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
