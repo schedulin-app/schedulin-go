@@ -1023,6 +1023,146 @@ func (p *PostPublishDraft) String() string {
 }
 
 var (
+	postRetryFieldID          = big.NewInt(1 << 0)
+	postRetryFieldForce       = big.NewInt(1 << 1)
+	postRetryFieldScheduledAt = big.NewInt(1 << 2)
+)
+
+// postRetryNullableFields maps the wire names of PostRetry's nullable fields (required or optional) to their field bits.
+var postRetryNullableFields = map[string]*big.Int{
+	"scheduledAt": postRetryFieldScheduledAt,
+}
+
+type PostRetry struct {
+	ID string `json:"id" url:"id"`
+	// Confirm the retry after a publish attempt whose outcome is unknown. Check the platform first — the post may already be live.
+	Force *bool `json:"force,omitempty" url:"force,omitempty"`
+	// Future time to re-schedule the post for; omit to publish immediately.
+	ScheduledAt *time.Time `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostRetry) GetID() string {
+	if p == nil {
+		return ""
+	}
+	return p.ID
+}
+
+func (p *PostRetry) GetForce() *bool {
+	if p == nil {
+		return nil
+	}
+	return p.Force
+}
+
+func (p *PostRetry) GetScheduledAt() *time.Time {
+	if p == nil {
+		return nil
+	}
+	return p.ScheduledAt
+}
+
+func (p *PostRetry) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostRetry) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostRetry) SetID(id string) {
+	p.ID = id
+	p.require(postRetryFieldID)
+}
+
+// SetForce sets the Force field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostRetry) SetForce(force *bool) {
+	p.Force = force
+	p.require(postRetryFieldForce)
+}
+
+// SetScheduledAt sets the ScheduledAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostRetry) SetScheduledAt(scheduledAt *time.Time) {
+	p.ScheduledAt = scheduledAt
+	p.require(postRetryFieldScheduledAt)
+}
+
+func (p *PostRetry) UnmarshalJSON(data []byte) error {
+	type embed PostRetry
+	var unmarshaler = struct {
+		embed
+		ScheduledAt *internal.DateTime `json:"scheduledAt,omitempty"`
+	}{
+		embed: embed(*p),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*p = PostRetry(unmarshaler.embed)
+	p.ScheduledAt = unmarshaler.ScheduledAt.TimePtr()
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postRetryNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostRetry) MarshalJSON() ([]byte, error) {
+	type embed PostRetry
+	var marshaler = struct {
+		embed
+		ScheduledAt *internal.DateTime `json:"scheduledAt,omitempty"`
+	}{
+		embed:       embed(*p),
+		ScheduledAt: internal.NewOptionalDateTime(p.ScheduledAt),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostRetry) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+var (
 	postSearchFieldPage             = big.NewInt(1 << 0)
 	postSearchFieldStatus           = big.NewInt(1 << 1)
 	postSearchFieldStatuses         = big.NewInt(1 << 2)

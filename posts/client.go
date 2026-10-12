@@ -274,6 +274,33 @@ func (c *Client) PublishDraft(
 	return response.Body, nil
 }
 
+// Re-queue a FAILED post for publishing, immediately or at a future scheduledAt. Refuses posts that were already published. If the last attempt's outcome is unknown (it may have posted), responds 412 until called again with force: true — check the platform first.
+//
+// Example:
+//
+//	request := &schedulin.RetryPostsRequest{
+//	    ID: "id",
+//	}
+//	client.Posts.Retry(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) Retry(
+	ctx context.Context,
+	request *schedulin.RetryPostsRequest,
+	opts ...option.RequestOption,
+) (*schedulin.Post, error) {
+	response, err := c.WithRawResponse.Retry(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // Replace all tags on a post. No status restrictions apply.
 //
 // Example:

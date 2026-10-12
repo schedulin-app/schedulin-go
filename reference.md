@@ -753,6 +753,82 @@ client.Posts.PublishDraft(
 </dl>
 </details>
 
+<details><summary><code>client.Posts.Retry(ID, request) -> *schedulin.Post</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Re-queue a FAILED post for publishing, immediately or at a future scheduledAt. Refuses posts that were already published. If the last attempt's outcome is unknown (it may have posted), responds 412 until called again with force: true — check the platform first.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.RetryPostsRequest{
+    ID: "id",
+}
+client.Posts.Retry(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**force:** `*bool` — Confirm the retry after a publish attempt whose outcome is unknown. Check the platform first — the post may already be live.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**scheduledAt:** `*time.Time` — Future time to re-schedule the post for; omit to publish immediately.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.Posts.UpdateTags(ID, request) -> *schedulin.Post</code></summary>
 <dl>
 <dd>

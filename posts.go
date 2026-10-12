@@ -476,6 +476,82 @@ func (r *RetrievePostsRequest) SetID(id string) {
 	r.require(retrievePostsRequestFieldID)
 }
 
+var (
+	retryPostsRequestFieldID          = big.NewInt(1 << 0)
+	retryPostsRequestFieldForce       = big.NewInt(1 << 1)
+	retryPostsRequestFieldScheduledAt = big.NewInt(1 << 2)
+)
+
+type RetryPostsRequest struct {
+	ID string `json:"-" url:"-"`
+	// Confirm the retry after a publish attempt whose outcome is unknown. Check the platform first — the post may already be live.
+	Force *bool `json:"force,omitempty" url:"-"`
+	// Future time to re-schedule the post for; omit to publish immediately.
+	ScheduledAt *time.Time `json:"scheduledAt,omitempty" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (r *RetryPostsRequest) require(field *big.Int) {
+	next := new(big.Int)
+	if r.explicitFields != nil {
+		next.Set(r.explicitFields)
+	}
+	next.Or(next, field)
+	r.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RetryPostsRequest) SetID(id string) {
+	r.ID = id
+	r.require(retryPostsRequestFieldID)
+}
+
+// SetForce sets the Force field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RetryPostsRequest) SetForce(force *bool) {
+	r.Force = force
+	r.require(retryPostsRequestFieldForce)
+}
+
+// SetScheduledAt sets the ScheduledAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *RetryPostsRequest) SetScheduledAt(scheduledAt *time.Time) {
+	r.ScheduledAt = scheduledAt
+	r.require(retryPostsRequestFieldScheduledAt)
+}
+
+func (r *RetryPostsRequest) UnmarshalJSON(data []byte) error {
+	type embed RetryPostsRequest
+	var body = struct {
+		embed
+		ScheduledAt *internal.DateTime `json:"scheduledAt,omitempty"`
+	}{
+		embed: embed(*r),
+	}
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	*r = RetryPostsRequest(body.embed)
+	r.ScheduledAt = body.ScheduledAt.TimePtr()
+	return nil
+}
+
+func (r *RetryPostsRequest) MarshalJSON() ([]byte, error) {
+	type embed RetryPostsRequest
+	var marshaler = struct {
+		embed
+		ScheduledAt *internal.DateTime `json:"scheduledAt,omitempty"`
+	}{
+		embed:       embed(*r),
+		ScheduledAt: internal.NewOptionalDateTime(r.ScheduledAt),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
 type ImageProcessingStatus string
 
 const (

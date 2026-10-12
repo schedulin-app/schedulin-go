@@ -308,6 +308,32 @@ func TestPostsPublishDraftWithWireMock(
 	VerifyRequestCount(t, "TestPostsPublishDraftWithWireMock", "POST", "/v0/posts/id/publish", nil, 1)
 }
 
+func TestPostsRetryWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulin.RetryPostsRequest{
+		ID: "id",
+	}
+	_, invocationErr := client.Posts.Retry(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestPostsRetryWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestPostsRetryWithWireMock", "POST", "/v0/posts/id/retry", nil, 1)
+}
+
 func TestPostsUpdateTagsWithWireMock(
 	t *testing.T,
 ) {
