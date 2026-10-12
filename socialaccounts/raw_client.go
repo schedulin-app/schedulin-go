@@ -34,6 +34,7 @@ func NewRawClient(options *core.RequestOptions) *RawClient {
 
 func (r *RawClient) List(
 	ctx context.Context,
+	request *schedulin.ListSocialAccountsRequest,
 	opts ...option.RequestOption,
 ) (*core.Response[*schedulin.ListSocialAccountsResponse], error) {
 	options := core.NewRequestOptions(opts...)
@@ -43,6 +44,13 @@ func (r *RawClient) List(
 		"https://api.schedulin.app",
 	)
 	endpointURL := baseURL + "/v0/social-accounts"
+	queryParams, err := internal.QueryValues(request)
+	if err != nil {
+		return nil, err
+	}
+	if len(queryParams) > 0 {
+		endpointURL += "?" + queryParams.Encode()
+	}
 	headers := internal.MergeHeaders(
 		r.options.ToHeader(),
 		options.ToHeader(),

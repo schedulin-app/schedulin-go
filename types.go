@@ -1897,13 +1897,21 @@ func (s SocialAccountDisconnectedReason) Ptr() *SocialAccountDisconnectedReason 
 }
 
 var (
-	socialAccountUpdateFieldID     = big.NewInt(1 << 0)
-	socialAccountUpdateFieldStatus = big.NewInt(1 << 1)
+	socialAccountUpdateFieldID        = big.NewInt(1 << 0)
+	socialAccountUpdateFieldStatus    = big.NewInt(1 << 1)
+	socialAccountUpdateFieldProfileID = big.NewInt(1 << 2)
 )
+
+// socialAccountUpdateNullableFields maps the wire names of SocialAccountUpdate's nullable fields (required or optional) to their field bits.
+var socialAccountUpdateNullableFields = map[string]*big.Int{
+	"profileId": socialAccountUpdateFieldProfileID,
+}
 
 type SocialAccountUpdate struct {
 	ID     string                     `json:"id" url:"id"`
 	Status *SocialAccountUpdateStatus `json:"status,omitempty" url:"status,omitempty"`
+	// Move the account into a client profile (profile id or externalId), or null to remove it from its profile. Pro plan.
+	ProfileID *string `json:"profileId,omitempty" url:"profileId,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1924,6 +1932,13 @@ func (s *SocialAccountUpdate) GetStatus() *SocialAccountUpdateStatus {
 		return nil
 	}
 	return s.Status
+}
+
+func (s *SocialAccountUpdate) GetProfileID() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ProfileID
 }
 
 func (s *SocialAccountUpdate) GetExtraProperties() map[string]interface{} {
@@ -1956,6 +1971,13 @@ func (s *SocialAccountUpdate) SetStatus(status *SocialAccountUpdateStatus) {
 	s.require(socialAccountUpdateFieldStatus)
 }
 
+// SetProfileID sets the ProfileID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SocialAccountUpdate) SetProfileID(profileID *string) {
+	s.ProfileID = profileID
+	s.require(socialAccountUpdateFieldProfileID)
+}
+
 func (s *SocialAccountUpdate) UnmarshalJSON(data []byte) error {
 	type unmarshaler SocialAccountUpdate
 	var value unmarshaler
@@ -1968,6 +1990,13 @@ func (s *SocialAccountUpdate) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	s.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, socialAccountUpdateNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		s.require(presentFields)
+	}
 	s.rawJSON = json.RawMessage(data)
 	return nil
 }

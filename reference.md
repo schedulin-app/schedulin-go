@@ -928,10 +928,27 @@ Retrieve all connected social media accounts for the authenticated user
 <dd>
 
 ```go
+request := &schedulin.ListSocialAccountsRequest{}
 client.SocialAccounts.List(
     context.TODO(),
+    request,
 )
 ```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**profileID:** `*string` 
+    
 </dd>
 </dl>
 </dd>
@@ -1248,6 +1265,14 @@ client.SocialAccounts.Update(
 <dd>
 
 **status:** `*schedulin.UpdateSocialAccountsRequestStatus` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**profileID:** `*string` — Move the account into a client profile (profile id or externalId), or null to remove it from its profile. Pro plan.
     
 </dd>
 </dl>
@@ -3358,6 +3383,396 @@ client.Webhooks.ListDeliveries(
 <dd>
 
 **page:** `*int` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Profiles
+<details><summary><code>client.Profiles.List() -> []*schedulin.ClientProfile</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List the client profiles in your organization, each with the social accounts connected to it.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+client.Profiles.List(
+    context.TODO(),
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Profiles.Create(request) -> *schedulin.ClientProfile</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a profile for one of your clients. Their social accounts are grouped under it so you can post on their behalf. Requires the Pro plan.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.CreateProfilesRequest{
+    Name: "name",
+}
+client.Profiles.Create(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**externalID:** `*string` — Your own identifier for this client (e.g. the user id in your system). Unique per organization; usable in place of the profile id.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Profiles.Retrieve(ID) -> *schedulin.ClientProfile</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get a client profile by its id or by the externalId you assigned, with its connected social accounts.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.RetrieveProfilesRequest{
+    ID: "id",
+}
+client.Profiles.Retrieve(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Profiles.Delete(ID, request) -> *schedulin.DeleteProfilesResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Delete a client profile. Its social accounts stay connected to your organization; they are just no longer grouped under the profile.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.DeleteProfilesRequest{
+    ID: "id",
+}
+client.Profiles.Delete(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Profiles.Update(ID, request) -> *schedulin.ClientProfile</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Rename a client profile or change its externalId. Requires the Pro plan.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.UpdateProfilesRequest{
+    ID: "id",
+}
+client.Profiles.Update(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**externalID:** `*string` — Your own identifier for this client (e.g. the user id in your system). Unique per organization; usable in place of the profile id.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Profiles.CreateConnectLink(ID, request) -> *schedulin.CreateConnectLinkProfilesResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns a hosted link to send your client. They open it, sign in to their social platforms (no Schedulin account needed), and the accounts connect to your organization under this profile, ready to post to via the API. Links expire; create a new one any time. Requires the Pro plan.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.CreateConnectLinkProfilesRequest{
+    ID: "id",
+}
+client.Profiles.CreateConnectLink(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**platforms:** `[]string` — Platform slugs the client may connect (e.g. instagram, tiktok). Omit to offer every platform.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**expiresInHours:** `*int` — How long the link works. Defaults to 72 hours, max 7 days.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**redirectURL:** `*string` — Where the client's Done button takes them after connecting, e.g. back to your app.
     
 </dd>
 </dl>

@@ -3482,6 +3482,14 @@ func TestSettersSocialAccountUpdate(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetProfileID", func(t *testing.T) {
+		obj := &SocialAccountUpdate{}
+		var fernTestValueProfileID *string
+		obj.SetProfileID(fernTestValueProfileID)
+		assert.Equal(t, fernTestValueProfileID, obj.ProfileID)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 }
 
 func TestGettersSocialAccountUpdate(t *testing.T) {
@@ -3541,6 +3549,39 @@ func TestGettersSocialAccountUpdate(t *testing.T) {
 		_ = obj.GetStatus() // Should return zero value
 	})
 
+	t.Run("GetProfileID", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &SocialAccountUpdate{}
+		var expected *string
+		obj.ProfileID = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetProfileID(), "getter should return the property value")
+	})
+
+	t.Run("GetProfileID_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &SocialAccountUpdate{}
+		obj.ProfileID = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetProfileID(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetProfileID_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *SocialAccountUpdate
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetProfileID() // Should return zero value
+	})
+
 }
 
 func TestSettersMarkExplicitSocialAccountUpdate(t *testing.T) {
@@ -3583,6 +3624,37 @@ func TestSettersMarkExplicitSocialAccountUpdate(t *testing.T) {
 
 		// Act
 		obj.SetStatus(fernTestValueStatus)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetProfileID_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &SocialAccountUpdate{}
+		var fernTestValueProfileID *string
+
+		// Act
+		obj.SetProfileID(fernTestValueProfileID)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -5500,6 +5572,49 @@ func TestOptionalNullableRoundTripPostRetry(t *testing.T) {
 	t.Run("FreshValueOmits", func(t *testing.T) {
 		t.Parallel()
 		result := marshalToMap(t, &PostRetry{})
+		for _, key := range optionalNullableKeys {
+			assert.NotContains(t, result, key, "optional nullable field %q should be omitted from a freshly constructed value", key)
+		}
+	})
+}
+
+func TestOptionalNullableRoundTripSocialAccountUpdate(t *testing.T) {
+	optionalNullableKeys := []string{
+		"profileId",
+	}
+	marshalToMap := func(t *testing.T, obj *SocialAccountUpdate) map[string]json.RawMessage {
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		var result map[string]json.RawMessage
+		require.NoError(t, json.Unmarshal(data, &result), "marshaled data should be a JSON object")
+		return result
+	}
+
+	t.Run("NullPreserved", func(t *testing.T) {
+		t.Parallel()
+		var obj SocialAccountUpdate
+		require.NoError(t, json.Unmarshal([]byte(`{"profileId":null}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range optionalNullableKeys {
+			value, ok := result[key]
+			require.True(t, ok, "optional nullable field %q received as null should be present in the output", key)
+			assert.Equal(t, "null", string(value), "optional nullable field %q received as null should be null in the output", key)
+		}
+	})
+
+	t.Run("AbsentStaysAbsent", func(t *testing.T) {
+		t.Parallel()
+		var obj SocialAccountUpdate
+		require.NoError(t, json.Unmarshal([]byte(`{}`), &obj))
+		result := marshalToMap(t, &obj)
+		for _, key := range optionalNullableKeys {
+			assert.NotContains(t, result, key, "optional nullable field %q absent from the input should be absent from the output", key)
+		}
+	})
+
+	t.Run("FreshValueOmits", func(t *testing.T) {
+		t.Parallel()
+		result := marshalToMap(t, &SocialAccountUpdate{})
 		for _, key := range optionalNullableKeys {
 			assert.NotContains(t, result, key, "optional nullable field %q should be omitted from a freshly constructed value", key)
 		}

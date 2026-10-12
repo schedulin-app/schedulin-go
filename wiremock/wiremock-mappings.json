@@ -397,7 +397,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"data\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
+        "body": "{\n  \"data\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1656,9 +1656,216 @@
           }
         }
       }
+    },
+    {
+      "id": "95dd5e6f-78f9-4701-9fa7-c0b35e2c0f01",
+      "name": "List client profiles - default",
+      "request": {
+        "urlPathTemplate": "/v0/profiles",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "[\n  {\n    \"id\": \"id\",\n    \"externalId\": \"externalId\",\n    \"name\": \"name\",\n    \"socialAccounts\": [\n      {\n        \"id\": \"id\",\n        \"platform\": \"bluesky\",\n        \"status\": \"connected\",\n        \"disconnectedReason\": null,\n        \"username\": null,\n        \"displayName\": null,\n        \"profileImageUrl\": null,\n        \"refreshTokenValid\": true,\n        \"analyticsDisabledAt\": null,\n        \"webhookSubscriptionFailedAt\": null,\n        \"profileId\": null,\n        \"createdAt\": \"2024-01-15T09:30:00Z\",\n        \"updatedAt\": \"2024-01-15T09:30:00Z\"\n      }\n    ],\n    \"createdAt\": \"2024-01-15T09:30:00Z\",\n    \"updatedAt\": \"2024-01-15T09:30:00Z\"\n  }\n]",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "95dd5e6f-78f9-4701-9fa7-c0b35e2c0f01",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      },
+      "postServeActions": []
+    },
+    {
+      "id": "5c4ac63e-b253-49e9-a570-9d5886a3e8be",
+      "name": "Create a client profile - default",
+      "request": {
+        "urlPathTemplate": "/v0/profiles",
+        "method": "POST",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"name\": \"name\",\n  \"socialAccounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ],\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "5c4ac63e-b253-49e9-a570-9d5886a3e8be",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "6a08994c-a6cd-4241-b2af-bb61dc947f42",
+      "name": "Get a client profile - default",
+      "request": {
+        "urlPathTemplate": "/v0/profiles/{id}",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"name\": \"name\",\n  \"socialAccounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ],\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "6a08994c-a6cd-4241-b2af-bb61dc947f42",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "2c9708e4-19f2-4858-8a6b-977710527cf3",
+      "name": "Delete a client profile - default",
+      "request": {
+        "urlPathTemplate": "/v0/profiles/{id}",
+        "method": "DELETE",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"success\": true\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "2c9708e4-19f2-4858-8a6b-977710527cf3",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "402da4ca-032b-4eef-bcb0-963541e30cd2",
+      "name": "Update a client profile - default",
+      "request": {
+        "urlPathTemplate": "/v0/profiles/{id}",
+        "method": "PATCH",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"name\": \"name\",\n  \"socialAccounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ],\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "402da4ca-032b-4eef-bcb0-963541e30cd2",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "c1d1cf46-4213-43f3-ac33-6ea412f2825e",
+      "name": "Create a client connect link - default",
+      "request": {
+        "urlPathTemplate": "/v0/profiles/{id}/connect-link",
+        "method": "POST",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"url\": \"url\",\n  \"expiresAt\": \"expiresAt\"\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "c1d1cf46-4213-43f3-ac33-6ea412f2825e",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
     }
   ],
   "meta": {
-    "total": 48
+    "total": 54
   }
 }

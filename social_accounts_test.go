@@ -94,6 +94,51 @@ func TestSettersMarkExplicitDeleteSocialAccountsRequest(t *testing.T) {
 
 }
 
+func TestSettersListSocialAccountsRequest(t *testing.T) {
+	t.Run("SetProfileID", func(t *testing.T) {
+		obj := &ListSocialAccountsRequest{}
+		var fernTestValueProfileID *string
+		obj.SetProfileID(fernTestValueProfileID)
+		assert.Equal(t, fernTestValueProfileID, obj.ProfileID)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestSettersMarkExplicitListSocialAccountsRequest(t *testing.T) {
+	t.Run("SetProfileID_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsRequest{}
+		var fernTestValueProfileID *string
+
+		// Act
+		obj.SetProfileID(fernTestValueProfileID)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
 func TestSettersListDiscordChannelsSocialAccountsRequest(t *testing.T) {
 	t.Run("SetID", func(t *testing.T) {
 		obj := &ListDiscordChannelsSocialAccountsRequest{}
@@ -1187,6 +1232,14 @@ func TestSettersListSocialAccountsResponseDataItem(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetProfileID", func(t *testing.T) {
+		obj := &ListSocialAccountsResponseDataItem{}
+		var fernTestValueProfileID *string
+		obj.SetProfileID(fernTestValueProfileID)
+		assert.Equal(t, fernTestValueProfileID, obj.ProfileID)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetCreatedAt", func(t *testing.T) {
 		obj := &ListSocialAccountsResponseDataItem{}
 		var fernTestValueCreatedAt time.Time
@@ -1494,6 +1547,39 @@ func TestGettersListSocialAccountsResponseDataItem(t *testing.T) {
 			}
 		}()
 		_ = obj.GetWebhookSubscriptionFailedAt() // Should return zero value
+	})
+
+	t.Run("GetProfileID", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItem{}
+		var expected *string
+		obj.ProfileID = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetProfileID(), "getter should return the property value")
+	})
+
+	t.Run("GetProfileID_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItem{}
+		obj.ProfileID = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetProfileID(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetProfileID_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListSocialAccountsResponseDataItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetProfileID() // Should return zero value
 	})
 
 	t.Run("GetCreatedAt", func(t *testing.T) {
@@ -1832,6 +1918,37 @@ func TestSettersMarkExplicitListSocialAccountsResponseDataItem(t *testing.T) {
 
 		// Act
 		obj.SetWebhookSubscriptionFailedAt(fernTestValueWebhookSubscriptionFailedAt)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetProfileID_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItem{}
+		var fernTestValueProfileID *string
+
+		// Act
+		obj.SetProfileID(fernTestValueProfileID)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -3736,6 +3853,14 @@ func TestSettersUpdateSocialAccountsRequest(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetProfileID", func(t *testing.T) {
+		obj := &UpdateSocialAccountsRequest{}
+		var fernTestValueProfileID *string
+		obj.SetProfileID(fernTestValueProfileID)
+		assert.Equal(t, fernTestValueProfileID, obj.ProfileID)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 }
 
 func TestSettersMarkExplicitUpdateSocialAccountsRequest(t *testing.T) {
@@ -3778,6 +3903,37 @@ func TestSettersMarkExplicitUpdateSocialAccountsRequest(t *testing.T) {
 
 		// Act
 		obj.SetStatus(fernTestValueStatus)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetProfileID_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &UpdateSocialAccountsRequest{}
+		var fernTestValueProfileID *string
+
+		// Act
+		obj.SetProfileID(fernTestValueProfileID)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -4522,6 +4678,7 @@ func TestRequiredNullableRoundTripListSocialAccountsResponseDataItem(t *testing.
 		"profileImageUrl",
 		"analyticsDisabledAt",
 		"webhookSubscriptionFailedAt",
+		"profileId",
 	}
 	marshalToMap := func(t *testing.T, obj *ListSocialAccountsResponseDataItem) map[string]json.RawMessage {
 		data, err := json.Marshal(obj)
@@ -4534,7 +4691,7 @@ func TestRequiredNullableRoundTripListSocialAccountsResponseDataItem(t *testing.
 	t.Run("NullPreserved", func(t *testing.T) {
 		t.Parallel()
 		var obj ListSocialAccountsResponseDataItem
-		require.NoError(t, json.Unmarshal([]byte(`{"disconnectedReason":null,"username":null,"displayName":null,"profileImageUrl":null,"analyticsDisabledAt":null,"webhookSubscriptionFailedAt":null}`), &obj))
+		require.NoError(t, json.Unmarshal([]byte(`{"disconnectedReason":null,"username":null,"displayName":null,"profileImageUrl":null,"analyticsDisabledAt":null,"webhookSubscriptionFailedAt":null,"profileId":null}`), &obj))
 		result := marshalToMap(t, &obj)
 		for _, key := range requiredNullableKeys {
 			value, ok := result[key]

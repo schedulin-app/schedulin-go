@@ -88,8 +88,10 @@ func TestSocialAccountsListWithWireMock(
 		option.WithBaseURL(WireMockBaseURL),
 		option.WithAPIKey("test-value"),
 	)
+	request := &schedulin.ListSocialAccountsRequest{}
 	_, invocationErr := client.SocialAccounts.List(
 		context.TODO(),
+		request,
 		option.WithHTTPHeader(
 			http.Header{"X-Test-Id": []string{"TestSocialAccountsListWithWireMock"}},
 		),

@@ -68,6 +68,33 @@ func (d *DeleteSocialAccountsRequest) MarshalJSON() ([]byte, error) {
 }
 
 var (
+	listSocialAccountsRequestFieldProfileID = big.NewInt(1 << 0)
+)
+
+type ListSocialAccountsRequest struct {
+	ProfileID *string `json:"-" url:"profileId,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (l *ListSocialAccountsRequest) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetProfileID sets the ProfileID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSocialAccountsRequest) SetProfileID(profileID *string) {
+	l.ProfileID = profileID
+	l.require(listSocialAccountsRequestFieldProfileID)
+}
+
+var (
 	listDiscordChannelsSocialAccountsRequestFieldID = big.NewInt(1 << 0)
 )
 
@@ -842,8 +869,9 @@ var (
 	listSocialAccountsResponseDataItemFieldRefreshTokenValid           = big.NewInt(1 << 7)
 	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 8)
 	listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 9)
-	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 10)
-	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 11)
+	listSocialAccountsResponseDataItemFieldProfileID                   = big.NewInt(1 << 10)
+	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 11)
+	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 12)
 )
 
 // listSocialAccountsResponseDataItemNullableFields maps the wire names of ListSocialAccountsResponseDataItem's nullable fields (required or optional) to their field bits.
@@ -854,6 +882,7 @@ var listSocialAccountsResponseDataItemNullableFields = map[string]*big.Int{
 	"profileImageUrl":             listSocialAccountsResponseDataItemFieldProfileImageURL,
 	"analyticsDisabledAt":         listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt,
 	"webhookSubscriptionFailedAt": listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt,
+	"profileId":                   listSocialAccountsResponseDataItemFieldProfileID,
 }
 
 type ListSocialAccountsResponseDataItem struct {
@@ -867,6 +896,7 @@ type ListSocialAccountsResponseDataItem struct {
 	RefreshTokenValid           bool                                       `json:"refreshTokenValid" url:"refreshTokenValid"`
 	AnalyticsDisabledAt         *time.Time                                 `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
 	WebhookSubscriptionFailedAt *time.Time                                 `json:"webhookSubscriptionFailedAt,omitempty" url:"webhookSubscriptionFailedAt,omitempty"`
+	ProfileID                   *string                                    `json:"profileId,omitempty" url:"profileId,omitempty"`
 	CreatedAt                   time.Time                                  `json:"createdAt" url:"createdAt"`
 	UpdatedAt                   time.Time                                  `json:"updatedAt" url:"updatedAt"`
 
@@ -945,6 +975,13 @@ func (l *ListSocialAccountsResponseDataItem) GetWebhookSubscriptionFailedAt() *t
 		return nil
 	}
 	return l.WebhookSubscriptionFailedAt
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetProfileID() *string {
+	if l == nil {
+		return nil
+	}
+	return l.ProfileID
 }
 
 func (l *ListSocialAccountsResponseDataItem) GetCreatedAt() time.Time {
@@ -1045,6 +1082,13 @@ func (l *ListSocialAccountsResponseDataItem) SetAnalyticsDisabledAt(analyticsDis
 func (l *ListSocialAccountsResponseDataItem) SetWebhookSubscriptionFailedAt(webhookSubscriptionFailedAt *time.Time) {
 	l.WebhookSubscriptionFailedAt = webhookSubscriptionFailedAt
 	l.require(listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt)
+}
+
+// SetProfileID sets the ProfileID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSocialAccountsResponseDataItem) SetProfileID(profileID *string) {
+	l.ProfileID = profileID
+	l.require(listSocialAccountsResponseDataItemFieldProfileID)
 }
 
 // SetCreatedAt sets the CreatedAt field and marks it as non-optional;
@@ -2576,13 +2620,16 @@ func (u *UpdateTimezoneSocialAccountsResponse) String() string {
 }
 
 var (
-	updateSocialAccountsRequestFieldID     = big.NewInt(1 << 0)
-	updateSocialAccountsRequestFieldStatus = big.NewInt(1 << 1)
+	updateSocialAccountsRequestFieldID        = big.NewInt(1 << 0)
+	updateSocialAccountsRequestFieldStatus    = big.NewInt(1 << 1)
+	updateSocialAccountsRequestFieldProfileID = big.NewInt(1 << 2)
 )
 
 type UpdateSocialAccountsRequest struct {
 	ID     string                             `json:"-" url:"-"`
 	Status *UpdateSocialAccountsRequestStatus `json:"status,omitempty" url:"-"`
+	// Move the account into a client profile (profile id or externalId), or null to remove it from its profile. Pro plan.
+	ProfileID *string `json:"profileId,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -2609,6 +2656,13 @@ func (u *UpdateSocialAccountsRequest) SetID(id string) {
 func (u *UpdateSocialAccountsRequest) SetStatus(status *UpdateSocialAccountsRequestStatus) {
 	u.Status = status
 	u.require(updateSocialAccountsRequestFieldStatus)
+}
+
+// SetProfileID sets the ProfileID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdateSocialAccountsRequest) SetProfileID(profileID *string) {
+	u.ProfileID = profileID
+	u.require(updateSocialAccountsRequestFieldProfileID)
 }
 
 func (u *UpdateSocialAccountsRequest) UnmarshalJSON(data []byte) error {

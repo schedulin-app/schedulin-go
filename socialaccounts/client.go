@@ -38,15 +38,19 @@ func NewClient(options *core.RequestOptions) *Client {
 //
 // Example:
 //
+//	request := &schedulin.ListSocialAccountsRequest{}
 //	client.SocialAccounts.List(
 //	    context.TODO(),
+//	    request,
 //	)
 func (c *Client) List(
 	ctx context.Context,
+	request *schedulin.ListSocialAccountsRequest,
 	opts ...option.RequestOption,
 ) (*schedulin.ListSocialAccountsResponse, error) {
 	response, err := c.WithRawResponse.List(
 		ctx,
+		request,
 		opts...,
 	)
 	if err != nil {
