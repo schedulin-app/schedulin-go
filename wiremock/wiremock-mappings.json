@@ -1937,6 +1937,141 @@
       }
     },
     {
+      "id": "67a28ce4-5513-458e-98d3-9dc89d7d9bfa",
+      "name": "List ideas - default",
+      "request": {
+        "urlPathTemplate": "/v0/ideas",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"columns\": [\n    {\n      \"id\": \"id\",\n      \"title\": \"title\",\n      \"order\": 1,\n      \"isDone\": true\n    }\n  ],\n  \"ideas\": [\n    {\n      \"id\": \"id\",\n      \"title\": \"title\",\n      \"description\": \"description\",\n      \"columnId\": \"columnId\",\n      \"order\": 1,\n      \"completedAt\": \"2024-01-15T09:30:00Z\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "67a28ce4-5513-458e-98d3-9dc89d7d9bfa",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      },
+      "postServeActions": []
+    },
+    {
+      "id": "213d843b-1073-46ae-966c-5f7d25fc2b9c",
+      "name": "Create an idea - default",
+      "request": {
+        "urlPathTemplate": "/v0/ideas",
+        "method": "POST",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"id\": \"id\",\n  \"title\": \"title\",\n  \"description\": \"description\",\n  \"columnId\": \"columnId\",\n  \"order\": 1,\n  \"completedAt\": \"2024-01-15T09:30:00Z\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "213d843b-1073-46ae-966c-5f7d25fc2b9c",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "a931008c-e5e1-4f47-a674-b6466a961235",
+      "name": "Delete an idea - default",
+      "request": {
+        "urlPathTemplate": "/v0/ideas/{id}",
+        "method": "DELETE",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"success\": true\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "a931008c-e5e1-4f47-a674-b6466a961235",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "367d0424-2cca-4934-92df-8bb8bed869e8",
+      "name": "Update an idea - default",
+      "request": {
+        "urlPathTemplate": "/v0/ideas/{id}",
+        "method": "PATCH",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"id\": \"id\",\n  \"title\": \"title\",\n  \"description\": \"description\",\n  \"columnId\": \"columnId\",\n  \"order\": 1,\n  \"completedAt\": \"2024-01-15T09:30:00Z\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "367d0424-2cca-4934-92df-8bb8bed869e8",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
       "id": "b9cc356d-af8b-4cdc-841c-4e7f74f86baf",
       "name": "Get the workspace - default",
       "request": {
@@ -2090,6 +2225,6 @@
     }
   ],
   "meta": {
-    "total": 60
+    "total": 64
   }
 }

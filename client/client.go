@@ -6,6 +6,7 @@ import (
 	ai "github.com/schedulin-app/schedulin-go/ai"
 	analytics "github.com/schedulin-app/schedulin-go/analytics"
 	core "github.com/schedulin-app/schedulin-go/core"
+	ideas "github.com/schedulin-app/schedulin-go/ideas"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	media "github.com/schedulin-app/schedulin-go/media"
 	option "github.com/schedulin-app/schedulin-go/option"
@@ -27,6 +28,7 @@ type Client struct {
 	Ai             *ai.Client
 	Webhooks       *webhooks.Client
 	Profiles       *profiles.Client
+	Ideas          *ideas.Client
 	Workspace      *workspace.Client
 	Analytics      *analytics.Client
 
@@ -46,6 +48,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 		Ai:             ai.NewClient(options),
 		Webhooks:       webhooks.NewClient(options),
 		Profiles:       profiles.NewClient(options),
+		Ideas:          ideas.NewClient(options),
 		Workspace:      workspace.NewClient(options),
 		Analytics:      analytics.NewClient(options),
 		options:        options,
