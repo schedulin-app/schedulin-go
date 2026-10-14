@@ -1863,9 +1863,129 @@
           }
         }
       }
+    },
+    {
+      "id": "368ef21d-a0c5-4e69-b539-696856f3a3bc",
+      "name": "Get workspace analytics totals - default",
+      "request": {
+        "urlPathTemplate": "/v0/analytics/overview",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "queryParameters": {
+          "from": {
+            "equalTo": "from"
+          },
+          "to": {
+            "equalTo": "to"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"totals\": {\n    \"impressions\": 1,\n    \"reach\": 1,\n    \"likes\": 1,\n    \"comments\": 1,\n    \"shares\": 1,\n    \"saves\": 1,\n    \"videoViews\": 1,\n    \"clicks\": 1,\n    \"linkClicks\": 1,\n    \"engagement\": 1,\n    \"audience\": 1,\n    \"postsPublished\": 1\n  },\n  \"trend\": {\n    \"impressions\": 1.1,\n    \"engagement\": 1.1,\n    \"likes\": 1.1,\n    \"audience\": 1.1\n  }\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "368ef21d-a0c5-4e69-b539-696856f3a3bc",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      },
+      "postServeActions": []
+    },
+    {
+      "id": "8ac9f88c-d23a-475e-904b-a51280ccd9df",
+      "name": "Get analytics totals by platform - default",
+      "request": {
+        "urlPathTemplate": "/v0/analytics/platforms",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "queryParameters": {
+          "from": {
+            "equalTo": "from"
+          },
+          "to": {
+            "equalTo": "to"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"platforms\": [\n    {\n      \"platform\": \"platform\",\n      \"impressions\": 1,\n      \"likes\": 1,\n      \"comments\": 1,\n      \"shares\": 1,\n      \"engagement\": 1\n    }\n  ]\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "8ac9f88c-d23a-475e-904b-a51280ccd9df",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      },
+      "postServeActions": []
+    },
+    {
+      "id": "1f6b4382-6dae-43ad-87ae-23a1d75fdc63",
+      "name": "List top-performing posts - default",
+      "request": {
+        "urlPathTemplate": "/v0/analytics/top-posts",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "queryParameters": {
+          "from": {
+            "equalTo": "from"
+          },
+          "to": {
+            "equalTo": "to"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"posts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"platform\",\n      \"caption\": \"caption\",\n      \"url\": \"url\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"value\": 1\n    }\n  ]\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "1f6b4382-6dae-43ad-87ae-23a1d75fdc63",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      },
+      "postServeActions": []
     }
   ],
   "meta": {
-    "total": 54
+    "total": 57
   }
 }

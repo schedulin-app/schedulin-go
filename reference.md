@@ -3784,3 +3784,275 @@ client.Profiles.CreateConnectLink(
 </dl>
 </details>
 
+## Analytics
+<details><summary><code>client.Analytics.Overview() -> *schedulin.OverviewAnalyticsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Aggregate engagement totals (impressions, reach, likes, comments, shares, saves, video views, clicks, engagement), follower audience and posts published for the window, plus percent change vs the previous window of the same length. Covers posts published from the workspace's connected accounts. Filter with `platforms` and `socialAccountIds`; `from`/`to` may span up to 400 days. Metrics are collected periodically per post, so the most recent hours may still be filling in.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.OverviewAnalyticsRequest{
+    From: "from",
+    To: "to",
+}
+client.Analytics.Overview(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**from:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**to:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**platforms:** `*schedulin.OverviewAnalyticsRequestPlatformsItem` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**socialAccountIDs:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Analytics.PlatformBreakdown() -> *schedulin.PlatformBreakdownAnalyticsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Engagement totals for the window grouped by platform, highest engagement first. Covers posts published from the workspace's connected accounts. Filter with `platforms` and `socialAccountIds`; `from`/`to` may span up to 400 days. Metrics are collected periodically per post, so the most recent hours may still be filling in.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.PlatformBreakdownAnalyticsRequest{
+    From: "from",
+    To: "to",
+}
+client.Analytics.PlatformBreakdown(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**from:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**to:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**platforms:** `*schedulin.PlatformBreakdownAnalyticsRequestPlatformsItem` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**socialAccountIDs:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Analytics.TopPosts() -> *schedulin.TopPostsAnalyticsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Posts ranked by `metric` (default `engagementTotal`) accumulated within the window. Covers posts published from the workspace's connected accounts. Filter with `platforms` and `socialAccountIds`; `from`/`to` may span up to 400 days. Metrics are collected periodically per post, so the most recent hours may still be filling in.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.TopPostsAnalyticsRequest{
+    From: "from",
+    To: "to",
+}
+client.Analytics.TopPosts(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**from:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**to:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**platforms:** `*schedulin.TopPostsAnalyticsRequestPlatformsItem` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**socialAccountIDs:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**metric:** `*schedulin.TopPostsAnalyticsRequestMetric` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `*int` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+

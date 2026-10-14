@@ -4,6 +4,7 @@ package client
 
 import (
 	ai "github.com/schedulin-app/schedulin-go/ai"
+	analytics "github.com/schedulin-app/schedulin-go/analytics"
 	core "github.com/schedulin-app/schedulin-go/core"
 	internal "github.com/schedulin-app/schedulin-go/internal"
 	media "github.com/schedulin-app/schedulin-go/media"
@@ -25,6 +26,7 @@ type Client struct {
 	Ai             *ai.Client
 	Webhooks       *webhooks.Client
 	Profiles       *profiles.Client
+	Analytics      *analytics.Client
 
 	options *core.RequestOptions
 	baseURL string
@@ -42,6 +44,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 		Ai:             ai.NewClient(options),
 		Webhooks:       webhooks.NewClient(options),
 		Profiles:       profiles.NewClient(options),
+		Analytics:      analytics.NewClient(options),
 		options:        options,
 		baseURL:        options.BaseURL,
 		caller: internal.NewCaller(
