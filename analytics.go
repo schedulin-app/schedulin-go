@@ -246,7 +246,7 @@ var (
 
 type OverviewAnalyticsResponse struct {
 	Totals *OverviewAnalyticsResponseTotals `json:"totals" url:"totals"`
-	// Percent change vs the previous window of the same length; null when the previous window was zero
+	// Percent change vs the previous window of the same length: 0 when both windows are zero, null when only the previous window is zero
 	Trend *OverviewAnalyticsResponseTrend `json:"trend" url:"trend"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
@@ -620,7 +620,7 @@ var overviewAnalyticsResponseTrendNullableFields = map[string]*big.Int{
 	"audience":    overviewAnalyticsResponseTrendFieldAudience,
 }
 
-// Percent change vs the previous window of the same length; null when the previous window was zero
+// Percent change vs the previous window of the same length: 0 when both windows are zero, null when only the previous window is zero
 type OverviewAnalyticsResponseTrend struct {
 	Impressions *float64 `json:"impressions,omitempty" url:"impressions,omitempty"`
 	Engagement  *float64 `json:"engagement,omitempty" url:"engagement,omitempty"`
