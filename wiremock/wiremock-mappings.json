@@ -709,6 +709,78 @@
       }
     },
     {
+      "id": "1a340d6c-e69a-4289-b95d-7c510583fe7f",
+      "name": "Get queue schedule - default",
+      "request": {
+        "urlPathTemplate": "/v0/social-accounts/{id}/queue-schedule",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"timezone\": \"timezone\",\n  \"times\": [\n    {\n      \"weekday\": 1,\n      \"time\": \"time\",\n      \"capacity\": 1,\n      \"label\": \"label\"\n    }\n  ]\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "1a340d6c-e69a-4289-b95d-7c510583fe7f",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "8f2c1f4f-9b8c-4e48-bd05-0e0b3e119cb5",
+      "name": "Replace queue schedule - default",
+      "request": {
+        "urlPathTemplate": "/v0/social-accounts/{id}/queue-schedule",
+        "method": "PUT",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "pathParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"timezone\": \"timezone\",\n  \"times\": [\n    {\n      \"weekday\": 1,\n      \"time\": \"time\",\n      \"capacity\": 1,\n      \"label\": \"label\"\n    }\n  ]\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "8f2c1f4f-9b8c-4e48-bd05-0e0b3e119cb5",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
       "id": "97ec5e07-504b-4859-a62f-f6831cf8ce49",
       "name": "List Pinterest boards - default",
       "request": {
@@ -1986,6 +2058,6 @@
     }
   ],
   "meta": {
-    "total": 57
+    "total": 59
   }
 }

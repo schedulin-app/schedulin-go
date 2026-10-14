@@ -311,6 +311,64 @@ func TestSocialAccountsNextSlotsWithWireMock(
 	VerifyRequestCount(t, "TestSocialAccountsNextSlotsWithWireMock", "GET", "/v0/social-accounts/id/next-slots", nil, 1)
 }
 
+func TestSocialAccountsGetQueueScheduleWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulin.GetQueueScheduleSocialAccountsRequest{
+		ID: "id",
+	}
+	_, invocationErr := client.SocialAccounts.GetQueueSchedule(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestSocialAccountsGetQueueScheduleWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestSocialAccountsGetQueueScheduleWithWireMock", "GET", "/v0/social-accounts/id/queue-schedule", nil, 1)
+}
+
+func TestSocialAccountsReplaceQueueScheduleWithWireMock(
+	t *testing.T,
+) {
+	WireMockBaseURL := os.Getenv("WIREMOCK_URL")
+	if WireMockBaseURL == "" {
+		WireMockBaseURL = "http://localhost:8080"
+	}
+	client := client.NewClient(
+		option.WithBaseURL(WireMockBaseURL),
+		option.WithAPIKey("test-value"),
+	)
+	request := &schedulin.ReplaceQueueScheduleSocialAccountsRequest{
+		ID: "id",
+		Times: []*schedulin.ReplaceQueueScheduleSocialAccountsRequestTimesItem{
+			&schedulin.ReplaceQueueScheduleSocialAccountsRequestTimesItem{
+				Weekday: 1,
+				Time:    "time",
+			},
+		},
+	}
+	_, invocationErr := client.SocialAccounts.ReplaceQueueSchedule(
+		context.TODO(),
+		request,
+		option.WithHTTPHeader(
+			http.Header{"X-Test-Id": []string{"TestSocialAccountsReplaceQueueScheduleWithWireMock"}},
+		),
+	)
+
+	require.NoError(t, invocationErr, "Client method call should succeed")
+	VerifyRequestCount(t, "TestSocialAccountsReplaceQueueScheduleWithWireMock", "PUT", "/v0/social-accounts/id/queue-schedule", nil, 1)
+}
+
 func TestSocialAccountsPinterestBoardsWithWireMock(
 	t *testing.T,
 ) {

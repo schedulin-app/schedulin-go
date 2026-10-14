@@ -277,6 +277,66 @@ func (c *Client) NextSlots(
 	return response.Body, nil
 }
 
+// Return the weekly posting schedule that `action: "queue"` fills: each slot's weekday (0 = Sunday), wall-clock `time` (HH:MM) and `capacity`, interpreted in the account's `timezone`. Empty `times` means the account has no queue configured.
+//
+// Example:
+//
+//	request := &schedulin.GetQueueScheduleSocialAccountsRequest{
+//	    ID: "id",
+//	}
+//	client.SocialAccounts.GetQueueSchedule(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) GetQueueSchedule(
+	ctx context.Context,
+	request *schedulin.GetQueueScheduleSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*schedulin.GetQueueScheduleSocialAccountsResponse, error) {
+	response, err := c.WithRawResponse.GetQueueSchedule(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
+// Replace the account's whole weekly posting schedule with `times` (send an empty array to clear it). Times are wall-clock HH:MM in the account's timezone — change that with `PUT /v0/social-accounts/{id}/timezone`. Posts already scheduled keep their times; only future `action: "queue"` placements use the new schedule. Returns the saved schedule.
+//
+// Example:
+//
+//	request := &schedulin.ReplaceQueueScheduleSocialAccountsRequest{
+//	    ID: "id",
+//	    Times: []*schedulin.ReplaceQueueScheduleSocialAccountsRequestTimesItem{
+//	        &schedulin.ReplaceQueueScheduleSocialAccountsRequestTimesItem{
+//	            Weekday: 1,
+//	            Time: "time",
+//	        },
+//	    },
+//	}
+//	client.SocialAccounts.ReplaceQueueSchedule(
+//	    context.TODO(),
+//	    request,
+//	)
+func (c *Client) ReplaceQueueSchedule(
+	ctx context.Context,
+	request *schedulin.ReplaceQueueScheduleSocialAccountsRequest,
+	opts ...option.RequestOption,
+) (*schedulin.ReplaceQueueScheduleSocialAccountsResponse, error) {
+	response, err := c.WithRawResponse.ReplaceQueueSchedule(
+		ctx,
+		request,
+		opts...,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return response.Body, nil
+}
+
 // List the boards for a connected Pinterest account. Use a board id in `platformConfiguration.board_ids` when creating a Pinterest post.
 //
 // Example:

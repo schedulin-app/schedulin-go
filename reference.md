@@ -1497,6 +1497,140 @@ client.SocialAccounts.NextSlots(
 </dl>
 </details>
 
+<details><summary><code>client.SocialAccounts.GetQueueSchedule(ID) -> *schedulin.GetQueueScheduleSocialAccountsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Return the weekly posting schedule that `action: "queue"` fills: each slot's weekday (0 = Sunday), wall-clock `time` (HH:MM) and `capacity`, interpreted in the account's `timezone`. Empty `times` means the account has no queue configured.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.GetQueueScheduleSocialAccountsRequest{
+    ID: "id",
+}
+client.SocialAccounts.GetQueueSchedule(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.SocialAccounts.ReplaceQueueSchedule(ID, request) -> *schedulin.ReplaceQueueScheduleSocialAccountsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Replace the account's whole weekly posting schedule with `times` (send an empty array to clear it). Times are wall-clock HH:MM in the account's timezone — change that with `PUT /v0/social-accounts/{id}/timezone`. Posts already scheduled keep their times; only future `action: "queue"` placements use the new schedule. Returns the saved schedule.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.ReplaceQueueScheduleSocialAccountsRequest{
+    ID: "id",
+    Times: []*schedulin.ReplaceQueueScheduleSocialAccountsRequestTimesItem{
+        &schedulin.ReplaceQueueScheduleSocialAccountsRequestTimesItem{
+            Weekday: 1,
+            Time: "time",
+        },
+    },
+}
+client.SocialAccounts.ReplaceQueueSchedule(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**times:** `[]*schedulin.ReplaceQueueScheduleSocialAccountsRequestTimesItem` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.SocialAccounts.PinterestBoards(ID) -> *schedulin.PinterestBoardsSocialAccountsResponse</code></summary>
 <dl>
 <dd>

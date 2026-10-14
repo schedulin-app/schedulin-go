@@ -68,6 +68,33 @@ func (d *DeleteSocialAccountsRequest) MarshalJSON() ([]byte, error) {
 }
 
 var (
+	getQueueScheduleSocialAccountsRequestFieldID = big.NewInt(1 << 0)
+)
+
+type GetQueueScheduleSocialAccountsRequest struct {
+	ID string `json:"-" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (g *GetQueueScheduleSocialAccountsRequest) require(field *big.Int) {
+	next := new(big.Int)
+	if g.explicitFields != nil {
+		next.Set(g.explicitFields)
+	}
+	next.Or(next, field)
+	g.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GetQueueScheduleSocialAccountsRequest) SetID(id string) {
+	g.ID = id
+	g.require(getQueueScheduleSocialAccountsRequestFieldID)
+}
+
+var (
 	listSocialAccountsRequestFieldProfileID = big.NewInt(1 << 0)
 )
 
@@ -284,6 +311,63 @@ func (p *PinterestBoardsSocialAccountsRequest) SetID(id string) {
 }
 
 var (
+	replaceQueueScheduleSocialAccountsRequestFieldID    = big.NewInt(1 << 0)
+	replaceQueueScheduleSocialAccountsRequestFieldTimes = big.NewInt(1 << 1)
+)
+
+type ReplaceQueueScheduleSocialAccountsRequest struct {
+	ID    string                                                `json:"-" url:"-"`
+	Times []*ReplaceQueueScheduleSocialAccountsRequestTimesItem `json:"times" url:"-"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequest) require(field *big.Int) {
+	next := new(big.Int)
+	if r.explicitFields != nil {
+		next.Set(r.explicitFields)
+	}
+	next.Or(next, field)
+	r.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsRequest) SetID(id string) {
+	r.ID = id
+	r.require(replaceQueueScheduleSocialAccountsRequestFieldID)
+}
+
+// SetTimes sets the Times field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsRequest) SetTimes(times []*ReplaceQueueScheduleSocialAccountsRequestTimesItem) {
+	r.Times = times
+	r.require(replaceQueueScheduleSocialAccountsRequestFieldTimes)
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequest) UnmarshalJSON(data []byte) error {
+	type unmarshaler ReplaceQueueScheduleSocialAccountsRequest
+	var body unmarshaler
+	if err := json.Unmarshal(data, &body); err != nil {
+		return err
+	}
+	*r = ReplaceQueueScheduleSocialAccountsRequest(body)
+	return nil
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequest) MarshalJSON() ([]byte, error) {
+	type embed ReplaceQueueScheduleSocialAccountsRequest
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*r),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+var (
 	tiktokCreatorInfoSocialAccountsRequestFieldID = big.NewInt(1 << 0)
 )
 
@@ -394,6 +478,257 @@ func (d *DeleteSocialAccountsResponse) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", d)
+}
+
+var (
+	getQueueScheduleSocialAccountsResponseFieldTimezone = big.NewInt(1 << 0)
+	getQueueScheduleSocialAccountsResponseFieldTimes    = big.NewInt(1 << 1)
+)
+
+type GetQueueScheduleSocialAccountsResponse struct {
+	Timezone string                                             `json:"timezone" url:"timezone"`
+	Times    []*GetQueueScheduleSocialAccountsResponseTimesItem `json:"times" url:"times"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (g *GetQueueScheduleSocialAccountsResponse) GetTimezone() string {
+	if g == nil {
+		return ""
+	}
+	return g.Timezone
+}
+
+func (g *GetQueueScheduleSocialAccountsResponse) GetTimes() []*GetQueueScheduleSocialAccountsResponseTimesItem {
+	if g == nil {
+		return nil
+	}
+	return g.Times
+}
+
+func (g *GetQueueScheduleSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
+	if g == nil {
+		return nil
+	}
+	return g.extraProperties
+}
+
+func (g *GetQueueScheduleSocialAccountsResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if g.explicitFields != nil {
+		next.Set(g.explicitFields)
+	}
+	next.Or(next, field)
+	g.explicitFields = next
+}
+
+// SetTimezone sets the Timezone field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GetQueueScheduleSocialAccountsResponse) SetTimezone(timezone string) {
+	g.Timezone = timezone
+	g.require(getQueueScheduleSocialAccountsResponseFieldTimezone)
+}
+
+// SetTimes sets the Times field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GetQueueScheduleSocialAccountsResponse) SetTimes(times []*GetQueueScheduleSocialAccountsResponseTimesItem) {
+	g.Times = times
+	g.require(getQueueScheduleSocialAccountsResponseFieldTimes)
+}
+
+func (g *GetQueueScheduleSocialAccountsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler GetQueueScheduleSocialAccountsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GetQueueScheduleSocialAccountsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+	g.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GetQueueScheduleSocialAccountsResponse) MarshalJSON() ([]byte, error) {
+	type embed GetQueueScheduleSocialAccountsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*g),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (g *GetQueueScheduleSocialAccountsResponse) String() string {
+	if g == nil {
+		return "<nil>"
+	}
+	if len(g.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
+}
+
+var (
+	getQueueScheduleSocialAccountsResponseTimesItemFieldWeekday  = big.NewInt(1 << 0)
+	getQueueScheduleSocialAccountsResponseTimesItemFieldTime     = big.NewInt(1 << 1)
+	getQueueScheduleSocialAccountsResponseTimesItemFieldCapacity = big.NewInt(1 << 2)
+	getQueueScheduleSocialAccountsResponseTimesItemFieldLabel    = big.NewInt(1 << 3)
+)
+
+// getQueueScheduleSocialAccountsResponseTimesItemNullableFields maps the wire names of GetQueueScheduleSocialAccountsResponseTimesItem's nullable fields (required or optional) to their field bits.
+var getQueueScheduleSocialAccountsResponseTimesItemNullableFields = map[string]*big.Int{
+	"label": getQueueScheduleSocialAccountsResponseTimesItemFieldLabel,
+}
+
+type GetQueueScheduleSocialAccountsResponseTimesItem struct {
+	// Day of week in the account's timezone, 0 = Sunday … 6 = Saturday
+	Weekday int `json:"weekday" url:"weekday"`
+	// Wall-clock time in the account's timezone, 24h HH:MM
+	Time string `json:"time" url:"time"`
+	// How many posts this slot can hold (1-10, default 1)
+	Capacity *int    `json:"capacity,omitempty" url:"capacity,omitempty"`
+	Label    *string `json:"label,omitempty" url:"label,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) GetWeekday() int {
+	if g == nil {
+		return 0
+	}
+	return g.Weekday
+}
+
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) GetTime() string {
+	if g == nil {
+		return ""
+	}
+	return g.Time
+}
+
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) GetCapacity() *int {
+	if g == nil {
+		return nil
+	}
+	return g.Capacity
+}
+
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) GetLabel() *string {
+	if g == nil {
+		return nil
+	}
+	return g.Label
+}
+
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) GetExtraProperties() map[string]interface{} {
+	if g == nil {
+		return nil
+	}
+	return g.extraProperties
+}
+
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) require(field *big.Int) {
+	next := new(big.Int)
+	if g.explicitFields != nil {
+		next.Set(g.explicitFields)
+	}
+	next.Or(next, field)
+	g.explicitFields = next
+}
+
+// SetWeekday sets the Weekday field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) SetWeekday(weekday int) {
+	g.Weekday = weekday
+	g.require(getQueueScheduleSocialAccountsResponseTimesItemFieldWeekday)
+}
+
+// SetTime sets the Time field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) SetTime(time string) {
+	g.Time = time
+	g.require(getQueueScheduleSocialAccountsResponseTimesItemFieldTime)
+}
+
+// SetCapacity sets the Capacity field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) SetCapacity(capacity *int) {
+	g.Capacity = capacity
+	g.require(getQueueScheduleSocialAccountsResponseTimesItemFieldCapacity)
+}
+
+// SetLabel sets the Label field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) SetLabel(label *string) {
+	g.Label = label
+	g.require(getQueueScheduleSocialAccountsResponseTimesItemFieldLabel)
+}
+
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler GetQueueScheduleSocialAccountsResponseTimesItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*g = GetQueueScheduleSocialAccountsResponseTimesItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *g)
+	if err != nil {
+		return err
+	}
+	g.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, getQueueScheduleSocialAccountsResponseTimesItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		g.require(presentFields)
+	}
+	g.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) MarshalJSON() ([]byte, error) {
+	type embed GetQueueScheduleSocialAccountsResponseTimesItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*g),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, g.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (g *GetQueueScheduleSocialAccountsResponseTimesItem) String() string {
+	if g == nil {
+		return "<nil>"
+	}
+	if len(g.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(g.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(g); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", g)
 }
 
 var (
@@ -2005,6 +2340,406 @@ func NewPinterestBoardsSocialAccountsResponseDataItemPrivacyFromString(s string)
 
 func (p PinterestBoardsSocialAccountsResponseDataItemPrivacy) Ptr() *PinterestBoardsSocialAccountsResponseDataItemPrivacy {
 	return &p
+}
+
+var (
+	replaceQueueScheduleSocialAccountsRequestTimesItemFieldWeekday  = big.NewInt(1 << 0)
+	replaceQueueScheduleSocialAccountsRequestTimesItemFieldTime     = big.NewInt(1 << 1)
+	replaceQueueScheduleSocialAccountsRequestTimesItemFieldCapacity = big.NewInt(1 << 2)
+	replaceQueueScheduleSocialAccountsRequestTimesItemFieldLabel    = big.NewInt(1 << 3)
+)
+
+// replaceQueueScheduleSocialAccountsRequestTimesItemNullableFields maps the wire names of ReplaceQueueScheduleSocialAccountsRequestTimesItem's nullable fields (required or optional) to their field bits.
+var replaceQueueScheduleSocialAccountsRequestTimesItemNullableFields = map[string]*big.Int{
+	"label": replaceQueueScheduleSocialAccountsRequestTimesItemFieldLabel,
+}
+
+type ReplaceQueueScheduleSocialAccountsRequestTimesItem struct {
+	// Day of week in the account's timezone, 0 = Sunday … 6 = Saturday
+	Weekday int `json:"weekday" url:"weekday"`
+	// Wall-clock time in the account's timezone, 24h HH:MM
+	Time string `json:"time" url:"time"`
+	// How many posts this slot can hold (1-10, default 1)
+	Capacity *int    `json:"capacity,omitempty" url:"capacity,omitempty"`
+	Label    *string `json:"label,omitempty" url:"label,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) GetWeekday() int {
+	if r == nil {
+		return 0
+	}
+	return r.Weekday
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) GetTime() string {
+	if r == nil {
+		return ""
+	}
+	return r.Time
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) GetCapacity() *int {
+	if r == nil {
+		return nil
+	}
+	return r.Capacity
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) GetLabel() *string {
+	if r == nil {
+		return nil
+	}
+	return r.Label
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) GetExtraProperties() map[string]interface{} {
+	if r == nil {
+		return nil
+	}
+	return r.extraProperties
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) require(field *big.Int) {
+	next := new(big.Int)
+	if r.explicitFields != nil {
+		next.Set(r.explicitFields)
+	}
+	next.Or(next, field)
+	r.explicitFields = next
+}
+
+// SetWeekday sets the Weekday field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) SetWeekday(weekday int) {
+	r.Weekday = weekday
+	r.require(replaceQueueScheduleSocialAccountsRequestTimesItemFieldWeekday)
+}
+
+// SetTime sets the Time field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) SetTime(time string) {
+	r.Time = time
+	r.require(replaceQueueScheduleSocialAccountsRequestTimesItemFieldTime)
+}
+
+// SetCapacity sets the Capacity field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) SetCapacity(capacity *int) {
+	r.Capacity = capacity
+	r.require(replaceQueueScheduleSocialAccountsRequestTimesItemFieldCapacity)
+}
+
+// SetLabel sets the Label field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) SetLabel(label *string) {
+	r.Label = label
+	r.require(replaceQueueScheduleSocialAccountsRequestTimesItemFieldLabel)
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler ReplaceQueueScheduleSocialAccountsRequestTimesItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ReplaceQueueScheduleSocialAccountsRequestTimesItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, replaceQueueScheduleSocialAccountsRequestTimesItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		r.require(presentFields)
+	}
+	r.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) MarshalJSON() ([]byte, error) {
+	type embed ReplaceQueueScheduleSocialAccountsRequestTimesItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*r),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsRequestTimesItem) String() string {
+	if r == nil {
+		return "<nil>"
+	}
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+var (
+	replaceQueueScheduleSocialAccountsResponseFieldTimezone = big.NewInt(1 << 0)
+	replaceQueueScheduleSocialAccountsResponseFieldTimes    = big.NewInt(1 << 1)
+)
+
+type ReplaceQueueScheduleSocialAccountsResponse struct {
+	Timezone string                                                 `json:"timezone" url:"timezone"`
+	Times    []*ReplaceQueueScheduleSocialAccountsResponseTimesItem `json:"times" url:"times"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponse) GetTimezone() string {
+	if r == nil {
+		return ""
+	}
+	return r.Timezone
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponse) GetTimes() []*ReplaceQueueScheduleSocialAccountsResponseTimesItem {
+	if r == nil {
+		return nil
+	}
+	return r.Times
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponse) GetExtraProperties() map[string]interface{} {
+	if r == nil {
+		return nil
+	}
+	return r.extraProperties
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponse) require(field *big.Int) {
+	next := new(big.Int)
+	if r.explicitFields != nil {
+		next.Set(r.explicitFields)
+	}
+	next.Or(next, field)
+	r.explicitFields = next
+}
+
+// SetTimezone sets the Timezone field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsResponse) SetTimezone(timezone string) {
+	r.Timezone = timezone
+	r.require(replaceQueueScheduleSocialAccountsResponseFieldTimezone)
+}
+
+// SetTimes sets the Times field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsResponse) SetTimes(times []*ReplaceQueueScheduleSocialAccountsResponseTimesItem) {
+	r.Times = times
+	r.require(replaceQueueScheduleSocialAccountsResponseFieldTimes)
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponse) UnmarshalJSON(data []byte) error {
+	type unmarshaler ReplaceQueueScheduleSocialAccountsResponse
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ReplaceQueueScheduleSocialAccountsResponse(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+	r.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponse) MarshalJSON() ([]byte, error) {
+	type embed ReplaceQueueScheduleSocialAccountsResponse
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*r),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponse) String() string {
+	if r == nil {
+		return "<nil>"
+	}
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
+}
+
+var (
+	replaceQueueScheduleSocialAccountsResponseTimesItemFieldWeekday  = big.NewInt(1 << 0)
+	replaceQueueScheduleSocialAccountsResponseTimesItemFieldTime     = big.NewInt(1 << 1)
+	replaceQueueScheduleSocialAccountsResponseTimesItemFieldCapacity = big.NewInt(1 << 2)
+	replaceQueueScheduleSocialAccountsResponseTimesItemFieldLabel    = big.NewInt(1 << 3)
+)
+
+// replaceQueueScheduleSocialAccountsResponseTimesItemNullableFields maps the wire names of ReplaceQueueScheduleSocialAccountsResponseTimesItem's nullable fields (required or optional) to their field bits.
+var replaceQueueScheduleSocialAccountsResponseTimesItemNullableFields = map[string]*big.Int{
+	"label": replaceQueueScheduleSocialAccountsResponseTimesItemFieldLabel,
+}
+
+type ReplaceQueueScheduleSocialAccountsResponseTimesItem struct {
+	// Day of week in the account's timezone, 0 = Sunday … 6 = Saturday
+	Weekday int `json:"weekday" url:"weekday"`
+	// Wall-clock time in the account's timezone, 24h HH:MM
+	Time string `json:"time" url:"time"`
+	// How many posts this slot can hold (1-10, default 1)
+	Capacity *int    `json:"capacity,omitempty" url:"capacity,omitempty"`
+	Label    *string `json:"label,omitempty" url:"label,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) GetWeekday() int {
+	if r == nil {
+		return 0
+	}
+	return r.Weekday
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) GetTime() string {
+	if r == nil {
+		return ""
+	}
+	return r.Time
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) GetCapacity() *int {
+	if r == nil {
+		return nil
+	}
+	return r.Capacity
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) GetLabel() *string {
+	if r == nil {
+		return nil
+	}
+	return r.Label
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) GetExtraProperties() map[string]interface{} {
+	if r == nil {
+		return nil
+	}
+	return r.extraProperties
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) require(field *big.Int) {
+	next := new(big.Int)
+	if r.explicitFields != nil {
+		next.Set(r.explicitFields)
+	}
+	next.Or(next, field)
+	r.explicitFields = next
+}
+
+// SetWeekday sets the Weekday field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) SetWeekday(weekday int) {
+	r.Weekday = weekday
+	r.require(replaceQueueScheduleSocialAccountsResponseTimesItemFieldWeekday)
+}
+
+// SetTime sets the Time field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) SetTime(time string) {
+	r.Time = time
+	r.require(replaceQueueScheduleSocialAccountsResponseTimesItemFieldTime)
+}
+
+// SetCapacity sets the Capacity field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) SetCapacity(capacity *int) {
+	r.Capacity = capacity
+	r.require(replaceQueueScheduleSocialAccountsResponseTimesItemFieldCapacity)
+}
+
+// SetLabel sets the Label field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) SetLabel(label *string) {
+	r.Label = label
+	r.require(replaceQueueScheduleSocialAccountsResponseTimesItemFieldLabel)
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler ReplaceQueueScheduleSocialAccountsResponseTimesItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*r = ReplaceQueueScheduleSocialAccountsResponseTimesItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *r)
+	if err != nil {
+		return err
+	}
+	r.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, replaceQueueScheduleSocialAccountsResponseTimesItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		r.require(presentFields)
+	}
+	r.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) MarshalJSON() ([]byte, error) {
+	type embed ReplaceQueueScheduleSocialAccountsResponseTimesItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*r),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, r.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (r *ReplaceQueueScheduleSocialAccountsResponseTimesItem) String() string {
+	if r == nil {
+		return "<nil>"
+	}
+	if len(r.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(r.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(r); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", r)
 }
 
 var (
