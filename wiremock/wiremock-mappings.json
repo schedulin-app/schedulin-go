@@ -1937,6 +1937,38 @@
       }
     },
     {
+      "id": "b9cc356d-af8b-4cdc-841c-4e7f74f86baf",
+      "name": "Get the workspace - default",
+      "request": {
+        "urlPathTemplate": "/v0/workspace",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"id\": \"id\",\n  \"name\": \"name\",\n  \"slug\": \"slug\",\n  \"logo\": \"logo\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"requireApproval\": true,\n  \"role\": \"role\",\n  \"memberCount\": 1,\n  \"plan\": {\n    \"id\": \"id\",\n    \"name\": \"name\",\n    \"status\": \"status\",\n    \"active\": true\n  },\n  \"limits\": {\n    \"channels\": {\n      \"used\": 1,\n      \"limit\": 1\n    },\n    \"trialPosts\": {\n      \"used\": 1,\n      \"limit\": 1\n    }\n  }\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "b9cc356d-af8b-4cdc-841c-4e7f74f86baf",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      },
+      "postServeActions": []
+    },
+    {
       "id": "368ef21d-a0c5-4e69-b539-696856f3a3bc",
       "name": "Get workspace analytics totals - default",
       "request": {
@@ -2058,6 +2090,6 @@
     }
   ],
   "meta": {
-    "total": 59
+    "total": 60
   }
 }

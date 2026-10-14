@@ -3918,6 +3918,48 @@ client.Profiles.CreateConnectLink(
 </dl>
 </details>
 
+## Workspace
+<details><summary><code>client.Workspace.Retrieve() -> *schedulin.RetrieveWorkspaceResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+The workspace the API key or OAuth token is scoped to: its name, the caller's role, whether posts need approval, the active plan, and usage against plan limits (connected channels, and posts used during a free trial). Check `plan.active` and `limits` before bulk scheduling to avoid `402` responses.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+client.Workspace.Retrieve(
+    context.TODO(),
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Analytics
 <details><summary><code>client.Analytics.Overview() -> *schedulin.OverviewAnalyticsResponse</code></summary>
 <dl>
