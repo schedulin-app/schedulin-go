@@ -423,8 +423,9 @@ var (
 	clientProfileSocialAccountsItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 8)
 	clientProfileSocialAccountsItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 9)
 	clientProfileSocialAccountsItemFieldProfileID                   = big.NewInt(1 << 10)
-	clientProfileSocialAccountsItemFieldCreatedAt                   = big.NewInt(1 << 11)
-	clientProfileSocialAccountsItemFieldUpdatedAt                   = big.NewInt(1 << 12)
+	clientProfileSocialAccountsItemFieldConnectedVia                = big.NewInt(1 << 11)
+	clientProfileSocialAccountsItemFieldCreatedAt                   = big.NewInt(1 << 12)
+	clientProfileSocialAccountsItemFieldUpdatedAt                   = big.NewInt(1 << 13)
 )
 
 // clientProfileSocialAccountsItemNullableFields maps the wire names of ClientProfileSocialAccountsItem's nullable fields (required or optional) to their field bits.
@@ -436,6 +437,7 @@ var clientProfileSocialAccountsItemNullableFields = map[string]*big.Int{
 	"analyticsDisabledAt":         clientProfileSocialAccountsItemFieldAnalyticsDisabledAt,
 	"webhookSubscriptionFailedAt": clientProfileSocialAccountsItemFieldWebhookSubscriptionFailedAt,
 	"profileId":                   clientProfileSocialAccountsItemFieldProfileID,
+	"connectedVia":                clientProfileSocialAccountsItemFieldConnectedVia,
 }
 
 type ClientProfileSocialAccountsItem struct {
@@ -450,8 +452,10 @@ type ClientProfileSocialAccountsItem struct {
 	AnalyticsDisabledAt         *time.Time                              `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
 	WebhookSubscriptionFailedAt *time.Time                              `json:"webhookSubscriptionFailedAt,omitempty" url:"webhookSubscriptionFailedAt,omitempty"`
 	ProfileID                   *string                                 `json:"profileId,omitempty" url:"profileId,omitempty"`
-	CreatedAt                   time.Time                               `json:"createdAt" url:"createdAt"`
-	UpdatedAt                   time.Time                               `json:"updatedAt" url:"updatedAt"`
+	// The platform profile whose login connected this account (e.g. the Facebook user a Page was connected through). Null when unknown.
+	ConnectedVia *ClientProfileSocialAccountsItemConnectedVia `json:"connectedVia,omitempty" url:"connectedVia,omitempty"`
+	CreatedAt    time.Time                                    `json:"createdAt" url:"createdAt"`
+	UpdatedAt    time.Time                                    `json:"updatedAt" url:"updatedAt"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -535,6 +539,13 @@ func (c *ClientProfileSocialAccountsItem) GetProfileID() *string {
 		return nil
 	}
 	return c.ProfileID
+}
+
+func (c *ClientProfileSocialAccountsItem) GetConnectedVia() *ClientProfileSocialAccountsItemConnectedVia {
+	if c == nil {
+		return nil
+	}
+	return c.ConnectedVia
 }
 
 func (c *ClientProfileSocialAccountsItem) GetCreatedAt() time.Time {
@@ -644,6 +655,13 @@ func (c *ClientProfileSocialAccountsItem) SetProfileID(profileID *string) {
 	c.require(clientProfileSocialAccountsItemFieldProfileID)
 }
 
+// SetConnectedVia sets the ConnectedVia field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientProfileSocialAccountsItem) SetConnectedVia(connectedVia *ClientProfileSocialAccountsItemConnectedVia) {
+	c.ConnectedVia = connectedVia
+	c.require(clientProfileSocialAccountsItemFieldConnectedVia)
+}
+
 // SetCreatedAt sets the CreatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (c *ClientProfileSocialAccountsItem) SetCreatedAt(createdAt time.Time) {
@@ -713,6 +731,108 @@ func (c *ClientProfileSocialAccountsItem) MarshalJSON() ([]byte, error) {
 }
 
 func (c *ClientProfileSocialAccountsItem) String() string {
+	if c == nil {
+		return "<nil>"
+	}
+	if len(c.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(c.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(c); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", c)
+}
+
+var (
+	clientProfileSocialAccountsItemConnectedViaFieldID   = big.NewInt(1 << 0)
+	clientProfileSocialAccountsItemConnectedViaFieldName = big.NewInt(1 << 1)
+)
+
+type ClientProfileSocialAccountsItemConnectedVia struct {
+	ID   string `json:"id" url:"id"`
+	Name string `json:"name" url:"name"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (c *ClientProfileSocialAccountsItemConnectedVia) GetID() string {
+	if c == nil {
+		return ""
+	}
+	return c.ID
+}
+
+func (c *ClientProfileSocialAccountsItemConnectedVia) GetName() string {
+	if c == nil {
+		return ""
+	}
+	return c.Name
+}
+
+func (c *ClientProfileSocialAccountsItemConnectedVia) GetExtraProperties() map[string]interface{} {
+	if c == nil {
+		return nil
+	}
+	return c.extraProperties
+}
+
+func (c *ClientProfileSocialAccountsItemConnectedVia) require(field *big.Int) {
+	next := new(big.Int)
+	if c.explicitFields != nil {
+		next.Set(c.explicitFields)
+	}
+	next.Or(next, field)
+	c.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientProfileSocialAccountsItemConnectedVia) SetID(id string) {
+	c.ID = id
+	c.require(clientProfileSocialAccountsItemConnectedViaFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientProfileSocialAccountsItemConnectedVia) SetName(name string) {
+	c.Name = name
+	c.require(clientProfileSocialAccountsItemConnectedViaFieldName)
+}
+
+func (c *ClientProfileSocialAccountsItemConnectedVia) UnmarshalJSON(data []byte) error {
+	type unmarshaler ClientProfileSocialAccountsItemConnectedVia
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*c = ClientProfileSocialAccountsItemConnectedVia(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *c)
+	if err != nil {
+		return err
+	}
+	c.extraProperties = extraProperties
+	c.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (c *ClientProfileSocialAccountsItemConnectedVia) MarshalJSON() ([]byte, error) {
+	type embed ClientProfileSocialAccountsItemConnectedVia
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*c),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, c.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (c *ClientProfileSocialAccountsItemConnectedVia) String() string {
 	if c == nil {
 		return "<nil>"
 	}

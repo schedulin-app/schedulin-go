@@ -11,6 +11,7 @@ import (
 	media "github.com/schedulin-app/schedulin-go/media"
 	option "github.com/schedulin-app/schedulin-go/option"
 	platforms "github.com/schedulin-app/schedulin-go/platforms"
+	postgroups "github.com/schedulin-app/schedulin-go/postgroups"
 	posts "github.com/schedulin-app/schedulin-go/posts"
 	profiles "github.com/schedulin-app/schedulin-go/profiles"
 	socialaccounts "github.com/schedulin-app/schedulin-go/socialaccounts"
@@ -21,6 +22,7 @@ import (
 
 type Client struct {
 	Posts          *posts.Client
+	PostGroups     *postgroups.Client
 	SocialAccounts *socialaccounts.Client
 	Tags           *tags.Client
 	Media          *media.Client
@@ -41,6 +43,7 @@ func NewClient(opts ...option.RequestOption) *Client {
 	options := core.NewRequestOptions(opts...)
 	return &Client{
 		Posts:          posts.NewClient(options),
+		PostGroups:     postgroups.NewClient(options),
 		SocialAccounts: socialaccounts.NewClient(options),
 		Tags:           tags.NewClient(options),
 		Media:          media.NewClient(options),

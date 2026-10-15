@@ -1789,6 +1789,14 @@ func TestSettersListSocialAccountsResponseDataItem(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetConnectedVia", func(t *testing.T) {
+		obj := &ListSocialAccountsResponseDataItem{}
+		var fernTestValueConnectedVia *ListSocialAccountsResponseDataItemConnectedVia
+		obj.SetConnectedVia(fernTestValueConnectedVia)
+		assert.Equal(t, fernTestValueConnectedVia, obj.ConnectedVia)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 	t.Run("SetCreatedAt", func(t *testing.T) {
 		obj := &ListSocialAccountsResponseDataItem{}
 		var fernTestValueCreatedAt time.Time
@@ -2129,6 +2137,39 @@ func TestGettersListSocialAccountsResponseDataItem(t *testing.T) {
 			}
 		}()
 		_ = obj.GetProfileID() // Should return zero value
+	})
+
+	t.Run("GetConnectedVia", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItem{}
+		var expected *ListSocialAccountsResponseDataItemConnectedVia
+		obj.ConnectedVia = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetConnectedVia(), "getter should return the property value")
+	})
+
+	t.Run("GetConnectedVia_NilValue", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItem{}
+		obj.ConnectedVia = nil
+
+		// Act & Assert
+		assert.Nil(t, obj.GetConnectedVia(), "getter should return nil when property is nil")
+	})
+
+	t.Run("GetConnectedVia_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListSocialAccountsResponseDataItem
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetConnectedVia() // Should return zero value
 	})
 
 	t.Run("GetCreatedAt", func(t *testing.T) {
@@ -2521,6 +2562,37 @@ func TestSettersMarkExplicitListSocialAccountsResponseDataItem(t *testing.T) {
 		// It verifies that setting a field via setter allows successful JSON round-trip
 	})
 
+	t.Run("SetConnectedVia_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItem{}
+		var fernTestValueConnectedVia *ListSocialAccountsResponseDataItemConnectedVia
+
+		// Act
+		obj.SetConnectedVia(fernTestValueConnectedVia)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
 	t.Run("SetCreatedAt_MarksExplicit", func(t *testing.T) {
 		t.Parallel()
 		// Arrange
@@ -2560,6 +2632,139 @@ func TestSettersMarkExplicitListSocialAccountsResponseDataItem(t *testing.T) {
 
 		// Act
 		obj.SetUpdatedAt(fernTestValueUpdatedAt)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+}
+
+func TestSettersListSocialAccountsResponseDataItemConnectedVia(t *testing.T) {
+	t.Run("SetID", func(t *testing.T) {
+		obj := &ListSocialAccountsResponseDataItemConnectedVia{}
+		var fernTestValueID string
+		obj.SetID(fernTestValueID)
+		assert.Equal(t, fernTestValueID, obj.ID)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+	t.Run("SetName", func(t *testing.T) {
+		obj := &ListSocialAccountsResponseDataItemConnectedVia{}
+		var fernTestValueName string
+		obj.SetName(fernTestValueName)
+		assert.Equal(t, fernTestValueName, obj.Name)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
+}
+
+func TestGettersListSocialAccountsResponseDataItemConnectedVia(t *testing.T) {
+	t.Run("GetID", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItemConnectedVia{}
+		var expected string
+		obj.ID = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetID(), "getter should return the property value")
+	})
+
+	t.Run("GetID_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListSocialAccountsResponseDataItemConnectedVia
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetID() // Should return zero value
+	})
+
+	t.Run("GetName", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItemConnectedVia{}
+		var expected string
+		obj.Name = expected
+
+		// Act & Assert
+		assert.Equal(t, expected, obj.GetName(), "getter should return the property value")
+	})
+
+	t.Run("GetName_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListSocialAccountsResponseDataItemConnectedVia
+		// Should not panic - getters should handle nil receiver gracefully
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("Getter panicked on nil receiver: %v", r)
+			}
+		}()
+		_ = obj.GetName() // Should return zero value
+	})
+
+}
+
+func TestSettersMarkExplicitListSocialAccountsResponseDataItemConnectedVia(t *testing.T) {
+	t.Run("SetID_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItemConnectedVia{}
+		var fernTestValueID string
+
+		// Act
+		obj.SetID(fernTestValueID)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetName_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItemConnectedVia{}
+		var fernTestValueName string
+
+		// Act
+		obj.SetName(fernTestValueName)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -5586,6 +5791,39 @@ func TestJSONMarshalingListSocialAccountsResponseDataItem(t *testing.T) {
 	})
 }
 
+func TestJSONMarshalingListSocialAccountsResponseDataItemConnectedVia(t *testing.T) {
+	t.Run("MarshalUnmarshal", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &ListSocialAccountsResponseDataItemConnectedVia{}
+
+		// Act - Marshal to JSON
+		data, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed")
+		assert.NotNil(t, data, "marshaled data should not be nil")
+		assert.NotEmpty(t, data, "marshaled data should not be empty")
+
+		// Unmarshal back and verify round-trip
+		var unmarshaled ListSocialAccountsResponseDataItemConnectedVia
+		err = json.Unmarshal(data, &unmarshaled)
+		assert.NoError(t, err, "round-trip unmarshal should succeed")
+	})
+
+	t.Run("UnmarshalInvalidJSON", func(t *testing.T) {
+		t.Parallel()
+		var obj ListSocialAccountsResponseDataItemConnectedVia
+		err := json.Unmarshal([]byte(`{invalid json}`), &obj)
+		assert.Error(t, err, "unmarshaling invalid JSON should return an error")
+	})
+
+	t.Run("UnmarshalEmptyObject", func(t *testing.T) {
+		t.Parallel()
+		var obj ListSocialAccountsResponseDataItemConnectedVia
+		err := json.Unmarshal([]byte(`{}`), &obj)
+		assert.NoError(t, err, "unmarshaling empty object should succeed")
+	})
+}
+
 func TestJSONMarshalingListWhopCompaniesSocialAccountsResponse(t *testing.T) {
 	t.Run("MarshalUnmarshal", func(t *testing.T) {
 		t.Parallel()
@@ -6133,6 +6371,7 @@ func TestRequiredNullableRoundTripListSocialAccountsResponseDataItem(t *testing.
 		"analyticsDisabledAt",
 		"webhookSubscriptionFailedAt",
 		"profileId",
+		"connectedVia",
 	}
 	marshalToMap := func(t *testing.T, obj *ListSocialAccountsResponseDataItem) map[string]json.RawMessage {
 		data, err := json.Marshal(obj)
@@ -6145,7 +6384,7 @@ func TestRequiredNullableRoundTripListSocialAccountsResponseDataItem(t *testing.
 	t.Run("NullPreserved", func(t *testing.T) {
 		t.Parallel()
 		var obj ListSocialAccountsResponseDataItem
-		require.NoError(t, json.Unmarshal([]byte(`{"disconnectedReason":null,"username":null,"displayName":null,"profileImageUrl":null,"analyticsDisabledAt":null,"webhookSubscriptionFailedAt":null,"profileId":null}`), &obj))
+		require.NoError(t, json.Unmarshal([]byte(`{"disconnectedReason":null,"username":null,"displayName":null,"profileImageUrl":null,"analyticsDisabledAt":null,"webhookSubscriptionFailedAt":null,"profileId":null,"connectedVia":null}`), &obj))
 		result := marshalToMap(t, &obj)
 		for _, key := range requiredNullableKeys {
 			value, ok := result[key]
@@ -6398,6 +6637,22 @@ func TestStringListSocialAccountsResponseDataItem(t *testing.T) {
 	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *ListSocialAccountsResponseDataItem
+		result := obj.String()
+		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestStringListSocialAccountsResponseDataItemConnectedVia(t *testing.T) {
+	t.Run("StringMethod", func(t *testing.T) {
+		t.Parallel()
+		obj := &ListSocialAccountsResponseDataItemConnectedVia{}
+		result := obj.String()
+		assert.NotEmpty(t, result, "String() should return a non-empty representation")
+	})
+
+	t.Run("StringMethod_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListSocialAccountsResponseDataItemConnectedVia
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
 	})
@@ -7178,6 +7433,29 @@ func TestExtraPropertiesListSocialAccountsResponseDataItem(t *testing.T) {
 	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
 		t.Parallel()
 		var obj *ListSocialAccountsResponseDataItem
+		extraProps := obj.GetExtraProperties()
+		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
+	})
+}
+
+func TestExtraPropertiesListSocialAccountsResponseDataItemConnectedVia(t *testing.T) {
+	t.Run("GetExtraProperties", func(t *testing.T) {
+		t.Parallel()
+		obj := &ListSocialAccountsResponseDataItemConnectedVia{}
+		// Should not panic when calling GetExtraProperties()
+		defer func() {
+			if r := recover(); r != nil {
+				t.Errorf("GetExtraProperties() panicked: %v", r)
+			}
+		}()
+		extraProps := obj.GetExtraProperties()
+		// Result can be nil or an empty/non-empty map
+		_ = extraProps
+	})
+
+	t.Run("GetExtraProperties_NilReceiver", func(t *testing.T) {
+		t.Parallel()
+		var obj *ListSocialAccountsResponseDataItemConnectedVia
 		extraProps := obj.GetExtraProperties()
 		assert.Nil(t, extraProps, "nil receiver should return nil without panicking")
 	})

@@ -901,6 +901,2066 @@ func (o OauthScope) Ptr() *OauthScope {
 }
 
 var (
+	postCreateFieldCaption               = big.NewInt(1 << 0)
+	postCreateFieldTitle                 = big.NewInt(1 << 1)
+	postCreateFieldScheduledAt           = big.NewInt(1 << 2)
+	postCreateFieldSocialAccountID       = big.NewInt(1 << 3)
+	postCreateFieldMedia                 = big.NewInt(1 << 4)
+	postCreateFieldThumbnail             = big.NewInt(1 << 5)
+	postCreateFieldPlatformConfiguration = big.NewInt(1 << 6)
+	postCreateFieldTagIDs                = big.NewInt(1 << 7)
+	postCreateFieldAction                = big.NewInt(1 << 8)
+	postCreateFieldParts                 = big.NewInt(1 << 9)
+)
+
+// postCreateNullableFields maps the wire names of PostCreate's nullable fields (required or optional) to their field bits.
+var postCreateNullableFields = map[string]*big.Int{
+	"scheduledAt": postCreateFieldScheduledAt,
+}
+
+type PostCreate struct {
+	Caption               string                 `json:"caption" url:"caption"`
+	Title                 *string                `json:"title,omitempty" url:"title,omitempty"`
+	ScheduledAt           *time.Time             `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
+	SocialAccountID       string                 `json:"socialAccountId" url:"socialAccountId"`
+	Media                 []*PostCreateMediaItem `json:"media,omitempty" url:"media,omitempty"`
+	Thumbnail             *PostCreateThumbnail   `json:"thumbnail,omitempty" url:"thumbnail,omitempty"`
+	PlatformConfiguration map[string]any         `json:"platformConfiguration,omitempty" url:"platformConfiguration,omitempty"`
+	TagIDs                []string               `json:"tagIds,omitempty" url:"tagIds,omitempty"`
+	Action                *PostCreateAction      `json:"action,omitempty" url:"action,omitempty"`
+	Parts                 []*PostCreatePartsItem `json:"parts,omitempty" url:"parts,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostCreate) GetCaption() string {
+	if p == nil {
+		return ""
+	}
+	return p.Caption
+}
+
+func (p *PostCreate) GetTitle() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Title
+}
+
+func (p *PostCreate) GetScheduledAt() *time.Time {
+	if p == nil {
+		return nil
+	}
+	return p.ScheduledAt
+}
+
+func (p *PostCreate) GetSocialAccountID() string {
+	if p == nil {
+		return ""
+	}
+	return p.SocialAccountID
+}
+
+func (p *PostCreate) GetMedia() []*PostCreateMediaItem {
+	if p == nil {
+		return nil
+	}
+	return p.Media
+}
+
+func (p *PostCreate) GetThumbnail() *PostCreateThumbnail {
+	if p == nil {
+		return nil
+	}
+	return p.Thumbnail
+}
+
+func (p *PostCreate) GetPlatformConfiguration() map[string]any {
+	if p == nil {
+		return nil
+	}
+	return p.PlatformConfiguration
+}
+
+func (p *PostCreate) GetTagIDs() []string {
+	if p == nil {
+		return nil
+	}
+	return p.TagIDs
+}
+
+func (p *PostCreate) GetAction() *PostCreateAction {
+	if p == nil {
+		return nil
+	}
+	return p.Action
+}
+
+func (p *PostCreate) GetParts() []*PostCreatePartsItem {
+	if p == nil {
+		return nil
+	}
+	return p.Parts
+}
+
+func (p *PostCreate) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostCreate) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetCaption sets the Caption field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetCaption(caption string) {
+	p.Caption = caption
+	p.require(postCreateFieldCaption)
+}
+
+// SetTitle sets the Title field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetTitle(title *string) {
+	p.Title = title
+	p.require(postCreateFieldTitle)
+}
+
+// SetScheduledAt sets the ScheduledAt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetScheduledAt(scheduledAt *time.Time) {
+	p.ScheduledAt = scheduledAt
+	p.require(postCreateFieldScheduledAt)
+}
+
+// SetSocialAccountID sets the SocialAccountID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetSocialAccountID(socialAccountID string) {
+	p.SocialAccountID = socialAccountID
+	p.require(postCreateFieldSocialAccountID)
+}
+
+// SetMedia sets the Media field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetMedia(media []*PostCreateMediaItem) {
+	p.Media = media
+	p.require(postCreateFieldMedia)
+}
+
+// SetThumbnail sets the Thumbnail field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetThumbnail(thumbnail *PostCreateThumbnail) {
+	p.Thumbnail = thumbnail
+	p.require(postCreateFieldThumbnail)
+}
+
+// SetPlatformConfiguration sets the PlatformConfiguration field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetPlatformConfiguration(platformConfiguration map[string]any) {
+	p.PlatformConfiguration = platformConfiguration
+	p.require(postCreateFieldPlatformConfiguration)
+}
+
+// SetTagIDs sets the TagIDs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetTagIDs(tagIDs []string) {
+	p.TagIDs = tagIDs
+	p.require(postCreateFieldTagIDs)
+}
+
+// SetAction sets the Action field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetAction(action *PostCreateAction) {
+	p.Action = action
+	p.require(postCreateFieldAction)
+}
+
+// SetParts sets the Parts field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreate) SetParts(parts []*PostCreatePartsItem) {
+	p.Parts = parts
+	p.require(postCreateFieldParts)
+}
+
+func (p *PostCreate) UnmarshalJSON(data []byte) error {
+	type embed PostCreate
+	var unmarshaler = struct {
+		embed
+		ScheduledAt *internal.DateTime `json:"scheduledAt,omitempty"`
+	}{
+		embed: embed(*p),
+	}
+	if err := json.Unmarshal(data, &unmarshaler); err != nil {
+		return err
+	}
+	*p = PostCreate(unmarshaler.embed)
+	p.ScheduledAt = unmarshaler.ScheduledAt.TimePtr()
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postCreateNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostCreate) MarshalJSON() ([]byte, error) {
+	type embed PostCreate
+	var marshaler = struct {
+		embed
+		ScheduledAt *internal.DateTime `json:"scheduledAt,omitempty"`
+	}{
+		embed:       embed(*p),
+		ScheduledAt: internal.NewOptionalDateTime(p.ScheduledAt),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostCreate) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type PostCreateAction string
+
+const (
+	PostCreateActionSchedule PostCreateAction = "schedule"
+	PostCreateActionQueue    PostCreateAction = "queue"
+	PostCreateActionDraft    PostCreateAction = "draft"
+	PostCreateActionNow      PostCreateAction = "now"
+)
+
+func NewPostCreateActionFromString(s string) (PostCreateAction, error) {
+	switch s {
+	case "schedule":
+		return PostCreateActionSchedule, nil
+	case "queue":
+		return PostCreateActionQueue, nil
+	case "draft":
+		return PostCreateActionDraft, nil
+	case "now":
+		return PostCreateActionNow, nil
+	}
+	var t PostCreateAction
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostCreateAction) Ptr() *PostCreateAction {
+	return &p
+}
+
+var (
+	postCreateMediaItemFieldURL                  = big.NewInt(1 << 0)
+	postCreateMediaItemFieldThumbnailURL         = big.NewInt(1 << 1)
+	postCreateMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 2)
+	postCreateMediaItemFieldTags                 = big.NewInt(1 << 3)
+	postCreateMediaItemFieldAlt                  = big.NewInt(1 << 4)
+	postCreateMediaItemFieldSkipProcessing       = big.NewInt(1 << 5)
+	postCreateMediaItemFieldName                 = big.NewInt(1 << 6)
+	postCreateMediaItemFieldMimeType             = big.NewInt(1 << 7)
+	postCreateMediaItemFieldWidth                = big.NewInt(1 << 8)
+	postCreateMediaItemFieldHeight               = big.NewInt(1 << 9)
+	postCreateMediaItemFieldSize                 = big.NewInt(1 << 10)
+	postCreateMediaItemFieldDuration             = big.NewInt(1 << 11)
+)
+
+// postCreateMediaItemNullableFields maps the wire names of PostCreateMediaItem's nullable fields (required or optional) to their field bits.
+var postCreateMediaItemNullableFields = map[string]*big.Int{
+	"thumbnail_url":          postCreateMediaItemFieldThumbnailURL,
+	"thumbnail_timestamp_ms": postCreateMediaItemFieldThumbnailTimestampMs,
+	"alt":                    postCreateMediaItemFieldAlt,
+}
+
+type PostCreateMediaItem struct {
+	URL                  string                         `json:"url" url:"url"`
+	ThumbnailURL         *string                        `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
+	ThumbnailTimestampMs *float64                       `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
+	Tags                 []*PostCreateMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	Alt                  *string                        `json:"alt,omitempty" url:"alt,omitempty"`
+	SkipProcessing       *bool                          `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	Name                 *string                        `json:"name,omitempty" url:"name,omitempty"`
+	MimeType             *string                        `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width                *float64                       `json:"width,omitempty" url:"width,omitempty"`
+	Height               *float64                       `json:"height,omitempty" url:"height,omitempty"`
+	Size                 *float64                       `json:"size,omitempty" url:"size,omitempty"`
+	Duration             *float64                       `json:"duration,omitempty" url:"duration,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostCreateMediaItem) GetURL() string {
+	if p == nil {
+		return ""
+	}
+	return p.URL
+}
+
+func (p *PostCreateMediaItem) GetThumbnailURL() *string {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailURL
+}
+
+func (p *PostCreateMediaItem) GetThumbnailTimestampMs() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailTimestampMs
+}
+
+func (p *PostCreateMediaItem) GetTags() []*PostCreateMediaItemTagsItem {
+	if p == nil {
+		return nil
+	}
+	return p.Tags
+}
+
+func (p *PostCreateMediaItem) GetAlt() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Alt
+}
+
+func (p *PostCreateMediaItem) GetSkipProcessing() *bool {
+	if p == nil {
+		return nil
+	}
+	return p.SkipProcessing
+}
+
+func (p *PostCreateMediaItem) GetName() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Name
+}
+
+func (p *PostCreateMediaItem) GetMimeType() *string {
+	if p == nil {
+		return nil
+	}
+	return p.MimeType
+}
+
+func (p *PostCreateMediaItem) GetWidth() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Width
+}
+
+func (p *PostCreateMediaItem) GetHeight() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Height
+}
+
+func (p *PostCreateMediaItem) GetSize() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Size
+}
+
+func (p *PostCreateMediaItem) GetDuration() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Duration
+}
+
+func (p *PostCreateMediaItem) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostCreateMediaItem) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetURL sets the URL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetURL(url string) {
+	p.URL = url
+	p.require(postCreateMediaItemFieldURL)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetThumbnailURL(thumbnailURL *string) {
+	p.ThumbnailURL = thumbnailURL
+	p.require(postCreateMediaItemFieldThumbnailURL)
+}
+
+// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
+	p.ThumbnailTimestampMs = thumbnailTimestampMs
+	p.require(postCreateMediaItemFieldThumbnailTimestampMs)
+}
+
+// SetTags sets the Tags field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetTags(tags []*PostCreateMediaItemTagsItem) {
+	p.Tags = tags
+	p.require(postCreateMediaItemFieldTags)
+}
+
+// SetAlt sets the Alt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetAlt(alt *string) {
+	p.Alt = alt
+	p.require(postCreateMediaItemFieldAlt)
+}
+
+// SetSkipProcessing sets the SkipProcessing field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetSkipProcessing(skipProcessing *bool) {
+	p.SkipProcessing = skipProcessing
+	p.require(postCreateMediaItemFieldSkipProcessing)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetName(name *string) {
+	p.Name = name
+	p.require(postCreateMediaItemFieldName)
+}
+
+// SetMimeType sets the MimeType field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetMimeType(mimeType *string) {
+	p.MimeType = mimeType
+	p.require(postCreateMediaItemFieldMimeType)
+}
+
+// SetWidth sets the Width field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetWidth(width *float64) {
+	p.Width = width
+	p.require(postCreateMediaItemFieldWidth)
+}
+
+// SetHeight sets the Height field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetHeight(height *float64) {
+	p.Height = height
+	p.require(postCreateMediaItemFieldHeight)
+}
+
+// SetSize sets the Size field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetSize(size *float64) {
+	p.Size = size
+	p.require(postCreateMediaItemFieldSize)
+}
+
+// SetDuration sets the Duration field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetDuration(duration *float64) {
+	p.Duration = duration
+	p.require(postCreateMediaItemFieldDuration)
+}
+
+func (p *PostCreateMediaItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler PostCreateMediaItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PostCreateMediaItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postCreateMediaItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostCreateMediaItem) MarshalJSON() ([]byte, error) {
+	type embed PostCreateMediaItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostCreateMediaItem) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+var (
+	postCreateMediaItemTagsItemFieldID       = big.NewInt(1 << 0)
+	postCreateMediaItemTagsItemFieldType     = big.NewInt(1 << 1)
+	postCreateMediaItemTagsItemFieldPlatform = big.NewInt(1 << 2)
+	postCreateMediaItemTagsItemFieldX        = big.NewInt(1 << 3)
+	postCreateMediaItemTagsItemFieldY        = big.NewInt(1 << 4)
+)
+
+type PostCreateMediaItemTagsItem struct {
+	ID       string                              `json:"id" url:"id"`
+	Type     PostCreateMediaItemTagsItemType     `json:"type" url:"type"`
+	Platform PostCreateMediaItemTagsItemPlatform `json:"platform" url:"platform"`
+	X        *float64                            `json:"x,omitempty" url:"x,omitempty"`
+	Y        *float64                            `json:"y,omitempty" url:"y,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostCreateMediaItemTagsItem) GetID() string {
+	if p == nil {
+		return ""
+	}
+	return p.ID
+}
+
+func (p *PostCreateMediaItemTagsItem) GetType() PostCreateMediaItemTagsItemType {
+	if p == nil {
+		return ""
+	}
+	return p.Type
+}
+
+func (p *PostCreateMediaItemTagsItem) GetPlatform() PostCreateMediaItemTagsItemPlatform {
+	if p == nil {
+		return ""
+	}
+	return p.Platform
+}
+
+func (p *PostCreateMediaItemTagsItem) GetX() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.X
+}
+
+func (p *PostCreateMediaItemTagsItem) GetY() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Y
+}
+
+func (p *PostCreateMediaItemTagsItem) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostCreateMediaItemTagsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItemTagsItem) SetID(id string) {
+	p.ID = id
+	p.require(postCreateMediaItemTagsItemFieldID)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItemTagsItem) SetType(type_ PostCreateMediaItemTagsItemType) {
+	p.Type = type_
+	p.require(postCreateMediaItemTagsItemFieldType)
+}
+
+// SetPlatform sets the Platform field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItemTagsItem) SetPlatform(platform PostCreateMediaItemTagsItemPlatform) {
+	p.Platform = platform
+	p.require(postCreateMediaItemTagsItemFieldPlatform)
+}
+
+// SetX sets the X field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItemTagsItem) SetX(x *float64) {
+	p.X = x
+	p.require(postCreateMediaItemTagsItemFieldX)
+}
+
+// SetY sets the Y field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItemTagsItem) SetY(y *float64) {
+	p.Y = y
+	p.require(postCreateMediaItemTagsItemFieldY)
+}
+
+func (p *PostCreateMediaItemTagsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler PostCreateMediaItemTagsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PostCreateMediaItemTagsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostCreateMediaItemTagsItem) MarshalJSON() ([]byte, error) {
+	type embed PostCreateMediaItemTagsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostCreateMediaItemTagsItem) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type PostCreateMediaItemTagsItemPlatform string
+
+const (
+	PostCreateMediaItemTagsItemPlatformBluesky               PostCreateMediaItemTagsItemPlatform = "bluesky"
+	PostCreateMediaItemTagsItemPlatformFacebook              PostCreateMediaItemTagsItemPlatform = "facebook"
+	PostCreateMediaItemTagsItemPlatformGoogleBusinessProfile PostCreateMediaItemTagsItemPlatform = "google_business_profile"
+	PostCreateMediaItemTagsItemPlatformInstagram             PostCreateMediaItemTagsItemPlatform = "instagram"
+	PostCreateMediaItemTagsItemPlatformLinkedin              PostCreateMediaItemTagsItemPlatform = "linkedin"
+	PostCreateMediaItemTagsItemPlatformPinterest             PostCreateMediaItemTagsItemPlatform = "pinterest"
+	PostCreateMediaItemTagsItemPlatformReddit                PostCreateMediaItemTagsItemPlatform = "reddit"
+	PostCreateMediaItemTagsItemPlatformSnapchat              PostCreateMediaItemTagsItemPlatform = "snapchat"
+	PostCreateMediaItemTagsItemPlatformThreads               PostCreateMediaItemTagsItemPlatform = "threads"
+	PostCreateMediaItemTagsItemPlatformTiktok                PostCreateMediaItemTagsItemPlatform = "tiktok"
+	PostCreateMediaItemTagsItemPlatformTwitter               PostCreateMediaItemTagsItemPlatform = "twitter"
+	PostCreateMediaItemTagsItemPlatformYoutube               PostCreateMediaItemTagsItemPlatform = "youtube"
+	PostCreateMediaItemTagsItemPlatformMastodon              PostCreateMediaItemTagsItemPlatform = "mastodon"
+	PostCreateMediaItemTagsItemPlatformTelegram              PostCreateMediaItemTagsItemPlatform = "telegram"
+	PostCreateMediaItemTagsItemPlatformDevto                 PostCreateMediaItemTagsItemPlatform = "devto"
+	PostCreateMediaItemTagsItemPlatformHashnode              PostCreateMediaItemTagsItemPlatform = "hashnode"
+	PostCreateMediaItemTagsItemPlatformMedium                PostCreateMediaItemTagsItemPlatform = "medium"
+	PostCreateMediaItemTagsItemPlatformWordpress             PostCreateMediaItemTagsItemPlatform = "wordpress"
+	PostCreateMediaItemTagsItemPlatformLemmy                 PostCreateMediaItemTagsItemPlatform = "lemmy"
+	PostCreateMediaItemTagsItemPlatformNostr                 PostCreateMediaItemTagsItemPlatform = "nostr"
+	PostCreateMediaItemTagsItemPlatformDiscord               PostCreateMediaItemTagsItemPlatform = "discord"
+	PostCreateMediaItemTagsItemPlatformDribbble              PostCreateMediaItemTagsItemPlatform = "dribbble"
+	PostCreateMediaItemTagsItemPlatformFarcaster             PostCreateMediaItemTagsItemPlatform = "farcaster"
+	PostCreateMediaItemTagsItemPlatformKick                  PostCreateMediaItemTagsItemPlatform = "kick"
+	PostCreateMediaItemTagsItemPlatformListmonk              PostCreateMediaItemTagsItemPlatform = "listmonk"
+	PostCreateMediaItemTagsItemPlatformMewe                  PostCreateMediaItemTagsItemPlatform = "mewe"
+	PostCreateMediaItemTagsItemPlatformMoltbook              PostCreateMediaItemTagsItemPlatform = "moltbook"
+	PostCreateMediaItemTagsItemPlatformSkool                 PostCreateMediaItemTagsItemPlatform = "skool"
+	PostCreateMediaItemTagsItemPlatformSlack                 PostCreateMediaItemTagsItemPlatform = "slack"
+	PostCreateMediaItemTagsItemPlatformTwitch                PostCreateMediaItemTagsItemPlatform = "twitch"
+	PostCreateMediaItemTagsItemPlatformVk                    PostCreateMediaItemTagsItemPlatform = "vk"
+	PostCreateMediaItemTagsItemPlatformWhop                  PostCreateMediaItemTagsItemPlatform = "whop"
+)
+
+func NewPostCreateMediaItemTagsItemPlatformFromString(s string) (PostCreateMediaItemTagsItemPlatform, error) {
+	switch s {
+	case "bluesky":
+		return PostCreateMediaItemTagsItemPlatformBluesky, nil
+	case "facebook":
+		return PostCreateMediaItemTagsItemPlatformFacebook, nil
+	case "google_business_profile":
+		return PostCreateMediaItemTagsItemPlatformGoogleBusinessProfile, nil
+	case "instagram":
+		return PostCreateMediaItemTagsItemPlatformInstagram, nil
+	case "linkedin":
+		return PostCreateMediaItemTagsItemPlatformLinkedin, nil
+	case "pinterest":
+		return PostCreateMediaItemTagsItemPlatformPinterest, nil
+	case "reddit":
+		return PostCreateMediaItemTagsItemPlatformReddit, nil
+	case "snapchat":
+		return PostCreateMediaItemTagsItemPlatformSnapchat, nil
+	case "threads":
+		return PostCreateMediaItemTagsItemPlatformThreads, nil
+	case "tiktok":
+		return PostCreateMediaItemTagsItemPlatformTiktok, nil
+	case "twitter":
+		return PostCreateMediaItemTagsItemPlatformTwitter, nil
+	case "youtube":
+		return PostCreateMediaItemTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return PostCreateMediaItemTagsItemPlatformMastodon, nil
+	case "telegram":
+		return PostCreateMediaItemTagsItemPlatformTelegram, nil
+	case "devto":
+		return PostCreateMediaItemTagsItemPlatformDevto, nil
+	case "hashnode":
+		return PostCreateMediaItemTagsItemPlatformHashnode, nil
+	case "medium":
+		return PostCreateMediaItemTagsItemPlatformMedium, nil
+	case "wordpress":
+		return PostCreateMediaItemTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return PostCreateMediaItemTagsItemPlatformLemmy, nil
+	case "nostr":
+		return PostCreateMediaItemTagsItemPlatformNostr, nil
+	case "discord":
+		return PostCreateMediaItemTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return PostCreateMediaItemTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return PostCreateMediaItemTagsItemPlatformFarcaster, nil
+	case "kick":
+		return PostCreateMediaItemTagsItemPlatformKick, nil
+	case "listmonk":
+		return PostCreateMediaItemTagsItemPlatformListmonk, nil
+	case "mewe":
+		return PostCreateMediaItemTagsItemPlatformMewe, nil
+	case "moltbook":
+		return PostCreateMediaItemTagsItemPlatformMoltbook, nil
+	case "skool":
+		return PostCreateMediaItemTagsItemPlatformSkool, nil
+	case "slack":
+		return PostCreateMediaItemTagsItemPlatformSlack, nil
+	case "twitch":
+		return PostCreateMediaItemTagsItemPlatformTwitch, nil
+	case "vk":
+		return PostCreateMediaItemTagsItemPlatformVk, nil
+	case "whop":
+		return PostCreateMediaItemTagsItemPlatformWhop, nil
+	}
+	var t PostCreateMediaItemTagsItemPlatform
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostCreateMediaItemTagsItemPlatform) Ptr() *PostCreateMediaItemTagsItemPlatform {
+	return &p
+}
+
+type PostCreateMediaItemTagsItemType string
+
+const (
+	PostCreateMediaItemTagsItemTypeUser     PostCreateMediaItemTagsItemType = "user"
+	PostCreateMediaItemTagsItemTypeBusiness PostCreateMediaItemTagsItemType = "business"
+)
+
+func NewPostCreateMediaItemTagsItemTypeFromString(s string) (PostCreateMediaItemTagsItemType, error) {
+	switch s {
+	case "user":
+		return PostCreateMediaItemTagsItemTypeUser, nil
+	case "business":
+		return PostCreateMediaItemTagsItemTypeBusiness, nil
+	}
+	var t PostCreateMediaItemTagsItemType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostCreateMediaItemTagsItemType) Ptr() *PostCreateMediaItemTagsItemType {
+	return &p
+}
+
+var (
+	postCreatePartsItemFieldCaption = big.NewInt(1 << 0)
+	postCreatePartsItemFieldMedia   = big.NewInt(1 << 1)
+)
+
+type PostCreatePartsItem struct {
+	Caption string                          `json:"caption" url:"caption"`
+	Media   []*PostCreatePartsItemMediaItem `json:"media,omitempty" url:"media,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostCreatePartsItem) GetCaption() string {
+	if p == nil {
+		return ""
+	}
+	return p.Caption
+}
+
+func (p *PostCreatePartsItem) GetMedia() []*PostCreatePartsItemMediaItem {
+	if p == nil {
+		return nil
+	}
+	return p.Media
+}
+
+func (p *PostCreatePartsItem) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostCreatePartsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetCaption sets the Caption field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItem) SetCaption(caption string) {
+	p.Caption = caption
+	p.require(postCreatePartsItemFieldCaption)
+}
+
+// SetMedia sets the Media field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItem) SetMedia(media []*PostCreatePartsItemMediaItem) {
+	p.Media = media
+	p.require(postCreatePartsItemFieldMedia)
+}
+
+func (p *PostCreatePartsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler PostCreatePartsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PostCreatePartsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostCreatePartsItem) MarshalJSON() ([]byte, error) {
+	type embed PostCreatePartsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostCreatePartsItem) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+var (
+	postCreatePartsItemMediaItemFieldURL                  = big.NewInt(1 << 0)
+	postCreatePartsItemMediaItemFieldThumbnailURL         = big.NewInt(1 << 1)
+	postCreatePartsItemMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 2)
+	postCreatePartsItemMediaItemFieldTags                 = big.NewInt(1 << 3)
+	postCreatePartsItemMediaItemFieldAlt                  = big.NewInt(1 << 4)
+	postCreatePartsItemMediaItemFieldSkipProcessing       = big.NewInt(1 << 5)
+	postCreatePartsItemMediaItemFieldName                 = big.NewInt(1 << 6)
+	postCreatePartsItemMediaItemFieldMimeType             = big.NewInt(1 << 7)
+	postCreatePartsItemMediaItemFieldWidth                = big.NewInt(1 << 8)
+	postCreatePartsItemMediaItemFieldHeight               = big.NewInt(1 << 9)
+	postCreatePartsItemMediaItemFieldSize                 = big.NewInt(1 << 10)
+	postCreatePartsItemMediaItemFieldDuration             = big.NewInt(1 << 11)
+)
+
+// postCreatePartsItemMediaItemNullableFields maps the wire names of PostCreatePartsItemMediaItem's nullable fields (required or optional) to their field bits.
+var postCreatePartsItemMediaItemNullableFields = map[string]*big.Int{
+	"thumbnail_url":          postCreatePartsItemMediaItemFieldThumbnailURL,
+	"thumbnail_timestamp_ms": postCreatePartsItemMediaItemFieldThumbnailTimestampMs,
+	"alt":                    postCreatePartsItemMediaItemFieldAlt,
+}
+
+type PostCreatePartsItemMediaItem struct {
+	URL                  string                                  `json:"url" url:"url"`
+	ThumbnailURL         *string                                 `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
+	ThumbnailTimestampMs *float64                                `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
+	Tags                 []*PostCreatePartsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	Alt                  *string                                 `json:"alt,omitempty" url:"alt,omitempty"`
+	SkipProcessing       *bool                                   `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	Name                 *string                                 `json:"name,omitempty" url:"name,omitempty"`
+	MimeType             *string                                 `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width                *float64                                `json:"width,omitempty" url:"width,omitempty"`
+	Height               *float64                                `json:"height,omitempty" url:"height,omitempty"`
+	Size                 *float64                                `json:"size,omitempty" url:"size,omitempty"`
+	Duration             *float64                                `json:"duration,omitempty" url:"duration,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostCreatePartsItemMediaItem) GetURL() string {
+	if p == nil {
+		return ""
+	}
+	return p.URL
+}
+
+func (p *PostCreatePartsItemMediaItem) GetThumbnailURL() *string {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailURL
+}
+
+func (p *PostCreatePartsItemMediaItem) GetThumbnailTimestampMs() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailTimestampMs
+}
+
+func (p *PostCreatePartsItemMediaItem) GetTags() []*PostCreatePartsItemMediaItemTagsItem {
+	if p == nil {
+		return nil
+	}
+	return p.Tags
+}
+
+func (p *PostCreatePartsItemMediaItem) GetAlt() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Alt
+}
+
+func (p *PostCreatePartsItemMediaItem) GetSkipProcessing() *bool {
+	if p == nil {
+		return nil
+	}
+	return p.SkipProcessing
+}
+
+func (p *PostCreatePartsItemMediaItem) GetName() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Name
+}
+
+func (p *PostCreatePartsItemMediaItem) GetMimeType() *string {
+	if p == nil {
+		return nil
+	}
+	return p.MimeType
+}
+
+func (p *PostCreatePartsItemMediaItem) GetWidth() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Width
+}
+
+func (p *PostCreatePartsItemMediaItem) GetHeight() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Height
+}
+
+func (p *PostCreatePartsItemMediaItem) GetSize() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Size
+}
+
+func (p *PostCreatePartsItemMediaItem) GetDuration() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Duration
+}
+
+func (p *PostCreatePartsItemMediaItem) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostCreatePartsItemMediaItem) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetURL sets the URL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetURL(url string) {
+	p.URL = url
+	p.require(postCreatePartsItemMediaItemFieldURL)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetThumbnailURL(thumbnailURL *string) {
+	p.ThumbnailURL = thumbnailURL
+	p.require(postCreatePartsItemMediaItemFieldThumbnailURL)
+}
+
+// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
+	p.ThumbnailTimestampMs = thumbnailTimestampMs
+	p.require(postCreatePartsItemMediaItemFieldThumbnailTimestampMs)
+}
+
+// SetTags sets the Tags field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetTags(tags []*PostCreatePartsItemMediaItemTagsItem) {
+	p.Tags = tags
+	p.require(postCreatePartsItemMediaItemFieldTags)
+}
+
+// SetAlt sets the Alt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetAlt(alt *string) {
+	p.Alt = alt
+	p.require(postCreatePartsItemMediaItemFieldAlt)
+}
+
+// SetSkipProcessing sets the SkipProcessing field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetSkipProcessing(skipProcessing *bool) {
+	p.SkipProcessing = skipProcessing
+	p.require(postCreatePartsItemMediaItemFieldSkipProcessing)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetName(name *string) {
+	p.Name = name
+	p.require(postCreatePartsItemMediaItemFieldName)
+}
+
+// SetMimeType sets the MimeType field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetMimeType(mimeType *string) {
+	p.MimeType = mimeType
+	p.require(postCreatePartsItemMediaItemFieldMimeType)
+}
+
+// SetWidth sets the Width field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetWidth(width *float64) {
+	p.Width = width
+	p.require(postCreatePartsItemMediaItemFieldWidth)
+}
+
+// SetHeight sets the Height field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetHeight(height *float64) {
+	p.Height = height
+	p.require(postCreatePartsItemMediaItemFieldHeight)
+}
+
+// SetSize sets the Size field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetSize(size *float64) {
+	p.Size = size
+	p.require(postCreatePartsItemMediaItemFieldSize)
+}
+
+// SetDuration sets the Duration field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetDuration(duration *float64) {
+	p.Duration = duration
+	p.require(postCreatePartsItemMediaItemFieldDuration)
+}
+
+func (p *PostCreatePartsItemMediaItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler PostCreatePartsItemMediaItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PostCreatePartsItemMediaItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postCreatePartsItemMediaItemNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostCreatePartsItemMediaItem) MarshalJSON() ([]byte, error) {
+	type embed PostCreatePartsItemMediaItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostCreatePartsItemMediaItem) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+var (
+	postCreatePartsItemMediaItemTagsItemFieldID       = big.NewInt(1 << 0)
+	postCreatePartsItemMediaItemTagsItemFieldType     = big.NewInt(1 << 1)
+	postCreatePartsItemMediaItemTagsItemFieldPlatform = big.NewInt(1 << 2)
+	postCreatePartsItemMediaItemTagsItemFieldX        = big.NewInt(1 << 3)
+	postCreatePartsItemMediaItemTagsItemFieldY        = big.NewInt(1 << 4)
+)
+
+type PostCreatePartsItemMediaItemTagsItem struct {
+	ID       string                                       `json:"id" url:"id"`
+	Type     PostCreatePartsItemMediaItemTagsItemType     `json:"type" url:"type"`
+	Platform PostCreatePartsItemMediaItemTagsItemPlatform `json:"platform" url:"platform"`
+	X        *float64                                     `json:"x,omitempty" url:"x,omitempty"`
+	Y        *float64                                     `json:"y,omitempty" url:"y,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostCreatePartsItemMediaItemTagsItem) GetID() string {
+	if p == nil {
+		return ""
+	}
+	return p.ID
+}
+
+func (p *PostCreatePartsItemMediaItemTagsItem) GetType() PostCreatePartsItemMediaItemTagsItemType {
+	if p == nil {
+		return ""
+	}
+	return p.Type
+}
+
+func (p *PostCreatePartsItemMediaItemTagsItem) GetPlatform() PostCreatePartsItemMediaItemTagsItemPlatform {
+	if p == nil {
+		return ""
+	}
+	return p.Platform
+}
+
+func (p *PostCreatePartsItemMediaItemTagsItem) GetX() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.X
+}
+
+func (p *PostCreatePartsItemMediaItemTagsItem) GetY() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Y
+}
+
+func (p *PostCreatePartsItemMediaItemTagsItem) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostCreatePartsItemMediaItemTagsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItemTagsItem) SetID(id string) {
+	p.ID = id
+	p.require(postCreatePartsItemMediaItemTagsItemFieldID)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItemTagsItem) SetType(type_ PostCreatePartsItemMediaItemTagsItemType) {
+	p.Type = type_
+	p.require(postCreatePartsItemMediaItemTagsItemFieldType)
+}
+
+// SetPlatform sets the Platform field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItemTagsItem) SetPlatform(platform PostCreatePartsItemMediaItemTagsItemPlatform) {
+	p.Platform = platform
+	p.require(postCreatePartsItemMediaItemTagsItemFieldPlatform)
+}
+
+// SetX sets the X field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItemTagsItem) SetX(x *float64) {
+	p.X = x
+	p.require(postCreatePartsItemMediaItemTagsItemFieldX)
+}
+
+// SetY sets the Y field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItemTagsItem) SetY(y *float64) {
+	p.Y = y
+	p.require(postCreatePartsItemMediaItemTagsItemFieldY)
+}
+
+func (p *PostCreatePartsItemMediaItemTagsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler PostCreatePartsItemMediaItemTagsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PostCreatePartsItemMediaItemTagsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostCreatePartsItemMediaItemTagsItem) MarshalJSON() ([]byte, error) {
+	type embed PostCreatePartsItemMediaItemTagsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostCreatePartsItemMediaItemTagsItem) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type PostCreatePartsItemMediaItemTagsItemPlatform string
+
+const (
+	PostCreatePartsItemMediaItemTagsItemPlatformBluesky               PostCreatePartsItemMediaItemTagsItemPlatform = "bluesky"
+	PostCreatePartsItemMediaItemTagsItemPlatformFacebook              PostCreatePartsItemMediaItemTagsItemPlatform = "facebook"
+	PostCreatePartsItemMediaItemTagsItemPlatformGoogleBusinessProfile PostCreatePartsItemMediaItemTagsItemPlatform = "google_business_profile"
+	PostCreatePartsItemMediaItemTagsItemPlatformInstagram             PostCreatePartsItemMediaItemTagsItemPlatform = "instagram"
+	PostCreatePartsItemMediaItemTagsItemPlatformLinkedin              PostCreatePartsItemMediaItemTagsItemPlatform = "linkedin"
+	PostCreatePartsItemMediaItemTagsItemPlatformPinterest             PostCreatePartsItemMediaItemTagsItemPlatform = "pinterest"
+	PostCreatePartsItemMediaItemTagsItemPlatformReddit                PostCreatePartsItemMediaItemTagsItemPlatform = "reddit"
+	PostCreatePartsItemMediaItemTagsItemPlatformSnapchat              PostCreatePartsItemMediaItemTagsItemPlatform = "snapchat"
+	PostCreatePartsItemMediaItemTagsItemPlatformThreads               PostCreatePartsItemMediaItemTagsItemPlatform = "threads"
+	PostCreatePartsItemMediaItemTagsItemPlatformTiktok                PostCreatePartsItemMediaItemTagsItemPlatform = "tiktok"
+	PostCreatePartsItemMediaItemTagsItemPlatformTwitter               PostCreatePartsItemMediaItemTagsItemPlatform = "twitter"
+	PostCreatePartsItemMediaItemTagsItemPlatformYoutube               PostCreatePartsItemMediaItemTagsItemPlatform = "youtube"
+	PostCreatePartsItemMediaItemTagsItemPlatformMastodon              PostCreatePartsItemMediaItemTagsItemPlatform = "mastodon"
+	PostCreatePartsItemMediaItemTagsItemPlatformTelegram              PostCreatePartsItemMediaItemTagsItemPlatform = "telegram"
+	PostCreatePartsItemMediaItemTagsItemPlatformDevto                 PostCreatePartsItemMediaItemTagsItemPlatform = "devto"
+	PostCreatePartsItemMediaItemTagsItemPlatformHashnode              PostCreatePartsItemMediaItemTagsItemPlatform = "hashnode"
+	PostCreatePartsItemMediaItemTagsItemPlatformMedium                PostCreatePartsItemMediaItemTagsItemPlatform = "medium"
+	PostCreatePartsItemMediaItemTagsItemPlatformWordpress             PostCreatePartsItemMediaItemTagsItemPlatform = "wordpress"
+	PostCreatePartsItemMediaItemTagsItemPlatformLemmy                 PostCreatePartsItemMediaItemTagsItemPlatform = "lemmy"
+	PostCreatePartsItemMediaItemTagsItemPlatformNostr                 PostCreatePartsItemMediaItemTagsItemPlatform = "nostr"
+	PostCreatePartsItemMediaItemTagsItemPlatformDiscord               PostCreatePartsItemMediaItemTagsItemPlatform = "discord"
+	PostCreatePartsItemMediaItemTagsItemPlatformDribbble              PostCreatePartsItemMediaItemTagsItemPlatform = "dribbble"
+	PostCreatePartsItemMediaItemTagsItemPlatformFarcaster             PostCreatePartsItemMediaItemTagsItemPlatform = "farcaster"
+	PostCreatePartsItemMediaItemTagsItemPlatformKick                  PostCreatePartsItemMediaItemTagsItemPlatform = "kick"
+	PostCreatePartsItemMediaItemTagsItemPlatformListmonk              PostCreatePartsItemMediaItemTagsItemPlatform = "listmonk"
+	PostCreatePartsItemMediaItemTagsItemPlatformMewe                  PostCreatePartsItemMediaItemTagsItemPlatform = "mewe"
+	PostCreatePartsItemMediaItemTagsItemPlatformMoltbook              PostCreatePartsItemMediaItemTagsItemPlatform = "moltbook"
+	PostCreatePartsItemMediaItemTagsItemPlatformSkool                 PostCreatePartsItemMediaItemTagsItemPlatform = "skool"
+	PostCreatePartsItemMediaItemTagsItemPlatformSlack                 PostCreatePartsItemMediaItemTagsItemPlatform = "slack"
+	PostCreatePartsItemMediaItemTagsItemPlatformTwitch                PostCreatePartsItemMediaItemTagsItemPlatform = "twitch"
+	PostCreatePartsItemMediaItemTagsItemPlatformVk                    PostCreatePartsItemMediaItemTagsItemPlatform = "vk"
+	PostCreatePartsItemMediaItemTagsItemPlatformWhop                  PostCreatePartsItemMediaItemTagsItemPlatform = "whop"
+)
+
+func NewPostCreatePartsItemMediaItemTagsItemPlatformFromString(s string) (PostCreatePartsItemMediaItemTagsItemPlatform, error) {
+	switch s {
+	case "bluesky":
+		return PostCreatePartsItemMediaItemTagsItemPlatformBluesky, nil
+	case "facebook":
+		return PostCreatePartsItemMediaItemTagsItemPlatformFacebook, nil
+	case "google_business_profile":
+		return PostCreatePartsItemMediaItemTagsItemPlatformGoogleBusinessProfile, nil
+	case "instagram":
+		return PostCreatePartsItemMediaItemTagsItemPlatformInstagram, nil
+	case "linkedin":
+		return PostCreatePartsItemMediaItemTagsItemPlatformLinkedin, nil
+	case "pinterest":
+		return PostCreatePartsItemMediaItemTagsItemPlatformPinterest, nil
+	case "reddit":
+		return PostCreatePartsItemMediaItemTagsItemPlatformReddit, nil
+	case "snapchat":
+		return PostCreatePartsItemMediaItemTagsItemPlatformSnapchat, nil
+	case "threads":
+		return PostCreatePartsItemMediaItemTagsItemPlatformThreads, nil
+	case "tiktok":
+		return PostCreatePartsItemMediaItemTagsItemPlatformTiktok, nil
+	case "twitter":
+		return PostCreatePartsItemMediaItemTagsItemPlatformTwitter, nil
+	case "youtube":
+		return PostCreatePartsItemMediaItemTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return PostCreatePartsItemMediaItemTagsItemPlatformMastodon, nil
+	case "telegram":
+		return PostCreatePartsItemMediaItemTagsItemPlatformTelegram, nil
+	case "devto":
+		return PostCreatePartsItemMediaItemTagsItemPlatformDevto, nil
+	case "hashnode":
+		return PostCreatePartsItemMediaItemTagsItemPlatformHashnode, nil
+	case "medium":
+		return PostCreatePartsItemMediaItemTagsItemPlatformMedium, nil
+	case "wordpress":
+		return PostCreatePartsItemMediaItemTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return PostCreatePartsItemMediaItemTagsItemPlatformLemmy, nil
+	case "nostr":
+		return PostCreatePartsItemMediaItemTagsItemPlatformNostr, nil
+	case "discord":
+		return PostCreatePartsItemMediaItemTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return PostCreatePartsItemMediaItemTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return PostCreatePartsItemMediaItemTagsItemPlatformFarcaster, nil
+	case "kick":
+		return PostCreatePartsItemMediaItemTagsItemPlatformKick, nil
+	case "listmonk":
+		return PostCreatePartsItemMediaItemTagsItemPlatformListmonk, nil
+	case "mewe":
+		return PostCreatePartsItemMediaItemTagsItemPlatformMewe, nil
+	case "moltbook":
+		return PostCreatePartsItemMediaItemTagsItemPlatformMoltbook, nil
+	case "skool":
+		return PostCreatePartsItemMediaItemTagsItemPlatformSkool, nil
+	case "slack":
+		return PostCreatePartsItemMediaItemTagsItemPlatformSlack, nil
+	case "twitch":
+		return PostCreatePartsItemMediaItemTagsItemPlatformTwitch, nil
+	case "vk":
+		return PostCreatePartsItemMediaItemTagsItemPlatformVk, nil
+	case "whop":
+		return PostCreatePartsItemMediaItemTagsItemPlatformWhop, nil
+	}
+	var t PostCreatePartsItemMediaItemTagsItemPlatform
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostCreatePartsItemMediaItemTagsItemPlatform) Ptr() *PostCreatePartsItemMediaItemTagsItemPlatform {
+	return &p
+}
+
+type PostCreatePartsItemMediaItemTagsItemType string
+
+const (
+	PostCreatePartsItemMediaItemTagsItemTypeUser     PostCreatePartsItemMediaItemTagsItemType = "user"
+	PostCreatePartsItemMediaItemTagsItemTypeBusiness PostCreatePartsItemMediaItemTagsItemType = "business"
+)
+
+func NewPostCreatePartsItemMediaItemTagsItemTypeFromString(s string) (PostCreatePartsItemMediaItemTagsItemType, error) {
+	switch s {
+	case "user":
+		return PostCreatePartsItemMediaItemTagsItemTypeUser, nil
+	case "business":
+		return PostCreatePartsItemMediaItemTagsItemTypeBusiness, nil
+	}
+	var t PostCreatePartsItemMediaItemTagsItemType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostCreatePartsItemMediaItemTagsItemType) Ptr() *PostCreatePartsItemMediaItemTagsItemType {
+	return &p
+}
+
+var (
+	postCreateThumbnailFieldURL                  = big.NewInt(1 << 0)
+	postCreateThumbnailFieldThumbnailURL         = big.NewInt(1 << 1)
+	postCreateThumbnailFieldThumbnailTimestampMs = big.NewInt(1 << 2)
+	postCreateThumbnailFieldTags                 = big.NewInt(1 << 3)
+	postCreateThumbnailFieldAlt                  = big.NewInt(1 << 4)
+	postCreateThumbnailFieldSkipProcessing       = big.NewInt(1 << 5)
+	postCreateThumbnailFieldName                 = big.NewInt(1 << 6)
+	postCreateThumbnailFieldMimeType             = big.NewInt(1 << 7)
+	postCreateThumbnailFieldWidth                = big.NewInt(1 << 8)
+	postCreateThumbnailFieldHeight               = big.NewInt(1 << 9)
+	postCreateThumbnailFieldSize                 = big.NewInt(1 << 10)
+	postCreateThumbnailFieldDuration             = big.NewInt(1 << 11)
+)
+
+// postCreateThumbnailNullableFields maps the wire names of PostCreateThumbnail's nullable fields (required or optional) to their field bits.
+var postCreateThumbnailNullableFields = map[string]*big.Int{
+	"thumbnail_url":          postCreateThumbnailFieldThumbnailURL,
+	"thumbnail_timestamp_ms": postCreateThumbnailFieldThumbnailTimestampMs,
+	"alt":                    postCreateThumbnailFieldAlt,
+}
+
+type PostCreateThumbnail struct {
+	URL                  string                         `json:"url" url:"url"`
+	ThumbnailURL         *string                        `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
+	ThumbnailTimestampMs *float64                       `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
+	Tags                 []*PostCreateThumbnailTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	Alt                  *string                        `json:"alt,omitempty" url:"alt,omitempty"`
+	SkipProcessing       *bool                          `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	Name                 *string                        `json:"name,omitempty" url:"name,omitempty"`
+	MimeType             *string                        `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width                *float64                       `json:"width,omitempty" url:"width,omitempty"`
+	Height               *float64                       `json:"height,omitempty" url:"height,omitempty"`
+	Size                 *float64                       `json:"size,omitempty" url:"size,omitempty"`
+	Duration             *float64                       `json:"duration,omitempty" url:"duration,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostCreateThumbnail) GetURL() string {
+	if p == nil {
+		return ""
+	}
+	return p.URL
+}
+
+func (p *PostCreateThumbnail) GetThumbnailURL() *string {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailURL
+}
+
+func (p *PostCreateThumbnail) GetThumbnailTimestampMs() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailTimestampMs
+}
+
+func (p *PostCreateThumbnail) GetTags() []*PostCreateThumbnailTagsItem {
+	if p == nil {
+		return nil
+	}
+	return p.Tags
+}
+
+func (p *PostCreateThumbnail) GetAlt() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Alt
+}
+
+func (p *PostCreateThumbnail) GetSkipProcessing() *bool {
+	if p == nil {
+		return nil
+	}
+	return p.SkipProcessing
+}
+
+func (p *PostCreateThumbnail) GetName() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Name
+}
+
+func (p *PostCreateThumbnail) GetMimeType() *string {
+	if p == nil {
+		return nil
+	}
+	return p.MimeType
+}
+
+func (p *PostCreateThumbnail) GetWidth() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Width
+}
+
+func (p *PostCreateThumbnail) GetHeight() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Height
+}
+
+func (p *PostCreateThumbnail) GetSize() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Size
+}
+
+func (p *PostCreateThumbnail) GetDuration() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Duration
+}
+
+func (p *PostCreateThumbnail) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostCreateThumbnail) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetURL sets the URL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetURL(url string) {
+	p.URL = url
+	p.require(postCreateThumbnailFieldURL)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetThumbnailURL(thumbnailURL *string) {
+	p.ThumbnailURL = thumbnailURL
+	p.require(postCreateThumbnailFieldThumbnailURL)
+}
+
+// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
+	p.ThumbnailTimestampMs = thumbnailTimestampMs
+	p.require(postCreateThumbnailFieldThumbnailTimestampMs)
+}
+
+// SetTags sets the Tags field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetTags(tags []*PostCreateThumbnailTagsItem) {
+	p.Tags = tags
+	p.require(postCreateThumbnailFieldTags)
+}
+
+// SetAlt sets the Alt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetAlt(alt *string) {
+	p.Alt = alt
+	p.require(postCreateThumbnailFieldAlt)
+}
+
+// SetSkipProcessing sets the SkipProcessing field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetSkipProcessing(skipProcessing *bool) {
+	p.SkipProcessing = skipProcessing
+	p.require(postCreateThumbnailFieldSkipProcessing)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetName(name *string) {
+	p.Name = name
+	p.require(postCreateThumbnailFieldName)
+}
+
+// SetMimeType sets the MimeType field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetMimeType(mimeType *string) {
+	p.MimeType = mimeType
+	p.require(postCreateThumbnailFieldMimeType)
+}
+
+// SetWidth sets the Width field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetWidth(width *float64) {
+	p.Width = width
+	p.require(postCreateThumbnailFieldWidth)
+}
+
+// SetHeight sets the Height field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetHeight(height *float64) {
+	p.Height = height
+	p.require(postCreateThumbnailFieldHeight)
+}
+
+// SetSize sets the Size field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetSize(size *float64) {
+	p.Size = size
+	p.require(postCreateThumbnailFieldSize)
+}
+
+// SetDuration sets the Duration field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetDuration(duration *float64) {
+	p.Duration = duration
+	p.require(postCreateThumbnailFieldDuration)
+}
+
+func (p *PostCreateThumbnail) UnmarshalJSON(data []byte) error {
+	type unmarshaler PostCreateThumbnail
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PostCreateThumbnail(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, postCreateThumbnailNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		p.require(presentFields)
+	}
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostCreateThumbnail) MarshalJSON() ([]byte, error) {
+	type embed PostCreateThumbnail
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostCreateThumbnail) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+var (
+	postCreateThumbnailTagsItemFieldID       = big.NewInt(1 << 0)
+	postCreateThumbnailTagsItemFieldType     = big.NewInt(1 << 1)
+	postCreateThumbnailTagsItemFieldPlatform = big.NewInt(1 << 2)
+	postCreateThumbnailTagsItemFieldX        = big.NewInt(1 << 3)
+	postCreateThumbnailTagsItemFieldY        = big.NewInt(1 << 4)
+)
+
+type PostCreateThumbnailTagsItem struct {
+	ID       string                              `json:"id" url:"id"`
+	Type     PostCreateThumbnailTagsItemType     `json:"type" url:"type"`
+	Platform PostCreateThumbnailTagsItemPlatform `json:"platform" url:"platform"`
+	X        *float64                            `json:"x,omitempty" url:"x,omitempty"`
+	Y        *float64                            `json:"y,omitempty" url:"y,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (p *PostCreateThumbnailTagsItem) GetID() string {
+	if p == nil {
+		return ""
+	}
+	return p.ID
+}
+
+func (p *PostCreateThumbnailTagsItem) GetType() PostCreateThumbnailTagsItemType {
+	if p == nil {
+		return ""
+	}
+	return p.Type
+}
+
+func (p *PostCreateThumbnailTagsItem) GetPlatform() PostCreateThumbnailTagsItemPlatform {
+	if p == nil {
+		return ""
+	}
+	return p.Platform
+}
+
+func (p *PostCreateThumbnailTagsItem) GetX() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.X
+}
+
+func (p *PostCreateThumbnailTagsItem) GetY() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.Y
+}
+
+func (p *PostCreateThumbnailTagsItem) GetExtraProperties() map[string]interface{} {
+	if p == nil {
+		return nil
+	}
+	return p.extraProperties
+}
+
+func (p *PostCreateThumbnailTagsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if p.explicitFields != nil {
+		next.Set(p.explicitFields)
+	}
+	next.Or(next, field)
+	p.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnailTagsItem) SetID(id string) {
+	p.ID = id
+	p.require(postCreateThumbnailTagsItemFieldID)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnailTagsItem) SetType(type_ PostCreateThumbnailTagsItemType) {
+	p.Type = type_
+	p.require(postCreateThumbnailTagsItemFieldType)
+}
+
+// SetPlatform sets the Platform field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnailTagsItem) SetPlatform(platform PostCreateThumbnailTagsItemPlatform) {
+	p.Platform = platform
+	p.require(postCreateThumbnailTagsItemFieldPlatform)
+}
+
+// SetX sets the X field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnailTagsItem) SetX(x *float64) {
+	p.X = x
+	p.require(postCreateThumbnailTagsItemFieldX)
+}
+
+// SetY sets the Y field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnailTagsItem) SetY(y *float64) {
+	p.Y = y
+	p.require(postCreateThumbnailTagsItemFieldY)
+}
+
+func (p *PostCreateThumbnailTagsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler PostCreateThumbnailTagsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*p = PostCreateThumbnailTagsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *p)
+	if err != nil {
+		return err
+	}
+	p.extraProperties = extraProperties
+	p.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (p *PostCreateThumbnailTagsItem) MarshalJSON() ([]byte, error) {
+	type embed PostCreateThumbnailTagsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*p),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, p.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (p *PostCreateThumbnailTagsItem) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	if len(p.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(p.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(p); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", p)
+}
+
+type PostCreateThumbnailTagsItemPlatform string
+
+const (
+	PostCreateThumbnailTagsItemPlatformBluesky               PostCreateThumbnailTagsItemPlatform = "bluesky"
+	PostCreateThumbnailTagsItemPlatformFacebook              PostCreateThumbnailTagsItemPlatform = "facebook"
+	PostCreateThumbnailTagsItemPlatformGoogleBusinessProfile PostCreateThumbnailTagsItemPlatform = "google_business_profile"
+	PostCreateThumbnailTagsItemPlatformInstagram             PostCreateThumbnailTagsItemPlatform = "instagram"
+	PostCreateThumbnailTagsItemPlatformLinkedin              PostCreateThumbnailTagsItemPlatform = "linkedin"
+	PostCreateThumbnailTagsItemPlatformPinterest             PostCreateThumbnailTagsItemPlatform = "pinterest"
+	PostCreateThumbnailTagsItemPlatformReddit                PostCreateThumbnailTagsItemPlatform = "reddit"
+	PostCreateThumbnailTagsItemPlatformSnapchat              PostCreateThumbnailTagsItemPlatform = "snapchat"
+	PostCreateThumbnailTagsItemPlatformThreads               PostCreateThumbnailTagsItemPlatform = "threads"
+	PostCreateThumbnailTagsItemPlatformTiktok                PostCreateThumbnailTagsItemPlatform = "tiktok"
+	PostCreateThumbnailTagsItemPlatformTwitter               PostCreateThumbnailTagsItemPlatform = "twitter"
+	PostCreateThumbnailTagsItemPlatformYoutube               PostCreateThumbnailTagsItemPlatform = "youtube"
+	PostCreateThumbnailTagsItemPlatformMastodon              PostCreateThumbnailTagsItemPlatform = "mastodon"
+	PostCreateThumbnailTagsItemPlatformTelegram              PostCreateThumbnailTagsItemPlatform = "telegram"
+	PostCreateThumbnailTagsItemPlatformDevto                 PostCreateThumbnailTagsItemPlatform = "devto"
+	PostCreateThumbnailTagsItemPlatformHashnode              PostCreateThumbnailTagsItemPlatform = "hashnode"
+	PostCreateThumbnailTagsItemPlatformMedium                PostCreateThumbnailTagsItemPlatform = "medium"
+	PostCreateThumbnailTagsItemPlatformWordpress             PostCreateThumbnailTagsItemPlatform = "wordpress"
+	PostCreateThumbnailTagsItemPlatformLemmy                 PostCreateThumbnailTagsItemPlatform = "lemmy"
+	PostCreateThumbnailTagsItemPlatformNostr                 PostCreateThumbnailTagsItemPlatform = "nostr"
+	PostCreateThumbnailTagsItemPlatformDiscord               PostCreateThumbnailTagsItemPlatform = "discord"
+	PostCreateThumbnailTagsItemPlatformDribbble              PostCreateThumbnailTagsItemPlatform = "dribbble"
+	PostCreateThumbnailTagsItemPlatformFarcaster             PostCreateThumbnailTagsItemPlatform = "farcaster"
+	PostCreateThumbnailTagsItemPlatformKick                  PostCreateThumbnailTagsItemPlatform = "kick"
+	PostCreateThumbnailTagsItemPlatformListmonk              PostCreateThumbnailTagsItemPlatform = "listmonk"
+	PostCreateThumbnailTagsItemPlatformMewe                  PostCreateThumbnailTagsItemPlatform = "mewe"
+	PostCreateThumbnailTagsItemPlatformMoltbook              PostCreateThumbnailTagsItemPlatform = "moltbook"
+	PostCreateThumbnailTagsItemPlatformSkool                 PostCreateThumbnailTagsItemPlatform = "skool"
+	PostCreateThumbnailTagsItemPlatformSlack                 PostCreateThumbnailTagsItemPlatform = "slack"
+	PostCreateThumbnailTagsItemPlatformTwitch                PostCreateThumbnailTagsItemPlatform = "twitch"
+	PostCreateThumbnailTagsItemPlatformVk                    PostCreateThumbnailTagsItemPlatform = "vk"
+	PostCreateThumbnailTagsItemPlatformWhop                  PostCreateThumbnailTagsItemPlatform = "whop"
+)
+
+func NewPostCreateThumbnailTagsItemPlatformFromString(s string) (PostCreateThumbnailTagsItemPlatform, error) {
+	switch s {
+	case "bluesky":
+		return PostCreateThumbnailTagsItemPlatformBluesky, nil
+	case "facebook":
+		return PostCreateThumbnailTagsItemPlatformFacebook, nil
+	case "google_business_profile":
+		return PostCreateThumbnailTagsItemPlatformGoogleBusinessProfile, nil
+	case "instagram":
+		return PostCreateThumbnailTagsItemPlatformInstagram, nil
+	case "linkedin":
+		return PostCreateThumbnailTagsItemPlatformLinkedin, nil
+	case "pinterest":
+		return PostCreateThumbnailTagsItemPlatformPinterest, nil
+	case "reddit":
+		return PostCreateThumbnailTagsItemPlatformReddit, nil
+	case "snapchat":
+		return PostCreateThumbnailTagsItemPlatformSnapchat, nil
+	case "threads":
+		return PostCreateThumbnailTagsItemPlatformThreads, nil
+	case "tiktok":
+		return PostCreateThumbnailTagsItemPlatformTiktok, nil
+	case "twitter":
+		return PostCreateThumbnailTagsItemPlatformTwitter, nil
+	case "youtube":
+		return PostCreateThumbnailTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return PostCreateThumbnailTagsItemPlatformMastodon, nil
+	case "telegram":
+		return PostCreateThumbnailTagsItemPlatformTelegram, nil
+	case "devto":
+		return PostCreateThumbnailTagsItemPlatformDevto, nil
+	case "hashnode":
+		return PostCreateThumbnailTagsItemPlatformHashnode, nil
+	case "medium":
+		return PostCreateThumbnailTagsItemPlatformMedium, nil
+	case "wordpress":
+		return PostCreateThumbnailTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return PostCreateThumbnailTagsItemPlatformLemmy, nil
+	case "nostr":
+		return PostCreateThumbnailTagsItemPlatformNostr, nil
+	case "discord":
+		return PostCreateThumbnailTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return PostCreateThumbnailTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return PostCreateThumbnailTagsItemPlatformFarcaster, nil
+	case "kick":
+		return PostCreateThumbnailTagsItemPlatformKick, nil
+	case "listmonk":
+		return PostCreateThumbnailTagsItemPlatformListmonk, nil
+	case "mewe":
+		return PostCreateThumbnailTagsItemPlatformMewe, nil
+	case "moltbook":
+		return PostCreateThumbnailTagsItemPlatformMoltbook, nil
+	case "skool":
+		return PostCreateThumbnailTagsItemPlatformSkool, nil
+	case "slack":
+		return PostCreateThumbnailTagsItemPlatformSlack, nil
+	case "twitch":
+		return PostCreateThumbnailTagsItemPlatformTwitch, nil
+	case "vk":
+		return PostCreateThumbnailTagsItemPlatformVk, nil
+	case "whop":
+		return PostCreateThumbnailTagsItemPlatformWhop, nil
+	}
+	var t PostCreateThumbnailTagsItemPlatform
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostCreateThumbnailTagsItemPlatform) Ptr() *PostCreateThumbnailTagsItemPlatform {
+	return &p
+}
+
+type PostCreateThumbnailTagsItemType string
+
+const (
+	PostCreateThumbnailTagsItemTypeUser     PostCreateThumbnailTagsItemType = "user"
+	PostCreateThumbnailTagsItemTypeBusiness PostCreateThumbnailTagsItemType = "business"
+)
+
+func NewPostCreateThumbnailTagsItemTypeFromString(s string) (PostCreateThumbnailTagsItemType, error) {
+	switch s {
+	case "user":
+		return PostCreateThumbnailTagsItemTypeUser, nil
+	case "business":
+		return PostCreateThumbnailTagsItemTypeBusiness, nil
+	}
+	var t PostCreateThumbnailTagsItemType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostCreateThumbnailTagsItemType) Ptr() *PostCreateThumbnailTagsItemType {
+	return &p
+}
+
+var (
 	postPublishDraftFieldID          = big.NewInt(1 << 0)
 	postPublishDraftFieldScheduledAt = big.NewInt(1 << 1)
 )
@@ -1590,6 +3650,40 @@ func (p PostSearchTagMode) Ptr() *PostSearchTagMode {
 	return &p
 }
 
+type PostStatus string
+
+const (
+	PostStatusScheduled  PostStatus = "SCHEDULED"
+	PostStatusProcessing PostStatus = "PROCESSING"
+	PostStatusCompleted  PostStatus = "COMPLETED"
+	PostStatusDraft      PostStatus = "DRAFT"
+	PostStatusFailed     PostStatus = "FAILED"
+	PostStatusDeleted    PostStatus = "DELETED"
+)
+
+func NewPostStatusFromString(s string) (PostStatus, error) {
+	switch s {
+	case "SCHEDULED":
+		return PostStatusScheduled, nil
+	case "PROCESSING":
+		return PostStatusProcessing, nil
+	case "COMPLETED":
+		return PostStatusCompleted, nil
+	case "DRAFT":
+		return PostStatusDraft, nil
+	case "FAILED":
+		return PostStatusFailed, nil
+	case "DELETED":
+		return PostStatusDeleted, nil
+	}
+	var t PostStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (p PostStatus) Ptr() *PostStatus {
+	return &p
+}
+
 var (
 	rateLimitErrorResponseFieldCode    = big.NewInt(1 << 0)
 	rateLimitErrorResponseFieldStatus  = big.NewInt(1 << 1)
@@ -1897,6 +3991,224 @@ func (s SocialAccountDisconnectedReason) Ptr() *SocialAccountDisconnectedReason 
 }
 
 var (
+	socialAccountPublicFieldID              = big.NewInt(1 << 0)
+	socialAccountPublicFieldPlatform        = big.NewInt(1 << 1)
+	socialAccountPublicFieldUsername        = big.NewInt(1 << 2)
+	socialAccountPublicFieldUserID          = big.NewInt(1 << 3)
+	socialAccountPublicFieldProfilePhotoURL = big.NewInt(1 << 4)
+	socialAccountPublicFieldStatus          = big.NewInt(1 << 5)
+	socialAccountPublicFieldExternalID      = big.NewInt(1 << 6)
+)
+
+// socialAccountPublicNullableFields maps the wire names of SocialAccountPublic's nullable fields (required or optional) to their field bits.
+var socialAccountPublicNullableFields = map[string]*big.Int{
+	"username":        socialAccountPublicFieldUsername,
+	"profilePhotoUrl": socialAccountPublicFieldProfilePhotoURL,
+	"externalId":      socialAccountPublicFieldExternalID,
+}
+
+type SocialAccountPublic struct {
+	ID              string                    `json:"id" url:"id"`
+	Platform        SocialPlatform            `json:"platform" url:"platform"`
+	Username        *string                   `json:"username,omitempty" url:"username,omitempty"`
+	UserID          string                    `json:"userId" url:"userId"`
+	ProfilePhotoURL *string                   `json:"profilePhotoUrl,omitempty" url:"profilePhotoUrl,omitempty"`
+	Status          SocialAccountPublicStatus `json:"status" url:"status"`
+	ExternalID      *string                   `json:"externalId,omitempty" url:"externalId,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (s *SocialAccountPublic) GetID() string {
+	if s == nil {
+		return ""
+	}
+	return s.ID
+}
+
+func (s *SocialAccountPublic) GetPlatform() SocialPlatform {
+	if s == nil {
+		return ""
+	}
+	return s.Platform
+}
+
+func (s *SocialAccountPublic) GetUsername() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Username
+}
+
+func (s *SocialAccountPublic) GetUserID() string {
+	if s == nil {
+		return ""
+	}
+	return s.UserID
+}
+
+func (s *SocialAccountPublic) GetProfilePhotoURL() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ProfilePhotoURL
+}
+
+func (s *SocialAccountPublic) GetStatus() SocialAccountPublicStatus {
+	if s == nil {
+		return ""
+	}
+	return s.Status
+}
+
+func (s *SocialAccountPublic) GetExternalID() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ExternalID
+}
+
+func (s *SocialAccountPublic) GetExtraProperties() map[string]interface{} {
+	if s == nil {
+		return nil
+	}
+	return s.extraProperties
+}
+
+func (s *SocialAccountPublic) require(field *big.Int) {
+	next := new(big.Int)
+	if s.explicitFields != nil {
+		next.Set(s.explicitFields)
+	}
+	next.Or(next, field)
+	s.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SocialAccountPublic) SetID(id string) {
+	s.ID = id
+	s.require(socialAccountPublicFieldID)
+}
+
+// SetPlatform sets the Platform field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SocialAccountPublic) SetPlatform(platform SocialPlatform) {
+	s.Platform = platform
+	s.require(socialAccountPublicFieldPlatform)
+}
+
+// SetUsername sets the Username field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SocialAccountPublic) SetUsername(username *string) {
+	s.Username = username
+	s.require(socialAccountPublicFieldUsername)
+}
+
+// SetUserID sets the UserID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SocialAccountPublic) SetUserID(userID string) {
+	s.UserID = userID
+	s.require(socialAccountPublicFieldUserID)
+}
+
+// SetProfilePhotoURL sets the ProfilePhotoURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SocialAccountPublic) SetProfilePhotoURL(profilePhotoURL *string) {
+	s.ProfilePhotoURL = profilePhotoURL
+	s.require(socialAccountPublicFieldProfilePhotoURL)
+}
+
+// SetStatus sets the Status field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SocialAccountPublic) SetStatus(status SocialAccountPublicStatus) {
+	s.Status = status
+	s.require(socialAccountPublicFieldStatus)
+}
+
+// SetExternalID sets the ExternalID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (s *SocialAccountPublic) SetExternalID(externalID *string) {
+	s.ExternalID = externalID
+	s.require(socialAccountPublicFieldExternalID)
+}
+
+func (s *SocialAccountPublic) UnmarshalJSON(data []byte) error {
+	type unmarshaler SocialAccountPublic
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*s = SocialAccountPublic(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *s)
+	if err != nil {
+		return err
+	}
+	s.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, socialAccountPublicNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		s.require(presentFields)
+	}
+	s.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (s *SocialAccountPublic) MarshalJSON() ([]byte, error) {
+	type embed SocialAccountPublic
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*s),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, s.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (s *SocialAccountPublic) String() string {
+	if s == nil {
+		return "<nil>"
+	}
+	if len(s.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(s.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(s); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", s)
+}
+
+type SocialAccountPublicStatus string
+
+const (
+	SocialAccountPublicStatusConnected    SocialAccountPublicStatus = "connected"
+	SocialAccountPublicStatusDisconnected SocialAccountPublicStatus = "disconnected"
+)
+
+func NewSocialAccountPublicStatusFromString(s string) (SocialAccountPublicStatus, error) {
+	switch s {
+	case "connected":
+		return SocialAccountPublicStatusConnected, nil
+	case "disconnected":
+		return SocialAccountPublicStatusDisconnected, nil
+	}
+	var t SocialAccountPublicStatus
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SocialAccountPublicStatus) Ptr() *SocialAccountPublicStatus {
+	return &s
+}
+
+var (
 	socialAccountUpdateFieldID        = big.NewInt(1 << 0)
 	socialAccountUpdateFieldStatus    = big.NewInt(1 << 1)
 	socialAccountUpdateFieldProfileID = big.NewInt(1 << 2)
@@ -2046,6 +4358,118 @@ func NewSocialAccountUpdateStatusFromString(s string) (SocialAccountUpdateStatus
 }
 
 func (s SocialAccountUpdateStatus) Ptr() *SocialAccountUpdateStatus {
+	return &s
+}
+
+type SocialPlatform string
+
+const (
+	SocialPlatformBluesky               SocialPlatform = "bluesky"
+	SocialPlatformFacebook              SocialPlatform = "facebook"
+	SocialPlatformGoogleBusinessProfile SocialPlatform = "google_business_profile"
+	SocialPlatformInstagram             SocialPlatform = "instagram"
+	SocialPlatformLinkedin              SocialPlatform = "linkedin"
+	SocialPlatformPinterest             SocialPlatform = "pinterest"
+	SocialPlatformReddit                SocialPlatform = "reddit"
+	SocialPlatformSnapchat              SocialPlatform = "snapchat"
+	SocialPlatformThreads               SocialPlatform = "threads"
+	SocialPlatformTiktok                SocialPlatform = "tiktok"
+	SocialPlatformTwitter               SocialPlatform = "twitter"
+	SocialPlatformYoutube               SocialPlatform = "youtube"
+	SocialPlatformMastodon              SocialPlatform = "mastodon"
+	SocialPlatformTelegram              SocialPlatform = "telegram"
+	SocialPlatformDevto                 SocialPlatform = "devto"
+	SocialPlatformHashnode              SocialPlatform = "hashnode"
+	SocialPlatformMedium                SocialPlatform = "medium"
+	SocialPlatformWordpress             SocialPlatform = "wordpress"
+	SocialPlatformLemmy                 SocialPlatform = "lemmy"
+	SocialPlatformNostr                 SocialPlatform = "nostr"
+	SocialPlatformDiscord               SocialPlatform = "discord"
+	SocialPlatformDribbble              SocialPlatform = "dribbble"
+	SocialPlatformFarcaster             SocialPlatform = "farcaster"
+	SocialPlatformKick                  SocialPlatform = "kick"
+	SocialPlatformListmonk              SocialPlatform = "listmonk"
+	SocialPlatformMewe                  SocialPlatform = "mewe"
+	SocialPlatformMoltbook              SocialPlatform = "moltbook"
+	SocialPlatformSkool                 SocialPlatform = "skool"
+	SocialPlatformSlack                 SocialPlatform = "slack"
+	SocialPlatformTwitch                SocialPlatform = "twitch"
+	SocialPlatformVk                    SocialPlatform = "vk"
+	SocialPlatformWhop                  SocialPlatform = "whop"
+)
+
+func NewSocialPlatformFromString(s string) (SocialPlatform, error) {
+	switch s {
+	case "bluesky":
+		return SocialPlatformBluesky, nil
+	case "facebook":
+		return SocialPlatformFacebook, nil
+	case "google_business_profile":
+		return SocialPlatformGoogleBusinessProfile, nil
+	case "instagram":
+		return SocialPlatformInstagram, nil
+	case "linkedin":
+		return SocialPlatformLinkedin, nil
+	case "pinterest":
+		return SocialPlatformPinterest, nil
+	case "reddit":
+		return SocialPlatformReddit, nil
+	case "snapchat":
+		return SocialPlatformSnapchat, nil
+	case "threads":
+		return SocialPlatformThreads, nil
+	case "tiktok":
+		return SocialPlatformTiktok, nil
+	case "twitter":
+		return SocialPlatformTwitter, nil
+	case "youtube":
+		return SocialPlatformYoutube, nil
+	case "mastodon":
+		return SocialPlatformMastodon, nil
+	case "telegram":
+		return SocialPlatformTelegram, nil
+	case "devto":
+		return SocialPlatformDevto, nil
+	case "hashnode":
+		return SocialPlatformHashnode, nil
+	case "medium":
+		return SocialPlatformMedium, nil
+	case "wordpress":
+		return SocialPlatformWordpress, nil
+	case "lemmy":
+		return SocialPlatformLemmy, nil
+	case "nostr":
+		return SocialPlatformNostr, nil
+	case "discord":
+		return SocialPlatformDiscord, nil
+	case "dribbble":
+		return SocialPlatformDribbble, nil
+	case "farcaster":
+		return SocialPlatformFarcaster, nil
+	case "kick":
+		return SocialPlatformKick, nil
+	case "listmonk":
+		return SocialPlatformListmonk, nil
+	case "mewe":
+		return SocialPlatformMewe, nil
+	case "moltbook":
+		return SocialPlatformMoltbook, nil
+	case "skool":
+		return SocialPlatformSkool, nil
+	case "slack":
+		return SocialPlatformSlack, nil
+	case "twitch":
+		return SocialPlatformTwitch, nil
+	case "vk":
+		return SocialPlatformVk, nil
+	case "whop":
+		return SocialPlatformWhop, nil
+	}
+	var t SocialPlatform
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (s SocialPlatform) Ptr() *SocialPlatform {
 	return &s
 }
 

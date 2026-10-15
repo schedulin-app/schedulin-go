@@ -171,79 +171,7 @@ client.Posts.Create(
 <dl>
 <dd>
 
-**caption:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**title:** `*string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**scheduledAt:** `*time.Time` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**socialAccountID:** `string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**media:** `[]*schedulin.PostCreateMediaItem` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**thumbnail:** `*schedulin.PostCreateThumbnail` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**platformConfiguration:** `map[string]any` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**tagIDs:** `[]string` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**action:** `*schedulin.PostCreateAction` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**parts:** `[]*schedulin.PostCreatePartsItem` 
+**request:** `*schedulin.PostCreate` 
     
 </dd>
 </dl>
@@ -889,6 +817,80 @@ client.Posts.UpdateTags(
 <dd>
 
 **tagIDs:** `[]string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## PostGroups
+<details><summary><code>client.PostGroups.Create(request) -> *schedulin.CreatePostGroupsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create posts for several social accounts in one request — for example the same caption and image sent to Instagram, Threads and Facebook. Each post is validated exactly like `POST /v0/posts` (including per-platform rules), and media may reference stored library URLs or publicly reachable URLs; an external URL shared by several posts is imported once. The request is atomic: if any post is invalid, nothing is created. Posts with `action: "queue"` on the same account take consecutive queue slots. Up to 50 posts per request.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.CreatePostGroupsRequest{
+    Posts: []*schedulin.PostCreate{
+        &schedulin.PostCreate{
+            Caption: "caption",
+            SocialAccountID: "socialAccountId",
+        },
+    },
+}
+client.PostGroups.Create(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**title:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**posts:** `[]*schedulin.PostCreate` 
     
 </dd>
 </dl>

@@ -384,6 +384,37 @@
       }
     },
     {
+      "id": "bb7190fc-099e-4862-993a-0f8c0dfe4e39",
+      "name": "Create a post group - default",
+      "request": {
+        "urlPathTemplate": "/v0/post-groups",
+        "method": "POST",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"id\": \"id\",\n  \"posts\": [\n    {\n      \"id\": \"id\",\n      \"externalId\": \"externalId\",\n      \"caption\": \"caption\",\n      \"status\": \"SCHEDULED\",\n      \"scheduledAt\": \"2024-01-15T09:30:00Z\",\n      \"platformConfiguration\": {\n        \"key\": \"value\"\n      },\n      \"media\": [\n        {\n          \"url\": \"url\"\n        }\n      ],\n      \"socialAccountId\": \"socialAccountId\",\n      \"socialAccounts\": [\n        {\n          \"id\": \"id\",\n          \"platform\": \"bluesky\",\n          \"username\": null,\n          \"userId\": \"userId\",\n          \"profilePhotoUrl\": null,\n          \"status\": \"connected\",\n          \"externalId\": null\n        }\n      ],\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "bb7190fc-099e-4862-993a-0f8c0dfe4e39",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
       "id": "573455c3-815a-48e2-9792-2996d9a1d376",
       "name": "List social accounts - default",
       "request": {
@@ -397,7 +428,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"data\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
+        "body": "{\n  \"data\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"connectedVia\": {\n        \"id\": \"id\",\n        \"name\": \"name\"\n      },\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ]\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1743,7 +1774,7 @@
       },
       "response": {
         "status": 200,
-        "body": "[\n  {\n    \"id\": \"id\",\n    \"externalId\": \"externalId\",\n    \"name\": \"name\",\n    \"socialAccounts\": [\n      {\n        \"id\": \"id\",\n        \"platform\": \"bluesky\",\n        \"status\": \"connected\",\n        \"disconnectedReason\": null,\n        \"username\": null,\n        \"displayName\": null,\n        \"profileImageUrl\": null,\n        \"refreshTokenValid\": true,\n        \"analyticsDisabledAt\": null,\n        \"webhookSubscriptionFailedAt\": null,\n        \"profileId\": null,\n        \"createdAt\": \"2024-01-15T09:30:00Z\",\n        \"updatedAt\": \"2024-01-15T09:30:00Z\"\n      }\n    ],\n    \"createdAt\": \"2024-01-15T09:30:00Z\",\n    \"updatedAt\": \"2024-01-15T09:30:00Z\"\n  }\n]",
+        "body": "[\n  {\n    \"id\": \"id\",\n    \"externalId\": \"externalId\",\n    \"name\": \"name\",\n    \"socialAccounts\": [\n      {\n        \"id\": \"id\",\n        \"platform\": \"bluesky\",\n        \"status\": \"connected\",\n        \"disconnectedReason\": null,\n        \"username\": null,\n        \"displayName\": null,\n        \"profileImageUrl\": null,\n        \"refreshTokenValid\": true,\n        \"analyticsDisabledAt\": null,\n        \"webhookSubscriptionFailedAt\": null,\n        \"profileId\": null,\n        \"connectedVia\": null,\n        \"createdAt\": \"2024-01-15T09:30:00Z\",\n        \"updatedAt\": \"2024-01-15T09:30:00Z\"\n      }\n    ],\n    \"createdAt\": \"2024-01-15T09:30:00Z\",\n    \"updatedAt\": \"2024-01-15T09:30:00Z\"\n  }\n]",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1775,7 +1806,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"name\": \"name\",\n  \"socialAccounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ],\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"name\": \"name\",\n  \"socialAccounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"connectedVia\": {\n        \"id\": \"id\",\n        \"name\": \"name\"\n      },\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ],\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1811,7 +1842,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"name\": \"name\",\n  \"socialAccounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ],\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"name\": \"name\",\n  \"socialAccounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"connectedVia\": {\n        \"id\": \"id\",\n        \"name\": \"name\"\n      },\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ],\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -1883,7 +1914,7 @@
       },
       "response": {
         "status": 200,
-        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"name\": \"name\",\n  \"socialAccounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ],\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "body": "{\n  \"id\": \"id\",\n  \"externalId\": \"externalId\",\n  \"name\": \"name\",\n  \"socialAccounts\": [\n    {\n      \"id\": \"id\",\n      \"platform\": \"bluesky\",\n      \"status\": \"connected\",\n      \"disconnectedReason\": \"TOKEN_EXPIRED\",\n      \"username\": \"username\",\n      \"displayName\": \"displayName\",\n      \"profileImageUrl\": \"profileImageUrl\",\n      \"refreshTokenValid\": true,\n      \"analyticsDisabledAt\": \"2024-01-15T09:30:00Z\",\n      \"webhookSubscriptionFailedAt\": \"2024-01-15T09:30:00Z\",\n      \"profileId\": \"profileId\",\n      \"connectedVia\": {\n        \"id\": \"id\",\n        \"name\": \"name\"\n      },\n      \"createdAt\": \"2024-01-15T09:30:00Z\",\n      \"updatedAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ],\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
         "headers": {
           "Content-Type": "application/json"
         }
@@ -2225,6 +2256,6 @@
     }
   ],
   "meta": {
-    "total": 64
+    "total": 65
   }
 }

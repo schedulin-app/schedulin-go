@@ -1205,8 +1205,9 @@ var (
 	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 8)
 	listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 9)
 	listSocialAccountsResponseDataItemFieldProfileID                   = big.NewInt(1 << 10)
-	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 11)
-	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 12)
+	listSocialAccountsResponseDataItemFieldConnectedVia                = big.NewInt(1 << 11)
+	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 12)
+	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 13)
 )
 
 // listSocialAccountsResponseDataItemNullableFields maps the wire names of ListSocialAccountsResponseDataItem's nullable fields (required or optional) to their field bits.
@@ -1218,6 +1219,7 @@ var listSocialAccountsResponseDataItemNullableFields = map[string]*big.Int{
 	"analyticsDisabledAt":         listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt,
 	"webhookSubscriptionFailedAt": listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt,
 	"profileId":                   listSocialAccountsResponseDataItemFieldProfileID,
+	"connectedVia":                listSocialAccountsResponseDataItemFieldConnectedVia,
 }
 
 type ListSocialAccountsResponseDataItem struct {
@@ -1232,8 +1234,10 @@ type ListSocialAccountsResponseDataItem struct {
 	AnalyticsDisabledAt         *time.Time                                 `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
 	WebhookSubscriptionFailedAt *time.Time                                 `json:"webhookSubscriptionFailedAt,omitempty" url:"webhookSubscriptionFailedAt,omitempty"`
 	ProfileID                   *string                                    `json:"profileId,omitempty" url:"profileId,omitempty"`
-	CreatedAt                   time.Time                                  `json:"createdAt" url:"createdAt"`
-	UpdatedAt                   time.Time                                  `json:"updatedAt" url:"updatedAt"`
+	// The platform profile whose login connected this account (e.g. the Facebook user a Page was connected through). Null when unknown.
+	ConnectedVia *ListSocialAccountsResponseDataItemConnectedVia `json:"connectedVia,omitempty" url:"connectedVia,omitempty"`
+	CreatedAt    time.Time                                       `json:"createdAt" url:"createdAt"`
+	UpdatedAt    time.Time                                       `json:"updatedAt" url:"updatedAt"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1317,6 +1321,13 @@ func (l *ListSocialAccountsResponseDataItem) GetProfileID() *string {
 		return nil
 	}
 	return l.ProfileID
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetConnectedVia() *ListSocialAccountsResponseDataItemConnectedVia {
+	if l == nil {
+		return nil
+	}
+	return l.ConnectedVia
 }
 
 func (l *ListSocialAccountsResponseDataItem) GetCreatedAt() time.Time {
@@ -1426,6 +1437,13 @@ func (l *ListSocialAccountsResponseDataItem) SetProfileID(profileID *string) {
 	l.require(listSocialAccountsResponseDataItemFieldProfileID)
 }
 
+// SetConnectedVia sets the ConnectedVia field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSocialAccountsResponseDataItem) SetConnectedVia(connectedVia *ListSocialAccountsResponseDataItemConnectedVia) {
+	l.ConnectedVia = connectedVia
+	l.require(listSocialAccountsResponseDataItemFieldConnectedVia)
+}
+
 // SetCreatedAt sets the CreatedAt field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
 func (l *ListSocialAccountsResponseDataItem) SetCreatedAt(createdAt time.Time) {
@@ -1495,6 +1513,108 @@ func (l *ListSocialAccountsResponseDataItem) MarshalJSON() ([]byte, error) {
 }
 
 func (l *ListSocialAccountsResponseDataItem) String() string {
+	if l == nil {
+		return "<nil>"
+	}
+	if len(l.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(l.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(l); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", l)
+}
+
+var (
+	listSocialAccountsResponseDataItemConnectedViaFieldID   = big.NewInt(1 << 0)
+	listSocialAccountsResponseDataItemConnectedViaFieldName = big.NewInt(1 << 1)
+)
+
+type ListSocialAccountsResponseDataItemConnectedVia struct {
+	ID   string `json:"id" url:"id"`
+	Name string `json:"name" url:"name"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (l *ListSocialAccountsResponseDataItemConnectedVia) GetID() string {
+	if l == nil {
+		return ""
+	}
+	return l.ID
+}
+
+func (l *ListSocialAccountsResponseDataItemConnectedVia) GetName() string {
+	if l == nil {
+		return ""
+	}
+	return l.Name
+}
+
+func (l *ListSocialAccountsResponseDataItemConnectedVia) GetExtraProperties() map[string]interface{} {
+	if l == nil {
+		return nil
+	}
+	return l.extraProperties
+}
+
+func (l *ListSocialAccountsResponseDataItemConnectedVia) require(field *big.Int) {
+	next := new(big.Int)
+	if l.explicitFields != nil {
+		next.Set(l.explicitFields)
+	}
+	next.Or(next, field)
+	l.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSocialAccountsResponseDataItemConnectedVia) SetID(id string) {
+	l.ID = id
+	l.require(listSocialAccountsResponseDataItemConnectedViaFieldID)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSocialAccountsResponseDataItemConnectedVia) SetName(name string) {
+	l.Name = name
+	l.require(listSocialAccountsResponseDataItemConnectedViaFieldName)
+}
+
+func (l *ListSocialAccountsResponseDataItemConnectedVia) UnmarshalJSON(data []byte) error {
+	type unmarshaler ListSocialAccountsResponseDataItemConnectedVia
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*l = ListSocialAccountsResponseDataItemConnectedVia(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *l)
+	if err != nil {
+		return err
+	}
+	l.extraProperties = extraProperties
+	l.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (l *ListSocialAccountsResponseDataItemConnectedVia) MarshalJSON() ([]byte, error) {
+	type embed ListSocialAccountsResponseDataItemConnectedVia
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*l),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, l.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (l *ListSocialAccountsResponseDataItemConnectedVia) String() string {
 	if l == nil {
 		return "<nil>"
 	}
