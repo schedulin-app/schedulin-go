@@ -1200,14 +1200,15 @@ var (
 	listSocialAccountsResponseDataItemFieldDisconnectedReason          = big.NewInt(1 << 3)
 	listSocialAccountsResponseDataItemFieldUsername                    = big.NewInt(1 << 4)
 	listSocialAccountsResponseDataItemFieldDisplayName                 = big.NewInt(1 << 5)
-	listSocialAccountsResponseDataItemFieldProfileImageURL             = big.NewInt(1 << 6)
-	listSocialAccountsResponseDataItemFieldRefreshTokenValid           = big.NewInt(1 << 7)
-	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 8)
-	listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 9)
-	listSocialAccountsResponseDataItemFieldProfileID                   = big.NewInt(1 << 10)
-	listSocialAccountsResponseDataItemFieldConnectedVia                = big.NewInt(1 << 11)
-	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 12)
-	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 13)
+	listSocialAccountsResponseDataItemFieldHandle                      = big.NewInt(1 << 6)
+	listSocialAccountsResponseDataItemFieldProfileImageURL             = big.NewInt(1 << 7)
+	listSocialAccountsResponseDataItemFieldRefreshTokenValid           = big.NewInt(1 << 8)
+	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 9)
+	listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 10)
+	listSocialAccountsResponseDataItemFieldProfileID                   = big.NewInt(1 << 11)
+	listSocialAccountsResponseDataItemFieldConnectedVia                = big.NewInt(1 << 12)
+	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 13)
+	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 14)
 )
 
 // listSocialAccountsResponseDataItemNullableFields maps the wire names of ListSocialAccountsResponseDataItem's nullable fields (required or optional) to their field bits.
@@ -1215,6 +1216,7 @@ var listSocialAccountsResponseDataItemNullableFields = map[string]*big.Int{
 	"disconnectedReason":          listSocialAccountsResponseDataItemFieldDisconnectedReason,
 	"username":                    listSocialAccountsResponseDataItemFieldUsername,
 	"displayName":                 listSocialAccountsResponseDataItemFieldDisplayName,
+	"handle":                      listSocialAccountsResponseDataItemFieldHandle,
 	"profileImageUrl":             listSocialAccountsResponseDataItemFieldProfileImageURL,
 	"analyticsDisabledAt":         listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt,
 	"webhookSubscriptionFailedAt": listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt,
@@ -1223,17 +1225,19 @@ var listSocialAccountsResponseDataItemNullableFields = map[string]*big.Int{
 }
 
 type ListSocialAccountsResponseDataItem struct {
-	ID                          string                                     `json:"id" url:"id"`
-	Platform                    ListSocialAccountsResponseDataItemPlatform `json:"platform" url:"platform"`
-	Status                      ListSocialAccountsResponseDataItemStatus   `json:"status" url:"status"`
-	DisconnectedReason          *SocialAccountDisconnectedReason           `json:"disconnectedReason,omitempty" url:"disconnectedReason,omitempty"`
-	Username                    *string                                    `json:"username,omitempty" url:"username,omitempty"`
-	DisplayName                 *string                                    `json:"displayName,omitempty" url:"displayName,omitempty"`
-	ProfileImageURL             *string                                    `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
-	RefreshTokenValid           bool                                       `json:"refreshTokenValid" url:"refreshTokenValid"`
-	AnalyticsDisabledAt         *time.Time                                 `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
-	WebhookSubscriptionFailedAt *time.Time                                 `json:"webhookSubscriptionFailedAt,omitempty" url:"webhookSubscriptionFailedAt,omitempty"`
-	ProfileID                   *string                                    `json:"profileId,omitempty" url:"profileId,omitempty"`
+	ID                 string                                     `json:"id" url:"id"`
+	Platform           ListSocialAccountsResponseDataItemPlatform `json:"platform" url:"platform"`
+	Status             ListSocialAccountsResponseDataItemStatus   `json:"status" url:"status"`
+	DisconnectedReason *SocialAccountDisconnectedReason           `json:"disconnectedReason,omitempty" url:"disconnectedReason,omitempty"`
+	Username           *string                                    `json:"username,omitempty" url:"username,omitempty"`
+	DisplayName        *string                                    `json:"displayName,omitempty" url:"displayName,omitempty"`
+	// The account's platform @handle when known (e.g. TikTok username), without the @. Null when unknown.
+	Handle                      *string    `json:"handle,omitempty" url:"handle,omitempty"`
+	ProfileImageURL             *string    `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
+	RefreshTokenValid           bool       `json:"refreshTokenValid" url:"refreshTokenValid"`
+	AnalyticsDisabledAt         *time.Time `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
+	WebhookSubscriptionFailedAt *time.Time `json:"webhookSubscriptionFailedAt,omitempty" url:"webhookSubscriptionFailedAt,omitempty"`
+	ProfileID                   *string    `json:"profileId,omitempty" url:"profileId,omitempty"`
 	// The platform profile whose login connected this account (e.g. the Facebook user a Page was connected through). Null when unknown.
 	ConnectedVia *ListSocialAccountsResponseDataItemConnectedVia `json:"connectedVia,omitempty" url:"connectedVia,omitempty"`
 	CreatedAt    time.Time                                       `json:"createdAt" url:"createdAt"`
@@ -1286,6 +1290,13 @@ func (l *ListSocialAccountsResponseDataItem) GetDisplayName() *string {
 		return nil
 	}
 	return l.DisplayName
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetHandle() *string {
+	if l == nil {
+		return nil
+	}
+	return l.Handle
 }
 
 func (l *ListSocialAccountsResponseDataItem) GetProfileImageURL() *string {
@@ -1400,6 +1411,13 @@ func (l *ListSocialAccountsResponseDataItem) SetUsername(username *string) {
 func (l *ListSocialAccountsResponseDataItem) SetDisplayName(displayName *string) {
 	l.DisplayName = displayName
 	l.require(listSocialAccountsResponseDataItemFieldDisplayName)
+}
+
+// SetHandle sets the Handle field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSocialAccountsResponseDataItem) SetHandle(handle *string) {
+	l.Handle = handle
+	l.require(listSocialAccountsResponseDataItemFieldHandle)
 }
 
 // SetProfileImageURL sets the ProfileImageURL field and marks it as non-optional;

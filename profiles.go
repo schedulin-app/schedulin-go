@@ -418,14 +418,15 @@ var (
 	clientProfileSocialAccountsItemFieldDisconnectedReason          = big.NewInt(1 << 3)
 	clientProfileSocialAccountsItemFieldUsername                    = big.NewInt(1 << 4)
 	clientProfileSocialAccountsItemFieldDisplayName                 = big.NewInt(1 << 5)
-	clientProfileSocialAccountsItemFieldProfileImageURL             = big.NewInt(1 << 6)
-	clientProfileSocialAccountsItemFieldRefreshTokenValid           = big.NewInt(1 << 7)
-	clientProfileSocialAccountsItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 8)
-	clientProfileSocialAccountsItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 9)
-	clientProfileSocialAccountsItemFieldProfileID                   = big.NewInt(1 << 10)
-	clientProfileSocialAccountsItemFieldConnectedVia                = big.NewInt(1 << 11)
-	clientProfileSocialAccountsItemFieldCreatedAt                   = big.NewInt(1 << 12)
-	clientProfileSocialAccountsItemFieldUpdatedAt                   = big.NewInt(1 << 13)
+	clientProfileSocialAccountsItemFieldHandle                      = big.NewInt(1 << 6)
+	clientProfileSocialAccountsItemFieldProfileImageURL             = big.NewInt(1 << 7)
+	clientProfileSocialAccountsItemFieldRefreshTokenValid           = big.NewInt(1 << 8)
+	clientProfileSocialAccountsItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 9)
+	clientProfileSocialAccountsItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 10)
+	clientProfileSocialAccountsItemFieldProfileID                   = big.NewInt(1 << 11)
+	clientProfileSocialAccountsItemFieldConnectedVia                = big.NewInt(1 << 12)
+	clientProfileSocialAccountsItemFieldCreatedAt                   = big.NewInt(1 << 13)
+	clientProfileSocialAccountsItemFieldUpdatedAt                   = big.NewInt(1 << 14)
 )
 
 // clientProfileSocialAccountsItemNullableFields maps the wire names of ClientProfileSocialAccountsItem's nullable fields (required or optional) to their field bits.
@@ -433,6 +434,7 @@ var clientProfileSocialAccountsItemNullableFields = map[string]*big.Int{
 	"disconnectedReason":          clientProfileSocialAccountsItemFieldDisconnectedReason,
 	"username":                    clientProfileSocialAccountsItemFieldUsername,
 	"displayName":                 clientProfileSocialAccountsItemFieldDisplayName,
+	"handle":                      clientProfileSocialAccountsItemFieldHandle,
 	"profileImageUrl":             clientProfileSocialAccountsItemFieldProfileImageURL,
 	"analyticsDisabledAt":         clientProfileSocialAccountsItemFieldAnalyticsDisabledAt,
 	"webhookSubscriptionFailedAt": clientProfileSocialAccountsItemFieldWebhookSubscriptionFailedAt,
@@ -441,17 +443,19 @@ var clientProfileSocialAccountsItemNullableFields = map[string]*big.Int{
 }
 
 type ClientProfileSocialAccountsItem struct {
-	ID                          string                                  `json:"id" url:"id"`
-	Platform                    ClientProfileSocialAccountsItemPlatform `json:"platform" url:"platform"`
-	Status                      ClientProfileSocialAccountsItemStatus   `json:"status" url:"status"`
-	DisconnectedReason          *SocialAccountDisconnectedReason        `json:"disconnectedReason,omitempty" url:"disconnectedReason,omitempty"`
-	Username                    *string                                 `json:"username,omitempty" url:"username,omitempty"`
-	DisplayName                 *string                                 `json:"displayName,omitempty" url:"displayName,omitempty"`
-	ProfileImageURL             *string                                 `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
-	RefreshTokenValid           bool                                    `json:"refreshTokenValid" url:"refreshTokenValid"`
-	AnalyticsDisabledAt         *time.Time                              `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
-	WebhookSubscriptionFailedAt *time.Time                              `json:"webhookSubscriptionFailedAt,omitempty" url:"webhookSubscriptionFailedAt,omitempty"`
-	ProfileID                   *string                                 `json:"profileId,omitempty" url:"profileId,omitempty"`
+	ID                 string                                  `json:"id" url:"id"`
+	Platform           ClientProfileSocialAccountsItemPlatform `json:"platform" url:"platform"`
+	Status             ClientProfileSocialAccountsItemStatus   `json:"status" url:"status"`
+	DisconnectedReason *SocialAccountDisconnectedReason        `json:"disconnectedReason,omitempty" url:"disconnectedReason,omitempty"`
+	Username           *string                                 `json:"username,omitempty" url:"username,omitempty"`
+	DisplayName        *string                                 `json:"displayName,omitempty" url:"displayName,omitempty"`
+	// The account's platform @handle when known (e.g. TikTok username), without the @. Null when unknown.
+	Handle                      *string    `json:"handle,omitempty" url:"handle,omitempty"`
+	ProfileImageURL             *string    `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
+	RefreshTokenValid           bool       `json:"refreshTokenValid" url:"refreshTokenValid"`
+	AnalyticsDisabledAt         *time.Time `json:"analyticsDisabledAt,omitempty" url:"analyticsDisabledAt,omitempty"`
+	WebhookSubscriptionFailedAt *time.Time `json:"webhookSubscriptionFailedAt,omitempty" url:"webhookSubscriptionFailedAt,omitempty"`
+	ProfileID                   *string    `json:"profileId,omitempty" url:"profileId,omitempty"`
 	// The platform profile whose login connected this account (e.g. the Facebook user a Page was connected through). Null when unknown.
 	ConnectedVia *ClientProfileSocialAccountsItemConnectedVia `json:"connectedVia,omitempty" url:"connectedVia,omitempty"`
 	CreatedAt    time.Time                                    `json:"createdAt" url:"createdAt"`
@@ -504,6 +508,13 @@ func (c *ClientProfileSocialAccountsItem) GetDisplayName() *string {
 		return nil
 	}
 	return c.DisplayName
+}
+
+func (c *ClientProfileSocialAccountsItem) GetHandle() *string {
+	if c == nil {
+		return nil
+	}
+	return c.Handle
 }
 
 func (c *ClientProfileSocialAccountsItem) GetProfileImageURL() *string {
@@ -618,6 +629,13 @@ func (c *ClientProfileSocialAccountsItem) SetUsername(username *string) {
 func (c *ClientProfileSocialAccountsItem) SetDisplayName(displayName *string) {
 	c.DisplayName = displayName
 	c.require(clientProfileSocialAccountsItemFieldDisplayName)
+}
+
+// SetHandle sets the Handle field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientProfileSocialAccountsItem) SetHandle(handle *string) {
+	c.Handle = handle
+	c.require(clientProfileSocialAccountsItemFieldHandle)
 }
 
 // SetProfileImageURL sets the ProfileImageURL field and marks it as non-optional;
