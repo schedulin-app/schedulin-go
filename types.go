@@ -1617,6 +1617,7 @@ const (
 	PostCreateMediaItemTagsItemPlatformSnapchat              PostCreateMediaItemTagsItemPlatform = "snapchat"
 	PostCreateMediaItemTagsItemPlatformThreads               PostCreateMediaItemTagsItemPlatform = "threads"
 	PostCreateMediaItemTagsItemPlatformTiktok                PostCreateMediaItemTagsItemPlatform = "tiktok"
+	PostCreateMediaItemTagsItemPlatformTiktokBusiness        PostCreateMediaItemTagsItemPlatform = "tiktok_business"
 	PostCreateMediaItemTagsItemPlatformTwitter               PostCreateMediaItemTagsItemPlatform = "twitter"
 	PostCreateMediaItemTagsItemPlatformYoutube               PostCreateMediaItemTagsItemPlatform = "youtube"
 	PostCreateMediaItemTagsItemPlatformMastodon              PostCreateMediaItemTagsItemPlatform = "mastodon"
@@ -1663,6 +1664,8 @@ func NewPostCreateMediaItemTagsItemPlatformFromString(s string) (PostCreateMedia
 		return PostCreateMediaItemTagsItemPlatformThreads, nil
 	case "tiktok":
 		return PostCreateMediaItemTagsItemPlatformTiktok, nil
+	case "tiktok_business":
+		return PostCreateMediaItemTagsItemPlatformTiktokBusiness, nil
 	case "twitter":
 		return PostCreateMediaItemTagsItemPlatformTwitter, nil
 	case "youtube":
@@ -2279,6 +2282,7 @@ const (
 	PostCreatePartsItemMediaItemTagsItemPlatformSnapchat              PostCreatePartsItemMediaItemTagsItemPlatform = "snapchat"
 	PostCreatePartsItemMediaItemTagsItemPlatformThreads               PostCreatePartsItemMediaItemTagsItemPlatform = "threads"
 	PostCreatePartsItemMediaItemTagsItemPlatformTiktok                PostCreatePartsItemMediaItemTagsItemPlatform = "tiktok"
+	PostCreatePartsItemMediaItemTagsItemPlatformTiktokBusiness        PostCreatePartsItemMediaItemTagsItemPlatform = "tiktok_business"
 	PostCreatePartsItemMediaItemTagsItemPlatformTwitter               PostCreatePartsItemMediaItemTagsItemPlatform = "twitter"
 	PostCreatePartsItemMediaItemTagsItemPlatformYoutube               PostCreatePartsItemMediaItemTagsItemPlatform = "youtube"
 	PostCreatePartsItemMediaItemTagsItemPlatformMastodon              PostCreatePartsItemMediaItemTagsItemPlatform = "mastodon"
@@ -2325,6 +2329,8 @@ func NewPostCreatePartsItemMediaItemTagsItemPlatformFromString(s string) (PostCr
 		return PostCreatePartsItemMediaItemTagsItemPlatformThreads, nil
 	case "tiktok":
 		return PostCreatePartsItemMediaItemTagsItemPlatformTiktok, nil
+	case "tiktok_business":
+		return PostCreatePartsItemMediaItemTagsItemPlatformTiktokBusiness, nil
 	case "twitter":
 		return PostCreatePartsItemMediaItemTagsItemPlatformTwitter, nil
 	case "youtube":
@@ -2839,6 +2845,7 @@ const (
 	PostCreateThumbnailTagsItemPlatformSnapchat              PostCreateThumbnailTagsItemPlatform = "snapchat"
 	PostCreateThumbnailTagsItemPlatformThreads               PostCreateThumbnailTagsItemPlatform = "threads"
 	PostCreateThumbnailTagsItemPlatformTiktok                PostCreateThumbnailTagsItemPlatform = "tiktok"
+	PostCreateThumbnailTagsItemPlatformTiktokBusiness        PostCreateThumbnailTagsItemPlatform = "tiktok_business"
 	PostCreateThumbnailTagsItemPlatformTwitter               PostCreateThumbnailTagsItemPlatform = "twitter"
 	PostCreateThumbnailTagsItemPlatformYoutube               PostCreateThumbnailTagsItemPlatform = "youtube"
 	PostCreateThumbnailTagsItemPlatformMastodon              PostCreateThumbnailTagsItemPlatform = "mastodon"
@@ -2885,6 +2892,8 @@ func NewPostCreateThumbnailTagsItemPlatformFromString(s string) (PostCreateThumb
 		return PostCreateThumbnailTagsItemPlatformThreads, nil
 	case "tiktok":
 		return PostCreateThumbnailTagsItemPlatformTiktok, nil
+	case "tiktok_business":
+		return PostCreateThumbnailTagsItemPlatformTiktokBusiness, nil
 	case "twitter":
 		return PostCreateThumbnailTagsItemPlatformTwitter, nil
 	case "youtube":
@@ -4374,6 +4383,7 @@ const (
 	SocialPlatformSnapchat              SocialPlatform = "snapchat"
 	SocialPlatformThreads               SocialPlatform = "threads"
 	SocialPlatformTiktok                SocialPlatform = "tiktok"
+	SocialPlatformTiktokBusiness        SocialPlatform = "tiktok_business"
 	SocialPlatformTwitter               SocialPlatform = "twitter"
 	SocialPlatformYoutube               SocialPlatform = "youtube"
 	SocialPlatformMastodon              SocialPlatform = "mastodon"
@@ -4420,6 +4430,8 @@ func NewSocialPlatformFromString(s string) (SocialPlatform, error) {
 		return SocialPlatformThreads, nil
 	case "tiktok":
 		return SocialPlatformTiktok, nil
+	case "tiktok_business":
+		return SocialPlatformTiktokBusiness, nil
 	case "twitter":
 		return SocialPlatformTwitter, nil
 	case "youtube":

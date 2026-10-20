@@ -2646,6 +2646,13 @@ func TestEnumClientProfileSocialAccountsItemPlatform(t *testing.T) {
 		assert.Equal(t, ClientProfileSocialAccountsItemPlatform("tiktok"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_tiktok_business", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewClientProfileSocialAccountsItemPlatformFromString("tiktok_business")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, ClientProfileSocialAccountsItemPlatform("tiktok_business"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_twitter", func(t *testing.T) {
 		t.Parallel()
 		val, err := NewClientProfileSocialAccountsItemPlatformFromString("twitter")

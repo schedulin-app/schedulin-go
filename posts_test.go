@@ -13280,6 +13280,13 @@ func TestEnumCreatePostsResponseMediaItemTagsItemPlatform(t *testing.T) {
 		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("tiktok"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_tiktok_business", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("tiktok_business")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreatePostsResponseMediaItemTagsItemPlatform("tiktok_business"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_twitter", func(t *testing.T) {
 		t.Parallel()
 		val, err := NewCreatePostsResponseMediaItemTagsItemPlatformFromString("twitter")
@@ -13806,6 +13813,13 @@ func TestEnumPostMediaTagsItemPlatform(t *testing.T) {
 		assert.Equal(t, PostMediaTagsItemPlatform("tiktok"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_tiktok_business", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewPostMediaTagsItemPlatformFromString("tiktok_business")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, PostMediaTagsItemPlatform("tiktok_business"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_twitter", func(t *testing.T) {
 		t.Parallel()
 		val, err := NewPostMediaTagsItemPlatformFromString("twitter")
@@ -14103,6 +14117,13 @@ func TestEnumUpdatePostsRequestMediaItemTagsItemPlatform(t *testing.T) {
 		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("tiktok"), val, "enum value should match expected wire value")
 	})
 
+	t.Run("NewFromString_tiktok_business", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("tiktok_business")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestMediaItemTagsItemPlatform("tiktok_business"), val, "enum value should match expected wire value")
+	})
+
 	t.Run("NewFromString_twitter", func(t *testing.T) {
 		t.Parallel()
 		val, err := NewUpdatePostsRequestMediaItemTagsItemPlatformFromString("twitter")
@@ -14369,6 +14390,13 @@ func TestEnumUpdatePostsRequestPartsItemMediaItemTagsItemPlatform(t *testing.T) 
 		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("tiktok")
 		assert.NoError(t, err, "valid enum value should not return error")
 		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("tiktok"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_tiktok_business", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString("tiktok_business")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, UpdatePostsRequestPartsItemMediaItemTagsItemPlatform("tiktok_business"), val, "enum value should match expected wire value")
 	})
 
 	t.Run("NewFromString_twitter", func(t *testing.T) {

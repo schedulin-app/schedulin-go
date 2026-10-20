@@ -1660,6 +1660,7 @@ const (
 	ListSocialAccountsResponseDataItemPlatformSnapchat              ListSocialAccountsResponseDataItemPlatform = "snapchat"
 	ListSocialAccountsResponseDataItemPlatformThreads               ListSocialAccountsResponseDataItemPlatform = "threads"
 	ListSocialAccountsResponseDataItemPlatformTiktok                ListSocialAccountsResponseDataItemPlatform = "tiktok"
+	ListSocialAccountsResponseDataItemPlatformTiktokBusiness        ListSocialAccountsResponseDataItemPlatform = "tiktok_business"
 	ListSocialAccountsResponseDataItemPlatformTwitter               ListSocialAccountsResponseDataItemPlatform = "twitter"
 	ListSocialAccountsResponseDataItemPlatformYoutube               ListSocialAccountsResponseDataItemPlatform = "youtube"
 	ListSocialAccountsResponseDataItemPlatformMastodon              ListSocialAccountsResponseDataItemPlatform = "mastodon"
@@ -1706,6 +1707,8 @@ func NewListSocialAccountsResponseDataItemPlatformFromString(s string) (ListSoci
 		return ListSocialAccountsResponseDataItemPlatformThreads, nil
 	case "tiktok":
 		return ListSocialAccountsResponseDataItemPlatformTiktok, nil
+	case "tiktok_business":
+		return ListSocialAccountsResponseDataItemPlatformTiktokBusiness, nil
 	case "twitter":
 		return ListSocialAccountsResponseDataItemPlatformTwitter, nil
 	case "youtube":

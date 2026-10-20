@@ -1468,6 +1468,7 @@ const (
 	PostMediaTagsItemPlatformSnapchat              PostMediaTagsItemPlatform = "snapchat"
 	PostMediaTagsItemPlatformThreads               PostMediaTagsItemPlatform = "threads"
 	PostMediaTagsItemPlatformTiktok                PostMediaTagsItemPlatform = "tiktok"
+	PostMediaTagsItemPlatformTiktokBusiness        PostMediaTagsItemPlatform = "tiktok_business"
 	PostMediaTagsItemPlatformTwitter               PostMediaTagsItemPlatform = "twitter"
 	PostMediaTagsItemPlatformYoutube               PostMediaTagsItemPlatform = "youtube"
 	PostMediaTagsItemPlatformMastodon              PostMediaTagsItemPlatform = "mastodon"
@@ -1514,6 +1515,8 @@ func NewPostMediaTagsItemPlatformFromString(s string) (PostMediaTagsItemPlatform
 		return PostMediaTagsItemPlatformThreads, nil
 	case "tiktok":
 		return PostMediaTagsItemPlatformTiktok, nil
+	case "tiktok_business":
+		return PostMediaTagsItemPlatformTiktokBusiness, nil
 	case "twitter":
 		return PostMediaTagsItemPlatformTwitter, nil
 	case "youtube":
@@ -3648,6 +3651,7 @@ const (
 	CreatePostsResponseMediaItemTagsItemPlatformSnapchat              CreatePostsResponseMediaItemTagsItemPlatform = "snapchat"
 	CreatePostsResponseMediaItemTagsItemPlatformThreads               CreatePostsResponseMediaItemTagsItemPlatform = "threads"
 	CreatePostsResponseMediaItemTagsItemPlatformTiktok                CreatePostsResponseMediaItemTagsItemPlatform = "tiktok"
+	CreatePostsResponseMediaItemTagsItemPlatformTiktokBusiness        CreatePostsResponseMediaItemTagsItemPlatform = "tiktok_business"
 	CreatePostsResponseMediaItemTagsItemPlatformTwitter               CreatePostsResponseMediaItemTagsItemPlatform = "twitter"
 	CreatePostsResponseMediaItemTagsItemPlatformYoutube               CreatePostsResponseMediaItemTagsItemPlatform = "youtube"
 	CreatePostsResponseMediaItemTagsItemPlatformMastodon              CreatePostsResponseMediaItemTagsItemPlatform = "mastodon"
@@ -3694,6 +3698,8 @@ func NewCreatePostsResponseMediaItemTagsItemPlatformFromString(s string) (Create
 		return CreatePostsResponseMediaItemTagsItemPlatformThreads, nil
 	case "tiktok":
 		return CreatePostsResponseMediaItemTagsItemPlatformTiktok, nil
+	case "tiktok_business":
+		return CreatePostsResponseMediaItemTagsItemPlatformTiktokBusiness, nil
 	case "twitter":
 		return CreatePostsResponseMediaItemTagsItemPlatformTwitter, nil
 	case "youtube":
@@ -4457,6 +4463,7 @@ const (
 	UpdatePostsRequestMediaItemTagsItemPlatformSnapchat              UpdatePostsRequestMediaItemTagsItemPlatform = "snapchat"
 	UpdatePostsRequestMediaItemTagsItemPlatformThreads               UpdatePostsRequestMediaItemTagsItemPlatform = "threads"
 	UpdatePostsRequestMediaItemTagsItemPlatformTiktok                UpdatePostsRequestMediaItemTagsItemPlatform = "tiktok"
+	UpdatePostsRequestMediaItemTagsItemPlatformTiktokBusiness        UpdatePostsRequestMediaItemTagsItemPlatform = "tiktok_business"
 	UpdatePostsRequestMediaItemTagsItemPlatformTwitter               UpdatePostsRequestMediaItemTagsItemPlatform = "twitter"
 	UpdatePostsRequestMediaItemTagsItemPlatformYoutube               UpdatePostsRequestMediaItemTagsItemPlatform = "youtube"
 	UpdatePostsRequestMediaItemTagsItemPlatformMastodon              UpdatePostsRequestMediaItemTagsItemPlatform = "mastodon"
@@ -4503,6 +4510,8 @@ func NewUpdatePostsRequestMediaItemTagsItemPlatformFromString(s string) (UpdateP
 		return UpdatePostsRequestMediaItemTagsItemPlatformThreads, nil
 	case "tiktok":
 		return UpdatePostsRequestMediaItemTagsItemPlatformTiktok, nil
+	case "tiktok_business":
+		return UpdatePostsRequestMediaItemTagsItemPlatformTiktokBusiness, nil
 	case "twitter":
 		return UpdatePostsRequestMediaItemTagsItemPlatformTwitter, nil
 	case "youtube":
@@ -5122,6 +5131,7 @@ const (
 	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformSnapchat              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "snapchat"
 	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformThreads               UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "threads"
 	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTiktok                UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "tiktok"
+	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTiktokBusiness        UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "tiktok_business"
 	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTwitter               UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "twitter"
 	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformYoutube               UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "youtube"
 	UpdatePostsRequestPartsItemMediaItemTagsItemPlatformMastodon              UpdatePostsRequestPartsItemMediaItemTagsItemPlatform = "mastodon"
@@ -5168,6 +5178,8 @@ func NewUpdatePostsRequestPartsItemMediaItemTagsItemPlatformFromString(s string)
 		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformThreads, nil
 	case "tiktok":
 		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTiktok, nil
+	case "tiktok_business":
+		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTiktokBusiness, nil
 	case "twitter":
 		return UpdatePostsRequestPartsItemMediaItemTagsItemPlatformTwitter, nil
 	case "youtube":

@@ -878,6 +878,7 @@ const (
 	ClientProfileSocialAccountsItemPlatformSnapchat              ClientProfileSocialAccountsItemPlatform = "snapchat"
 	ClientProfileSocialAccountsItemPlatformThreads               ClientProfileSocialAccountsItemPlatform = "threads"
 	ClientProfileSocialAccountsItemPlatformTiktok                ClientProfileSocialAccountsItemPlatform = "tiktok"
+	ClientProfileSocialAccountsItemPlatformTiktokBusiness        ClientProfileSocialAccountsItemPlatform = "tiktok_business"
 	ClientProfileSocialAccountsItemPlatformTwitter               ClientProfileSocialAccountsItemPlatform = "twitter"
 	ClientProfileSocialAccountsItemPlatformYoutube               ClientProfileSocialAccountsItemPlatform = "youtube"
 	ClientProfileSocialAccountsItemPlatformMastodon              ClientProfileSocialAccountsItemPlatform = "mastodon"
@@ -924,6 +925,8 @@ func NewClientProfileSocialAccountsItemPlatformFromString(s string) (ClientProfi
 		return ClientProfileSocialAccountsItemPlatformThreads, nil
 	case "tiktok":
 		return ClientProfileSocialAccountsItemPlatformTiktok, nil
+	case "tiktok_business":
+		return ClientProfileSocialAccountsItemPlatformTiktokBusiness, nil
 	case "twitter":
 		return ClientProfileSocialAccountsItemPlatformTwitter, nil
 	case "youtube":

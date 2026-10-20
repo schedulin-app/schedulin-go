@@ -788,6 +788,7 @@ const (
 	CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformSnapchat              CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatform = "snapchat"
 	CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformThreads               CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatform = "threads"
 	CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformTiktok                CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatform = "tiktok"
+	CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformTiktokBusiness        CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatform = "tiktok_business"
 	CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformTwitter               CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatform = "twitter"
 	CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformYoutube               CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatform = "youtube"
 	CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformMastodon              CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatform = "mastodon"
@@ -834,6 +835,8 @@ func NewCreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformFromString(s s
 		return CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformThreads, nil
 	case "tiktok":
 		return CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformTiktok, nil
+	case "tiktok_business":
+		return CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformTiktokBusiness, nil
 	case "twitter":
 		return CreatePostGroupsResponsePostsItemMediaItemTagsItemPlatformTwitter, nil
 	case "youtube":
