@@ -43,6 +43,14 @@ func TestSettersCreateFromURLMediaRequest(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
+	t.Run("SetFitToPlatforms", func(t *testing.T) {
+		obj := &CreateFromURLMediaRequest{}
+		var fernTestValueFitToPlatforms []CreateFromURLMediaRequestFitToPlatformsItem
+		obj.SetFitToPlatforms(fernTestValueFitToPlatforms)
+		assert.Equal(t, fernTestValueFitToPlatforms, obj.FitToPlatforms)
+		assert.NotNil(t, obj.explicitFields)
+	})
+
 }
 
 func TestSettersMarkExplicitCreateFromURLMediaRequest(t *testing.T) {
@@ -147,6 +155,37 @@ func TestSettersMarkExplicitCreateFromURLMediaRequest(t *testing.T) {
 
 		// Act
 		obj.SetContentType(fernTestValueContentType)
+
+		// Assert - object with explicitly set field can be marshaled/unmarshaled
+		bytes, err := json.Marshal(obj)
+		require.NoError(t, err, "marshaling should succeed for test setup")
+
+		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
+		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
+		if len(bytes) > 0 && bytes[0] == '{' {
+			// JSON object - unmarshal into map
+			var unmarshaled map[string]interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		} else {
+			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
+			var unmarshaled interface{}
+			err = json.Unmarshal(bytes, &unmarshaled)
+			require.NoError(t, err, "unmarshaling should succeed for test verification")
+		}
+
+		// Note: This does not explicitly assert the presence of a specific JSON field
+		// It verifies that setting a field via setter allows successful JSON round-trip
+	})
+
+	t.Run("SetFitToPlatforms_MarksExplicit", func(t *testing.T) {
+		t.Parallel()
+		// Arrange
+		obj := &CreateFromURLMediaRequest{}
+		var fernTestValueFitToPlatforms []CreateFromURLMediaRequestFitToPlatformsItem
+
+		// Act
+		obj.SetFitToPlatforms(fernTestValueFitToPlatforms)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -3726,6 +3765,252 @@ func TestStringSetTagsMediaResponse(t *testing.T) {
 		var obj *SetTagsMediaResponse
 		result := obj.String()
 		assert.Equal(t, "<nil>", result, "String() should return <nil> for nil receiver")
+	})
+}
+
+func TestEnumCreateFromURLMediaRequestFitToPlatformsItem(t *testing.T) {
+	t.Run("NewFromString_bluesky", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("bluesky")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("bluesky"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_facebook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("facebook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("facebook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_google_business_profile", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("google_business_profile")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("google_business_profile"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_instagram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("instagram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("instagram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_linkedin", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("linkedin")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("linkedin"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_pinterest", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("pinterest")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("pinterest"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_reddit", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("reddit")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("reddit"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_snapchat", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("snapchat")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("snapchat"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_threads", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("threads")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("threads"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_tiktok", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("tiktok")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("tiktok"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_tiktok_business", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("tiktok_business")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("tiktok_business"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitter", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("twitter")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("twitter"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_youtube", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("youtube")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("youtube"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mastodon", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("mastodon")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("mastodon"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_telegram", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("telegram")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("telegram"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_devto", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("devto")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("devto"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_hashnode", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("hashnode")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("hashnode"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_medium", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("medium")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("medium"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_wordpress", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("wordpress")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("wordpress"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_lemmy", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("lemmy")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("lemmy"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_nostr", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("nostr")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("nostr"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_discord", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("discord")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("discord"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_dribbble", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("dribbble")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("dribbble"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_farcaster", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("farcaster")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("farcaster"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_kick", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("kick")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("kick"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_listmonk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("listmonk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("listmonk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_mewe", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("mewe")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("mewe"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_moltbook", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("moltbook")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("moltbook"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_skool", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("skool")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("skool"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_slack", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("slack")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("slack"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_twitch", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("twitch")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("twitch"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_vk", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("vk")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("vk"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_whop", func(t *testing.T) {
+		t.Parallel()
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("whop")
+		assert.NoError(t, err, "valid enum value should not return error")
+		assert.Equal(t, CreateFromURLMediaRequestFitToPlatformsItem("whop"), val, "enum value should match expected wire value")
+	})
+
+	t.Run("NewFromString_Invalid", func(t *testing.T) {
+		_, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("invalid_value_that_does_not_exist")
+		assert.Error(t, err)
+	})
+
+	t.Run("Ptr", func(t *testing.T) {
+		val, err := NewCreateFromURLMediaRequestFitToPlatformsItemFromString("bluesky")
+		assert.NoError(t, err)
+		ptr := val.Ptr()
+		assert.NotNil(t, ptr)
+		assert.Equal(t, val, *ptr)
 	})
 }
 

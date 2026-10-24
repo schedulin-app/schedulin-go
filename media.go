@@ -12,10 +12,11 @@ import (
 )
 
 var (
-	createFromURLMediaRequestFieldURL         = big.NewInt(1 << 0)
-	createFromURLMediaRequestFieldName        = big.NewInt(1 << 1)
-	createFromURLMediaRequestFieldAlt         = big.NewInt(1 << 2)
-	createFromURLMediaRequestFieldContentType = big.NewInt(1 << 3)
+	createFromURLMediaRequestFieldURL            = big.NewInt(1 << 0)
+	createFromURLMediaRequestFieldName           = big.NewInt(1 << 1)
+	createFromURLMediaRequestFieldAlt            = big.NewInt(1 << 2)
+	createFromURLMediaRequestFieldContentType    = big.NewInt(1 << 3)
+	createFromURLMediaRequestFieldFitToPlatforms = big.NewInt(1 << 4)
 )
 
 type CreateFromURLMediaRequest struct {
@@ -23,6 +24,8 @@ type CreateFromURLMediaRequest struct {
 	Name        *string `json:"name,omitempty" url:"-"`
 	Alt         *string `json:"alt,omitempty" url:"-"`
 	ContentType *string `json:"contentType,omitempty" url:"-"`
+	// Opt-in. Platforms the image will be posted to (e.g. ["instagram", "tiktok"]). The image is scaled down and/or re-encoded to fit the strictest of their size, dimension and format limits before it is stored. The original bytes are kept when the image already fits, or when none of the listed platforms has known image limits, so this is not a guaranteed conversion. Images only: videos and animated GIFs are stored as-is. Images over 50 MB or 100 megapixels are rejected when a listed platform has known image limits; import them without fitToPlatforms or shrink them first. Omit to store the file unchanged.
+	FitToPlatforms []CreateFromURLMediaRequestFitToPlatformsItem `json:"fitToPlatforms,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -63,6 +66,13 @@ func (c *CreateFromURLMediaRequest) SetAlt(alt *string) {
 func (c *CreateFromURLMediaRequest) SetContentType(contentType *string) {
 	c.ContentType = contentType
 	c.require(createFromURLMediaRequestFieldContentType)
+}
+
+// SetFitToPlatforms sets the FitToPlatforms field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *CreateFromURLMediaRequest) SetFitToPlatforms(fitToPlatforms []CreateFromURLMediaRequestFitToPlatformsItem) {
+	c.FitToPlatforms = fitToPlatforms
+	c.require(createFromURLMediaRequestFieldFitToPlatforms)
 }
 
 func (c *CreateFromURLMediaRequest) UnmarshalJSON(data []byte) error {
@@ -1142,6 +1152,121 @@ func (c *CountByTagMediaResponseDataItem) String() string {
 		return value
 	}
 	return fmt.Sprintf("%#v", c)
+}
+
+type CreateFromURLMediaRequestFitToPlatformsItem string
+
+const (
+	CreateFromURLMediaRequestFitToPlatformsItemBluesky               CreateFromURLMediaRequestFitToPlatformsItem = "bluesky"
+	CreateFromURLMediaRequestFitToPlatformsItemFacebook              CreateFromURLMediaRequestFitToPlatformsItem = "facebook"
+	CreateFromURLMediaRequestFitToPlatformsItemGoogleBusinessProfile CreateFromURLMediaRequestFitToPlatformsItem = "google_business_profile"
+	CreateFromURLMediaRequestFitToPlatformsItemInstagram             CreateFromURLMediaRequestFitToPlatformsItem = "instagram"
+	CreateFromURLMediaRequestFitToPlatformsItemLinkedin              CreateFromURLMediaRequestFitToPlatformsItem = "linkedin"
+	CreateFromURLMediaRequestFitToPlatformsItemPinterest             CreateFromURLMediaRequestFitToPlatformsItem = "pinterest"
+	CreateFromURLMediaRequestFitToPlatformsItemReddit                CreateFromURLMediaRequestFitToPlatformsItem = "reddit"
+	CreateFromURLMediaRequestFitToPlatformsItemSnapchat              CreateFromURLMediaRequestFitToPlatformsItem = "snapchat"
+	CreateFromURLMediaRequestFitToPlatformsItemThreads               CreateFromURLMediaRequestFitToPlatformsItem = "threads"
+	CreateFromURLMediaRequestFitToPlatformsItemTiktok                CreateFromURLMediaRequestFitToPlatformsItem = "tiktok"
+	CreateFromURLMediaRequestFitToPlatformsItemTiktokBusiness        CreateFromURLMediaRequestFitToPlatformsItem = "tiktok_business"
+	CreateFromURLMediaRequestFitToPlatformsItemTwitter               CreateFromURLMediaRequestFitToPlatformsItem = "twitter"
+	CreateFromURLMediaRequestFitToPlatformsItemYoutube               CreateFromURLMediaRequestFitToPlatformsItem = "youtube"
+	CreateFromURLMediaRequestFitToPlatformsItemMastodon              CreateFromURLMediaRequestFitToPlatformsItem = "mastodon"
+	CreateFromURLMediaRequestFitToPlatformsItemTelegram              CreateFromURLMediaRequestFitToPlatformsItem = "telegram"
+	CreateFromURLMediaRequestFitToPlatformsItemDevto                 CreateFromURLMediaRequestFitToPlatformsItem = "devto"
+	CreateFromURLMediaRequestFitToPlatformsItemHashnode              CreateFromURLMediaRequestFitToPlatformsItem = "hashnode"
+	CreateFromURLMediaRequestFitToPlatformsItemMedium                CreateFromURLMediaRequestFitToPlatformsItem = "medium"
+	CreateFromURLMediaRequestFitToPlatformsItemWordpress             CreateFromURLMediaRequestFitToPlatformsItem = "wordpress"
+	CreateFromURLMediaRequestFitToPlatformsItemLemmy                 CreateFromURLMediaRequestFitToPlatformsItem = "lemmy"
+	CreateFromURLMediaRequestFitToPlatformsItemNostr                 CreateFromURLMediaRequestFitToPlatformsItem = "nostr"
+	CreateFromURLMediaRequestFitToPlatformsItemDiscord               CreateFromURLMediaRequestFitToPlatformsItem = "discord"
+	CreateFromURLMediaRequestFitToPlatformsItemDribbble              CreateFromURLMediaRequestFitToPlatformsItem = "dribbble"
+	CreateFromURLMediaRequestFitToPlatformsItemFarcaster             CreateFromURLMediaRequestFitToPlatformsItem = "farcaster"
+	CreateFromURLMediaRequestFitToPlatformsItemKick                  CreateFromURLMediaRequestFitToPlatformsItem = "kick"
+	CreateFromURLMediaRequestFitToPlatformsItemListmonk              CreateFromURLMediaRequestFitToPlatformsItem = "listmonk"
+	CreateFromURLMediaRequestFitToPlatformsItemMewe                  CreateFromURLMediaRequestFitToPlatformsItem = "mewe"
+	CreateFromURLMediaRequestFitToPlatformsItemMoltbook              CreateFromURLMediaRequestFitToPlatformsItem = "moltbook"
+	CreateFromURLMediaRequestFitToPlatformsItemSkool                 CreateFromURLMediaRequestFitToPlatformsItem = "skool"
+	CreateFromURLMediaRequestFitToPlatformsItemSlack                 CreateFromURLMediaRequestFitToPlatformsItem = "slack"
+	CreateFromURLMediaRequestFitToPlatformsItemTwitch                CreateFromURLMediaRequestFitToPlatformsItem = "twitch"
+	CreateFromURLMediaRequestFitToPlatformsItemVk                    CreateFromURLMediaRequestFitToPlatformsItem = "vk"
+	CreateFromURLMediaRequestFitToPlatformsItemWhop                  CreateFromURLMediaRequestFitToPlatformsItem = "whop"
+)
+
+func NewCreateFromURLMediaRequestFitToPlatformsItemFromString(s string) (CreateFromURLMediaRequestFitToPlatformsItem, error) {
+	switch s {
+	case "bluesky":
+		return CreateFromURLMediaRequestFitToPlatformsItemBluesky, nil
+	case "facebook":
+		return CreateFromURLMediaRequestFitToPlatformsItemFacebook, nil
+	case "google_business_profile":
+		return CreateFromURLMediaRequestFitToPlatformsItemGoogleBusinessProfile, nil
+	case "instagram":
+		return CreateFromURLMediaRequestFitToPlatformsItemInstagram, nil
+	case "linkedin":
+		return CreateFromURLMediaRequestFitToPlatformsItemLinkedin, nil
+	case "pinterest":
+		return CreateFromURLMediaRequestFitToPlatformsItemPinterest, nil
+	case "reddit":
+		return CreateFromURLMediaRequestFitToPlatformsItemReddit, nil
+	case "snapchat":
+		return CreateFromURLMediaRequestFitToPlatformsItemSnapchat, nil
+	case "threads":
+		return CreateFromURLMediaRequestFitToPlatformsItemThreads, nil
+	case "tiktok":
+		return CreateFromURLMediaRequestFitToPlatformsItemTiktok, nil
+	case "tiktok_business":
+		return CreateFromURLMediaRequestFitToPlatformsItemTiktokBusiness, nil
+	case "twitter":
+		return CreateFromURLMediaRequestFitToPlatformsItemTwitter, nil
+	case "youtube":
+		return CreateFromURLMediaRequestFitToPlatformsItemYoutube, nil
+	case "mastodon":
+		return CreateFromURLMediaRequestFitToPlatformsItemMastodon, nil
+	case "telegram":
+		return CreateFromURLMediaRequestFitToPlatformsItemTelegram, nil
+	case "devto":
+		return CreateFromURLMediaRequestFitToPlatformsItemDevto, nil
+	case "hashnode":
+		return CreateFromURLMediaRequestFitToPlatformsItemHashnode, nil
+	case "medium":
+		return CreateFromURLMediaRequestFitToPlatformsItemMedium, nil
+	case "wordpress":
+		return CreateFromURLMediaRequestFitToPlatformsItemWordpress, nil
+	case "lemmy":
+		return CreateFromURLMediaRequestFitToPlatformsItemLemmy, nil
+	case "nostr":
+		return CreateFromURLMediaRequestFitToPlatformsItemNostr, nil
+	case "discord":
+		return CreateFromURLMediaRequestFitToPlatformsItemDiscord, nil
+	case "dribbble":
+		return CreateFromURLMediaRequestFitToPlatformsItemDribbble, nil
+	case "farcaster":
+		return CreateFromURLMediaRequestFitToPlatformsItemFarcaster, nil
+	case "kick":
+		return CreateFromURLMediaRequestFitToPlatformsItemKick, nil
+	case "listmonk":
+		return CreateFromURLMediaRequestFitToPlatformsItemListmonk, nil
+	case "mewe":
+		return CreateFromURLMediaRequestFitToPlatformsItemMewe, nil
+	case "moltbook":
+		return CreateFromURLMediaRequestFitToPlatformsItemMoltbook, nil
+	case "skool":
+		return CreateFromURLMediaRequestFitToPlatformsItemSkool, nil
+	case "slack":
+		return CreateFromURLMediaRequestFitToPlatformsItemSlack, nil
+	case "twitch":
+		return CreateFromURLMediaRequestFitToPlatformsItemTwitch, nil
+	case "vk":
+		return CreateFromURLMediaRequestFitToPlatformsItemVk, nil
+	case "whop":
+		return CreateFromURLMediaRequestFitToPlatformsItemWhop, nil
+	}
+	var t CreateFromURLMediaRequestFitToPlatformsItem
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (c CreateFromURLMediaRequestFitToPlatformsItem) Ptr() *CreateFromURLMediaRequestFitToPlatformsItem {
+	return &c
 }
 
 type CreatePresignedPostIntent string
