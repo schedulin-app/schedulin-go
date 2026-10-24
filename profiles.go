@@ -418,15 +418,16 @@ var (
 	clientProfileSocialAccountsItemFieldDisconnectedReason          = big.NewInt(1 << 3)
 	clientProfileSocialAccountsItemFieldUsername                    = big.NewInt(1 << 4)
 	clientProfileSocialAccountsItemFieldDisplayName                 = big.NewInt(1 << 5)
-	clientProfileSocialAccountsItemFieldHandle                      = big.NewInt(1 << 6)
-	clientProfileSocialAccountsItemFieldProfileImageURL             = big.NewInt(1 << 7)
-	clientProfileSocialAccountsItemFieldRefreshTokenValid           = big.NewInt(1 << 8)
-	clientProfileSocialAccountsItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 9)
-	clientProfileSocialAccountsItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 10)
-	clientProfileSocialAccountsItemFieldProfileID                   = big.NewInt(1 << 11)
-	clientProfileSocialAccountsItemFieldConnectedVia                = big.NewInt(1 << 12)
-	clientProfileSocialAccountsItemFieldCreatedAt                   = big.NewInt(1 << 13)
-	clientProfileSocialAccountsItemFieldUpdatedAt                   = big.NewInt(1 << 14)
+	clientProfileSocialAccountsItemFieldCustomName                  = big.NewInt(1 << 6)
+	clientProfileSocialAccountsItemFieldHandle                      = big.NewInt(1 << 7)
+	clientProfileSocialAccountsItemFieldProfileImageURL             = big.NewInt(1 << 8)
+	clientProfileSocialAccountsItemFieldRefreshTokenValid           = big.NewInt(1 << 9)
+	clientProfileSocialAccountsItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 10)
+	clientProfileSocialAccountsItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 11)
+	clientProfileSocialAccountsItemFieldProfileID                   = big.NewInt(1 << 12)
+	clientProfileSocialAccountsItemFieldConnectedVia                = big.NewInt(1 << 13)
+	clientProfileSocialAccountsItemFieldCreatedAt                   = big.NewInt(1 << 14)
+	clientProfileSocialAccountsItemFieldUpdatedAt                   = big.NewInt(1 << 15)
 )
 
 // clientProfileSocialAccountsItemNullableFields maps the wire names of ClientProfileSocialAccountsItem's nullable fields (required or optional) to their field bits.
@@ -434,6 +435,7 @@ var clientProfileSocialAccountsItemNullableFields = map[string]*big.Int{
 	"disconnectedReason":          clientProfileSocialAccountsItemFieldDisconnectedReason,
 	"username":                    clientProfileSocialAccountsItemFieldUsername,
 	"displayName":                 clientProfileSocialAccountsItemFieldDisplayName,
+	"customName":                  clientProfileSocialAccountsItemFieldCustomName,
 	"handle":                      clientProfileSocialAccountsItemFieldHandle,
 	"profileImageUrl":             clientProfileSocialAccountsItemFieldProfileImageURL,
 	"analyticsDisabledAt":         clientProfileSocialAccountsItemFieldAnalyticsDisabledAt,
@@ -449,6 +451,8 @@ type ClientProfileSocialAccountsItem struct {
 	DisconnectedReason *SocialAccountDisconnectedReason        `json:"disconnectedReason,omitempty" url:"disconnectedReason,omitempty"`
 	Username           *string                                 `json:"username,omitempty" url:"username,omitempty"`
 	DisplayName        *string                                 `json:"displayName,omitempty" url:"displayName,omitempty"`
+	// Nickname the workspace gave this account in Schedulin. Null when not renamed; `displayName` / `username` always hold the platform's own name.
+	CustomName *string `json:"customName,omitempty" url:"customName,omitempty"`
 	// The account's platform @handle when known (e.g. TikTok username), without the @. Null when unknown.
 	Handle                      *string    `json:"handle,omitempty" url:"handle,omitempty"`
 	ProfileImageURL             *string    `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
@@ -508,6 +512,13 @@ func (c *ClientProfileSocialAccountsItem) GetDisplayName() *string {
 		return nil
 	}
 	return c.DisplayName
+}
+
+func (c *ClientProfileSocialAccountsItem) GetCustomName() *string {
+	if c == nil {
+		return nil
+	}
+	return c.CustomName
 }
 
 func (c *ClientProfileSocialAccountsItem) GetHandle() *string {
@@ -629,6 +640,13 @@ func (c *ClientProfileSocialAccountsItem) SetUsername(username *string) {
 func (c *ClientProfileSocialAccountsItem) SetDisplayName(displayName *string) {
 	c.DisplayName = displayName
 	c.require(clientProfileSocialAccountsItemFieldDisplayName)
+}
+
+// SetCustomName sets the CustomName field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (c *ClientProfileSocialAccountsItem) SetCustomName(customName *string) {
+	c.CustomName = customName
+	c.require(clientProfileSocialAccountsItemFieldCustomName)
 }
 
 // SetHandle sets the Handle field and marks it as non-optional;

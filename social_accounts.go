@@ -1200,15 +1200,16 @@ var (
 	listSocialAccountsResponseDataItemFieldDisconnectedReason          = big.NewInt(1 << 3)
 	listSocialAccountsResponseDataItemFieldUsername                    = big.NewInt(1 << 4)
 	listSocialAccountsResponseDataItemFieldDisplayName                 = big.NewInt(1 << 5)
-	listSocialAccountsResponseDataItemFieldHandle                      = big.NewInt(1 << 6)
-	listSocialAccountsResponseDataItemFieldProfileImageURL             = big.NewInt(1 << 7)
-	listSocialAccountsResponseDataItemFieldRefreshTokenValid           = big.NewInt(1 << 8)
-	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 9)
-	listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 10)
-	listSocialAccountsResponseDataItemFieldProfileID                   = big.NewInt(1 << 11)
-	listSocialAccountsResponseDataItemFieldConnectedVia                = big.NewInt(1 << 12)
-	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 13)
-	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 14)
+	listSocialAccountsResponseDataItemFieldCustomName                  = big.NewInt(1 << 6)
+	listSocialAccountsResponseDataItemFieldHandle                      = big.NewInt(1 << 7)
+	listSocialAccountsResponseDataItemFieldProfileImageURL             = big.NewInt(1 << 8)
+	listSocialAccountsResponseDataItemFieldRefreshTokenValid           = big.NewInt(1 << 9)
+	listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt         = big.NewInt(1 << 10)
+	listSocialAccountsResponseDataItemFieldWebhookSubscriptionFailedAt = big.NewInt(1 << 11)
+	listSocialAccountsResponseDataItemFieldProfileID                   = big.NewInt(1 << 12)
+	listSocialAccountsResponseDataItemFieldConnectedVia                = big.NewInt(1 << 13)
+	listSocialAccountsResponseDataItemFieldCreatedAt                   = big.NewInt(1 << 14)
+	listSocialAccountsResponseDataItemFieldUpdatedAt                   = big.NewInt(1 << 15)
 )
 
 // listSocialAccountsResponseDataItemNullableFields maps the wire names of ListSocialAccountsResponseDataItem's nullable fields (required or optional) to their field bits.
@@ -1216,6 +1217,7 @@ var listSocialAccountsResponseDataItemNullableFields = map[string]*big.Int{
 	"disconnectedReason":          listSocialAccountsResponseDataItemFieldDisconnectedReason,
 	"username":                    listSocialAccountsResponseDataItemFieldUsername,
 	"displayName":                 listSocialAccountsResponseDataItemFieldDisplayName,
+	"customName":                  listSocialAccountsResponseDataItemFieldCustomName,
 	"handle":                      listSocialAccountsResponseDataItemFieldHandle,
 	"profileImageUrl":             listSocialAccountsResponseDataItemFieldProfileImageURL,
 	"analyticsDisabledAt":         listSocialAccountsResponseDataItemFieldAnalyticsDisabledAt,
@@ -1231,6 +1233,8 @@ type ListSocialAccountsResponseDataItem struct {
 	DisconnectedReason *SocialAccountDisconnectedReason           `json:"disconnectedReason,omitempty" url:"disconnectedReason,omitempty"`
 	Username           *string                                    `json:"username,omitempty" url:"username,omitempty"`
 	DisplayName        *string                                    `json:"displayName,omitempty" url:"displayName,omitempty"`
+	// Nickname the workspace gave this account in Schedulin. Null when not renamed; `displayName` / `username` always hold the platform's own name.
+	CustomName *string `json:"customName,omitempty" url:"customName,omitempty"`
 	// The account's platform @handle when known (e.g. TikTok username), without the @. Null when unknown.
 	Handle                      *string    `json:"handle,omitempty" url:"handle,omitempty"`
 	ProfileImageURL             *string    `json:"profileImageUrl,omitempty" url:"profileImageUrl,omitempty"`
@@ -1290,6 +1294,13 @@ func (l *ListSocialAccountsResponseDataItem) GetDisplayName() *string {
 		return nil
 	}
 	return l.DisplayName
+}
+
+func (l *ListSocialAccountsResponseDataItem) GetCustomName() *string {
+	if l == nil {
+		return nil
+	}
+	return l.CustomName
 }
 
 func (l *ListSocialAccountsResponseDataItem) GetHandle() *string {
@@ -1411,6 +1422,13 @@ func (l *ListSocialAccountsResponseDataItem) SetUsername(username *string) {
 func (l *ListSocialAccountsResponseDataItem) SetDisplayName(displayName *string) {
 	l.DisplayName = displayName
 	l.require(listSocialAccountsResponseDataItemFieldDisplayName)
+}
+
+// SetCustomName sets the CustomName field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (l *ListSocialAccountsResponseDataItem) SetCustomName(customName *string) {
+	l.CustomName = customName
+	l.require(listSocialAccountsResponseDataItemFieldCustomName)
 }
 
 // SetHandle sets the Handle field and marks it as non-optional;
