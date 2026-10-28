@@ -4022,13 +4022,6 @@ func TestEnumCreatePresignedPostIntent(t *testing.T) {
 		assert.Equal(t, CreatePresignedPostIntent("post"), val, "enum value should match expected wire value")
 	})
 
-	t.Run("NewFromString_clip_source", func(t *testing.T) {
-		t.Parallel()
-		val, err := NewCreatePresignedPostIntentFromString("clip-source")
-		assert.NoError(t, err, "valid enum value should not return error")
-		assert.Equal(t, CreatePresignedPostIntent("clip-source"), val, "enum value should match expected wire value")
-	})
-
 	t.Run("NewFromString_public_asset", func(t *testing.T) {
 		t.Parallel()
 		val, err := NewCreatePresignedPostIntentFromString("public-asset")

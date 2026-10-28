@@ -104,10 +104,11 @@ var (
 )
 
 type CreatePresignedPost struct {
-	ContentType string                     `json:"contentType" url:"-"`
-	Key         string                     `json:"key" url:"-"`
-	Size        *int                       `json:"size,omitempty" url:"-"`
-	Intent      *CreatePresignedPostIntent `json:"intent,omitempty" url:"-"`
+	ContentType string `json:"contentType" url:"-"`
+	Key         string `json:"key" url:"-"`
+	// File size in bytes. When set, the presigned URL only accepts an upload of exactly this many bytes.
+	Size   *int                       `json:"size,omitempty" url:"-"`
+	Intent *CreatePresignedPostIntent `json:"intent,omitempty" url:"-"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1273,7 +1274,6 @@ type CreatePresignedPostIntent string
 
 const (
 	CreatePresignedPostIntentPost        CreatePresignedPostIntent = "post"
-	CreatePresignedPostIntentClipSource  CreatePresignedPostIntent = "clip-source"
 	CreatePresignedPostIntentPublicAsset CreatePresignedPostIntent = "public-asset"
 )
 
@@ -1281,8 +1281,6 @@ func NewCreatePresignedPostIntentFromString(s string) (CreatePresignedPostIntent
 	switch s {
 	case "post":
 		return CreatePresignedPostIntentPost, nil
-	case "clip-source":
-		return CreatePresignedPostIntentClipSource, nil
 	case "public-asset":
 		return CreatePresignedPostIntentPublicAsset, nil
 	}
