@@ -4031,9 +4031,10 @@ var (
 	updatePostsRequestMediaItemFieldSize     = big.NewInt(1 << 6)
 	updatePostsRequestMediaItemFieldDuration = big.NewInt(1 << 7)
 	updatePostsRequestMediaItemFieldAlt      = big.NewInt(1 << 8)
-	updatePostsRequestMediaItemFieldTags     = big.NewInt(1 << 9)
-	updatePostsRequestMediaItemFieldBucket   = big.NewInt(1 << 10)
-	updatePostsRequestMediaItemFieldKey      = big.NewInt(1 << 11)
+	updatePostsRequestMediaItemFieldCaption  = big.NewInt(1 << 9)
+	updatePostsRequestMediaItemFieldTags     = big.NewInt(1 << 10)
+	updatePostsRequestMediaItemFieldBucket   = big.NewInt(1 << 11)
+	updatePostsRequestMediaItemFieldKey      = big.NewInt(1 << 12)
 )
 
 // updatePostsRequestMediaItemNullableFields maps the wire names of UpdatePostsRequestMediaItem's nullable fields (required or optional) to their field bits.
@@ -4043,6 +4044,7 @@ var updatePostsRequestMediaItemNullableFields = map[string]*big.Int{
 	"size":     updatePostsRequestMediaItemFieldSize,
 	"duration": updatePostsRequestMediaItemFieldDuration,
 	"alt":      updatePostsRequestMediaItemFieldAlt,
+	"caption":  updatePostsRequestMediaItemFieldCaption,
 	"tags":     updatePostsRequestMediaItemFieldTags,
 }
 
@@ -4056,6 +4058,7 @@ type UpdatePostsRequestMediaItem struct {
 	Size     *float64                               `json:"size,omitempty" url:"size,omitempty"`
 	Duration *float64                               `json:"duration,omitempty" url:"duration,omitempty"`
 	Alt      *string                                `json:"alt,omitempty" url:"alt,omitempty"`
+	Caption  *string                                `json:"caption,omitempty" url:"caption,omitempty"`
 	Tags     []*UpdatePostsRequestMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
 	Bucket   *string                                `json:"bucket,omitempty" url:"bucket,omitempty"`
 	Key      *string                                `json:"key,omitempty" url:"key,omitempty"`
@@ -4128,6 +4131,13 @@ func (u *UpdatePostsRequestMediaItem) GetAlt() *string {
 		return nil
 	}
 	return u.Alt
+}
+
+func (u *UpdatePostsRequestMediaItem) GetCaption() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Caption
 }
 
 func (u *UpdatePostsRequestMediaItem) GetTags() []*UpdatePostsRequestMediaItemTagsItem {
@@ -4228,6 +4238,13 @@ func (u *UpdatePostsRequestMediaItem) SetDuration(duration *float64) {
 func (u *UpdatePostsRequestMediaItem) SetAlt(alt *string) {
 	u.Alt = alt
 	u.require(updatePostsRequestMediaItemFieldAlt)
+}
+
+// SetCaption sets the Caption field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetCaption(caption *string) {
+	u.Caption = caption
+	u.require(updatePostsRequestMediaItemFieldCaption)
 }
 
 // SetTags sets the Tags field and marks it as non-optional;
@@ -4699,9 +4716,10 @@ var (
 	updatePostsRequestPartsItemMediaItemFieldSize     = big.NewInt(1 << 6)
 	updatePostsRequestPartsItemMediaItemFieldDuration = big.NewInt(1 << 7)
 	updatePostsRequestPartsItemMediaItemFieldAlt      = big.NewInt(1 << 8)
-	updatePostsRequestPartsItemMediaItemFieldTags     = big.NewInt(1 << 9)
-	updatePostsRequestPartsItemMediaItemFieldBucket   = big.NewInt(1 << 10)
-	updatePostsRequestPartsItemMediaItemFieldKey      = big.NewInt(1 << 11)
+	updatePostsRequestPartsItemMediaItemFieldCaption  = big.NewInt(1 << 9)
+	updatePostsRequestPartsItemMediaItemFieldTags     = big.NewInt(1 << 10)
+	updatePostsRequestPartsItemMediaItemFieldBucket   = big.NewInt(1 << 11)
+	updatePostsRequestPartsItemMediaItemFieldKey      = big.NewInt(1 << 12)
 )
 
 // updatePostsRequestPartsItemMediaItemNullableFields maps the wire names of UpdatePostsRequestPartsItemMediaItem's nullable fields (required or optional) to their field bits.
@@ -4711,6 +4729,7 @@ var updatePostsRequestPartsItemMediaItemNullableFields = map[string]*big.Int{
 	"size":     updatePostsRequestPartsItemMediaItemFieldSize,
 	"duration": updatePostsRequestPartsItemMediaItemFieldDuration,
 	"alt":      updatePostsRequestPartsItemMediaItemFieldAlt,
+	"caption":  updatePostsRequestPartsItemMediaItemFieldCaption,
 	"tags":     updatePostsRequestPartsItemMediaItemFieldTags,
 }
 
@@ -4724,6 +4743,7 @@ type UpdatePostsRequestPartsItemMediaItem struct {
 	Size     *float64                                        `json:"size,omitempty" url:"size,omitempty"`
 	Duration *float64                                        `json:"duration,omitempty" url:"duration,omitempty"`
 	Alt      *string                                         `json:"alt,omitempty" url:"alt,omitempty"`
+	Caption  *string                                         `json:"caption,omitempty" url:"caption,omitempty"`
 	Tags     []*UpdatePostsRequestPartsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
 	Bucket   *string                                         `json:"bucket,omitempty" url:"bucket,omitempty"`
 	Key      *string                                         `json:"key,omitempty" url:"key,omitempty"`
@@ -4796,6 +4816,13 @@ func (u *UpdatePostsRequestPartsItemMediaItem) GetAlt() *string {
 		return nil
 	}
 	return u.Alt
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetCaption() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Caption
 }
 
 func (u *UpdatePostsRequestPartsItemMediaItem) GetTags() []*UpdatePostsRequestPartsItemMediaItemTagsItem {
@@ -4896,6 +4923,13 @@ func (u *UpdatePostsRequestPartsItemMediaItem) SetDuration(duration *float64) {
 func (u *UpdatePostsRequestPartsItemMediaItem) SetAlt(alt *string) {
 	u.Alt = alt
 	u.require(updatePostsRequestPartsItemMediaItemFieldAlt)
+}
+
+// SetCaption sets the Caption field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetCaption(caption *string) {
+	u.Caption = caption
+	u.require(updatePostsRequestPartsItemMediaItemFieldCaption)
 }
 
 // SetTags sets the Tags field and marks it as non-optional;

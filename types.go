@@ -1191,6 +1191,7 @@ var (
 	postCreateMediaItemFieldHeight               = big.NewInt(1 << 9)
 	postCreateMediaItemFieldSize                 = big.NewInt(1 << 10)
 	postCreateMediaItemFieldDuration             = big.NewInt(1 << 11)
+	postCreateMediaItemFieldCaption              = big.NewInt(1 << 12)
 )
 
 // postCreateMediaItemNullableFields maps the wire names of PostCreateMediaItem's nullable fields (required or optional) to their field bits.
@@ -1198,6 +1199,7 @@ var postCreateMediaItemNullableFields = map[string]*big.Int{
 	"thumbnail_url":          postCreateMediaItemFieldThumbnailURL,
 	"thumbnail_timestamp_ms": postCreateMediaItemFieldThumbnailTimestampMs,
 	"alt":                    postCreateMediaItemFieldAlt,
+	"caption":                postCreateMediaItemFieldCaption,
 }
 
 type PostCreateMediaItem struct {
@@ -1213,6 +1215,8 @@ type PostCreateMediaItem struct {
 	Height               *float64                       `json:"height,omitempty" url:"height,omitempty"`
 	Size                 *float64                       `json:"size,omitempty" url:"size,omitempty"`
 	Duration             *float64                       `json:"duration,omitempty" url:"duration,omitempty"`
+	// This photo's own caption in this post. Facebook photo posts show it when the photo is opened; Pinterest carousel Pins show it on that slide (up to 800 characters); Reddit galleries show it under that image (up to 180). Other platforms ignore it.
+	Caption *string `json:"caption,omitempty" url:"caption,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1303,6 +1307,13 @@ func (p *PostCreateMediaItem) GetDuration() *float64 {
 		return nil
 	}
 	return p.Duration
+}
+
+func (p *PostCreateMediaItem) GetCaption() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Caption
 }
 
 func (p *PostCreateMediaItem) GetExtraProperties() map[string]interface{} {
@@ -1403,6 +1414,13 @@ func (p *PostCreateMediaItem) SetSize(size *float64) {
 func (p *PostCreateMediaItem) SetDuration(duration *float64) {
 	p.Duration = duration
 	p.require(postCreateMediaItemFieldDuration)
+}
+
+// SetCaption sets the Caption field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetCaption(caption *string) {
+	p.Caption = caption
+	p.require(postCreateMediaItemFieldCaption)
 }
 
 func (p *PostCreateMediaItem) UnmarshalJSON(data []byte) error {
@@ -1856,6 +1874,7 @@ var (
 	postCreatePartsItemMediaItemFieldHeight               = big.NewInt(1 << 9)
 	postCreatePartsItemMediaItemFieldSize                 = big.NewInt(1 << 10)
 	postCreatePartsItemMediaItemFieldDuration             = big.NewInt(1 << 11)
+	postCreatePartsItemMediaItemFieldCaption              = big.NewInt(1 << 12)
 )
 
 // postCreatePartsItemMediaItemNullableFields maps the wire names of PostCreatePartsItemMediaItem's nullable fields (required or optional) to their field bits.
@@ -1863,6 +1882,7 @@ var postCreatePartsItemMediaItemNullableFields = map[string]*big.Int{
 	"thumbnail_url":          postCreatePartsItemMediaItemFieldThumbnailURL,
 	"thumbnail_timestamp_ms": postCreatePartsItemMediaItemFieldThumbnailTimestampMs,
 	"alt":                    postCreatePartsItemMediaItemFieldAlt,
+	"caption":                postCreatePartsItemMediaItemFieldCaption,
 }
 
 type PostCreatePartsItemMediaItem struct {
@@ -1878,6 +1898,8 @@ type PostCreatePartsItemMediaItem struct {
 	Height               *float64                                `json:"height,omitempty" url:"height,omitempty"`
 	Size                 *float64                                `json:"size,omitempty" url:"size,omitempty"`
 	Duration             *float64                                `json:"duration,omitempty" url:"duration,omitempty"`
+	// This photo's own caption in this post. Facebook photo posts show it when the photo is opened; Pinterest carousel Pins show it on that slide (up to 800 characters); Reddit galleries show it under that image (up to 180). Other platforms ignore it.
+	Caption *string `json:"caption,omitempty" url:"caption,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -1968,6 +1990,13 @@ func (p *PostCreatePartsItemMediaItem) GetDuration() *float64 {
 		return nil
 	}
 	return p.Duration
+}
+
+func (p *PostCreatePartsItemMediaItem) GetCaption() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Caption
 }
 
 func (p *PostCreatePartsItemMediaItem) GetExtraProperties() map[string]interface{} {
@@ -2068,6 +2097,13 @@ func (p *PostCreatePartsItemMediaItem) SetSize(size *float64) {
 func (p *PostCreatePartsItemMediaItem) SetDuration(duration *float64) {
 	p.Duration = duration
 	p.require(postCreatePartsItemMediaItemFieldDuration)
+}
+
+// SetCaption sets the Caption field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetCaption(caption *string) {
+	p.Caption = caption
+	p.require(postCreatePartsItemMediaItemFieldCaption)
 }
 
 func (p *PostCreatePartsItemMediaItem) UnmarshalJSON(data []byte) error {
@@ -2419,6 +2455,7 @@ var (
 	postCreateThumbnailFieldHeight               = big.NewInt(1 << 9)
 	postCreateThumbnailFieldSize                 = big.NewInt(1 << 10)
 	postCreateThumbnailFieldDuration             = big.NewInt(1 << 11)
+	postCreateThumbnailFieldCaption              = big.NewInt(1 << 12)
 )
 
 // postCreateThumbnailNullableFields maps the wire names of PostCreateThumbnail's nullable fields (required or optional) to their field bits.
@@ -2426,6 +2463,7 @@ var postCreateThumbnailNullableFields = map[string]*big.Int{
 	"thumbnail_url":          postCreateThumbnailFieldThumbnailURL,
 	"thumbnail_timestamp_ms": postCreateThumbnailFieldThumbnailTimestampMs,
 	"alt":                    postCreateThumbnailFieldAlt,
+	"caption":                postCreateThumbnailFieldCaption,
 }
 
 type PostCreateThumbnail struct {
@@ -2441,6 +2479,8 @@ type PostCreateThumbnail struct {
 	Height               *float64                       `json:"height,omitempty" url:"height,omitempty"`
 	Size                 *float64                       `json:"size,omitempty" url:"size,omitempty"`
 	Duration             *float64                       `json:"duration,omitempty" url:"duration,omitempty"`
+	// This photo's own caption in this post. Facebook photo posts show it when the photo is opened; Pinterest carousel Pins show it on that slide (up to 800 characters); Reddit galleries show it under that image (up to 180). Other platforms ignore it.
+	Caption *string `json:"caption,omitempty" url:"caption,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -2531,6 +2571,13 @@ func (p *PostCreateThumbnail) GetDuration() *float64 {
 		return nil
 	}
 	return p.Duration
+}
+
+func (p *PostCreateThumbnail) GetCaption() *string {
+	if p == nil {
+		return nil
+	}
+	return p.Caption
 }
 
 func (p *PostCreateThumbnail) GetExtraProperties() map[string]interface{} {
@@ -2631,6 +2678,13 @@ func (p *PostCreateThumbnail) SetSize(size *float64) {
 func (p *PostCreateThumbnail) SetDuration(duration *float64) {
 	p.Duration = duration
 	p.require(postCreateThumbnailFieldDuration)
+}
+
+// SetCaption sets the Caption field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetCaption(caption *string) {
+	p.Caption = caption
+	p.require(postCreateThumbnailFieldCaption)
 }
 
 func (p *PostCreateThumbnail) UnmarshalJSON(data []byte) error {
