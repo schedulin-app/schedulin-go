@@ -3330,7 +3330,8 @@ type CreatePostsResponseMediaItem struct {
 	ThumbnailTimestampMs *float64                                `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
 	Tags                 []*CreatePostsResponseMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
 	Alt                  *string                                 `json:"alt,omitempty" url:"alt,omitempty"`
-	SkipProcessing       *bool                                   `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
+	SkipProcessing *bool `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -4022,19 +4023,20 @@ func (l *ListPostsResponse) String() string {
 }
 
 var (
-	updatePostsRequestMediaItemFieldID       = big.NewInt(1 << 0)
-	updatePostsRequestMediaItemFieldURL      = big.NewInt(1 << 1)
-	updatePostsRequestMediaItemFieldName     = big.NewInt(1 << 2)
-	updatePostsRequestMediaItemFieldMimeType = big.NewInt(1 << 3)
-	updatePostsRequestMediaItemFieldWidth    = big.NewInt(1 << 4)
-	updatePostsRequestMediaItemFieldHeight   = big.NewInt(1 << 5)
-	updatePostsRequestMediaItemFieldSize     = big.NewInt(1 << 6)
-	updatePostsRequestMediaItemFieldDuration = big.NewInt(1 << 7)
-	updatePostsRequestMediaItemFieldAlt      = big.NewInt(1 << 8)
-	updatePostsRequestMediaItemFieldCaption  = big.NewInt(1 << 9)
-	updatePostsRequestMediaItemFieldTags     = big.NewInt(1 << 10)
-	updatePostsRequestMediaItemFieldBucket   = big.NewInt(1 << 11)
-	updatePostsRequestMediaItemFieldKey      = big.NewInt(1 << 12)
+	updatePostsRequestMediaItemFieldID             = big.NewInt(1 << 0)
+	updatePostsRequestMediaItemFieldURL            = big.NewInt(1 << 1)
+	updatePostsRequestMediaItemFieldName           = big.NewInt(1 << 2)
+	updatePostsRequestMediaItemFieldMimeType       = big.NewInt(1 << 3)
+	updatePostsRequestMediaItemFieldWidth          = big.NewInt(1 << 4)
+	updatePostsRequestMediaItemFieldHeight         = big.NewInt(1 << 5)
+	updatePostsRequestMediaItemFieldSize           = big.NewInt(1 << 6)
+	updatePostsRequestMediaItemFieldDuration       = big.NewInt(1 << 7)
+	updatePostsRequestMediaItemFieldAlt            = big.NewInt(1 << 8)
+	updatePostsRequestMediaItemFieldCaption        = big.NewInt(1 << 9)
+	updatePostsRequestMediaItemFieldTags           = big.NewInt(1 << 10)
+	updatePostsRequestMediaItemFieldSkipProcessing = big.NewInt(1 << 11)
+	updatePostsRequestMediaItemFieldBucket         = big.NewInt(1 << 12)
+	updatePostsRequestMediaItemFieldKey            = big.NewInt(1 << 13)
 )
 
 // updatePostsRequestMediaItemNullableFields maps the wire names of UpdatePostsRequestMediaItem's nullable fields (required or optional) to their field bits.
@@ -4060,8 +4062,10 @@ type UpdatePostsRequestMediaItem struct {
 	Alt      *string                                `json:"alt,omitempty" url:"alt,omitempty"`
 	Caption  *string                                `json:"caption,omitempty" url:"caption,omitempty"`
 	Tags     []*UpdatePostsRequestMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
-	Bucket   *string                                `json:"bucket,omitempty" url:"bucket,omitempty"`
-	Key      *string                                `json:"key,omitempty" url:"key,omitempty"`
+	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
+	SkipProcessing *bool   `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	Bucket         *string `json:"bucket,omitempty" url:"bucket,omitempty"`
+	Key            *string `json:"key,omitempty" url:"key,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -4145,6 +4149,13 @@ func (u *UpdatePostsRequestMediaItem) GetTags() []*UpdatePostsRequestMediaItemTa
 		return nil
 	}
 	return u.Tags
+}
+
+func (u *UpdatePostsRequestMediaItem) GetSkipProcessing() *bool {
+	if u == nil {
+		return nil
+	}
+	return u.SkipProcessing
 }
 
 func (u *UpdatePostsRequestMediaItem) GetBucket() *string {
@@ -4252,6 +4263,13 @@ func (u *UpdatePostsRequestMediaItem) SetCaption(caption *string) {
 func (u *UpdatePostsRequestMediaItem) SetTags(tags []*UpdatePostsRequestMediaItemTagsItem) {
 	u.Tags = tags
 	u.require(updatePostsRequestMediaItemFieldTags)
+}
+
+// SetSkipProcessing sets the SkipProcessing field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetSkipProcessing(skipProcessing *bool) {
+	u.SkipProcessing = skipProcessing
+	u.require(updatePostsRequestMediaItemFieldSkipProcessing)
 }
 
 // SetBucket sets the Bucket field and marks it as non-optional;
@@ -4707,19 +4725,20 @@ func (u *UpdatePostsRequestPartsItem) String() string {
 }
 
 var (
-	updatePostsRequestPartsItemMediaItemFieldID       = big.NewInt(1 << 0)
-	updatePostsRequestPartsItemMediaItemFieldURL      = big.NewInt(1 << 1)
-	updatePostsRequestPartsItemMediaItemFieldName     = big.NewInt(1 << 2)
-	updatePostsRequestPartsItemMediaItemFieldMimeType = big.NewInt(1 << 3)
-	updatePostsRequestPartsItemMediaItemFieldWidth    = big.NewInt(1 << 4)
-	updatePostsRequestPartsItemMediaItemFieldHeight   = big.NewInt(1 << 5)
-	updatePostsRequestPartsItemMediaItemFieldSize     = big.NewInt(1 << 6)
-	updatePostsRequestPartsItemMediaItemFieldDuration = big.NewInt(1 << 7)
-	updatePostsRequestPartsItemMediaItemFieldAlt      = big.NewInt(1 << 8)
-	updatePostsRequestPartsItemMediaItemFieldCaption  = big.NewInt(1 << 9)
-	updatePostsRequestPartsItemMediaItemFieldTags     = big.NewInt(1 << 10)
-	updatePostsRequestPartsItemMediaItemFieldBucket   = big.NewInt(1 << 11)
-	updatePostsRequestPartsItemMediaItemFieldKey      = big.NewInt(1 << 12)
+	updatePostsRequestPartsItemMediaItemFieldID             = big.NewInt(1 << 0)
+	updatePostsRequestPartsItemMediaItemFieldURL            = big.NewInt(1 << 1)
+	updatePostsRequestPartsItemMediaItemFieldName           = big.NewInt(1 << 2)
+	updatePostsRequestPartsItemMediaItemFieldMimeType       = big.NewInt(1 << 3)
+	updatePostsRequestPartsItemMediaItemFieldWidth          = big.NewInt(1 << 4)
+	updatePostsRequestPartsItemMediaItemFieldHeight         = big.NewInt(1 << 5)
+	updatePostsRequestPartsItemMediaItemFieldSize           = big.NewInt(1 << 6)
+	updatePostsRequestPartsItemMediaItemFieldDuration       = big.NewInt(1 << 7)
+	updatePostsRequestPartsItemMediaItemFieldAlt            = big.NewInt(1 << 8)
+	updatePostsRequestPartsItemMediaItemFieldCaption        = big.NewInt(1 << 9)
+	updatePostsRequestPartsItemMediaItemFieldTags           = big.NewInt(1 << 10)
+	updatePostsRequestPartsItemMediaItemFieldSkipProcessing = big.NewInt(1 << 11)
+	updatePostsRequestPartsItemMediaItemFieldBucket         = big.NewInt(1 << 12)
+	updatePostsRequestPartsItemMediaItemFieldKey            = big.NewInt(1 << 13)
 )
 
 // updatePostsRequestPartsItemMediaItemNullableFields maps the wire names of UpdatePostsRequestPartsItemMediaItem's nullable fields (required or optional) to their field bits.
@@ -4745,8 +4764,10 @@ type UpdatePostsRequestPartsItemMediaItem struct {
 	Alt      *string                                         `json:"alt,omitempty" url:"alt,omitempty"`
 	Caption  *string                                         `json:"caption,omitempty" url:"caption,omitempty"`
 	Tags     []*UpdatePostsRequestPartsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
-	Bucket   *string                                         `json:"bucket,omitempty" url:"bucket,omitempty"`
-	Key      *string                                         `json:"key,omitempty" url:"key,omitempty"`
+	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
+	SkipProcessing *bool   `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	Bucket         *string `json:"bucket,omitempty" url:"bucket,omitempty"`
+	Key            *string `json:"key,omitempty" url:"key,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`
@@ -4830,6 +4851,13 @@ func (u *UpdatePostsRequestPartsItemMediaItem) GetTags() []*UpdatePostsRequestPa
 		return nil
 	}
 	return u.Tags
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetSkipProcessing() *bool {
+	if u == nil {
+		return nil
+	}
+	return u.SkipProcessing
 }
 
 func (u *UpdatePostsRequestPartsItemMediaItem) GetBucket() *string {
@@ -4937,6 +4965,13 @@ func (u *UpdatePostsRequestPartsItemMediaItem) SetCaption(caption *string) {
 func (u *UpdatePostsRequestPartsItemMediaItem) SetTags(tags []*UpdatePostsRequestPartsItemMediaItemTagsItem) {
 	u.Tags = tags
 	u.require(updatePostsRequestPartsItemMediaItemFieldTags)
+}
+
+// SetSkipProcessing sets the SkipProcessing field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetSkipProcessing(skipProcessing *bool) {
+	u.SkipProcessing = skipProcessing
+	u.require(updatePostsRequestPartsItemMediaItemFieldSkipProcessing)
 }
 
 // SetBucket sets the Bucket field and marks it as non-optional;

@@ -467,7 +467,8 @@ type CreatePostGroupsResponsePostsItemMediaItem struct {
 	ThumbnailTimestampMs *float64                                              `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
 	Tags                 []*CreatePostGroupsResponsePostsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
 	Alt                  *string                                               `json:"alt,omitempty" url:"alt,omitempty"`
-	SkipProcessing       *bool                                                 `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
+	SkipProcessing *bool `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
 
 	// Private bitmask of fields set to an explicit value and therefore not to be omitted
 	explicitFields *big.Int `json:"-" url:"-"`

@@ -1208,13 +1208,14 @@ type PostCreateMediaItem struct {
 	ThumbnailTimestampMs *float64                       `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
 	Tags                 []*PostCreateMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
 	Alt                  *string                        `json:"alt,omitempty" url:"alt,omitempty"`
-	SkipProcessing       *bool                          `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
-	Name                 *string                        `json:"name,omitempty" url:"name,omitempty"`
-	MimeType             *string                        `json:"mimeType,omitempty" url:"mimeType,omitempty"`
-	Width                *float64                       `json:"width,omitempty" url:"width,omitempty"`
-	Height               *float64                       `json:"height,omitempty" url:"height,omitempty"`
-	Size                 *float64                       `json:"size,omitempty" url:"size,omitempty"`
-	Duration             *float64                       `json:"duration,omitempty" url:"duration,omitempty"`
+	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
+	SkipProcessing *bool    `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	Name           *string  `json:"name,omitempty" url:"name,omitempty"`
+	MimeType       *string  `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width          *float64 `json:"width,omitempty" url:"width,omitempty"`
+	Height         *float64 `json:"height,omitempty" url:"height,omitempty"`
+	Size           *float64 `json:"size,omitempty" url:"size,omitempty"`
+	Duration       *float64 `json:"duration,omitempty" url:"duration,omitempty"`
 	// This photo's own caption in this post. Facebook photo posts show it when the photo is opened; Pinterest carousel Pins show it on that slide (up to 800 characters); Reddit galleries show it under that image (up to 180). Other platforms ignore it.
 	Caption *string `json:"caption,omitempty" url:"caption,omitempty"`
 
@@ -1891,13 +1892,14 @@ type PostCreatePartsItemMediaItem struct {
 	ThumbnailTimestampMs *float64                                `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
 	Tags                 []*PostCreatePartsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
 	Alt                  *string                                 `json:"alt,omitempty" url:"alt,omitempty"`
-	SkipProcessing       *bool                                   `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
-	Name                 *string                                 `json:"name,omitempty" url:"name,omitempty"`
-	MimeType             *string                                 `json:"mimeType,omitempty" url:"mimeType,omitempty"`
-	Width                *float64                                `json:"width,omitempty" url:"width,omitempty"`
-	Height               *float64                                `json:"height,omitempty" url:"height,omitempty"`
-	Size                 *float64                                `json:"size,omitempty" url:"size,omitempty"`
-	Duration             *float64                                `json:"duration,omitempty" url:"duration,omitempty"`
+	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
+	SkipProcessing *bool    `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	Name           *string  `json:"name,omitempty" url:"name,omitempty"`
+	MimeType       *string  `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width          *float64 `json:"width,omitempty" url:"width,omitempty"`
+	Height         *float64 `json:"height,omitempty" url:"height,omitempty"`
+	Size           *float64 `json:"size,omitempty" url:"size,omitempty"`
+	Duration       *float64 `json:"duration,omitempty" url:"duration,omitempty"`
 	// This photo's own caption in this post. Facebook photo posts show it when the photo is opened; Pinterest carousel Pins show it on that slide (up to 800 characters); Reddit galleries show it under that image (up to 180). Other platforms ignore it.
 	Caption *string `json:"caption,omitempty" url:"caption,omitempty"`
 
@@ -2472,13 +2474,14 @@ type PostCreateThumbnail struct {
 	ThumbnailTimestampMs *float64                       `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
 	Tags                 []*PostCreateThumbnailTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
 	Alt                  *string                        `json:"alt,omitempty" url:"alt,omitempty"`
-	SkipProcessing       *bool                          `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
-	Name                 *string                        `json:"name,omitempty" url:"name,omitempty"`
-	MimeType             *string                        `json:"mimeType,omitempty" url:"mimeType,omitempty"`
-	Width                *float64                       `json:"width,omitempty" url:"width,omitempty"`
-	Height               *float64                       `json:"height,omitempty" url:"height,omitempty"`
-	Size                 *float64                       `json:"size,omitempty" url:"size,omitempty"`
-	Duration             *float64                       `json:"duration,omitempty" url:"duration,omitempty"`
+	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
+	SkipProcessing *bool    `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	Name           *string  `json:"name,omitempty" url:"name,omitempty"`
+	MimeType       *string  `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width          *float64 `json:"width,omitempty" url:"width,omitempty"`
+	Height         *float64 `json:"height,omitempty" url:"height,omitempty"`
+	Size           *float64 `json:"size,omitempty" url:"size,omitempty"`
+	Duration       *float64 `json:"duration,omitempty" url:"duration,omitempty"`
 	// This photo's own caption in this post. Facebook photo posts show it when the photo is opened; Pinterest carousel Pins show it on that slide (up to 800 characters); Reddit galleries show it under that image (up to 180). Other platforms ignore it.
 	Caption *string `json:"caption,omitempty" url:"caption,omitempty"`
 
