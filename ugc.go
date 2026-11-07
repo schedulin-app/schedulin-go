@@ -627,15 +627,12 @@ type CreateVideoUgcRequestResolution string
 
 const (
 	CreateVideoUgcRequestResolutionSevenHundredTwentyP CreateVideoUgcRequestResolution = "720p"
-	CreateVideoUgcRequestResolutionOneThousandEightyP  CreateVideoUgcRequestResolution = "1080p"
 )
 
 func NewCreateVideoUgcRequestResolutionFromString(s string) (CreateVideoUgcRequestResolution, error) {
 	switch s {
 	case "720p":
 		return CreateVideoUgcRequestResolutionSevenHundredTwentyP, nil
-	case "1080p":
-		return CreateVideoUgcRequestResolutionOneThousandEightyP, nil
 	}
 	var t CreateVideoUgcRequestResolution
 	return "", fmt.Errorf("%s is not a valid %T", s, t)

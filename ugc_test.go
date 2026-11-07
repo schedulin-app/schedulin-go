@@ -4092,13 +4092,6 @@ func TestEnumCreateVideoUgcRequestResolution(t *testing.T) {
 		assert.Equal(t, CreateVideoUgcRequestResolution("720p"), val, "enum value should match expected wire value")
 	})
 
-	t.Run("NewFromString_1080p", func(t *testing.T) {
-		t.Parallel()
-		val, err := NewCreateVideoUgcRequestResolutionFromString("1080p")
-		assert.NoError(t, err, "valid enum value should not return error")
-		assert.Equal(t, CreateVideoUgcRequestResolution("1080p"), val, "enum value should match expected wire value")
-	})
-
 	t.Run("NewFromString_Invalid", func(t *testing.T) {
 		_, err := NewCreateVideoUgcRequestResolutionFromString("invalid_value_that_does_not_exist")
 		assert.Error(t, err)
