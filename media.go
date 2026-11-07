@@ -105,7 +105,8 @@ var (
 
 type CreatePresignedPost struct {
 	ContentType string `json:"contentType" url:"-"`
-	Key         string `json:"key" url:"-"`
+	// Object name, e.g. the file name. Stored under your workspace with accents dropped and characters outside A-Z, a-z, 0-9, `_`, `.`, `-` replaced by `-`; use the `key` the response returns.
+	Key string `json:"key" url:"-"`
 	// File size in bytes. When set, the presigned URL only accepts an upload of exactly this many bytes.
 	Size   *int                       `json:"size,omitempty" url:"-"`
 	Intent *CreatePresignedPostIntent `json:"intent,omitempty" url:"-"`
