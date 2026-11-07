@@ -1482,6 +1482,137 @@
       "postServeActions": []
     },
     {
+      "id": "733ca5a4-02d7-4b81-a028-6f7c3af8252a",
+      "name": "Create an AI UGC video - default",
+      "request": {
+        "urlPathTemplate": "/v0/studio/ugc/createProject",
+        "method": "POST",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"id\": \"id\",\n  \"title\": \"title\",\n  \"status\": \"status\",\n  \"costMicros\": 1,\n  \"estimatedCostMicros\": 1,\n  \"errorMessage\": \"errorMessage\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\"\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "733ca5a4-02d7-4b81-a028-6f7c3af8252a",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "59f9ef97-314b-45cb-8cfa-287e058ad93d",
+      "name": "Get an AI UGC video - default",
+      "request": {
+        "urlPathTemplate": "/v0/studio/ugc/getProject",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        },
+        "queryParameters": {
+          "id": {
+            "equalTo": "id"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"id\": \"id\",\n  \"title\": \"title\",\n  \"status\": \"status\",\n  \"costMicros\": 1,\n  \"estimatedCostMicros\": 1,\n  \"errorMessage\": \"errorMessage\",\n  \"createdAt\": \"2024-01-15T09:30:00Z\",\n  \"updatedAt\": \"2024-01-15T09:30:00Z\",\n  \"finalVideoUrl\": \"finalVideoUrl\",\n  \"finalPosterUrl\": \"finalPosterUrl\"\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "59f9ef97-314b-45cb-8cfa-287e058ad93d",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      },
+      "postServeActions": []
+    },
+    {
+      "id": "de903b6b-1246-4bc8-aadb-87a9015e226d",
+      "name": "Save a finished UGC video to the media library - default",
+      "request": {
+        "urlPathTemplate": "/v0/studio/ugc/addToMediaLibrary",
+        "method": "POST",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"mediaId\": \"mediaId\",\n  \"url\": \"url\",\n  \"name\": \"name\",\n  \"mimeType\": \"mimeType\"\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "de903b6b-1246-4bc8-aadb-87a9015e226d",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      }
+    },
+    {
+      "id": "f1986723-4588-4a11-ad79-eeb926e32596",
+      "name": "List reusable UGC avatars for the active org - default",
+      "request": {
+        "urlPathTemplate": "/v0/studio/ugc/avatars/list",
+        "method": "GET",
+        "headers": {
+          "x-api-key": {
+            "matches": ".+"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "body": "{\n  \"items\": [\n    {\n      \"id\": \"id\",\n      \"name\": \"name\",\n      \"status\": \"status\",\n      \"description\": \"description\",\n      \"voiceId\": \"voiceId\",\n      \"url\": \"url\",\n      \"createdAt\": \"2024-01-15T09:30:00Z\"\n    }\n  ],\n  \"total\": 1,\n  \"pageCount\": 1\n}",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "uuid": "f1986723-4588-4a11-ad79-eeb926e32596",
+      "persistent": true,
+      "priority": 3,
+      "metadata": {
+        "mocklab": {
+          "created": {
+            "at": "2020-01-01T00:00:00.000Z",
+            "via": "SYSTEM"
+          }
+        }
+      },
+      "postServeActions": []
+    },
+    {
       "id": "511a63ee-9f71-4ff1-a882-484e7b068839",
       "name": "List webhook endpoints - default",
       "request": {
@@ -2256,6 +2387,6 @@
     }
   ],
   "meta": {
-    "total": 65
+    "total": 69
   }
 }

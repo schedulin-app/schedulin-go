@@ -3009,6 +3009,407 @@ client.Ai.GetGeneration(
 </dl>
 </details>
 
+## Ugc
+<details><summary><code>client.Ugc.CreateVideo(request) -> *schedulin.CreateVideoUgcResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create an AI UGC (talking-actor) video from a brief and start rendering it. Reserves AI credits up front; poll getProject until COMPLETED or FAILED
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.CreateVideoUgcRequest{
+    ProductName: "productName",
+}
+client.Ugc.CreateVideo(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**title:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**productName:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**audience:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**hookGoal:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**hook:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**cta:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**language:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**websiteURL:** `*schedulin.CreateVideoUgcRequestWebsiteURL` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**notes:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**actorSetting:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**voiceID:** `*schedulin.CreateVideoUgcRequestVoiceID` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**resolution:** `*schedulin.CreateVideoUgcRequestResolution` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lengthSeconds:** `*int` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**storyIntro:** `*bool` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**storyOpening:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**showProduct:** `*bool` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**productScreenshot:** `*schedulin.CreateVideoUgcRequestProductScreenshot` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**avatarID:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Ugc.GetVideo() -> *schedulin.GetVideoUgcResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get an AI UGC video's status, with signed URLs for the final video and poster once COMPLETED. Pass waitSeconds (max 45) to wait for it to finish before responding
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.GetVideoUgcRequest{
+    ID: "id",
+}
+client.Ugc.GetVideo(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**waitSeconds:** `*int` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Ugc.AddToMediaLibrary(request) -> *schedulin.AddToMediaLibraryUgcResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Copy a COMPLETED UGC video into the media library and return its permanent URL, ready to attach to a post. Idempotent: repeat calls return the same media
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.AddToMediaLibraryUgcRequest{
+    ProjectID: "projectId",
+}
+client.Ugc.AddToMediaLibrary(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**projectID:** `string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.Ugc.ListAvatars() -> *schedulin.ListAvatarsUgcResponse</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```go
+request := &schedulin.ListAvatarsUgcRequest{}
+client.Ugc.ListAvatars(
+    context.TODO(),
+    request,
+)
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page:** `*int` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**perPage:** `*int` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort:** `*schedulin.ListAvatarsUgcRequestSortItem` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `*string` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `*string` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Webhooks
 <details><summary><code>client.Webhooks.List() -> *schedulin.ListWebhooksResponse</code></summary>
 <dl>
