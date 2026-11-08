@@ -2749,7 +2749,7 @@ client.Media.CountByTag(
 <dl>
 <dd>
 
-Returns a presigned PUT URL. Upload by issuing an HTTP PUT of the raw file bytes to `url` with a `Content-Type` header matching `contentType`, then reference the returned `key` when creating a post. Pass `size` (bytes): the URL then only accepts an upload of exactly that size, and sizes over the upload limit are rejected up front.
+Returns a presigned PUT URL. Upload by issuing an HTTP PUT of the raw file bytes to `url` with a `Content-Type` header matching `contentType`, then reference the returned `key` when creating a post. The server picks the `key` (a unique id under your workspace), so always use the one this returns. Pass `size` (bytes): the URL then only accepts an upload of exactly that size, and sizes over the upload limit are rejected up front.
 </dd>
 </dl>
 </dd>
@@ -2766,7 +2766,6 @@ Returns a presigned PUT URL. Upload by issuing an HTTP PUT of the raw file bytes
 ```go
 request := &schedulin.CreatePresignedPost{
     ContentType: "contentType",
-    Key: "key",
 }
 client.Media.CreatePresignedPost(
     context.TODO(),
@@ -2794,7 +2793,7 @@ client.Media.CreatePresignedPost(
 <dl>
 <dd>
 
-**key:** `string` — Object name, e.g. the file name. Stored under your workspace with accents dropped and characters outside A-Z, a-z, 0-9, `_`, `.`, `-` replaced by `-`; use the `key` the response returns.
+**key:** `*string` — Optional file name. Only its extension is used, when `contentType` doesn't settle one: the server names the stored object itself. Use the `key` the response returns.
     
 </dd>
 </dl>

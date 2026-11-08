@@ -348,7 +348,6 @@ func TestMediaCreatePresignedPostWithWireMock(
 	)
 	request := &schedulin.CreatePresignedPost{
 		ContentType: "contentType",
-		Key:         "key",
 	}
 	_, invocationErr := client.Media.CreatePresignedPost(
 		context.TODO(),

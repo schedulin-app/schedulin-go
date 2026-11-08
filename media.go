@@ -105,8 +105,8 @@ var (
 
 type CreatePresignedPost struct {
 	ContentType string `json:"contentType" url:"-"`
-	// Object name, e.g. the file name. Stored under your workspace with accents dropped and characters outside A-Z, a-z, 0-9, `_`, `.`, `-` replaced by `-`; use the `key` the response returns.
-	Key string `json:"key" url:"-"`
+	// Optional file name. Only its extension is used, when `contentType` doesn't settle one: the server names the stored object itself. Use the `key` the response returns.
+	Key *string `json:"key,omitempty" url:"-"`
 	// File size in bytes. When set, the presigned URL only accepts an upload of exactly this many bytes.
 	Size   *int                       `json:"size,omitempty" url:"-"`
 	Intent *CreatePresignedPostIntent `json:"intent,omitempty" url:"-"`
@@ -133,7 +133,7 @@ func (c *CreatePresignedPost) SetContentType(contentType string) {
 
 // SetKey sets the Key field and marks it as non-optional;
 // this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreatePresignedPost) SetKey(key string) {
+func (c *CreatePresignedPost) SetKey(key *string) {
 	c.Key = key
 	c.require(createPresignedPostFieldKey)
 }

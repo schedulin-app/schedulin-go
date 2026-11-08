@@ -222,7 +222,7 @@ func TestSettersCreatePresignedPost(t *testing.T) {
 
 	t.Run("SetKey", func(t *testing.T) {
 		obj := &CreatePresignedPost{}
-		var fernTestValueKey string
+		var fernTestValueKey *string
 		obj.SetKey(fernTestValueKey)
 		assert.Equal(t, fernTestValueKey, obj.Key)
 		assert.NotNil(t, obj.explicitFields)
@@ -282,7 +282,7 @@ func TestSettersMarkExplicitCreatePresignedPost(t *testing.T) {
 		t.Parallel()
 		// Arrange
 		obj := &CreatePresignedPost{}
-		var fernTestValueKey string
+		var fernTestValueKey *string
 
 		// Act
 		obj.SetKey(fernTestValueKey)
