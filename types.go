@@ -919,11 +919,12 @@ var postCreateNullableFields = map[string]*big.Int{
 }
 
 type PostCreate struct {
-	Caption               string                 `json:"caption" url:"caption"`
-	Title                 *string                `json:"title,omitempty" url:"title,omitempty"`
-	ScheduledAt           *time.Time             `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
-	SocialAccountID       string                 `json:"socialAccountId" url:"socialAccountId"`
-	Media                 []*PostCreateMediaItem `json:"media,omitempty" url:"media,omitempty"`
+	Caption         string                 `json:"caption" url:"caption"`
+	Title           *string                `json:"title,omitempty" url:"title,omitempty"`
+	ScheduledAt     *time.Time             `json:"scheduledAt,omitempty" url:"scheduledAt,omitempty"`
+	SocialAccountID string                 `json:"socialAccountId" url:"socialAccountId"`
+	Media           []*PostCreateMediaItem `json:"media,omitempty" url:"media,omitempty"`
+	// Cover image for the post's first video (an image URL or stored library image), used when that video has no `media[].thumbnail_url`. Honoured by YouTube (custom thumbnail) and Instagram (Reel cover). TikTok can't take a cover image through its API (the post publishes with a warning); use `media[].thumbnail_timestamp_ms` to pick a frame instead.
 	Thumbnail             *PostCreateThumbnail   `json:"thumbnail,omitempty" url:"thumbnail,omitempty"`
 	PlatformConfiguration map[string]any         `json:"platformConfiguration,omitempty" url:"platformConfiguration,omitempty"`
 	TagIDs                []string               `json:"tagIds,omitempty" url:"tagIds,omitempty"`
@@ -1180,34 +1181,32 @@ func (p PostCreateAction) Ptr() *PostCreateAction {
 
 var (
 	postCreateMediaItemFieldURL                  = big.NewInt(1 << 0)
-	postCreateMediaItemFieldThumbnailURL         = big.NewInt(1 << 1)
-	postCreateMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 2)
-	postCreateMediaItemFieldTags                 = big.NewInt(1 << 3)
-	postCreateMediaItemFieldAlt                  = big.NewInt(1 << 4)
-	postCreateMediaItemFieldSkipProcessing       = big.NewInt(1 << 5)
-	postCreateMediaItemFieldName                 = big.NewInt(1 << 6)
-	postCreateMediaItemFieldMimeType             = big.NewInt(1 << 7)
-	postCreateMediaItemFieldWidth                = big.NewInt(1 << 8)
-	postCreateMediaItemFieldHeight               = big.NewInt(1 << 9)
-	postCreateMediaItemFieldSize                 = big.NewInt(1 << 10)
-	postCreateMediaItemFieldDuration             = big.NewInt(1 << 11)
+	postCreateMediaItemFieldTags                 = big.NewInt(1 << 1)
+	postCreateMediaItemFieldAlt                  = big.NewInt(1 << 2)
+	postCreateMediaItemFieldSkipProcessing       = big.NewInt(1 << 3)
+	postCreateMediaItemFieldName                 = big.NewInt(1 << 4)
+	postCreateMediaItemFieldMimeType             = big.NewInt(1 << 5)
+	postCreateMediaItemFieldWidth                = big.NewInt(1 << 6)
+	postCreateMediaItemFieldHeight               = big.NewInt(1 << 7)
+	postCreateMediaItemFieldSize                 = big.NewInt(1 << 8)
+	postCreateMediaItemFieldDuration             = big.NewInt(1 << 9)
+	postCreateMediaItemFieldThumbnailURL         = big.NewInt(1 << 10)
+	postCreateMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 11)
 	postCreateMediaItemFieldCaption              = big.NewInt(1 << 12)
 )
 
 // postCreateMediaItemNullableFields maps the wire names of PostCreateMediaItem's nullable fields (required or optional) to their field bits.
 var postCreateMediaItemNullableFields = map[string]*big.Int{
+	"alt":                    postCreateMediaItemFieldAlt,
 	"thumbnail_url":          postCreateMediaItemFieldThumbnailURL,
 	"thumbnail_timestamp_ms": postCreateMediaItemFieldThumbnailTimestampMs,
-	"alt":                    postCreateMediaItemFieldAlt,
 	"caption":                postCreateMediaItemFieldCaption,
 }
 
 type PostCreateMediaItem struct {
-	URL                  string                         `json:"url" url:"url"`
-	ThumbnailURL         *string                        `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
-	ThumbnailTimestampMs *float64                       `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
-	Tags                 []*PostCreateMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
-	Alt                  *string                        `json:"alt,omitempty" url:"alt,omitempty"`
+	URL  string                         `json:"url" url:"url"`
+	Tags []*PostCreateMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	Alt  *string                        `json:"alt,omitempty" url:"alt,omitempty"`
 	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
 	SkipProcessing *bool    `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
 	Name           *string  `json:"name,omitempty" url:"name,omitempty"`
@@ -1216,6 +1215,10 @@ type PostCreateMediaItem struct {
 	Height         *float64 `json:"height,omitempty" url:"height,omitempty"`
 	Size           *float64 `json:"size,omitempty" url:"size,omitempty"`
 	Duration       *float64 `json:"duration,omitempty" url:"duration,omitempty"`
+	// Custom cover image for this video: a public image URL (imported into your media library) or a stored library image URL. Used by Instagram (Reel cover, `cover_url`) and YouTube (custom thumbnail); wins over the post-level `thumbnail`. TikTok can't take a cover image through its API, so the post publishes with a warning; use `thumbnail_timestamp_ms` there. `null` clears it; leaving it out on update keeps it.
+	ThumbnailURL *string `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
+	// Which frame of this video to use as its cover, in milliseconds from the start. Used by TikTok (`video_cover_timestamp_ms`) and Instagram (`thumb_offset`, Reels and carousel videos; a cover image wins over it on a Reel). YouTube can't pick a frame through its API, so it's ignored there with a warning. `null` clears it; leaving it out on update keeps it.
+	ThumbnailTimestampMs *float64 `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
 	// This photo's own caption in this post. Facebook photo posts show it when the photo is opened; Pinterest carousel Pins show it on that slide (up to 800 characters); Reddit galleries show it under that image (up to 180). Other platforms ignore it.
 	Caption *string `json:"caption,omitempty" url:"caption,omitempty"`
 
@@ -1231,20 +1234,6 @@ func (p *PostCreateMediaItem) GetURL() string {
 		return ""
 	}
 	return p.URL
-}
-
-func (p *PostCreateMediaItem) GetThumbnailURL() *string {
-	if p == nil {
-		return nil
-	}
-	return p.ThumbnailURL
-}
-
-func (p *PostCreateMediaItem) GetThumbnailTimestampMs() *float64 {
-	if p == nil {
-		return nil
-	}
-	return p.ThumbnailTimestampMs
 }
 
 func (p *PostCreateMediaItem) GetTags() []*PostCreateMediaItemTagsItem {
@@ -1310,6 +1299,20 @@ func (p *PostCreateMediaItem) GetDuration() *float64 {
 	return p.Duration
 }
 
+func (p *PostCreateMediaItem) GetThumbnailURL() *string {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailURL
+}
+
+func (p *PostCreateMediaItem) GetThumbnailTimestampMs() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailTimestampMs
+}
+
 func (p *PostCreateMediaItem) GetCaption() *string {
 	if p == nil {
 		return nil
@@ -1338,20 +1341,6 @@ func (p *PostCreateMediaItem) require(field *big.Int) {
 func (p *PostCreateMediaItem) SetURL(url string) {
 	p.URL = url
 	p.require(postCreateMediaItemFieldURL)
-}
-
-// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostCreateMediaItem) SetThumbnailURL(thumbnailURL *string) {
-	p.ThumbnailURL = thumbnailURL
-	p.require(postCreateMediaItemFieldThumbnailURL)
-}
-
-// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostCreateMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
-	p.ThumbnailTimestampMs = thumbnailTimestampMs
-	p.require(postCreateMediaItemFieldThumbnailTimestampMs)
 }
 
 // SetTags sets the Tags field and marks it as non-optional;
@@ -1415,6 +1404,20 @@ func (p *PostCreateMediaItem) SetSize(size *float64) {
 func (p *PostCreateMediaItem) SetDuration(duration *float64) {
 	p.Duration = duration
 	p.require(postCreateMediaItemFieldDuration)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetThumbnailURL(thumbnailURL *string) {
+	p.ThumbnailURL = thumbnailURL
+	p.require(postCreateMediaItemFieldThumbnailURL)
+}
+
+// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
+	p.ThumbnailTimestampMs = thumbnailTimestampMs
+	p.require(postCreateMediaItemFieldThumbnailTimestampMs)
 }
 
 // SetCaption sets the Caption field and marks it as non-optional;
@@ -1864,34 +1867,32 @@ func (p *PostCreatePartsItem) String() string {
 
 var (
 	postCreatePartsItemMediaItemFieldURL                  = big.NewInt(1 << 0)
-	postCreatePartsItemMediaItemFieldThumbnailURL         = big.NewInt(1 << 1)
-	postCreatePartsItemMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 2)
-	postCreatePartsItemMediaItemFieldTags                 = big.NewInt(1 << 3)
-	postCreatePartsItemMediaItemFieldAlt                  = big.NewInt(1 << 4)
-	postCreatePartsItemMediaItemFieldSkipProcessing       = big.NewInt(1 << 5)
-	postCreatePartsItemMediaItemFieldName                 = big.NewInt(1 << 6)
-	postCreatePartsItemMediaItemFieldMimeType             = big.NewInt(1 << 7)
-	postCreatePartsItemMediaItemFieldWidth                = big.NewInt(1 << 8)
-	postCreatePartsItemMediaItemFieldHeight               = big.NewInt(1 << 9)
-	postCreatePartsItemMediaItemFieldSize                 = big.NewInt(1 << 10)
-	postCreatePartsItemMediaItemFieldDuration             = big.NewInt(1 << 11)
+	postCreatePartsItemMediaItemFieldTags                 = big.NewInt(1 << 1)
+	postCreatePartsItemMediaItemFieldAlt                  = big.NewInt(1 << 2)
+	postCreatePartsItemMediaItemFieldSkipProcessing       = big.NewInt(1 << 3)
+	postCreatePartsItemMediaItemFieldName                 = big.NewInt(1 << 4)
+	postCreatePartsItemMediaItemFieldMimeType             = big.NewInt(1 << 5)
+	postCreatePartsItemMediaItemFieldWidth                = big.NewInt(1 << 6)
+	postCreatePartsItemMediaItemFieldHeight               = big.NewInt(1 << 7)
+	postCreatePartsItemMediaItemFieldSize                 = big.NewInt(1 << 8)
+	postCreatePartsItemMediaItemFieldDuration             = big.NewInt(1 << 9)
+	postCreatePartsItemMediaItemFieldThumbnailURL         = big.NewInt(1 << 10)
+	postCreatePartsItemMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 11)
 	postCreatePartsItemMediaItemFieldCaption              = big.NewInt(1 << 12)
 )
 
 // postCreatePartsItemMediaItemNullableFields maps the wire names of PostCreatePartsItemMediaItem's nullable fields (required or optional) to their field bits.
 var postCreatePartsItemMediaItemNullableFields = map[string]*big.Int{
+	"alt":                    postCreatePartsItemMediaItemFieldAlt,
 	"thumbnail_url":          postCreatePartsItemMediaItemFieldThumbnailURL,
 	"thumbnail_timestamp_ms": postCreatePartsItemMediaItemFieldThumbnailTimestampMs,
-	"alt":                    postCreatePartsItemMediaItemFieldAlt,
 	"caption":                postCreatePartsItemMediaItemFieldCaption,
 }
 
 type PostCreatePartsItemMediaItem struct {
-	URL                  string                                  `json:"url" url:"url"`
-	ThumbnailURL         *string                                 `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
-	ThumbnailTimestampMs *float64                                `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
-	Tags                 []*PostCreatePartsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
-	Alt                  *string                                 `json:"alt,omitempty" url:"alt,omitempty"`
+	URL  string                                  `json:"url" url:"url"`
+	Tags []*PostCreatePartsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	Alt  *string                                 `json:"alt,omitempty" url:"alt,omitempty"`
 	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
 	SkipProcessing *bool    `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
 	Name           *string  `json:"name,omitempty" url:"name,omitempty"`
@@ -1900,6 +1901,10 @@ type PostCreatePartsItemMediaItem struct {
 	Height         *float64 `json:"height,omitempty" url:"height,omitempty"`
 	Size           *float64 `json:"size,omitempty" url:"size,omitempty"`
 	Duration       *float64 `json:"duration,omitempty" url:"duration,omitempty"`
+	// Custom cover image for this video: a public image URL (imported into your media library) or a stored library image URL. Used by Instagram (Reel cover, `cover_url`) and YouTube (custom thumbnail); wins over the post-level `thumbnail`. TikTok can't take a cover image through its API, so the post publishes with a warning; use `thumbnail_timestamp_ms` there. `null` clears it; leaving it out on update keeps it.
+	ThumbnailURL *string `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
+	// Which frame of this video to use as its cover, in milliseconds from the start. Used by TikTok (`video_cover_timestamp_ms`) and Instagram (`thumb_offset`, Reels and carousel videos; a cover image wins over it on a Reel). YouTube can't pick a frame through its API, so it's ignored there with a warning. `null` clears it; leaving it out on update keeps it.
+	ThumbnailTimestampMs *float64 `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
 	// This photo's own caption in this post. Facebook photo posts show it when the photo is opened; Pinterest carousel Pins show it on that slide (up to 800 characters); Reddit galleries show it under that image (up to 180). Other platforms ignore it.
 	Caption *string `json:"caption,omitempty" url:"caption,omitempty"`
 
@@ -1915,20 +1920,6 @@ func (p *PostCreatePartsItemMediaItem) GetURL() string {
 		return ""
 	}
 	return p.URL
-}
-
-func (p *PostCreatePartsItemMediaItem) GetThumbnailURL() *string {
-	if p == nil {
-		return nil
-	}
-	return p.ThumbnailURL
-}
-
-func (p *PostCreatePartsItemMediaItem) GetThumbnailTimestampMs() *float64 {
-	if p == nil {
-		return nil
-	}
-	return p.ThumbnailTimestampMs
 }
 
 func (p *PostCreatePartsItemMediaItem) GetTags() []*PostCreatePartsItemMediaItemTagsItem {
@@ -1994,6 +1985,20 @@ func (p *PostCreatePartsItemMediaItem) GetDuration() *float64 {
 	return p.Duration
 }
 
+func (p *PostCreatePartsItemMediaItem) GetThumbnailURL() *string {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailURL
+}
+
+func (p *PostCreatePartsItemMediaItem) GetThumbnailTimestampMs() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailTimestampMs
+}
+
 func (p *PostCreatePartsItemMediaItem) GetCaption() *string {
 	if p == nil {
 		return nil
@@ -2022,20 +2027,6 @@ func (p *PostCreatePartsItemMediaItem) require(field *big.Int) {
 func (p *PostCreatePartsItemMediaItem) SetURL(url string) {
 	p.URL = url
 	p.require(postCreatePartsItemMediaItemFieldURL)
-}
-
-// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostCreatePartsItemMediaItem) SetThumbnailURL(thumbnailURL *string) {
-	p.ThumbnailURL = thumbnailURL
-	p.require(postCreatePartsItemMediaItemFieldThumbnailURL)
-}
-
-// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostCreatePartsItemMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
-	p.ThumbnailTimestampMs = thumbnailTimestampMs
-	p.require(postCreatePartsItemMediaItemFieldThumbnailTimestampMs)
 }
 
 // SetTags sets the Tags field and marks it as non-optional;
@@ -2099,6 +2090,20 @@ func (p *PostCreatePartsItemMediaItem) SetSize(size *float64) {
 func (p *PostCreatePartsItemMediaItem) SetDuration(duration *float64) {
 	p.Duration = duration
 	p.require(postCreatePartsItemMediaItemFieldDuration)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetThumbnailURL(thumbnailURL *string) {
+	p.ThumbnailURL = thumbnailURL
+	p.require(postCreatePartsItemMediaItemFieldThumbnailURL)
+}
+
+// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreatePartsItemMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
+	p.ThumbnailTimestampMs = thumbnailTimestampMs
+	p.require(postCreatePartsItemMediaItemFieldThumbnailTimestampMs)
 }
 
 // SetCaption sets the Caption field and marks it as non-optional;
@@ -2446,34 +2451,33 @@ func (p PostCreatePartsItemMediaItemTagsItemType) Ptr() *PostCreatePartsItemMedi
 
 var (
 	postCreateThumbnailFieldURL                  = big.NewInt(1 << 0)
-	postCreateThumbnailFieldThumbnailURL         = big.NewInt(1 << 1)
-	postCreateThumbnailFieldThumbnailTimestampMs = big.NewInt(1 << 2)
-	postCreateThumbnailFieldTags                 = big.NewInt(1 << 3)
-	postCreateThumbnailFieldAlt                  = big.NewInt(1 << 4)
-	postCreateThumbnailFieldSkipProcessing       = big.NewInt(1 << 5)
-	postCreateThumbnailFieldName                 = big.NewInt(1 << 6)
-	postCreateThumbnailFieldMimeType             = big.NewInt(1 << 7)
-	postCreateThumbnailFieldWidth                = big.NewInt(1 << 8)
-	postCreateThumbnailFieldHeight               = big.NewInt(1 << 9)
-	postCreateThumbnailFieldSize                 = big.NewInt(1 << 10)
-	postCreateThumbnailFieldDuration             = big.NewInt(1 << 11)
+	postCreateThumbnailFieldTags                 = big.NewInt(1 << 1)
+	postCreateThumbnailFieldAlt                  = big.NewInt(1 << 2)
+	postCreateThumbnailFieldSkipProcessing       = big.NewInt(1 << 3)
+	postCreateThumbnailFieldName                 = big.NewInt(1 << 4)
+	postCreateThumbnailFieldMimeType             = big.NewInt(1 << 5)
+	postCreateThumbnailFieldWidth                = big.NewInt(1 << 6)
+	postCreateThumbnailFieldHeight               = big.NewInt(1 << 7)
+	postCreateThumbnailFieldSize                 = big.NewInt(1 << 8)
+	postCreateThumbnailFieldDuration             = big.NewInt(1 << 9)
+	postCreateThumbnailFieldThumbnailURL         = big.NewInt(1 << 10)
+	postCreateThumbnailFieldThumbnailTimestampMs = big.NewInt(1 << 11)
 	postCreateThumbnailFieldCaption              = big.NewInt(1 << 12)
 )
 
 // postCreateThumbnailNullableFields maps the wire names of PostCreateThumbnail's nullable fields (required or optional) to their field bits.
 var postCreateThumbnailNullableFields = map[string]*big.Int{
+	"alt":                    postCreateThumbnailFieldAlt,
 	"thumbnail_url":          postCreateThumbnailFieldThumbnailURL,
 	"thumbnail_timestamp_ms": postCreateThumbnailFieldThumbnailTimestampMs,
-	"alt":                    postCreateThumbnailFieldAlt,
 	"caption":                postCreateThumbnailFieldCaption,
 }
 
+// Cover image for the post's first video (an image URL or stored library image), used when that video has no `media[].thumbnail_url`. Honoured by YouTube (custom thumbnail) and Instagram (Reel cover). TikTok can't take a cover image through its API (the post publishes with a warning); use `media[].thumbnail_timestamp_ms` to pick a frame instead.
 type PostCreateThumbnail struct {
-	URL                  string                         `json:"url" url:"url"`
-	ThumbnailURL         *string                        `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
-	ThumbnailTimestampMs *float64                       `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
-	Tags                 []*PostCreateThumbnailTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
-	Alt                  *string                        `json:"alt,omitempty" url:"alt,omitempty"`
+	URL  string                         `json:"url" url:"url"`
+	Tags []*PostCreateThumbnailTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	Alt  *string                        `json:"alt,omitempty" url:"alt,omitempty"`
 	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
 	SkipProcessing *bool    `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
 	Name           *string  `json:"name,omitempty" url:"name,omitempty"`
@@ -2482,6 +2486,10 @@ type PostCreateThumbnail struct {
 	Height         *float64 `json:"height,omitempty" url:"height,omitempty"`
 	Size           *float64 `json:"size,omitempty" url:"size,omitempty"`
 	Duration       *float64 `json:"duration,omitempty" url:"duration,omitempty"`
+	// Custom cover image for this video: a public image URL (imported into your media library) or a stored library image URL. Used by Instagram (Reel cover, `cover_url`) and YouTube (custom thumbnail); wins over the post-level `thumbnail`. TikTok can't take a cover image through its API, so the post publishes with a warning; use `thumbnail_timestamp_ms` there. `null` clears it; leaving it out on update keeps it.
+	ThumbnailURL *string `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
+	// Which frame of this video to use as its cover, in milliseconds from the start. Used by TikTok (`video_cover_timestamp_ms`) and Instagram (`thumb_offset`, Reels and carousel videos; a cover image wins over it on a Reel). YouTube can't pick a frame through its API, so it's ignored there with a warning. `null` clears it; leaving it out on update keeps it.
+	ThumbnailTimestampMs *float64 `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
 	// This photo's own caption in this post. Facebook photo posts show it when the photo is opened; Pinterest carousel Pins show it on that slide (up to 800 characters); Reddit galleries show it under that image (up to 180). Other platforms ignore it.
 	Caption *string `json:"caption,omitempty" url:"caption,omitempty"`
 
@@ -2497,20 +2505,6 @@ func (p *PostCreateThumbnail) GetURL() string {
 		return ""
 	}
 	return p.URL
-}
-
-func (p *PostCreateThumbnail) GetThumbnailURL() *string {
-	if p == nil {
-		return nil
-	}
-	return p.ThumbnailURL
-}
-
-func (p *PostCreateThumbnail) GetThumbnailTimestampMs() *float64 {
-	if p == nil {
-		return nil
-	}
-	return p.ThumbnailTimestampMs
 }
 
 func (p *PostCreateThumbnail) GetTags() []*PostCreateThumbnailTagsItem {
@@ -2576,6 +2570,20 @@ func (p *PostCreateThumbnail) GetDuration() *float64 {
 	return p.Duration
 }
 
+func (p *PostCreateThumbnail) GetThumbnailURL() *string {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailURL
+}
+
+func (p *PostCreateThumbnail) GetThumbnailTimestampMs() *float64 {
+	if p == nil {
+		return nil
+	}
+	return p.ThumbnailTimestampMs
+}
+
 func (p *PostCreateThumbnail) GetCaption() *string {
 	if p == nil {
 		return nil
@@ -2604,20 +2612,6 @@ func (p *PostCreateThumbnail) require(field *big.Int) {
 func (p *PostCreateThumbnail) SetURL(url string) {
 	p.URL = url
 	p.require(postCreateThumbnailFieldURL)
-}
-
-// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostCreateThumbnail) SetThumbnailURL(thumbnailURL *string) {
-	p.ThumbnailURL = thumbnailURL
-	p.require(postCreateThumbnailFieldThumbnailURL)
-}
-
-// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (p *PostCreateThumbnail) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
-	p.ThumbnailTimestampMs = thumbnailTimestampMs
-	p.require(postCreateThumbnailFieldThumbnailTimestampMs)
 }
 
 // SetTags sets the Tags field and marks it as non-optional;
@@ -2681,6 +2675,20 @@ func (p *PostCreateThumbnail) SetSize(size *float64) {
 func (p *PostCreateThumbnail) SetDuration(duration *float64) {
 	p.Duration = duration
 	p.require(postCreateThumbnailFieldDuration)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetThumbnailURL(thumbnailURL *string) {
+	p.ThumbnailURL = thumbnailURL
+	p.require(postCreateThumbnailFieldThumbnailURL)
+}
+
+// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (p *PostCreateThumbnail) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
+	p.ThumbnailTimestampMs = thumbnailTimestampMs
+	p.require(postCreateThumbnailFieldThumbnailTimestampMs)
 }
 
 // SetCaption sets the Caption field and marks it as non-optional;

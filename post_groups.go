@@ -446,27 +446,21 @@ func (c *CreatePostGroupsResponsePostsItem) String() string {
 }
 
 var (
-	createPostGroupsResponsePostsItemMediaItemFieldURL                  = big.NewInt(1 << 0)
-	createPostGroupsResponsePostsItemMediaItemFieldThumbnailURL         = big.NewInt(1 << 1)
-	createPostGroupsResponsePostsItemMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 2)
-	createPostGroupsResponsePostsItemMediaItemFieldTags                 = big.NewInt(1 << 3)
-	createPostGroupsResponsePostsItemMediaItemFieldAlt                  = big.NewInt(1 << 4)
-	createPostGroupsResponsePostsItemMediaItemFieldSkipProcessing       = big.NewInt(1 << 5)
+	createPostGroupsResponsePostsItemMediaItemFieldURL            = big.NewInt(1 << 0)
+	createPostGroupsResponsePostsItemMediaItemFieldTags           = big.NewInt(1 << 1)
+	createPostGroupsResponsePostsItemMediaItemFieldAlt            = big.NewInt(1 << 2)
+	createPostGroupsResponsePostsItemMediaItemFieldSkipProcessing = big.NewInt(1 << 3)
 )
 
 // createPostGroupsResponsePostsItemMediaItemNullableFields maps the wire names of CreatePostGroupsResponsePostsItemMediaItem's nullable fields (required or optional) to their field bits.
 var createPostGroupsResponsePostsItemMediaItemNullableFields = map[string]*big.Int{
-	"thumbnail_url":          createPostGroupsResponsePostsItemMediaItemFieldThumbnailURL,
-	"thumbnail_timestamp_ms": createPostGroupsResponsePostsItemMediaItemFieldThumbnailTimestampMs,
-	"alt":                    createPostGroupsResponsePostsItemMediaItemFieldAlt,
+	"alt": createPostGroupsResponsePostsItemMediaItemFieldAlt,
 }
 
 type CreatePostGroupsResponsePostsItemMediaItem struct {
-	URL                  string                                                `json:"url" url:"url"`
-	ThumbnailURL         *string                                               `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
-	ThumbnailTimestampMs *float64                                              `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
-	Tags                 []*CreatePostGroupsResponsePostsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
-	Alt                  *string                                               `json:"alt,omitempty" url:"alt,omitempty"`
+	URL  string                                                `json:"url" url:"url"`
+	Tags []*CreatePostGroupsResponsePostsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	Alt  *string                                               `json:"alt,omitempty" url:"alt,omitempty"`
 	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
 	SkipProcessing *bool `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
 
@@ -482,20 +476,6 @@ func (c *CreatePostGroupsResponsePostsItemMediaItem) GetURL() string {
 		return ""
 	}
 	return c.URL
-}
-
-func (c *CreatePostGroupsResponsePostsItemMediaItem) GetThumbnailURL() *string {
-	if c == nil {
-		return nil
-	}
-	return c.ThumbnailURL
-}
-
-func (c *CreatePostGroupsResponsePostsItemMediaItem) GetThumbnailTimestampMs() *float64 {
-	if c == nil {
-		return nil
-	}
-	return c.ThumbnailTimestampMs
 }
 
 func (c *CreatePostGroupsResponsePostsItemMediaItem) GetTags() []*CreatePostGroupsResponsePostsItemMediaItemTagsItem {
@@ -540,20 +520,6 @@ func (c *CreatePostGroupsResponsePostsItemMediaItem) require(field *big.Int) {
 func (c *CreatePostGroupsResponsePostsItemMediaItem) SetURL(url string) {
 	c.URL = url
 	c.require(createPostGroupsResponsePostsItemMediaItemFieldURL)
-}
-
-// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreatePostGroupsResponsePostsItemMediaItem) SetThumbnailURL(thumbnailURL *string) {
-	c.ThumbnailURL = thumbnailURL
-	c.require(createPostGroupsResponsePostsItemMediaItemFieldThumbnailURL)
-}
-
-// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreatePostGroupsResponsePostsItemMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
-	c.ThumbnailTimestampMs = thumbnailTimestampMs
-	c.require(createPostGroupsResponsePostsItemMediaItemFieldThumbnailTimestampMs)
 }
 
 // SetTags sets the Tags field and marks it as non-optional;

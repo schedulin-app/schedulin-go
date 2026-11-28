@@ -987,22 +987,6 @@ func TestSettersCreatePostGroupsResponsePostsItemMediaItem(t *testing.T) {
 		assert.NotNil(t, obj.explicitFields)
 	})
 
-	t.Run("SetThumbnailURL", func(t *testing.T) {
-		obj := &CreatePostGroupsResponsePostsItemMediaItem{}
-		var fernTestValueThumbnailURL *string
-		obj.SetThumbnailURL(fernTestValueThumbnailURL)
-		assert.Equal(t, fernTestValueThumbnailURL, obj.ThumbnailURL)
-		assert.NotNil(t, obj.explicitFields)
-	})
-
-	t.Run("SetThumbnailTimestampMs", func(t *testing.T) {
-		obj := &CreatePostGroupsResponsePostsItemMediaItem{}
-		var fernTestValueThumbnailTimestampMs *float64
-		obj.SetThumbnailTimestampMs(fernTestValueThumbnailTimestampMs)
-		assert.Equal(t, fernTestValueThumbnailTimestampMs, obj.ThumbnailTimestampMs)
-		assert.NotNil(t, obj.explicitFields)
-	})
-
 	t.Run("SetTags", func(t *testing.T) {
 		obj := &CreatePostGroupsResponsePostsItemMediaItem{}
 		var fernTestValueTags []*CreatePostGroupsResponsePostsItemMediaItemTagsItem
@@ -1051,72 +1035,6 @@ func TestGettersCreatePostGroupsResponsePostsItemMediaItem(t *testing.T) {
 			}
 		}()
 		_ = obj.GetURL() // Should return zero value
-	})
-
-	t.Run("GetThumbnailURL", func(t *testing.T) {
-		t.Parallel()
-		// Arrange
-		obj := &CreatePostGroupsResponsePostsItemMediaItem{}
-		var expected *string
-		obj.ThumbnailURL = expected
-
-		// Act & Assert
-		assert.Equal(t, expected, obj.GetThumbnailURL(), "getter should return the property value")
-	})
-
-	t.Run("GetThumbnailURL_NilValue", func(t *testing.T) {
-		t.Parallel()
-		// Arrange
-		obj := &CreatePostGroupsResponsePostsItemMediaItem{}
-		obj.ThumbnailURL = nil
-
-		// Act & Assert
-		assert.Nil(t, obj.GetThumbnailURL(), "getter should return nil when property is nil")
-	})
-
-	t.Run("GetThumbnailURL_NilReceiver", func(t *testing.T) {
-		t.Parallel()
-		var obj *CreatePostGroupsResponsePostsItemMediaItem
-		// Should not panic - getters should handle nil receiver gracefully
-		defer func() {
-			if r := recover(); r != nil {
-				t.Errorf("Getter panicked on nil receiver: %v", r)
-			}
-		}()
-		_ = obj.GetThumbnailURL() // Should return zero value
-	})
-
-	t.Run("GetThumbnailTimestampMs", func(t *testing.T) {
-		t.Parallel()
-		// Arrange
-		obj := &CreatePostGroupsResponsePostsItemMediaItem{}
-		var expected *float64
-		obj.ThumbnailTimestampMs = expected
-
-		// Act & Assert
-		assert.Equal(t, expected, obj.GetThumbnailTimestampMs(), "getter should return the property value")
-	})
-
-	t.Run("GetThumbnailTimestampMs_NilValue", func(t *testing.T) {
-		t.Parallel()
-		// Arrange
-		obj := &CreatePostGroupsResponsePostsItemMediaItem{}
-		obj.ThumbnailTimestampMs = nil
-
-		// Act & Assert
-		assert.Nil(t, obj.GetThumbnailTimestampMs(), "getter should return nil when property is nil")
-	})
-
-	t.Run("GetThumbnailTimestampMs_NilReceiver", func(t *testing.T) {
-		t.Parallel()
-		var obj *CreatePostGroupsResponsePostsItemMediaItem
-		// Should not panic - getters should handle nil receiver gracefully
-		defer func() {
-			if r := recover(); r != nil {
-				t.Errorf("Getter panicked on nil receiver: %v", r)
-			}
-		}()
-		_ = obj.GetThumbnailTimestampMs() // Should return zero value
 	})
 
 	t.Run("GetTags", func(t *testing.T) {
@@ -1229,68 +1147,6 @@ func TestSettersMarkExplicitCreatePostGroupsResponsePostsItemMediaItem(t *testin
 
 		// Act
 		obj.SetURL(fernTestValueURL)
-
-		// Assert - object with explicitly set field can be marshaled/unmarshaled
-		bytes, err := json.Marshal(obj)
-		require.NoError(t, err, "marshaling should succeed for test setup")
-
-		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
-		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
-		if len(bytes) > 0 && bytes[0] == '{' {
-			// JSON object - unmarshal into map
-			var unmarshaled map[string]interface{}
-			err = json.Unmarshal(bytes, &unmarshaled)
-			require.NoError(t, err, "unmarshaling should succeed for test verification")
-		} else {
-			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
-			var unmarshaled interface{}
-			err = json.Unmarshal(bytes, &unmarshaled)
-			require.NoError(t, err, "unmarshaling should succeed for test verification")
-		}
-
-		// Note: This does not explicitly assert the presence of a specific JSON field
-		// It verifies that setting a field via setter allows successful JSON round-trip
-	})
-
-	t.Run("SetThumbnailURL_MarksExplicit", func(t *testing.T) {
-		t.Parallel()
-		// Arrange
-		obj := &CreatePostGroupsResponsePostsItemMediaItem{}
-		var fernTestValueThumbnailURL *string
-
-		// Act
-		obj.SetThumbnailURL(fernTestValueThumbnailURL)
-
-		// Assert - object with explicitly set field can be marshaled/unmarshaled
-		bytes, err := json.Marshal(obj)
-		require.NoError(t, err, "marshaling should succeed for test setup")
-
-		// This test ensures JSON marshaling and unmarshaling succeed when the field has a zero/nil value
-		// Detect if marshaled JSON is an object or primitive to use correct unmarshal target
-		if len(bytes) > 0 && bytes[0] == '{' {
-			// JSON object - unmarshal into map
-			var unmarshaled map[string]interface{}
-			err = json.Unmarshal(bytes, &unmarshaled)
-			require.NoError(t, err, "unmarshaling should succeed for test verification")
-		} else {
-			// JSON primitive (string, number, boolean, null) - unmarshal into interface{}
-			var unmarshaled interface{}
-			err = json.Unmarshal(bytes, &unmarshaled)
-			require.NoError(t, err, "unmarshaling should succeed for test verification")
-		}
-
-		// Note: This does not explicitly assert the presence of a specific JSON field
-		// It verifies that setting a field via setter allows successful JSON round-trip
-	})
-
-	t.Run("SetThumbnailTimestampMs_MarksExplicit", func(t *testing.T) {
-		t.Parallel()
-		// Arrange
-		obj := &CreatePostGroupsResponsePostsItemMediaItem{}
-		var fernTestValueThumbnailTimestampMs *float64
-
-		// Act
-		obj.SetThumbnailTimestampMs(fernTestValueThumbnailTimestampMs)
 
 		// Assert - object with explicitly set field can be marshaled/unmarshaled
 		bytes, err := json.Marshal(obj)
@@ -1927,8 +1783,6 @@ func TestRequiredNullableRoundTripCreatePostGroupsResponsePostsItem(t *testing.T
 
 func TestOptionalNullableRoundTripCreatePostGroupsResponsePostsItemMediaItem(t *testing.T) {
 	optionalNullableKeys := []string{
-		"thumbnail_url",
-		"thumbnail_timestamp_ms",
 		"alt",
 	}
 	marshalToMap := func(t *testing.T, obj *CreatePostGroupsResponsePostsItemMediaItem) map[string]json.RawMessage {
@@ -1942,7 +1796,7 @@ func TestOptionalNullableRoundTripCreatePostGroupsResponsePostsItemMediaItem(t *
 	t.Run("NullPreserved", func(t *testing.T) {
 		t.Parallel()
 		var obj CreatePostGroupsResponsePostsItemMediaItem
-		require.NoError(t, json.Unmarshal([]byte(`{"thumbnail_url":null,"thumbnail_timestamp_ms":null,"alt":null}`), &obj))
+		require.NoError(t, json.Unmarshal([]byte(`{"alt":null}`), &obj))
 		result := marshalToMap(t, &obj)
 		for _, key := range optionalNullableKeys {
 			value, ok := result[key]

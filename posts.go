@@ -3309,27 +3309,21 @@ func (c *CreatePostsResponse) String() string {
 }
 
 var (
-	createPostsResponseMediaItemFieldURL                  = big.NewInt(1 << 0)
-	createPostsResponseMediaItemFieldThumbnailURL         = big.NewInt(1 << 1)
-	createPostsResponseMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 2)
-	createPostsResponseMediaItemFieldTags                 = big.NewInt(1 << 3)
-	createPostsResponseMediaItemFieldAlt                  = big.NewInt(1 << 4)
-	createPostsResponseMediaItemFieldSkipProcessing       = big.NewInt(1 << 5)
+	createPostsResponseMediaItemFieldURL            = big.NewInt(1 << 0)
+	createPostsResponseMediaItemFieldTags           = big.NewInt(1 << 1)
+	createPostsResponseMediaItemFieldAlt            = big.NewInt(1 << 2)
+	createPostsResponseMediaItemFieldSkipProcessing = big.NewInt(1 << 3)
 )
 
 // createPostsResponseMediaItemNullableFields maps the wire names of CreatePostsResponseMediaItem's nullable fields (required or optional) to their field bits.
 var createPostsResponseMediaItemNullableFields = map[string]*big.Int{
-	"thumbnail_url":          createPostsResponseMediaItemFieldThumbnailURL,
-	"thumbnail_timestamp_ms": createPostsResponseMediaItemFieldThumbnailTimestampMs,
-	"alt":                    createPostsResponseMediaItemFieldAlt,
+	"alt": createPostsResponseMediaItemFieldAlt,
 }
 
 type CreatePostsResponseMediaItem struct {
-	URL                  string                                  `json:"url" url:"url"`
-	ThumbnailURL         *string                                 `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
-	ThumbnailTimestampMs *float64                                `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
-	Tags                 []*CreatePostsResponseMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
-	Alt                  *string                                 `json:"alt,omitempty" url:"alt,omitempty"`
+	URL  string                                  `json:"url" url:"url"`
+	Tags []*CreatePostsResponseMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	Alt  *string                                 `json:"alt,omitempty" url:"alt,omitempty"`
 	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
 	SkipProcessing *bool `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
 
@@ -3345,20 +3339,6 @@ func (c *CreatePostsResponseMediaItem) GetURL() string {
 		return ""
 	}
 	return c.URL
-}
-
-func (c *CreatePostsResponseMediaItem) GetThumbnailURL() *string {
-	if c == nil {
-		return nil
-	}
-	return c.ThumbnailURL
-}
-
-func (c *CreatePostsResponseMediaItem) GetThumbnailTimestampMs() *float64 {
-	if c == nil {
-		return nil
-	}
-	return c.ThumbnailTimestampMs
 }
 
 func (c *CreatePostsResponseMediaItem) GetTags() []*CreatePostsResponseMediaItemTagsItem {
@@ -3403,20 +3383,6 @@ func (c *CreatePostsResponseMediaItem) require(field *big.Int) {
 func (c *CreatePostsResponseMediaItem) SetURL(url string) {
 	c.URL = url
 	c.require(createPostsResponseMediaItemFieldURL)
-}
-
-// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreatePostsResponseMediaItem) SetThumbnailURL(thumbnailURL *string) {
-	c.ThumbnailURL = thumbnailURL
-	c.require(createPostsResponseMediaItemFieldThumbnailURL)
-}
-
-// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
-// this prevents an empty or null value for this field from being omitted during serialization.
-func (c *CreatePostsResponseMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
-	c.ThumbnailTimestampMs = thumbnailTimestampMs
-	c.require(createPostsResponseMediaItemFieldThumbnailTimestampMs)
 }
 
 // SetTags sets the Tags field and marks it as non-optional;
@@ -4023,31 +3989,35 @@ func (l *ListPostsResponse) String() string {
 }
 
 var (
-	updatePostsRequestMediaItemFieldID             = big.NewInt(1 << 0)
-	updatePostsRequestMediaItemFieldURL            = big.NewInt(1 << 1)
-	updatePostsRequestMediaItemFieldName           = big.NewInt(1 << 2)
-	updatePostsRequestMediaItemFieldMimeType       = big.NewInt(1 << 3)
-	updatePostsRequestMediaItemFieldWidth          = big.NewInt(1 << 4)
-	updatePostsRequestMediaItemFieldHeight         = big.NewInt(1 << 5)
-	updatePostsRequestMediaItemFieldSize           = big.NewInt(1 << 6)
-	updatePostsRequestMediaItemFieldDuration       = big.NewInt(1 << 7)
-	updatePostsRequestMediaItemFieldAlt            = big.NewInt(1 << 8)
-	updatePostsRequestMediaItemFieldCaption        = big.NewInt(1 << 9)
-	updatePostsRequestMediaItemFieldTags           = big.NewInt(1 << 10)
-	updatePostsRequestMediaItemFieldSkipProcessing = big.NewInt(1 << 11)
-	updatePostsRequestMediaItemFieldBucket         = big.NewInt(1 << 12)
-	updatePostsRequestMediaItemFieldKey            = big.NewInt(1 << 13)
+	updatePostsRequestMediaItemFieldID                   = big.NewInt(1 << 0)
+	updatePostsRequestMediaItemFieldURL                  = big.NewInt(1 << 1)
+	updatePostsRequestMediaItemFieldName                 = big.NewInt(1 << 2)
+	updatePostsRequestMediaItemFieldMimeType             = big.NewInt(1 << 3)
+	updatePostsRequestMediaItemFieldWidth                = big.NewInt(1 << 4)
+	updatePostsRequestMediaItemFieldHeight               = big.NewInt(1 << 5)
+	updatePostsRequestMediaItemFieldSize                 = big.NewInt(1 << 6)
+	updatePostsRequestMediaItemFieldDuration             = big.NewInt(1 << 7)
+	updatePostsRequestMediaItemFieldAlt                  = big.NewInt(1 << 8)
+	updatePostsRequestMediaItemFieldCaption              = big.NewInt(1 << 9)
+	updatePostsRequestMediaItemFieldTags                 = big.NewInt(1 << 10)
+	updatePostsRequestMediaItemFieldThumbnailURL         = big.NewInt(1 << 11)
+	updatePostsRequestMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 12)
+	updatePostsRequestMediaItemFieldSkipProcessing       = big.NewInt(1 << 13)
+	updatePostsRequestMediaItemFieldBucket               = big.NewInt(1 << 14)
+	updatePostsRequestMediaItemFieldKey                  = big.NewInt(1 << 15)
 )
 
 // updatePostsRequestMediaItemNullableFields maps the wire names of UpdatePostsRequestMediaItem's nullable fields (required or optional) to their field bits.
 var updatePostsRequestMediaItemNullableFields = map[string]*big.Int{
-	"width":    updatePostsRequestMediaItemFieldWidth,
-	"height":   updatePostsRequestMediaItemFieldHeight,
-	"size":     updatePostsRequestMediaItemFieldSize,
-	"duration": updatePostsRequestMediaItemFieldDuration,
-	"alt":      updatePostsRequestMediaItemFieldAlt,
-	"caption":  updatePostsRequestMediaItemFieldCaption,
-	"tags":     updatePostsRequestMediaItemFieldTags,
+	"width":                  updatePostsRequestMediaItemFieldWidth,
+	"height":                 updatePostsRequestMediaItemFieldHeight,
+	"size":                   updatePostsRequestMediaItemFieldSize,
+	"duration":               updatePostsRequestMediaItemFieldDuration,
+	"alt":                    updatePostsRequestMediaItemFieldAlt,
+	"caption":                updatePostsRequestMediaItemFieldCaption,
+	"tags":                   updatePostsRequestMediaItemFieldTags,
+	"thumbnail_url":          updatePostsRequestMediaItemFieldThumbnailURL,
+	"thumbnail_timestamp_ms": updatePostsRequestMediaItemFieldThumbnailTimestampMs,
 }
 
 type UpdatePostsRequestMediaItem struct {
@@ -4062,6 +4032,10 @@ type UpdatePostsRequestMediaItem struct {
 	Alt      *string                                `json:"alt,omitempty" url:"alt,omitempty"`
 	Caption  *string                                `json:"caption,omitempty" url:"caption,omitempty"`
 	Tags     []*UpdatePostsRequestMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	// Custom cover image for this video: a public image URL (imported into your media library) or a stored library image URL. Used by Instagram (Reel cover, `cover_url`) and YouTube (custom thumbnail); wins over the post-level `thumbnail`. TikTok can't take a cover image through its API, so the post publishes with a warning; use `thumbnail_timestamp_ms` there. `null` clears it; leaving it out on update keeps it.
+	ThumbnailURL *string `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
+	// Which frame of this video to use as its cover, in milliseconds from the start. Used by TikTok (`video_cover_timestamp_ms`) and Instagram (`thumb_offset`, Reels and carousel videos; a cover image wins over it on a Reel). YouTube can't pick a frame through its API, so it's ignored there with a warning. `null` clears it; leaving it out on update keeps it.
+	ThumbnailTimestampMs *float64 `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
 	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
 	SkipProcessing *bool   `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
 	Bucket         *string `json:"bucket,omitempty" url:"bucket,omitempty"`
@@ -4149,6 +4123,20 @@ func (u *UpdatePostsRequestMediaItem) GetTags() []*UpdatePostsRequestMediaItemTa
 		return nil
 	}
 	return u.Tags
+}
+
+func (u *UpdatePostsRequestMediaItem) GetThumbnailURL() *string {
+	if u == nil {
+		return nil
+	}
+	return u.ThumbnailURL
+}
+
+func (u *UpdatePostsRequestMediaItem) GetThumbnailTimestampMs() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.ThumbnailTimestampMs
 }
 
 func (u *UpdatePostsRequestMediaItem) GetSkipProcessing() *bool {
@@ -4263,6 +4251,20 @@ func (u *UpdatePostsRequestMediaItem) SetCaption(caption *string) {
 func (u *UpdatePostsRequestMediaItem) SetTags(tags []*UpdatePostsRequestMediaItemTagsItem) {
 	u.Tags = tags
 	u.require(updatePostsRequestMediaItemFieldTags)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetThumbnailURL(thumbnailURL *string) {
+	u.ThumbnailURL = thumbnailURL
+	u.require(updatePostsRequestMediaItemFieldThumbnailURL)
+}
+
+// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
+	u.ThumbnailTimestampMs = thumbnailTimestampMs
+	u.require(updatePostsRequestMediaItemFieldThumbnailTimestampMs)
 }
 
 // SetSkipProcessing sets the SkipProcessing field and marks it as non-optional;
@@ -4725,31 +4727,35 @@ func (u *UpdatePostsRequestPartsItem) String() string {
 }
 
 var (
-	updatePostsRequestPartsItemMediaItemFieldID             = big.NewInt(1 << 0)
-	updatePostsRequestPartsItemMediaItemFieldURL            = big.NewInt(1 << 1)
-	updatePostsRequestPartsItemMediaItemFieldName           = big.NewInt(1 << 2)
-	updatePostsRequestPartsItemMediaItemFieldMimeType       = big.NewInt(1 << 3)
-	updatePostsRequestPartsItemMediaItemFieldWidth          = big.NewInt(1 << 4)
-	updatePostsRequestPartsItemMediaItemFieldHeight         = big.NewInt(1 << 5)
-	updatePostsRequestPartsItemMediaItemFieldSize           = big.NewInt(1 << 6)
-	updatePostsRequestPartsItemMediaItemFieldDuration       = big.NewInt(1 << 7)
-	updatePostsRequestPartsItemMediaItemFieldAlt            = big.NewInt(1 << 8)
-	updatePostsRequestPartsItemMediaItemFieldCaption        = big.NewInt(1 << 9)
-	updatePostsRequestPartsItemMediaItemFieldTags           = big.NewInt(1 << 10)
-	updatePostsRequestPartsItemMediaItemFieldSkipProcessing = big.NewInt(1 << 11)
-	updatePostsRequestPartsItemMediaItemFieldBucket         = big.NewInt(1 << 12)
-	updatePostsRequestPartsItemMediaItemFieldKey            = big.NewInt(1 << 13)
+	updatePostsRequestPartsItemMediaItemFieldID                   = big.NewInt(1 << 0)
+	updatePostsRequestPartsItemMediaItemFieldURL                  = big.NewInt(1 << 1)
+	updatePostsRequestPartsItemMediaItemFieldName                 = big.NewInt(1 << 2)
+	updatePostsRequestPartsItemMediaItemFieldMimeType             = big.NewInt(1 << 3)
+	updatePostsRequestPartsItemMediaItemFieldWidth                = big.NewInt(1 << 4)
+	updatePostsRequestPartsItemMediaItemFieldHeight               = big.NewInt(1 << 5)
+	updatePostsRequestPartsItemMediaItemFieldSize                 = big.NewInt(1 << 6)
+	updatePostsRequestPartsItemMediaItemFieldDuration             = big.NewInt(1 << 7)
+	updatePostsRequestPartsItemMediaItemFieldAlt                  = big.NewInt(1 << 8)
+	updatePostsRequestPartsItemMediaItemFieldCaption              = big.NewInt(1 << 9)
+	updatePostsRequestPartsItemMediaItemFieldTags                 = big.NewInt(1 << 10)
+	updatePostsRequestPartsItemMediaItemFieldThumbnailURL         = big.NewInt(1 << 11)
+	updatePostsRequestPartsItemMediaItemFieldThumbnailTimestampMs = big.NewInt(1 << 12)
+	updatePostsRequestPartsItemMediaItemFieldSkipProcessing       = big.NewInt(1 << 13)
+	updatePostsRequestPartsItemMediaItemFieldBucket               = big.NewInt(1 << 14)
+	updatePostsRequestPartsItemMediaItemFieldKey                  = big.NewInt(1 << 15)
 )
 
 // updatePostsRequestPartsItemMediaItemNullableFields maps the wire names of UpdatePostsRequestPartsItemMediaItem's nullable fields (required or optional) to their field bits.
 var updatePostsRequestPartsItemMediaItemNullableFields = map[string]*big.Int{
-	"width":    updatePostsRequestPartsItemMediaItemFieldWidth,
-	"height":   updatePostsRequestPartsItemMediaItemFieldHeight,
-	"size":     updatePostsRequestPartsItemMediaItemFieldSize,
-	"duration": updatePostsRequestPartsItemMediaItemFieldDuration,
-	"alt":      updatePostsRequestPartsItemMediaItemFieldAlt,
-	"caption":  updatePostsRequestPartsItemMediaItemFieldCaption,
-	"tags":     updatePostsRequestPartsItemMediaItemFieldTags,
+	"width":                  updatePostsRequestPartsItemMediaItemFieldWidth,
+	"height":                 updatePostsRequestPartsItemMediaItemFieldHeight,
+	"size":                   updatePostsRequestPartsItemMediaItemFieldSize,
+	"duration":               updatePostsRequestPartsItemMediaItemFieldDuration,
+	"alt":                    updatePostsRequestPartsItemMediaItemFieldAlt,
+	"caption":                updatePostsRequestPartsItemMediaItemFieldCaption,
+	"tags":                   updatePostsRequestPartsItemMediaItemFieldTags,
+	"thumbnail_url":          updatePostsRequestPartsItemMediaItemFieldThumbnailURL,
+	"thumbnail_timestamp_ms": updatePostsRequestPartsItemMediaItemFieldThumbnailTimestampMs,
 }
 
 type UpdatePostsRequestPartsItemMediaItem struct {
@@ -4764,6 +4770,10 @@ type UpdatePostsRequestPartsItemMediaItem struct {
 	Alt      *string                                         `json:"alt,omitempty" url:"alt,omitempty"`
 	Caption  *string                                         `json:"caption,omitempty" url:"caption,omitempty"`
 	Tags     []*UpdatePostsRequestPartsItemMediaItemTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	// Custom cover image for this video: a public image URL (imported into your media library) or a stored library image URL. Used by Instagram (Reel cover, `cover_url`) and YouTube (custom thumbnail); wins over the post-level `thumbnail`. TikTok can't take a cover image through its API, so the post publishes with a warning; use `thumbnail_timestamp_ms` there. `null` clears it; leaving it out on update keeps it.
+	ThumbnailURL *string `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
+	// Which frame of this video to use as its cover, in milliseconds from the start. Used by TikTok (`video_cover_timestamp_ms`) and Instagram (`thumb_offset`, Reels and carousel videos; a cover image wins over it on a Reel). YouTube can't pick a frame through its API, so it's ignored there with a warning. `null` clears it; leaving it out on update keeps it.
+	ThumbnailTimestampMs *float64 `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
 	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
 	SkipProcessing *bool   `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
 	Bucket         *string `json:"bucket,omitempty" url:"bucket,omitempty"`
@@ -4851,6 +4861,20 @@ func (u *UpdatePostsRequestPartsItemMediaItem) GetTags() []*UpdatePostsRequestPa
 		return nil
 	}
 	return u.Tags
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetThumbnailURL() *string {
+	if u == nil {
+		return nil
+	}
+	return u.ThumbnailURL
+}
+
+func (u *UpdatePostsRequestPartsItemMediaItem) GetThumbnailTimestampMs() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.ThumbnailTimestampMs
 }
 
 func (u *UpdatePostsRequestPartsItemMediaItem) GetSkipProcessing() *bool {
@@ -4965,6 +4989,20 @@ func (u *UpdatePostsRequestPartsItemMediaItem) SetCaption(caption *string) {
 func (u *UpdatePostsRequestPartsItemMediaItem) SetTags(tags []*UpdatePostsRequestPartsItemMediaItemTagsItem) {
 	u.Tags = tags
 	u.require(updatePostsRequestPartsItemMediaItemFieldTags)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetThumbnailURL(thumbnailURL *string) {
+	u.ThumbnailURL = thumbnailURL
+	u.require(updatePostsRequestPartsItemMediaItemFieldThumbnailURL)
+}
+
+// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestPartsItemMediaItem) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
+	u.ThumbnailTimestampMs = thumbnailTimestampMs
+	u.require(updatePostsRequestPartsItemMediaItemFieldThumbnailTimestampMs)
 }
 
 // SetSkipProcessing sets the SkipProcessing field and marks it as non-optional;
@@ -5350,23 +5388,662 @@ func (u UpdatePostsRequestStatus) Ptr() *UpdatePostsRequestStatus {
 }
 
 var (
+	updatePostsRequestThumbnailFieldID                   = big.NewInt(1 << 0)
+	updatePostsRequestThumbnailFieldURL                  = big.NewInt(1 << 1)
+	updatePostsRequestThumbnailFieldName                 = big.NewInt(1 << 2)
+	updatePostsRequestThumbnailFieldMimeType             = big.NewInt(1 << 3)
+	updatePostsRequestThumbnailFieldWidth                = big.NewInt(1 << 4)
+	updatePostsRequestThumbnailFieldHeight               = big.NewInt(1 << 5)
+	updatePostsRequestThumbnailFieldSize                 = big.NewInt(1 << 6)
+	updatePostsRequestThumbnailFieldDuration             = big.NewInt(1 << 7)
+	updatePostsRequestThumbnailFieldAlt                  = big.NewInt(1 << 8)
+	updatePostsRequestThumbnailFieldCaption              = big.NewInt(1 << 9)
+	updatePostsRequestThumbnailFieldTags                 = big.NewInt(1 << 10)
+	updatePostsRequestThumbnailFieldThumbnailURL         = big.NewInt(1 << 11)
+	updatePostsRequestThumbnailFieldThumbnailTimestampMs = big.NewInt(1 << 12)
+	updatePostsRequestThumbnailFieldSkipProcessing       = big.NewInt(1 << 13)
+	updatePostsRequestThumbnailFieldBucket               = big.NewInt(1 << 14)
+	updatePostsRequestThumbnailFieldKey                  = big.NewInt(1 << 15)
+)
+
+// updatePostsRequestThumbnailNullableFields maps the wire names of UpdatePostsRequestThumbnail's nullable fields (required or optional) to their field bits.
+var updatePostsRequestThumbnailNullableFields = map[string]*big.Int{
+	"width":                  updatePostsRequestThumbnailFieldWidth,
+	"height":                 updatePostsRequestThumbnailFieldHeight,
+	"size":                   updatePostsRequestThumbnailFieldSize,
+	"duration":               updatePostsRequestThumbnailFieldDuration,
+	"alt":                    updatePostsRequestThumbnailFieldAlt,
+	"caption":                updatePostsRequestThumbnailFieldCaption,
+	"tags":                   updatePostsRequestThumbnailFieldTags,
+	"thumbnail_url":          updatePostsRequestThumbnailFieldThumbnailURL,
+	"thumbnail_timestamp_ms": updatePostsRequestThumbnailFieldThumbnailTimestampMs,
+}
+
+type UpdatePostsRequestThumbnail struct {
+	ID       *string                                `json:"id,omitempty" url:"id,omitempty"`
+	URL      *string                                `json:"url,omitempty" url:"url,omitempty"`
+	Name     *string                                `json:"name,omitempty" url:"name,omitempty"`
+	MimeType *string                                `json:"mimeType,omitempty" url:"mimeType,omitempty"`
+	Width    *float64                               `json:"width,omitempty" url:"width,omitempty"`
+	Height   *float64                               `json:"height,omitempty" url:"height,omitempty"`
+	Size     *float64                               `json:"size,omitempty" url:"size,omitempty"`
+	Duration *float64                               `json:"duration,omitempty" url:"duration,omitempty"`
+	Alt      *string                                `json:"alt,omitempty" url:"alt,omitempty"`
+	Caption  *string                                `json:"caption,omitempty" url:"caption,omitempty"`
+	Tags     []*UpdatePostsRequestThumbnailTagsItem `json:"tags,omitempty" url:"tags,omitempty"`
+	// Custom cover image for this video: a public image URL (imported into your media library) or a stored library image URL. Used by Instagram (Reel cover, `cover_url`) and YouTube (custom thumbnail); wins over the post-level `thumbnail`. TikTok can't take a cover image through its API, so the post publishes with a warning; use `thumbnail_timestamp_ms` there. `null` clears it; leaving it out on update keeps it.
+	ThumbnailURL *string `json:"thumbnail_url,omitempty" url:"thumbnail_url,omitempty"`
+	// Which frame of this video to use as its cover, in milliseconds from the start. Used by TikTok (`video_cover_timestamp_ms`) and Instagram (`thumb_offset`, Reels and carousel videos; a cover image wins over it on a Reel). YouTube can't pick a frame through its API, so it's ignored there with a warning. `null` clears it; leaving it out on update keeps it.
+	ThumbnailTimestampMs *float64 `json:"thumbnail_timestamp_ms,omitempty" url:"thumbnail_timestamp_ms,omitempty"`
+	// Publish this file exactly as uploaded: no conversion, remux or re-encode before publishing. Use only for files you know the platform accepts (e.g. a web-ready H.264/AAC MP4 or a JPEG/PNG); an unsupported format will be rejected by the platform at publish.
+	SkipProcessing *bool   `json:"skip_processing,omitempty" url:"skip_processing,omitempty"`
+	Bucket         *string `json:"bucket,omitempty" url:"bucket,omitempty"`
+	Key            *string `json:"key,omitempty" url:"key,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdatePostsRequestThumbnail) GetID() *string {
+	if u == nil {
+		return nil
+	}
+	return u.ID
+}
+
+func (u *UpdatePostsRequestThumbnail) GetURL() *string {
+	if u == nil {
+		return nil
+	}
+	return u.URL
+}
+
+func (u *UpdatePostsRequestThumbnail) GetName() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Name
+}
+
+func (u *UpdatePostsRequestThumbnail) GetMimeType() *string {
+	if u == nil {
+		return nil
+	}
+	return u.MimeType
+}
+
+func (u *UpdatePostsRequestThumbnail) GetWidth() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Width
+}
+
+func (u *UpdatePostsRequestThumbnail) GetHeight() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Height
+}
+
+func (u *UpdatePostsRequestThumbnail) GetSize() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Size
+}
+
+func (u *UpdatePostsRequestThumbnail) GetDuration() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Duration
+}
+
+func (u *UpdatePostsRequestThumbnail) GetAlt() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Alt
+}
+
+func (u *UpdatePostsRequestThumbnail) GetCaption() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Caption
+}
+
+func (u *UpdatePostsRequestThumbnail) GetTags() []*UpdatePostsRequestThumbnailTagsItem {
+	if u == nil {
+		return nil
+	}
+	return u.Tags
+}
+
+func (u *UpdatePostsRequestThumbnail) GetThumbnailURL() *string {
+	if u == nil {
+		return nil
+	}
+	return u.ThumbnailURL
+}
+
+func (u *UpdatePostsRequestThumbnail) GetThumbnailTimestampMs() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.ThumbnailTimestampMs
+}
+
+func (u *UpdatePostsRequestThumbnail) GetSkipProcessing() *bool {
+	if u == nil {
+		return nil
+	}
+	return u.SkipProcessing
+}
+
+func (u *UpdatePostsRequestThumbnail) GetBucket() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Bucket
+}
+
+func (u *UpdatePostsRequestThumbnail) GetKey() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Key
+}
+
+func (u *UpdatePostsRequestThumbnail) GetExtraProperties() map[string]interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.extraProperties
+}
+
+func (u *UpdatePostsRequestThumbnail) require(field *big.Int) {
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
+	}
+	next.Or(next, field)
+	u.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetID(id *string) {
+	u.ID = id
+	u.require(updatePostsRequestThumbnailFieldID)
+}
+
+// SetURL sets the URL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetURL(url *string) {
+	u.URL = url
+	u.require(updatePostsRequestThumbnailFieldURL)
+}
+
+// SetName sets the Name field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetName(name *string) {
+	u.Name = name
+	u.require(updatePostsRequestThumbnailFieldName)
+}
+
+// SetMimeType sets the MimeType field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetMimeType(mimeType *string) {
+	u.MimeType = mimeType
+	u.require(updatePostsRequestThumbnailFieldMimeType)
+}
+
+// SetWidth sets the Width field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetWidth(width *float64) {
+	u.Width = width
+	u.require(updatePostsRequestThumbnailFieldWidth)
+}
+
+// SetHeight sets the Height field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetHeight(height *float64) {
+	u.Height = height
+	u.require(updatePostsRequestThumbnailFieldHeight)
+}
+
+// SetSize sets the Size field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetSize(size *float64) {
+	u.Size = size
+	u.require(updatePostsRequestThumbnailFieldSize)
+}
+
+// SetDuration sets the Duration field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetDuration(duration *float64) {
+	u.Duration = duration
+	u.require(updatePostsRequestThumbnailFieldDuration)
+}
+
+// SetAlt sets the Alt field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetAlt(alt *string) {
+	u.Alt = alt
+	u.require(updatePostsRequestThumbnailFieldAlt)
+}
+
+// SetCaption sets the Caption field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetCaption(caption *string) {
+	u.Caption = caption
+	u.require(updatePostsRequestThumbnailFieldCaption)
+}
+
+// SetTags sets the Tags field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetTags(tags []*UpdatePostsRequestThumbnailTagsItem) {
+	u.Tags = tags
+	u.require(updatePostsRequestThumbnailFieldTags)
+}
+
+// SetThumbnailURL sets the ThumbnailURL field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetThumbnailURL(thumbnailURL *string) {
+	u.ThumbnailURL = thumbnailURL
+	u.require(updatePostsRequestThumbnailFieldThumbnailURL)
+}
+
+// SetThumbnailTimestampMs sets the ThumbnailTimestampMs field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetThumbnailTimestampMs(thumbnailTimestampMs *float64) {
+	u.ThumbnailTimestampMs = thumbnailTimestampMs
+	u.require(updatePostsRequestThumbnailFieldThumbnailTimestampMs)
+}
+
+// SetSkipProcessing sets the SkipProcessing field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetSkipProcessing(skipProcessing *bool) {
+	u.SkipProcessing = skipProcessing
+	u.require(updatePostsRequestThumbnailFieldSkipProcessing)
+}
+
+// SetBucket sets the Bucket field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetBucket(bucket *string) {
+	u.Bucket = bucket
+	u.require(updatePostsRequestThumbnailFieldBucket)
+}
+
+// SetKey sets the Key field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnail) SetKey(key *string) {
+	u.Key = key
+	u.require(updatePostsRequestThumbnailFieldKey)
+}
+
+func (u *UpdatePostsRequestThumbnail) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdatePostsRequestThumbnail
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdatePostsRequestThumbnail(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	presentFields, err := internal.ExplicitFieldsFromJSON(data, updatePostsRequestThumbnailNullableFields)
+	if err != nil {
+		return err
+	}
+	if presentFields != nil {
+		u.require(presentFields)
+	}
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdatePostsRequestThumbnail) MarshalJSON() ([]byte, error) {
+	type embed UpdatePostsRequestThumbnail
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (u *UpdatePostsRequestThumbnail) String() string {
+	if u == nil {
+		return "<nil>"
+	}
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+var (
+	updatePostsRequestThumbnailTagsItemFieldID       = big.NewInt(1 << 0)
+	updatePostsRequestThumbnailTagsItemFieldType     = big.NewInt(1 << 1)
+	updatePostsRequestThumbnailTagsItemFieldPlatform = big.NewInt(1 << 2)
+	updatePostsRequestThumbnailTagsItemFieldX        = big.NewInt(1 << 3)
+	updatePostsRequestThumbnailTagsItemFieldY        = big.NewInt(1 << 4)
+)
+
+type UpdatePostsRequestThumbnailTagsItem struct {
+	ID       string                                      `json:"id" url:"id"`
+	Type     UpdatePostsRequestThumbnailTagsItemType     `json:"type" url:"type"`
+	Platform UpdatePostsRequestThumbnailTagsItemPlatform `json:"platform" url:"platform"`
+	X        *float64                                    `json:"x,omitempty" url:"x,omitempty"`
+	Y        *float64                                    `json:"y,omitempty" url:"y,omitempty"`
+
+	// Private bitmask of fields set to an explicit value and therefore not to be omitted
+	explicitFields *big.Int `json:"-" url:"-"`
+
+	extraProperties map[string]interface{}
+	rawJSON         json.RawMessage
+}
+
+func (u *UpdatePostsRequestThumbnailTagsItem) GetID() string {
+	if u == nil {
+		return ""
+	}
+	return u.ID
+}
+
+func (u *UpdatePostsRequestThumbnailTagsItem) GetType() UpdatePostsRequestThumbnailTagsItemType {
+	if u == nil {
+		return ""
+	}
+	return u.Type
+}
+
+func (u *UpdatePostsRequestThumbnailTagsItem) GetPlatform() UpdatePostsRequestThumbnailTagsItemPlatform {
+	if u == nil {
+		return ""
+	}
+	return u.Platform
+}
+
+func (u *UpdatePostsRequestThumbnailTagsItem) GetX() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.X
+}
+
+func (u *UpdatePostsRequestThumbnailTagsItem) GetY() *float64 {
+	if u == nil {
+		return nil
+	}
+	return u.Y
+}
+
+func (u *UpdatePostsRequestThumbnailTagsItem) GetExtraProperties() map[string]interface{} {
+	if u == nil {
+		return nil
+	}
+	return u.extraProperties
+}
+
+func (u *UpdatePostsRequestThumbnailTagsItem) require(field *big.Int) {
+	next := new(big.Int)
+	if u.explicitFields != nil {
+		next.Set(u.explicitFields)
+	}
+	next.Or(next, field)
+	u.explicitFields = next
+}
+
+// SetID sets the ID field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnailTagsItem) SetID(id string) {
+	u.ID = id
+	u.require(updatePostsRequestThumbnailTagsItemFieldID)
+}
+
+// SetType sets the Type field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnailTagsItem) SetType(type_ UpdatePostsRequestThumbnailTagsItemType) {
+	u.Type = type_
+	u.require(updatePostsRequestThumbnailTagsItemFieldType)
+}
+
+// SetPlatform sets the Platform field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnailTagsItem) SetPlatform(platform UpdatePostsRequestThumbnailTagsItemPlatform) {
+	u.Platform = platform
+	u.require(updatePostsRequestThumbnailTagsItemFieldPlatform)
+}
+
+// SetX sets the X field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnailTagsItem) SetX(x *float64) {
+	u.X = x
+	u.require(updatePostsRequestThumbnailTagsItemFieldX)
+}
+
+// SetY sets the Y field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequestThumbnailTagsItem) SetY(y *float64) {
+	u.Y = y
+	u.require(updatePostsRequestThumbnailTagsItemFieldY)
+}
+
+func (u *UpdatePostsRequestThumbnailTagsItem) UnmarshalJSON(data []byte) error {
+	type unmarshaler UpdatePostsRequestThumbnailTagsItem
+	var value unmarshaler
+	if err := json.Unmarshal(data, &value); err != nil {
+		return err
+	}
+	*u = UpdatePostsRequestThumbnailTagsItem(value)
+	extraProperties, err := internal.ExtractExtraProperties(data, *u)
+	if err != nil {
+		return err
+	}
+	u.extraProperties = extraProperties
+	u.rawJSON = json.RawMessage(data)
+	return nil
+}
+
+func (u *UpdatePostsRequestThumbnailTagsItem) MarshalJSON() ([]byte, error) {
+	type embed UpdatePostsRequestThumbnailTagsItem
+	var marshaler = struct {
+		embed
+	}{
+		embed: embed(*u),
+	}
+	explicitMarshaler := internal.HandleExplicitFields(marshaler, u.explicitFields)
+	return json.Marshal(explicitMarshaler)
+}
+
+func (u *UpdatePostsRequestThumbnailTagsItem) String() string {
+	if u == nil {
+		return "<nil>"
+	}
+	if len(u.rawJSON) > 0 {
+		if value, err := internal.StringifyJSON(u.rawJSON); err == nil {
+			return value
+		}
+	}
+	if value, err := internal.StringifyJSON(u); err == nil {
+		return value
+	}
+	return fmt.Sprintf("%#v", u)
+}
+
+type UpdatePostsRequestThumbnailTagsItemPlatform string
+
+const (
+	UpdatePostsRequestThumbnailTagsItemPlatformBluesky               UpdatePostsRequestThumbnailTagsItemPlatform = "bluesky"
+	UpdatePostsRequestThumbnailTagsItemPlatformFacebook              UpdatePostsRequestThumbnailTagsItemPlatform = "facebook"
+	UpdatePostsRequestThumbnailTagsItemPlatformGoogleBusinessProfile UpdatePostsRequestThumbnailTagsItemPlatform = "google_business_profile"
+	UpdatePostsRequestThumbnailTagsItemPlatformInstagram             UpdatePostsRequestThumbnailTagsItemPlatform = "instagram"
+	UpdatePostsRequestThumbnailTagsItemPlatformLinkedin              UpdatePostsRequestThumbnailTagsItemPlatform = "linkedin"
+	UpdatePostsRequestThumbnailTagsItemPlatformPinterest             UpdatePostsRequestThumbnailTagsItemPlatform = "pinterest"
+	UpdatePostsRequestThumbnailTagsItemPlatformReddit                UpdatePostsRequestThumbnailTagsItemPlatform = "reddit"
+	UpdatePostsRequestThumbnailTagsItemPlatformSnapchat              UpdatePostsRequestThumbnailTagsItemPlatform = "snapchat"
+	UpdatePostsRequestThumbnailTagsItemPlatformThreads               UpdatePostsRequestThumbnailTagsItemPlatform = "threads"
+	UpdatePostsRequestThumbnailTagsItemPlatformTiktok                UpdatePostsRequestThumbnailTagsItemPlatform = "tiktok"
+	UpdatePostsRequestThumbnailTagsItemPlatformTiktokBusiness        UpdatePostsRequestThumbnailTagsItemPlatform = "tiktok_business"
+	UpdatePostsRequestThumbnailTagsItemPlatformTwitter               UpdatePostsRequestThumbnailTagsItemPlatform = "twitter"
+	UpdatePostsRequestThumbnailTagsItemPlatformYoutube               UpdatePostsRequestThumbnailTagsItemPlatform = "youtube"
+	UpdatePostsRequestThumbnailTagsItemPlatformMastodon              UpdatePostsRequestThumbnailTagsItemPlatform = "mastodon"
+	UpdatePostsRequestThumbnailTagsItemPlatformTelegram              UpdatePostsRequestThumbnailTagsItemPlatform = "telegram"
+	UpdatePostsRequestThumbnailTagsItemPlatformDevto                 UpdatePostsRequestThumbnailTagsItemPlatform = "devto"
+	UpdatePostsRequestThumbnailTagsItemPlatformHashnode              UpdatePostsRequestThumbnailTagsItemPlatform = "hashnode"
+	UpdatePostsRequestThumbnailTagsItemPlatformMedium                UpdatePostsRequestThumbnailTagsItemPlatform = "medium"
+	UpdatePostsRequestThumbnailTagsItemPlatformWordpress             UpdatePostsRequestThumbnailTagsItemPlatform = "wordpress"
+	UpdatePostsRequestThumbnailTagsItemPlatformLemmy                 UpdatePostsRequestThumbnailTagsItemPlatform = "lemmy"
+	UpdatePostsRequestThumbnailTagsItemPlatformNostr                 UpdatePostsRequestThumbnailTagsItemPlatform = "nostr"
+	UpdatePostsRequestThumbnailTagsItemPlatformDiscord               UpdatePostsRequestThumbnailTagsItemPlatform = "discord"
+	UpdatePostsRequestThumbnailTagsItemPlatformDribbble              UpdatePostsRequestThumbnailTagsItemPlatform = "dribbble"
+	UpdatePostsRequestThumbnailTagsItemPlatformFarcaster             UpdatePostsRequestThumbnailTagsItemPlatform = "farcaster"
+	UpdatePostsRequestThumbnailTagsItemPlatformKick                  UpdatePostsRequestThumbnailTagsItemPlatform = "kick"
+	UpdatePostsRequestThumbnailTagsItemPlatformListmonk              UpdatePostsRequestThumbnailTagsItemPlatform = "listmonk"
+	UpdatePostsRequestThumbnailTagsItemPlatformMewe                  UpdatePostsRequestThumbnailTagsItemPlatform = "mewe"
+	UpdatePostsRequestThumbnailTagsItemPlatformMoltbook              UpdatePostsRequestThumbnailTagsItemPlatform = "moltbook"
+	UpdatePostsRequestThumbnailTagsItemPlatformSkool                 UpdatePostsRequestThumbnailTagsItemPlatform = "skool"
+	UpdatePostsRequestThumbnailTagsItemPlatformSlack                 UpdatePostsRequestThumbnailTagsItemPlatform = "slack"
+	UpdatePostsRequestThumbnailTagsItemPlatformTwitch                UpdatePostsRequestThumbnailTagsItemPlatform = "twitch"
+	UpdatePostsRequestThumbnailTagsItemPlatformVk                    UpdatePostsRequestThumbnailTagsItemPlatform = "vk"
+	UpdatePostsRequestThumbnailTagsItemPlatformWhop                  UpdatePostsRequestThumbnailTagsItemPlatform = "whop"
+)
+
+func NewUpdatePostsRequestThumbnailTagsItemPlatformFromString(s string) (UpdatePostsRequestThumbnailTagsItemPlatform, error) {
+	switch s {
+	case "bluesky":
+		return UpdatePostsRequestThumbnailTagsItemPlatformBluesky, nil
+	case "facebook":
+		return UpdatePostsRequestThumbnailTagsItemPlatformFacebook, nil
+	case "google_business_profile":
+		return UpdatePostsRequestThumbnailTagsItemPlatformGoogleBusinessProfile, nil
+	case "instagram":
+		return UpdatePostsRequestThumbnailTagsItemPlatformInstagram, nil
+	case "linkedin":
+		return UpdatePostsRequestThumbnailTagsItemPlatformLinkedin, nil
+	case "pinterest":
+		return UpdatePostsRequestThumbnailTagsItemPlatformPinterest, nil
+	case "reddit":
+		return UpdatePostsRequestThumbnailTagsItemPlatformReddit, nil
+	case "snapchat":
+		return UpdatePostsRequestThumbnailTagsItemPlatformSnapchat, nil
+	case "threads":
+		return UpdatePostsRequestThumbnailTagsItemPlatformThreads, nil
+	case "tiktok":
+		return UpdatePostsRequestThumbnailTagsItemPlatformTiktok, nil
+	case "tiktok_business":
+		return UpdatePostsRequestThumbnailTagsItemPlatformTiktokBusiness, nil
+	case "twitter":
+		return UpdatePostsRequestThumbnailTagsItemPlatformTwitter, nil
+	case "youtube":
+		return UpdatePostsRequestThumbnailTagsItemPlatformYoutube, nil
+	case "mastodon":
+		return UpdatePostsRequestThumbnailTagsItemPlatformMastodon, nil
+	case "telegram":
+		return UpdatePostsRequestThumbnailTagsItemPlatformTelegram, nil
+	case "devto":
+		return UpdatePostsRequestThumbnailTagsItemPlatformDevto, nil
+	case "hashnode":
+		return UpdatePostsRequestThumbnailTagsItemPlatformHashnode, nil
+	case "medium":
+		return UpdatePostsRequestThumbnailTagsItemPlatformMedium, nil
+	case "wordpress":
+		return UpdatePostsRequestThumbnailTagsItemPlatformWordpress, nil
+	case "lemmy":
+		return UpdatePostsRequestThumbnailTagsItemPlatformLemmy, nil
+	case "nostr":
+		return UpdatePostsRequestThumbnailTagsItemPlatformNostr, nil
+	case "discord":
+		return UpdatePostsRequestThumbnailTagsItemPlatformDiscord, nil
+	case "dribbble":
+		return UpdatePostsRequestThumbnailTagsItemPlatformDribbble, nil
+	case "farcaster":
+		return UpdatePostsRequestThumbnailTagsItemPlatformFarcaster, nil
+	case "kick":
+		return UpdatePostsRequestThumbnailTagsItemPlatformKick, nil
+	case "listmonk":
+		return UpdatePostsRequestThumbnailTagsItemPlatformListmonk, nil
+	case "mewe":
+		return UpdatePostsRequestThumbnailTagsItemPlatformMewe, nil
+	case "moltbook":
+		return UpdatePostsRequestThumbnailTagsItemPlatformMoltbook, nil
+	case "skool":
+		return UpdatePostsRequestThumbnailTagsItemPlatformSkool, nil
+	case "slack":
+		return UpdatePostsRequestThumbnailTagsItemPlatformSlack, nil
+	case "twitch":
+		return UpdatePostsRequestThumbnailTagsItemPlatformTwitch, nil
+	case "vk":
+		return UpdatePostsRequestThumbnailTagsItemPlatformVk, nil
+	case "whop":
+		return UpdatePostsRequestThumbnailTagsItemPlatformWhop, nil
+	}
+	var t UpdatePostsRequestThumbnailTagsItemPlatform
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdatePostsRequestThumbnailTagsItemPlatform) Ptr() *UpdatePostsRequestThumbnailTagsItemPlatform {
+	return &u
+}
+
+type UpdatePostsRequestThumbnailTagsItemType string
+
+const (
+	UpdatePostsRequestThumbnailTagsItemTypeUser     UpdatePostsRequestThumbnailTagsItemType = "user"
+	UpdatePostsRequestThumbnailTagsItemTypeBusiness UpdatePostsRequestThumbnailTagsItemType = "business"
+)
+
+func NewUpdatePostsRequestThumbnailTagsItemTypeFromString(s string) (UpdatePostsRequestThumbnailTagsItemType, error) {
+	switch s {
+	case "user":
+		return UpdatePostsRequestThumbnailTagsItemTypeUser, nil
+	case "business":
+		return UpdatePostsRequestThumbnailTagsItemTypeBusiness, nil
+	}
+	var t UpdatePostsRequestThumbnailTagsItemType
+	return "", fmt.Errorf("%s is not a valid %T", s, t)
+}
+
+func (u UpdatePostsRequestThumbnailTagsItemType) Ptr() *UpdatePostsRequestThumbnailTagsItemType {
+	return &u
+}
+
+var (
 	updatePostsRequestFieldID                    = big.NewInt(1 << 0)
 	updatePostsRequestFieldCaption               = big.NewInt(1 << 1)
 	updatePostsRequestFieldTitle                 = big.NewInt(1 << 2)
 	updatePostsRequestFieldScheduledAt           = big.NewInt(1 << 3)
 	updatePostsRequestFieldMedia                 = big.NewInt(1 << 4)
-	updatePostsRequestFieldPlatformConfiguration = big.NewInt(1 << 5)
-	updatePostsRequestFieldStatus                = big.NewInt(1 << 6)
-	updatePostsRequestFieldTagIDs                = big.NewInt(1 << 7)
-	updatePostsRequestFieldParts                 = big.NewInt(1 << 8)
+	updatePostsRequestFieldThumbnail             = big.NewInt(1 << 5)
+	updatePostsRequestFieldPlatformConfiguration = big.NewInt(1 << 6)
+	updatePostsRequestFieldStatus                = big.NewInt(1 << 7)
+	updatePostsRequestFieldTagIDs                = big.NewInt(1 << 8)
+	updatePostsRequestFieldParts                 = big.NewInt(1 << 9)
 )
 
 type UpdatePostsRequest struct {
-	ID                    string                         `json:"-" url:"-"`
-	Caption               *string                        `json:"caption,omitempty" url:"-"`
-	Title                 *string                        `json:"title,omitempty" url:"-"`
-	ScheduledAt           *time.Time                     `json:"scheduledAt,omitempty" url:"-"`
-	Media                 []*UpdatePostsRequestMediaItem `json:"media,omitempty" url:"-"`
+	ID          string                         `json:"-" url:"-"`
+	Caption     *string                        `json:"caption,omitempty" url:"-"`
+	Title       *string                        `json:"title,omitempty" url:"-"`
+	ScheduledAt *time.Time                     `json:"scheduledAt,omitempty" url:"-"`
+	Media       []*UpdatePostsRequestMediaItem `json:"media,omitempty" url:"-"`
+	// Cover image for the post's first video (used when that video has no `media[].thumbnail_url`), as a library `{ id }` or an image URL (public URLs are imported). `null` removes it; leave it out to keep it. Honoured by YouTube (custom thumbnail) and Instagram (Reel cover). TikTok can't take a custom cover image through its API; use `media[].thumbnail_timestamp_ms` there.
+	Thumbnail             *UpdatePostsRequestThumbnail   `json:"thumbnail,omitempty" url:"-"`
 	PlatformConfiguration map[string]any                 `json:"platformConfiguration,omitempty" url:"-"`
 	Status                *UpdatePostsRequestStatus      `json:"status,omitempty" url:"-"`
 	TagIDs                []string                       `json:"tagIds,omitempty" url:"-"`
@@ -5418,6 +6095,13 @@ func (u *UpdatePostsRequest) SetScheduledAt(scheduledAt *time.Time) {
 func (u *UpdatePostsRequest) SetMedia(media []*UpdatePostsRequestMediaItem) {
 	u.Media = media
 	u.require(updatePostsRequestFieldMedia)
+}
+
+// SetThumbnail sets the Thumbnail field and marks it as non-optional;
+// this prevents an empty or null value for this field from being omitted during serialization.
+func (u *UpdatePostsRequest) SetThumbnail(thumbnail *UpdatePostsRequestThumbnail) {
+	u.Thumbnail = thumbnail
+	u.require(updatePostsRequestFieldThumbnail)
 }
 
 // SetPlatformConfiguration sets the PlatformConfiguration field and marks it as non-optional;
