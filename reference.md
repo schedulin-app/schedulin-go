@@ -12,7 +12,7 @@
 <dl>
 <dd>
 
-Search and filter posts with various criteria including status, date range, social accounts, and tags
+Search and filter posts with various criteria including status, date range, social accounts, and tags. Each `media[]` item carries its cover in this post: `thumbnail` ({ id, url, thumbnailUrl } or null) and `thumbnailTimestampMs` (or null). `warnings` lists non-fatal publish issues (e.g. a cover the platform rejected); empty when none.
 </dd>
 </dl>
 </dd>
@@ -253,7 +253,7 @@ client.Posts.CountByTab(
 <dl>
 <dd>
 
-Retrieve a single post by its ID with all relations
+Retrieve a single post by its ID with all relations. Each `media[]` item carries its cover in this post: `thumbnail` ({ id, url, thumbnailUrl } or null) and `thumbnailTimestampMs` (or null). `warnings` lists non-fatal publish issues (e.g. a cover the platform rejected); empty when none.
 </dd>
 </dl>
 </dd>
