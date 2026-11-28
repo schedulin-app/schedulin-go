@@ -315,6 +315,7 @@ const (
 	ListPlatformsResponseDataItemCaptionLengthUnitCharacters           ListPlatformsResponseDataItemCaptionLengthUnit = "characters"
 	ListPlatformsResponseDataItemCaptionLengthUnitGraphemes            ListPlatformsResponseDataItemCaptionLengthUnit = "graphemes"
 	ListPlatformsResponseDataItemCaptionLengthUnitCharactersEmojiBytes ListPlatformsResponseDataItemCaptionLengthUnit = "characters_emoji_bytes"
+	ListPlatformsResponseDataItemCaptionLengthUnitBytes                ListPlatformsResponseDataItemCaptionLengthUnit = "bytes"
 )
 
 func NewListPlatformsResponseDataItemCaptionLengthUnitFromString(s string) (ListPlatformsResponseDataItemCaptionLengthUnit, error) {
@@ -325,6 +326,8 @@ func NewListPlatformsResponseDataItemCaptionLengthUnitFromString(s string) (List
 		return ListPlatformsResponseDataItemCaptionLengthUnitGraphemes, nil
 	case "characters_emoji_bytes":
 		return ListPlatformsResponseDataItemCaptionLengthUnitCharactersEmojiBytes, nil
+	case "bytes":
+		return ListPlatformsResponseDataItemCaptionLengthUnitBytes, nil
 	}
 	var t ListPlatformsResponseDataItemCaptionLengthUnit
 	return "", fmt.Errorf("%s is not a valid %T", s, t)
